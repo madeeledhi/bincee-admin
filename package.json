@@ -12,7 +12,7 @@
     "redux"
   ],
   "engines": {
-    "node": "8.11.1"
+    "node": "8.0.0"
   },
   "scripts": {
     "start": "webpack --progress --config webpack.server.config.js && node server/dist/build.js",
