@@ -49,7 +49,7 @@ app.use(xFrameOptions('ALLOWALL'))
 
 if (isProduction()) {
   // handle logging
-  logUtils.setupWinstonProductionLogs()
+  // logUtils.setupWinstonProductionLogs()
   app.use(logUtils.setupUrlLogs)
 } else {
   devUtils.setupWebpack(app)
