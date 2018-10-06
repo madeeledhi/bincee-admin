@@ -15,7 +15,7 @@
     "node": "8.11.1"
   },
   "scripts": {
-    "start": "webpack --progress --config webpack.server.config.js; UNIVERSAL_RENDERING=true node server/dist/build.js",
+    "start": "webpack --progress --config webpack.server.config.js && node server/dist/build.js",
     "fast": "UNIVERSAL_RENDERING=false babel-node server/index.js",
     "slow": "babel-node server/index.js",
     "server": "nodemon server/index.js",
