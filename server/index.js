@@ -18,6 +18,7 @@ import {
   isProduction,
 } from './utils'
 import routes from './routes'
+require('dotenv').config();
 
 const port = getPort()
 const app = express()
