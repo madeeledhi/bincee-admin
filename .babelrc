@@ -1,0 +1,39 @@
+{
+  "env": {
+    "development": {
+      "retainLines": true,
+      "plugins": [
+        [
+          "transform-runtime",
+          {
+            "helpers": false,
+            "polyfill": false,
+            "regenerator": true,
+            "moduleName": "babel-runtime"
+          }
+        ],
+        "add-module-exports",
+        "transform-decorators-legacy",
+        "jsx-control-statements"
+      ],
+      "presets": [["env"], "flow", "react", "stage-0"]
+    },
+    "production": {
+      "plugins": [
+        [
+          "transform-runtime",
+          {
+            "helpers": false,
+            "polyfill": false,
+            "regenerator": true,
+            "moduleName": "babel-runtime"
+          }
+        ],
+        "add-module-exports",
+        "transform-decorators-legacy",
+        "jsx-control-statements"
+      ],
+      "presets": [["env"], "flow", "react", "stage-0"]
+    }
+  }
+}
