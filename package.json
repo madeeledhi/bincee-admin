@@ -1,5 +1,5 @@
 {
-  "name": "binee-admin",
+  "name": "bincee-admin",
   "version": "0.1.0",
   "description": "Bincee Administrative dashboard.",
   "main": "server/index.js",
@@ -11,6 +11,9 @@
     "react",
     "redux"
   ],
+  "engines": {
+    "node": "8.11.1"
+  },
   "scripts": {
     "start": "webpack --progress --config webpack.server.config.js; UNIVERSAL_RENDERING=true node server/dist/build.js",
     "fast": "UNIVERSAL_RENDERING=false babel-node server/index.js",
