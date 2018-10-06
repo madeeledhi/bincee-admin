@@ -15,8 +15,9 @@
     "node": "8.0.0"
   },
   "scripts": {
-    "start": "webpack --progress --config webpack.server.config.js && node server/dist/build.js",
+    "start": "node server/index.js",
     "fast": "UNIVERSAL_RENDERING=false babel-node server/index.js",
+    "postinstall": "webpack -p",
     "slow": "babel-node server/index.js",
     "server": "nodemon server/index.js",
     "dev": "nodemon --watch server/ --ignore '*.json' --exec UNIVERSAL_RENDERING=false babel-node --inspect server/index.js",
