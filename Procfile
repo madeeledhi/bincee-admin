@@ -1,5 +1,5 @@
-web: npm install -g forever
-web: npm install
-web: chmod +x deploy.sh
-web: chmod +x deploy.staging.sh
-web: npm run deploy
+chmod u+x deploy.sh && ./deploy.sh
+chmod u+x deploy.staging.sh && ./deploy.staging.sh
+npm install -g forever
+npm install
+npm run deploy
