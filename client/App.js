@@ -6,6 +6,7 @@ import { connect, Provider } from 'react-redux'
 
 // src
 import app from './components/app'
+import dashboard from './components/dashboard'
 import styles from './App.less'
 import theme from '../config/theme'
 
@@ -27,6 +28,7 @@ const App = (props: Props) => {
             <Switch>
               <Route path="/" component={app} />
               <Route component={() => <div>404</div>} />
+              <Route path="/dashboard" component={dashboard}/>
             </Switch>
           </div>
         </Router>
