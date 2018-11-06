@@ -1,12 +1,12 @@
 // libs
 import React from 'react'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import { Route, Switch, } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { connect, Provider } from 'react-redux'
 
 // src
-import app from './components/app'
-import dashboard from './components/dashboard'
+import Login from './components/Login'
+import Dashboard from './components/Dashboard'
 import styles from './App.less'
 import theme from '../config/theme'
 
@@ -15,7 +15,7 @@ type Props = {
   userAgent: string,
   store: any,
   Router: any,
-  routerProps: any,
+  routerProps: any
 }
 
 const App = (props: Props) => {
@@ -24,13 +24,12 @@ const App = (props: Props) => {
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
         <Router {...routerProps}>
-          <div className={styles.root}>
-            <Switch>
-              <Route path="/" component={app} />
-              <Route component={() => <div>404</div>} />
-              <Route path="/dashboard" component={dashboard}/>
-            </Switch>
-          </div>
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <Route path="/dashboard" component={Dashboard} exact />
+            {/* <Route component={() => <div>404</div>} /> */}
+            <Redirect to="/" />
+          </Switch>
         </Router>
       </Provider>
     </MuiThemeProvider>

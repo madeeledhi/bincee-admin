@@ -8,7 +8,7 @@ import {RenderTextField} from '../shared/form-fields'
 import {LoginButton} from '../shared/buttons/loginButton'
 import style from './styles.less'
 
-class app extends Component {
+class Login extends Component {
   constructor(props) {
     super(props)
   }
@@ -52,5 +52,5 @@ export default connect(mapStateToProps)(
       userName: '',
       pass: ''
     }
-  })(app)
+  })(Login)
 )
