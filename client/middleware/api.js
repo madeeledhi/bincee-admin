@@ -94,9 +94,7 @@ export default store => next => action => {
   }
 
   let { endpoint, fetchOptions } = callAPI
-  const {
-    schema, types, method, type,
-  } = callAPI
+  const { schema, types, method, type, token } = callAPI
 
   if (type) {
     return new Promise(resolve => resolve(next(actionWith(callAPI))))
@@ -132,31 +130,33 @@ export default store => next => action => {
     }),
   )
 
+  const headers = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  }
+  const Authorization = `Bearer ${token}`
   if (!fetchOptions) {
     fetchOptions = {
       method: method || 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      credentials: 'same-origin',
+      headers: token ? { ...headers, Authorization } : headers,
       body: JSON.stringify(action.payload),
     }
   }
 
   return callApi(endpoint, schema, fetchOptions).then(
-    response => next(
-      actionWith({
-        payload: response,
-        type: successType,
-      }),
-    ),
-    error => next(
-      actionWith({
-        type: failureType,
-        payload: error,
-        error: true,
-      }),
-    ),
+    response =>
+      next(
+        actionWith({
+          payload: response,
+          type: response.status === 200 ? successType : failureType,
+        }),
+      ),
+    error =>
+      next(
+        actionWith({
+          type: failureType,
+          payload: error,
+        }),
+      ),
   )
 }
