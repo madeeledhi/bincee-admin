@@ -15,5 +15,5 @@ const store = configureStore(window.GAW.preloadedState)
 
 ReactDOM.render(
   <App store={store} Router={Router} routerProps={{ history }} />,
-  document.getElementById('root')
+  document.getElementById('root'),
 )

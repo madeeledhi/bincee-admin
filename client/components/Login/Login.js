@@ -1,17 +1,18 @@
 // libs
-import React, { Component } from 'react'
+import React from 'react'
 import { Field, getFormValues, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 
 // src
 import { RenderTextField } from '../shared/form-fields'
 import { LoginButton } from '../shared/buttons/loginButton'
 import styles from './styles.less'
-import { login } from '../../actions'
+import { login, loadUser } from '../../actions'
 import { hasPropChanged } from '../../utils'
 
-class Login extends Component {
+class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -21,10 +22,23 @@ class Login extends Component {
     }
   }
 
+  componentDidMount() {
+    const { user, dispatch } = this.props
+    if (!user.username) {
+      dispatch(loadUser())
+    } else {
+      dispatch(push('/home'))
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged('user', this.props, nextProps)) {
       const { user } = nextProps
       this.setState(() => ({ user }))
+    }
+    const { user, dispatch } = nextProps
+    if (user.username) {
+      dispatch(push('/home'))
     }
   }
 
@@ -41,7 +55,6 @@ class Login extends Component {
 
   render() {
     const { user, isLoading, error } = this.state
-    console.log(isLoading, error)
     return (
       <div className={styles.header}>
         <div className={styles.loginFields}>
@@ -60,7 +73,7 @@ class Login extends Component {
             label="Password"
             disabled={false}
           />
-          <LoginButton onClick={this.handleClick} />
+          <LoginButton label="Login" onClick={this.handleClick} />
         </div>
         <div>{JSON.stringify(user)}</div>
       </div>

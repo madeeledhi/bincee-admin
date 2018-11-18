@@ -5,9 +5,8 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { connect, Provider } from 'react-redux'
 
 // src
+import HomePage from './components/HomePage'
 import Login from './components/Login'
-import Dashboard from './components/Dashboard'
-import styles from './App.less'
 import theme from '../config/theme'
 
 // Add appropriate types check for store, routerProps and Router
@@ -15,7 +14,7 @@ type Props = {
   userAgent: string,
   store: any,
   Router: any,
-  routerProps: any
+  routerProps: any,
 }
 
 const App = (props: Props) => {
@@ -25,10 +24,10 @@ const App = (props: Props) => {
       <Provider store={store}>
         <Router {...routerProps}>
           <Switch>
-            <Route exact path="/" component={Login} />
-            <Route path="/dashboard" component={Dashboard} exact />
+            <Route exact path="/login" component={Login} />
+            <Route path="/home" component={HomePage} exact />
             {/* <Route component={() => <div>404</div>} /> */}
-            <Redirect to="/" />
+            <Redirect to="/home" />
           </Switch>
         </Router>
       </Provider>
