@@ -5,6 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { connect, Provider } from 'react-redux'
 
 // src
+import { history } from './utils/configureRouter'
 import Login from './components/Login'
 import Dashboard from './components/Dashboard'
 import styles from './App.less'
@@ -15,7 +16,7 @@ type Props = {
   userAgent: string,
   store: any,
   Router: any,
-  routerProps: any
+  routerProps: any,
 }
 
 const App = (props: Props) => {
@@ -23,10 +24,10 @@ const App = (props: Props) => {
   return (
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
-        <Router {...routerProps}>
+        <Router {...routerProps} history={history}>
           <Switch>
             <Route exact path="/" component={Login} />
-            <Route path="/dashboard" component={Dashboard} exact />
+            <Route path="/dashboard" component={Dashboard} />
             {/* <Route component={() => <div>404</div>} /> */}
             <Redirect to="/" />
           </Switch>
