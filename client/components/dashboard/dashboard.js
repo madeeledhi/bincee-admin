@@ -1,62 +1,75 @@
-// libs
-import React from 'react'
+//  libs
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
+import size from 'lodash/fp/size'
 
-// src
+//  src
+import DashboardInner from './DashboardInner'
 import { hasPropChanged } from '../../utils'
 import { loadUser, logOut } from '../../actions'
-import { LoginButton } from '../shared/buttons/loginButton'
 
-export default (options = {}) => WrappedComponent => {
-  return @connect(state => {
-    const user = getOr({}, 'user')(state)
-    return { user }
-  })
-  class Dashboard extends React.Component {
-    constructor(props) {
-      super(props)
-      this.state = {
-        isLoading: false,
-        user: { username: '', type: '' },
-        error: false,
-      }
-    }
+class Dashboard extends Component {
+  constructor(props) {
+    super(props)
+    const { user } = props
+    this.state = { isLoading: false, user, error: false }
+  }
 
-    componentDidMount() {
-      const { user } = this.state
-      const { dispatch } = this.props
-      if (!user.username) {
-        dispatch(loadUser())
-      }
-    }
-
-    componentWillReceiveProps(nextProps) {
-      if (hasPropChanged('user', this.props, nextProps)) {
-        const { user } = nextProps
-        this.setState(() => ({ user }))
-      }
-      const { user, dispatch } = nextProps
-      if (!user.username) {
-        dispatch(push('/login'))
-      }
-    }
-
-    handleClick = () => {
-      const { dispatch } = this.props
-      dispatch(logOut())
-    }
-
-    render() {
-      const { user } = this.state
-      return (
-        <div>
-          Dashboard
-          <LoginButton label="Logout" onClick={this.handleClick} />
-          <WrappedComponent user={user} />
-        </div>
-      )
+  componentDidMount() {
+    const { user } = this.state
+    const { dispatch } = this.props
+    if (!user.username) {
+      dispatch(loadUser())
     }
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (hasPropChanged('user', this.props, nextProps)) {
+      const { user } = nextProps
+      this.setState(() => ({ user }))
+    }
+    const { authenticated, dispatch } = nextProps
+    if (!authenticated) {
+      dispatch(push('/'))
+    }
+  }
+
+  handleSignOut = () => {
+    const { dispatch } = this.props
+    dispatch(logOut())
+  }
+
+  handleRouteChange = route => {
+    const { dispatch } = this.props
+    dispatch(push(route))
+  }
+
+  render() {
+    const { match, user, authenticated } = this.props
+    const path = getOr('/dashboard', 'path')(match)
+    console.log('path', path)
+
+    return (
+      <DashboardInner
+        path={path}
+        onClickSignout={this.handleSignOut}
+        user={user}
+        authenticated={authenticated}
+        onRouteChange={this.handleRouteChange}
+      />
+    )
+  }
 }
+
+function mapStateToProps(state, ownProps) {
+  const user = getOr('', 'user')(state)
+  const authenticated = size(user.username) > 0
+  return {
+    user,
+    authenticated,
+  }
+}
+
+export default connect(mapStateToProps)(Dashboard)

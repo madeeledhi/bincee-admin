@@ -1,3 +1,4 @@
+import { LOCATION_CHANGE } from 'react-router-redux'
 // src
 import * as ActionTypes from '../actions'
 import {} from '../actions'
@@ -21,6 +22,9 @@ export default (state = {}, action) => {
     }
     case ActionTypes.LOAD_USER: {
       return ActionTypes.loadState()
+    }
+    case LOCATION_CHANGE: {
+      return state
     }
     default: {
       return { ...initialState }

@@ -27,7 +27,7 @@ class Login extends React.Component {
     if (!user.username) {
       dispatch(loadUser())
     } else {
-      dispatch(push('/home'))
+      dispatch(push('/dashboard'))
     }
   }
 
@@ -38,7 +38,7 @@ class Login extends React.Component {
     }
     const { user, dispatch } = nextProps
     if (user.username) {
-      dispatch(push('/home'))
+      dispatch(push('/dashboard'))
     }
   }
 

@@ -2,10 +2,10 @@
 import React from 'react'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import { connect, Provider } from 'react-redux'
+import { Provider } from 'react-redux'
 
 // src
-import HomePage from './components/HomePage'
+import Dashboard from './components/Dashboard'
 import Login from './components/Login'
 import theme from '../config/theme'
 
@@ -24,10 +24,10 @@ const App = (props: Props) => {
       <Provider store={store}>
         <Router {...routerProps}>
           <Switch>
-            <Route exact path="/login" component={Login} />
-            <Route path="/home" component={HomePage} exact />
+            <Route exact path="/" component={Login} />
+            <Route path="/dashboard" component={Dashboard} />
             {/* <Route component={() => <div>404</div>} /> */}
-            <Redirect to="/home" />
+            <Redirect to="/" />
           </Switch>
         </Router>
       </Provider>
