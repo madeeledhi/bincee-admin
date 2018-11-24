@@ -29,7 +29,7 @@ const DashboardInner = ({
         onRouteChange={onRouteChange}
       />
       <Switch>
-        <Route path={path} exact component={Home} />
+        <Route path={`${path}/home`} exact component={Home} />
         <Route path={`${path}/student`} exact component={Student} />
         <Redirect to="/dashboard" />
       </Switch>

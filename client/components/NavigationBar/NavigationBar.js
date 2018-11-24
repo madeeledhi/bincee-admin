@@ -13,16 +13,16 @@ const NavigationBar = props => {
   return (
     <div>
       <List>
-        <Listitem button onClick={() => onRouteChange('dashboard/home')}>
+        <Listitem button onClick={() => onRouteChange('/dashboard')}>
           <ListItemText primary={'Home'} />
         </Listitem>
-        <Listitem button onClick={() => onRouteChange('dashboard/student')}>
+        <Listitem button onClick={() => onRouteChange('/dashboard/student')}>
           <ListItemText primary={'Student'} />
         </Listitem>
-        <Listitem button onClick={() => onRouteChange('dashboard/home')}>
+        <Listitem button onClick={() => onRouteChange('/dashboard')}>
           <ListItemText primary={'Home'} />
         </Listitem>
-        <Listitem button onClick={() => onRouteChange('dashboard/student')}>
+        <Listitem button onClick={() => onRouteChange('/dashboard/student')}>
           <ListItemText primary={'Student'} />
         </Listitem>
       </List>

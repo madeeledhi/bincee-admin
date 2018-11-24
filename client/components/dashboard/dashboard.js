@@ -27,12 +27,12 @@ class Dashboard extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged('user', this.props, nextProps)) {
-      const { user } = nextProps
+      const { user, authenticated, dispatch } = nextProps
+      console.log('props changes: ', user, authenticated)
       this.setState(() => ({ user }))
-    }
-    const { authenticated, dispatch } = nextProps
-    if (!authenticated) {
-      dispatch(push('/'))
+      if (!authenticated) {
+        dispatch(push('/'))
+      }
     }
   }
 

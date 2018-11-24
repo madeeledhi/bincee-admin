@@ -33,12 +33,11 @@ class Login extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged('user', this.props, nextProps)) {
-      const { user } = nextProps
+      const { user, dispatch } = nextProps
       this.setState(() => ({ user }))
-    }
-    const { user, dispatch } = nextProps
-    if (user.username) {
-      dispatch(push('/dashboard'))
+      if (user.username) {
+        dispatch(push('/dashboard'))
+      }
     }
   }
 

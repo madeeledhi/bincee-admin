@@ -23,11 +23,8 @@ export default (state = {}, action) => {
     case ActionTypes.LOAD_USER: {
       return ActionTypes.loadState()
     }
-    case LOCATION_CHANGE: {
-      return state
-    }
     default: {
-      return { ...initialState }
+      return state
     }
   }
 }
