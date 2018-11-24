@@ -89,14 +89,6 @@ module.exports = {
         loader: 'ify-loader',
       },
       {
-        test: /\.json?$/,
-        loader: 'json-loader',
-      },
-      {
-        test: /\.(png|jpg)$/,
-        loader: 'url-loader?limit=8192',
-      },
-      {
         test: /\.less$/,
         use: ExtractTextPlugin.extract({
           use: [
@@ -106,11 +98,30 @@ module.exports = {
         }),
       },
       {
+        test: /\.json?$/,
+        loader: 'json-loader',
+      },
+      {
+        test: /\.(png|jpg)$/,
+        loader: 'url-loader?limit=8192',
+      },
+      {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           use:
             'css-loader?modules&localIdentName=[name]---[local]---[hash:base64:5]',
         }),
+      },
+      {
+        test: /\.(jpg|png|gif|svg|pdf|ico)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name]-[hash:8].[ext]',
+            },
+          },
+        ],
       },
       {
         test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
