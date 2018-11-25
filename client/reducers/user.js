@@ -1,7 +1,5 @@
-import { LOCATION_CHANGE } from 'react-router-redux'
 // src
 import * as ActionTypes from '../actions'
-import {} from '../actions'
 
 const initialState = { username: '', type: '' }
 

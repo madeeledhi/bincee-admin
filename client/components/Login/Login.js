@@ -9,7 +9,7 @@ import getOr from 'lodash/fp/getOr'
 import { RenderTextField } from '../shared/form-fields'
 import { LoginButton } from '../shared/buttons/loginButton'
 import styles from './styles.less'
-import { login, loadUser } from '../../actions'
+import { login, loadUser, logOut } from '../../actions'
 import { hasPropChanged } from '../../utils'
 
 class Login extends React.Component {
@@ -34,8 +34,9 @@ class Login extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged('user', this.props, nextProps)) {
       const { user, dispatch } = nextProps
+      const { type } = user
       this.setState(() => ({ user }))
-      if (user.username) {
+      if (user.username && type === 2) {
         dispatch(push('/dashboard'))
       }
     }
@@ -46,9 +47,14 @@ class Login extends React.Component {
     const { username, password } = formValues
     this.setState(() => ({ isLoading: true }))
     dispatch(login({ username, password })).then(({ payload }) => {
-      const { status } = payload
-      const error = status !== 200
+      const { status, data } = payload
+      const { type } = data
+      const error = status !== 200 || type !== 2
       this.setState(() => ({ isLoading: false, error }))
+      console.log('error:', error)
+      if (error) {
+        dispatch(logOut())
+      }
     })
   }
 
