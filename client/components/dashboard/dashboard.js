@@ -8,31 +8,40 @@ import size from 'lodash/fp/size'
 //  src
 import DashboardInner from './DashboardInner'
 import { hasPropChanged } from '../../utils'
-import { loadUser, logOut } from '../../actions'
+import { loadUser, logOut, loadUserDetails } from '../../actions'
 
 class Dashboard extends Component {
   constructor(props) {
     super(props)
-    const { user } = props
-    this.state = { isLoading: false, user, error: false }
+    const { user = {}, userDetails = {} } = props
+    this.state = { isLoading: false, user, error: false, userDetails }
   }
 
   componentDidMount() {
-    const { user } = this.state
-    const { dispatch } = this.props
+    const { dispatch, user } = this.props
     if (!user.username) {
       dispatch(loadUser())
+    } else {
+      const { id, token } = user
+      dispatch(loadUserDetails({ id, token }))
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged('user', this.props, nextProps)) {
       const { user, authenticated, dispatch } = nextProps
-      console.log('props changes: ', user, authenticated)
       this.setState(() => ({ user }))
       if (!authenticated) {
         dispatch(push('/'))
+      } else {
+        const { id, token } = user
+        this.setState(() => ({ isLoading: true }))
+        dispatch(loadUserDetails({ id, token }))
       }
+    }
+    if (hasPropChanged('userDetails', this.props, nextProps)) {
+      const { userDetails } = nextProps
+      this.setState(() => ({ userDetails, isLoading: false }))
     }
   }
 
@@ -48,9 +57,9 @@ class Dashboard extends Component {
 
   render() {
     const { match, user, authenticated } = this.props
+    const { isLoading } = this.state
     const path = getOr('/dashboard', 'path')(match)
-    console.log('path', path)
-
+    console.log('dashboard: {isLoading}, {path} ', isLoading, path)
     return (
       <DashboardInner
         path={path}
@@ -65,9 +74,11 @@ class Dashboard extends Component {
 
 function mapStateToProps(state, ownProps) {
   const user = getOr('', 'user')(state)
+  const userDetails = getOr('', 'userDetails')(state)
   const authenticated = size(user.username) > 0
   return {
     user,
+    userDetails,
     authenticated,
   }
 }

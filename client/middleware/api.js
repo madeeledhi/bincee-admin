@@ -95,7 +95,6 @@ export default store => next => action => {
 
   let { endpoint, fetchOptions } = callAPI
   const { schema, types, method, type, token } = callAPI
-
   if (type) {
     return new Promise(resolve => resolve(next(actionWith(callAPI))))
   }
@@ -134,15 +133,20 @@ export default store => next => action => {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   }
+
   const Authorization = `Bearer ${token}`
+  const options = {
+    method: method || 'GET',
+    headers: token ? { ...headers, Authorization } : headers,
+  }
+  const body =
+    options.method === 'GET' ? {} : { body: JSON.stringify(action.payload) }
   if (!fetchOptions) {
     fetchOptions = {
-      method: method || 'GET',
-      headers: token ? { ...headers, Authorization } : headers,
-      body: JSON.stringify(action.payload),
+      ...options,
+      ...body,
     }
   }
-
   return callApi(endpoint, schema, fetchOptions).then(
     response =>
       next(

@@ -22,8 +22,9 @@ export const createGrade = ({ grade_name, section, grade_section, token }) => ({
     types: [CREATE_GRADE, CREATE_GRADE_SUCCESS, CREATE_GRADE_FAILURE],
     endpoint: 'https://bincee-server.herokuapp.com/api/school/grade/create',
     method: 'POST',
+    token,
   },
-  payload: { grade_name, section, grade_section, token },
+  payload: { grade_name, section, grade_section },
 })
 
 export const editGrade = ({
@@ -37,8 +38,9 @@ export const editGrade = ({
     types: [EDIT_GRADE, EDIT_GRADE_SUCCESS, EDIT_GRADE_FAILURE],
     endpoint: `https://bincee-server.herokuapp.com/api/school/grade/${id}`,
     method: 'POST',
+    token,
   },
-  payload: { grade_name, section, grade_section, token },
+  payload: { grade_name, section, grade_section },
 })
 
 export const loadSingleGrade = ({ id, token }) => ({
@@ -50,8 +52,9 @@ export const loadSingleGrade = ({ id, token }) => ({
     ],
     endpoint: `https://bincee-server.herokuapp.com/api/school/grade/${id}`,
     method: 'GET',
+    token,
   },
-  payload: { token },
+  payload: {},
 })
 
 export const deleteGrade = ({ id, token }) => ({
@@ -59,8 +62,9 @@ export const deleteGrade = ({ id, token }) => ({
     types: [DELETE_GRADE, DELETE_GRADE_SUCCESS, DELETE_GRADE_FAILURE],
     endpoint: `https://bincee-server.herokuapp.com/api/school/grade/${id}`,
     method: 'DELETE',
+    token,
   },
-  payload: { token },
+  payload: {},
 })
 
 export const loadGrades = ({ token }) => ({
@@ -68,6 +72,7 @@ export const loadGrades = ({ token }) => ({
     types: [LOAD_GRADES, LOAD_GRADES_SUCCESS, LOAD_GRADES_FAILURE],
     endpoint: 'https://bincee-server.herokuapp.com/api/school/grade/list',
     method: 'GET',
+    token,
   },
-  payload: { token },
+  payload: {},
 })
