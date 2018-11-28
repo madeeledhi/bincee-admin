@@ -28,11 +28,14 @@ const DashboardInner = ({
         authenticated={authenticated}
         onRouteChange={onRouteChange}
       />
-      <Switch>
-        <Route path={`${path}/home`} exact component={Home} />
-        <Route path={`${path}/student`} exact component={Student} />
-        <Redirect to="/dashboard" />
-      </Switch>
+      <div className={styles.content}>
+        <Switch>
+          <Route path={`${path}`} exact component={Home} />
+          <Route path={`${path}/student`} exact component={Student} />
+
+          <Redirect to="/dashboard" />
+        </Switch>
+      </div>
     </div>
   </div>
 )
