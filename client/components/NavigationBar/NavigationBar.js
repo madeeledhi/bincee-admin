@@ -13,9 +13,6 @@ const NavigationBar = props => {
 
   return (
     <div>
-      <div className={styles.navLogo}>
-        <img className={styles.img} src={`/images/whiteLogo.png`} />
-      </div>
       <List>
         <ListItem
           className={styles.navItem}

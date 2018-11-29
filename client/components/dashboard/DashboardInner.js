@@ -18,16 +18,17 @@ const DashboardInner = ({
   onRouteChange,
 }) => (
   <div className={styles.root}>
-    <div className={styles.navigation}>
-      <NavigationBar onRouteChange={onRouteChange} />
-    </div>
-    <div className={styles.head}>
-      <Header
-        onClickSignout={onClickSignout}
-        user={user}
-        authenticated={authenticated}
-        onRouteChange={onRouteChange}
-      />
+    <Header
+      onClickSignout={onClickSignout}
+      user={user}
+      authenticated={authenticated}
+      onRouteChange={onRouteChange}
+    />
+
+    <div className={styles.container}>
+      <div className={styles.navigation}>
+        <NavigationBar onRouteChange={onRouteChange} />
+      </div>
       <div className={styles.content}>
         <Switch>
           <Route path={`${path}`} exact component={Home} />

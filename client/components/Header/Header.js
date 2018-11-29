@@ -25,9 +25,11 @@ class Header extends React.Component {
   handleClose = () => {
     this.setState({ anchorEl: null })
   }
+
   handleSignOut = () => {
     this.setState({ anchorEl: null })
   }
+
   render() {
     const { user, authenticated, onClickSignout, onRouteChange } = this.props
     const { photo, name } = user
@@ -36,42 +38,37 @@ class Header extends React.Component {
 
     return (
       <div className={styles.root}>
-        <div className={styles.button}>
+        <div className={styles.navLogo}>
+          <img className={styles.img} src={`/images/whiteLogo.png`} />
+        </div>
+        <div className={styles.actionItems}>
           <IconButton color="inherit">
             <Badge badgeContent={17} color="secondary">
               <Icon>notifications</Icon>
             </Badge>
           </IconButton>
-          <div>
-            <IconButton
-              aria-owns={open ? 'menu-appbar' : undefined}
-              aria-haspopup="true"
-              onClick={this.handleMenu}
-              color="inherit"
-            >
-              <Avatar
-                alt="Remy Sharp"
-                src={photo ? photo : '/images/profile.png'}
-              />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={open}
-              onClose={this.handleClose}
-            >
-              <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
-            </Menu>
-          </div>
+          <IconButton
+            aria-owns={open ? 'menu-appbar' : undefined}
+            aria-haspopup="true"
+            onClick={this.handleMenu}
+            color="inherit"
+          >
+            <Avatar
+              alt="Remy Sharp"
+              src={photo ? photo : '/images/profile.png'}
+            />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={open}
+            onClose={this.handleClose}
+          >
+            <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+            <MenuItem onClick={onClickSignout}>Logout</MenuItem>
+          </Menu>
         </div>
       </div>
     )

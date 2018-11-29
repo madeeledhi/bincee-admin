@@ -1,23 +1,20 @@
 .root {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  min-height: 100vh;
   background-image: url('/images/main-bg.png');
   background-size: cover;
 
-  .navigation {
-    width: 15%;
-    background: #fff;
-  }
-  .content {
-    margin-left: 2rem;
-    margin-top: 1rem;
-    background: #fff;
-    height: 100%;
-    overflow: auto;
-  }
-  .head {
-    width: 85%;
+  .container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    .navigation {
+      width: 15%;
+      background: #fff;
+    }
+    .content {
+      margin: 0 2rem;
+      width: 85%;
+      background: #fff;
+      overflow: auto;
+    }
   }
 }
