@@ -14,7 +14,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     const { user = {}, userDetails = {} } = props
-    this.state = { isLoading: false, user, error: false, userDetails }
+    this.state = { isLoading: true, user, userDetails }
   }
 
   componentDidMount() {
@@ -28,20 +28,19 @@ class Dashboard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (hasPropChanged('user', this.props, nextProps)) {
-      const { user, authenticated, dispatch } = nextProps
+    if (hasPropChanged(['userDetails', 'user'], this.props, nextProps)) {
+      const { user, authenticated, dispatch, userDetails } = nextProps
       this.setState(() => ({ user }))
       if (!authenticated) {
         dispatch(push('/'))
-      } else {
-        const { id, token } = user
-        this.setState(() => ({ isLoading: true }))
-        dispatch(loadUserDetails({ id, token }))
       }
-    }
-    if (hasPropChanged('userDetails', this.props, nextProps)) {
-      const { userDetails } = nextProps
-      this.setState(() => ({ userDetails, isLoading: false }))
+      if (size(userDetails) < 1) {
+        const { id, token } = user
+        this.setState(() => ({ user, isLoading: true }))
+        dispatch(loadUserDetails({ id, token }))
+      } else {
+        this.setState(() => ({ userDetails, isLoading: false }))
+      }
     }
   }
 
@@ -56,15 +55,23 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { match, user, authenticated } = this.props
-    const { isLoading } = this.state
+    const { match, authenticated, error } = this.props
+    const { isLoading, user, userDetails } = this.state
     const path = getOr('/dashboard', 'path')(match)
-    console.log('dashboard: {isLoading}, {path} ', isLoading, path)
+    console.log(
+      'dashboard: {authenticated} {isLoading}, {path} ',
+      authenticated,
+      isLoading,
+      path,
+    )
     return (
       <DashboardInner
         path={path}
         onClickSignout={this.handleSignOut}
         user={user}
+        userDetails={userDetails}
+        error={error}
+        isLoading={isLoading}
         authenticated={authenticated}
         onRouteChange={this.handleRouteChange}
       />
@@ -73,10 +80,12 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const user = getOr('', 'user')(state)
-  const userDetails = getOr('', 'userDetails')(state)
+  const user = getOr({}, 'user')(state)
+  const userDetails = getOr({}, 'userDetails')(state)
+  const error = getOr('', 'message')(userDetails)
   const authenticated = size(user.username) > 0
   return {
+    error,
     user,
     userDetails,
     authenticated,

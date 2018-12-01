@@ -8,7 +8,7 @@ import getOr from 'lodash/fp/getOr'
 // src
 import { RenderTextField } from '../shared/form-fields'
 import { LoginButton } from '../shared/buttons/loginButton'
-import styles from './styles.less'
+import styles from './Login.less'
 import { login, loadUser, logOut } from '../../actions'
 import { hasPropChanged } from '../../utils'
 
@@ -80,7 +80,6 @@ class Login extends React.Component {
           />
           <LoginButton label="Login" onClick={this.handleClick} />
         </div>
-        <div>{JSON.stringify(user)}</div>
       </div>
     )
   }
