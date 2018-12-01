@@ -14,7 +14,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     const { user = {}, userDetails = {} } = props
-    this.state = { isLoading: false, user, userDetails }
+    this.state = { isLoading: true, user, userDetails }
   }
 
   componentDidMount() {
@@ -28,7 +28,7 @@ class Dashboard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (hasPropChanged('user', this.props, nextProps)) {
+    if (hasPropChanged(['userDetails', 'user'], this.props, nextProps)) {
       const { user, authenticated, dispatch, userDetails } = nextProps
       this.setState(() => ({ user }))
       if (!authenticated) {
@@ -39,12 +39,8 @@ class Dashboard extends Component {
         this.setState(() => ({ user, isLoading: true }))
         dispatch(loadUserDetails({ id, token }))
       } else {
-        this.setState(() => ({ isLoading: false }))
+        this.setState(() => ({ userDetails, isLoading: false }))
       }
-    }
-    if (hasPropChanged('userDetails', this.props, nextProps)) {
-      const { userDetails } = nextProps
-      this.setState(() => ({ userDetails, isLoading: false }))
     }
   }
 

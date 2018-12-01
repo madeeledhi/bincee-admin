@@ -28,19 +28,14 @@ class Home extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (hasPropChanged('grades', this.props, nextProps)) {
-      const { error } = nextProps
-      this.setState(() => ({ error, isLoading: false }))
-    }
-
-    if (hasPropChanged('user', this.props, nextProps)) {
-      const { dispatch, user, grades } = nextProps
+    if (hasPropChanged(['user', 'grades'], this.props, nextProps)) {
+      const { dispatch, user, grades, error } = nextProps
       const { token } = user
       if (size(grades) < 1) {
         this.setState(() => ({ isLoading: true }))
         dispatch(loadGrades({ token }))
       } else {
-        this.setState(() => ({ isLoading: false }))
+        this.setState(() => ({ error, isLoading: false }))
       }
     }
   }
