@@ -1,7 +1,8 @@
 // libs
 import React from 'react'
-import { connect, push } from 'react-redux'
+import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
+import size from 'lodash/fp/size'
 
 // src
 import EnhancedTable from '../EnhancedTable'
@@ -16,7 +17,7 @@ import {
 } from '../../actions'
 
 class Home extends React.Component {
-  state = { grades: {}, error: '', isLoading: true }
+  state = { error: '', isLoading: false }
 
   componentDidMount() {
     const { dispatch, user } = this.props
@@ -28,21 +29,29 @@ class Home extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged('grades', this.props, nextProps)) {
-      const { grades, error } = nextProps
-      this.setState(() => ({ grades, error, isLoading: false }))
+      const { error } = nextProps
+      this.setState(() => ({ error, isLoading: false }))
     }
+
     if (hasPropChanged('user', this.props, nextProps)) {
-      const { dispatch, user } = nextProps
+      const { dispatch, user, grades } = nextProps
       const { token } = user
-      dispatch(loadGrades({ token, isLoading: true }))
+      if (size(grades) < 1) {
+        this.setState(() => ({ isLoading: true }))
+        dispatch(loadGrades({ token }))
+      } else {
+        this.setState(() => ({ isLoading: false }))
+      }
     }
   }
 
   render() {
-    const { grades, error, isLoading } = this.state
+    const { error, isLoading } = this.state
+    const { grades } = this.props
     // TODO: Change the names in enhanced Tables
     // TODO: Fix Enhanced Table inner, there is problem with it
     const { columns: rows, rows: data } = grades
+    console.log('grades: ', grades)
     return (
       <Choose>
         <When condition={!error && !isLoading}>
