@@ -14,7 +14,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     const { user = {}, userDetails = {} } = props
-    this.state = { isLoading: false, user, error: false, userDetails }
+    this.state = { isLoading: true, user, userDetails }
   }
 
   componentDidMount() {
@@ -35,7 +35,7 @@ class Dashboard extends Component {
         dispatch(push('/'))
       } else {
         const { id, token } = user
-        this.setState(() => ({ isLoading: true }))
+        this.setState(() => ({ user, isLoading: true }))
         dispatch(loadUserDetails({ id, token }))
       }
     }
@@ -56,8 +56,8 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { match, user, authenticated } = this.props
-    const { isLoading } = this.state
+    const { match, authenticated, error } = this.props
+    const { isLoading, user, userDetails } = this.state
     const path = getOr('/dashboard', 'path')(match)
     console.log('dashboard: {isLoading}, {path} ', isLoading, path)
     return (
@@ -65,6 +65,9 @@ class Dashboard extends Component {
         path={path}
         onClickSignout={this.handleSignOut}
         user={user}
+        userDetails={userDetails}
+        error={error}
+        isLoading={isLoading}
         authenticated={authenticated}
         onRouteChange={this.handleRouteChange}
       />
@@ -73,10 +76,12 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const user = getOr('', 'user')(state)
-  const userDetails = getOr('', 'userDetails')(state)
+  const user = getOr({}, 'user')(state)
+  const userDetails = getOr({}, 'userDetails')(state)
+  const error = getOr('', 'message')(userDetails)
   const authenticated = size(user.username) > 0
   return {
+    error,
     user,
     userDetails,
     authenticated,

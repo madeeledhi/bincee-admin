@@ -8,18 +8,22 @@ import Header from '../Header'
 import Home from '../Home'
 import Student from '../Student'
 import NavigationBar from '../NavigationBar'
+import LoadingView from '../LoadingView'
 import styles from './Dashboard.less'
 
 const DashboardInner = ({
   onClickSignout,
   user,
+  userDetails,
+  error,
   authenticated,
   path,
   onRouteChange,
+  isLoading,
 }) => (
   <div className={styles.root}>
     <Choose>
-      <When condition={user.username}>
+      <When condition={authenticated && !isLoading}>
         <Header
           onClickSignout={onClickSignout}
           user={user}
@@ -46,7 +50,12 @@ const DashboardInner = ({
           </div>
         </div>
       </When>
-      <Otherwise>{'Create Blank slate'}</Otherwise>
+      <When condition={error}>
+        <div>{error}</div>
+      </When>
+      <Otherwise>
+        <LoadingView message={'Loading User Details'} />
+      </Otherwise>
     </Choose>
   </div>
 )

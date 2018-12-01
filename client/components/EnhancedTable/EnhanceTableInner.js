@@ -33,7 +33,6 @@ const EnhancedTableInner = props => {
     selected,
     rowsPerPage,
     page,
-    emptyRows,
     onSelectAllClick,
     onRequestSort,
     onClick,
@@ -84,11 +83,6 @@ const EnhancedTableInner = props => {
                   </TableRow>
                 )
               })}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 49 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
           </TableBody>
         </Table>
       </div>

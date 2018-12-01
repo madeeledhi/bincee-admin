@@ -1,4 +1,5 @@
 import React from 'react'
+import size from 'lodash/fp/size'
 
 //src
 import EnhancedTableInner from './EnhanceTableInner'
@@ -93,26 +94,30 @@ class EnhancedTable extends React.Component {
       page,
       rows,
     } = this.state
-    const emptyRows =
-      rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage)
-    console.log('data: ', order, orderBy, selected, data, rows, emptyRows)
+    console.log('data: ', order, orderBy, selected, data, rows)
     return (
-      <EnhancedTableInner
-        rows={rows}
-        data={data}
-        order={order}
-        orderBy={orderBy}
-        selected={selected}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        emptyRows={emptyRows}
-        onSelectAllClick={this.handleSelectAllClick}
-        onRequestSort={this.handleRequestSort}
-        onClick={this.handleClick}
-        onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        onChangePage={this.handleChangePage}
-        isRowSelected={this.isSelected}
-      />
+      <Choose>
+        <When condition={size(rows) > 0}>
+          <EnhancedTableInner
+            rows={rows}
+            data={data}
+            order={order}
+            orderBy={orderBy}
+            selected={selected}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onSelectAllClick={this.handleSelectAllClick}
+            onRequestSort={this.handleRequestSort}
+            onClick={this.handleClick}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            onChangePage={this.handleChangePage}
+            isRowSelected={this.isSelected}
+          />
+        </When>
+        <Otherwise>
+          <div>{'No Data Available'}</div>
+        </Otherwise>
+      </Choose>
     )
   }
 }

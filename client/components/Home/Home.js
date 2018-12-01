@@ -5,6 +5,7 @@ import getOr from 'lodash/fp/getOr'
 
 // src
 import EnhancedTable from '../EnhancedTable'
+import LoadingView from '../LoadingView'
 import transformData from './transformers/transformData'
 import { hasPropChanged } from '../../utils'
 import {
@@ -15,7 +16,7 @@ import {
 } from '../../actions'
 
 class Home extends React.Component {
-  state = { grades: {}, error: '' }
+  state = { grades: {}, error: '', isLoading: true }
 
   componentDidMount() {
     const { dispatch, user } = this.props
@@ -28,24 +29,34 @@ class Home extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged('grades', this.props, nextProps)) {
       const { grades, error } = nextProps
-      this.setState(() => ({ grades, error }))
+      this.setState(() => ({ grades, error, isLoading: false }))
     }
     if (hasPropChanged('user', this.props, nextProps)) {
       const { dispatch, user } = nextProps
       const { token } = user
-      dispatch(loadGrades({ token }))
+      dispatch(loadGrades({ token, isLoading: true }))
     }
   }
 
   render() {
-    const { grades, error } = this.state
+    const { grades, error, isLoading } = this.state
     // TODO: Change the names in enhanced Tables
     // TODO: Fix Enhanced Table inner, there is problem with it
     const { columns: rows, rows: data } = grades
     return (
-      <div>
-        <EnhancedTable rows={rows} data={data} error={error} />
-      </div>
+      <Choose>
+        <When condition={!error && !isLoading}>
+          <div>
+            <EnhancedTable rows={rows} data={data} error={error} />
+          </div>
+        </When>
+        <When condition={error}>
+          <div>{error}</div>
+        </When>
+        <Otherwise>
+          <LoadingView message={'Loading Grades & Sections'} />
+        </Otherwise>
+      </Choose>
     )
   }
 }
