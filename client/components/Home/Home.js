@@ -51,7 +51,6 @@ class Home extends React.Component {
     // TODO: Change the names in enhanced Tables
     // TODO: Fix Enhanced Table inner, there is problem with it
     const { columns: rows, rows: data } = grades
-    console.log('grades: ', grades)
     return (
       <Choose>
         <When condition={!error && !isLoading}>

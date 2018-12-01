@@ -27,6 +27,7 @@ const DashboardInner = ({
         <Header
           onClickSignout={onClickSignout}
           user={user}
+          userDetails={userDetails}
           authenticated={authenticated}
           onRouteChange={onRouteChange}
         />

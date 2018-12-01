@@ -14,7 +14,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     const { user = {}, userDetails = {} } = props
-    this.state = { isLoading: true, user, userDetails }
+    this.state = { isLoading: false, user, userDetails }
   }
 
   componentDidMount() {
@@ -29,14 +29,17 @@ class Dashboard extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged('user', this.props, nextProps)) {
-      const { user, authenticated, dispatch } = nextProps
+      const { user, authenticated, dispatch, userDetails } = nextProps
       this.setState(() => ({ user }))
       if (!authenticated) {
         dispatch(push('/'))
-      } else {
+      }
+      if (size(userDetails) < 1) {
         const { id, token } = user
         this.setState(() => ({ user, isLoading: true }))
         dispatch(loadUserDetails({ id, token }))
+      } else {
+        this.setState(() => ({ isLoading: false }))
       }
     }
     if (hasPropChanged('userDetails', this.props, nextProps)) {
@@ -59,7 +62,12 @@ class Dashboard extends Component {
     const { match, authenticated, error } = this.props
     const { isLoading, user, userDetails } = this.state
     const path = getOr('/dashboard', 'path')(match)
-    console.log('dashboard: {isLoading}, {path} ', isLoading, path)
+    console.log(
+      'dashboard: {authenticated} {isLoading}, {path} ',
+      authenticated,
+      isLoading,
+      path,
+    )
     return (
       <DashboardInner
         path={path}
