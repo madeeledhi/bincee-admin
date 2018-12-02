@@ -9,6 +9,11 @@ import app from './app'
 import user from './user'
 import userDetails from './userDetails'
 import grades from './grades'
+import drivers from './drivers'
+import parents from './parents'
+import bus from './bus'
+import students from './students'
+import shifts from './shifts'
 
 const rootReducer = combineReducers({
   app,
@@ -16,6 +21,11 @@ const rootReducer = combineReducers({
   user,
   userDetails,
   grades,
+  drivers,
+  parents,
+  bus,
+  students,
+  shifts,
   form: formReducer,
 })
 

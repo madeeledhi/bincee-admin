@@ -26,7 +26,7 @@ export default (state = initialState, action) => {
     }
     case ActionTypes.LOAD_GRADES_SUCCESS: {
       const { data } = payload
-      return { ...state, grades: data }
+      return { ...state, grades: data, message: '' }
     }
     case ActionTypes.LOAD_GRADES_FAILURE: {
       return { ...state, message: 'Cannot find grades' }
@@ -34,7 +34,7 @@ export default (state = initialState, action) => {
     case ActionTypes.LOAD_SINGLE_GRADE_SUCCESS: {
       const { data } = payload
       const { id } = data
-      return { ...state, [id]: data }
+      return { ...state, [id]: data, message: '' }
     }
     case ActionTypes.LOAD_SINGLE_GRADE_FAILURE: {
       return { ...state, message: 'Cannot find grade' }
