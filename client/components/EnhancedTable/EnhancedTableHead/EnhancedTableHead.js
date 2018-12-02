@@ -55,6 +55,8 @@ class EnhancedTableHead extends React.Component {
               </TableCell>
             )
           }, this)}
+
+          <TableCell padding="checkbox">{'Actions'}</TableCell>
         </TableRow>
       </TableHead>
     )

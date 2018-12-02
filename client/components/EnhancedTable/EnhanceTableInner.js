@@ -89,8 +89,8 @@ const EnhancedTableInner = props => {
                         {n[`${rows[i]['id']}`]}
                       </TableCell>
                     ))(size(rows))}
-                    <iF condition={hasButtons}>
-                      <TableCell padding="checkbox">
+                    {hasButtons && (
+                      <TableCell padding="checkbox" component="th" scope="row">
                         <IconButton
                           aria-label="Filter list"
                           onClick={event => onEditRow(event, n.id)}
@@ -104,7 +104,7 @@ const EnhancedTableInner = props => {
                           <Icon> delete</Icon>
                         </IconButton>
                       </TableCell>
-                    </iF>
+                    )}
                   </TableRow>
                 )
               })}
