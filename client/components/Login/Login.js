@@ -11,6 +11,7 @@ import { LoginButton } from '../shared/buttons/loginButton'
 import styles from './Login.less'
 import { login, loadUser, logOut } from '../../actions'
 import { hasPropChanged } from '../../utils'
+import LoadingView from '../LoadingView'
 
 class Login extends React.Component {
   constructor(props) {
@@ -80,6 +81,13 @@ class Login extends React.Component {
           />
           <LoginButton label="Login" onClick={this.handleClick} />
         </div>
+        <If condition = {isLoading}>
+          <LoadingView message={'logging In'} />
+        </If>
+        <If condition = {error}>
+          <h4 className={styles.errorMessage}>Invalid username or Password</h4>
+        </If>
+        
       </div>
     )
   }
