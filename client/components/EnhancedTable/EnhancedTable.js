@@ -56,6 +56,8 @@ class EnhancedTable extends React.Component {
   handleClick = (event, id) => {
     const { selected } = this.state
     const selectedIndex = selected.indexOf(id)
+    console.log('iam cllaed')
+
     let newSelected = []
 
     if (selectedIndex === -1) {
@@ -94,7 +96,7 @@ class EnhancedTable extends React.Component {
       page,
       rows,
     } = this.state
-    console.log('data: ', order, orderBy, selected, data, rows)
+    console.log('data: ', selected)
     return (
       <Choose>
         <When condition={size(rows) > 0}>

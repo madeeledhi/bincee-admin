@@ -1,9 +1,11 @@
 import size from 'lodash/fp/size'
 import keys from 'lodash/fp/keys'
 import reduce from 'lodash/fp/reduce'
+import map from 'lodash/fp/map'
 import startCase from 'lodash/fp/startCase'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
+import cloneDeep from 'lodash/cloneDeep'
 
 function getColumns(grades) {
   const [first] = grades
@@ -26,7 +28,9 @@ function getColumns(grades) {
 }
 
 function getRows(grades) {
-  return grades
+  return map(grade => {
+    return renameKeyName(grade, 'grade_id', 'id')
+  })(grades)
 }
 
 export default grades => {
@@ -36,4 +40,13 @@ export default grades => {
   const columns = getColumns(grades)
   const rows = getRows(grades)
   return { columns, rows }
+}
+export function renameKeyName(obj, oldName, newName) {
+  const clone = cloneDeep(obj)
+  const keyVal = clone[oldName]
+
+  delete clone[oldName]
+  clone[newName] = keyVal
+
+  return clone
 }

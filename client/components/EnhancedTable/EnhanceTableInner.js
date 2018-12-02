@@ -17,6 +17,8 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import Tooltip from '@material-ui/core/Tooltip'
 import { lighten } from '@material-ui/core/styles/colorManipulator'
+import times from 'lodash/fp/times'
+import size from 'lodash/fp/size'
 
 //src
 import styles from './EnhanceTableInner.less'
@@ -60,6 +62,9 @@ const EnhancedTableInner = props => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map(n => {
                 const isSelected = isRowSelected(n.id)
+
+                console.log('isSelected', isSelected)
+
                 return (
                   <TableRow
                     hover
@@ -73,13 +78,12 @@ const EnhancedTableInner = props => {
                     <TableCell padding="checkbox">
                       <Checkbox checked={isSelected} />
                     </TableCell>
-                    <TableCell component="th" scope="row" padding="none">
-                      {n.name}
-                    </TableCell>
-                    <TableCell numeric>{n.calories}</TableCell>
-                    <TableCell numeric>{n.fat}</TableCell>
-                    <TableCell numeric>{n.carbs}</TableCell>
-                    <TableCell numeric>{n.protein}</TableCell>
+
+                    {times(i => (
+                      <TableCell component="th" scope="row">
+                        {n[`${rows[i]['id']}`]}
+                      </TableCell>
+                    ))(size(rows))}
                   </TableRow>
                 )
               })}
