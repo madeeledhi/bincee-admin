@@ -20,6 +20,7 @@ const DashboardInner = ({
   path,
   onRouteChange,
   isLoading,
+  selectedIndex,
 }) => (
   <div className={styles.root}>
     <Choose>
@@ -34,7 +35,7 @@ const DashboardInner = ({
 
         <div className={styles.container}>
           <div className={styles.navigation}>
-            <NavigationBar onRouteChange={onRouteChange} />
+            <NavigationBar onRouteChange={onRouteChange} selectedIndex={selectedIndex}/>
           </div>
           <div className={styles.content}>
             <Switch>

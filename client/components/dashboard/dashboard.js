@@ -14,7 +14,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     const { user = {}, userDetails = {} } = props
-    this.state = { isLoading: true, user, userDetails }
+    this.state = { isLoading: true, user, userDetails , selectedIndex:0 }
   }
 
   componentDidMount() {
@@ -49,9 +49,10 @@ class Dashboard extends Component {
     dispatch(logOut())
   }
 
-  handleRouteChange = route => {
+  handleRouteChange = (route, index) => {
     const { dispatch } = this.props
     dispatch(push(route))
+    index !== undefined ? this.setState({ selectedIndex: index }): ''
   }
 
   render() {
@@ -74,6 +75,7 @@ class Dashboard extends Component {
         isLoading={isLoading}
         authenticated={authenticated}
         onRouteChange={this.handleRouteChange}
+        selectedIndex= {this.state.selectedIndex}
       />
     )
   }
