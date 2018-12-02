@@ -14,8 +14,8 @@ import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 import Checkbox from '@material-ui/core/Checkbox'
 import IconButton from '@material-ui/core/IconButton'
-import Icon from '@material-ui/core/Icon'
 import Tooltip from '@material-ui/core/Tooltip'
+import Icon from '@material-ui/core/Icon'
 import { lighten } from '@material-ui/core/styles/colorManipulator'
 import times from 'lodash/fp/times'
 import size from 'lodash/fp/size'
@@ -25,6 +25,7 @@ import styles from './EnhanceTableInner.less'
 import EnhancedTableHead from './EnhancedTableHead'
 import EnhancedTableToolbar from './EnhancedTableToolbar'
 import { desc, stableSort, getSorting } from './utils'
+import { editGrade } from '../../actions'
 
 const EnhancedTableInner = props => {
   const {
@@ -41,6 +42,10 @@ const EnhancedTableInner = props => {
     onChangeRowsPerPage,
     onChangePage,
     isRowSelected,
+    onEditRow,
+    onDeleteRow,
+    onRowClick,
+    hasButtons = true,
   } = props
 
   return (
@@ -62,21 +67,21 @@ const EnhancedTableInner = props => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map(n => {
                 const isSelected = isRowSelected(n.id)
-
-                console.log('isSelected', isSelected)
-
                 return (
                   <TableRow
                     hover
-                    onClick={event => onClick(event, n.id)}
                     role="checkbox"
+                    onClick={event => onRowClick(event, n.id)}
                     aria-checked={isSelected}
                     tabIndex={-1}
                     key={n.id}
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">
-                      <Checkbox checked={isSelected} />
+                      <Checkbox
+                        checked={isSelected}
+                        onClick={event => onClick(event, n.id)}
+                      />
                     </TableCell>
 
                     {times(i => (
@@ -84,6 +89,22 @@ const EnhancedTableInner = props => {
                         {n[`${rows[i]['id']}`]}
                       </TableCell>
                     ))(size(rows))}
+                    <iF condition={hasButtons}>
+                      <TableCell padding="checkbox">
+                        <IconButton
+                          aria-label="Filter list"
+                          onClick={event => onEditRow(event, n.id)}
+                        >
+                          <Icon> edit</Icon>
+                        </IconButton>
+                        <IconButton
+                          aria-label="Filter list"
+                          onClick={event => onDeleteRow(event, n.id)}
+                        >
+                          <Icon> delete</Icon>
+                        </IconButton>
+                      </TableCell>
+                    </iF>
                   </TableRow>
                 )
               })}

@@ -56,7 +56,6 @@ class EnhancedTable extends React.Component {
   handleClick = (event, id) => {
     const { selected } = this.state
     const selectedIndex = selected.indexOf(id)
-    console.log('iam cllaed')
 
     let newSelected = []
 
@@ -96,7 +95,13 @@ class EnhancedTable extends React.Component {
       page,
       rows,
     } = this.state
-    console.log('data: ', selected)
+    const {
+      handleDeleteRow,
+      handleEditRow,
+      handleRowClick,
+      hasButtons,
+    } = this.props
+
     return (
       <Choose>
         <When condition={size(rows) > 0}>
@@ -111,6 +116,10 @@ class EnhancedTable extends React.Component {
             onSelectAllClick={this.handleSelectAllClick}
             onRequestSort={this.handleRequestSort}
             onClick={this.handleClick}
+            onDeleteRow={handleDeleteRow}
+            onEditRow={handleEditRow}
+            onRowClick={handleRowClick}
+            onDeleteMutipleRows={this.handleDeleteMutipleRows}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
             onChangePage={this.handleChangePage}
             isRowSelected={this.isSelected}
