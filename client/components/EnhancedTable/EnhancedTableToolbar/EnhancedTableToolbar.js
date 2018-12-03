@@ -22,14 +22,10 @@ import { lighten } from '@material-ui/core/styles/colorManipulator'
 import styles from './EnhancedTableToolbar.less'
 
 const EnhancedTableToolbar = props => {
-  const { numSelected, classes } = props
+  const { numSelected, tableName } = props
 
   return (
-    <Toolbar
-      className={classNames(styles.root, {
-        [styles.highlight]: numSelected > 0,
-      })}
-    >
+    <Toolbar className={styles.root}>
       <div className={styles.title}>
         {numSelected > 0 ? (
           <Typography color="inherit" variant="subtitle1">
@@ -37,7 +33,7 @@ const EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            Nutrition
+            {tableName}
           </Typography>
         )}
       </div>
@@ -50,7 +46,7 @@ const EnhancedTableToolbar = props => {
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filter list">
+          <Tooltip title="Create New">
             <IconButton aria-label="Filter list">
               <Icon> add_circle</Icon>
             </IconButton>

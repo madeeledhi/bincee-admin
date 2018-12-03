@@ -50,7 +50,10 @@ const EnhancedTableInner = props => {
 
   return (
     <Paper className={styles.root}>
-      <EnhancedTableToolbar numSelected={selected.length} />
+      <EnhancedTableToolbar
+        numSelected={selected.length}
+        tableName={'Grades and Sections'}
+      />
       <div className={styles.tableWrapper}>
         <Table className={styles.table} aria-labelledby="tableTitle">
           <EnhancedTableHead
