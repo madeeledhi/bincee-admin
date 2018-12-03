@@ -52,6 +52,7 @@ class Header extends React.Component {
             aria-haspopup="true"
             onClick={this.handleMenu}
             color="inherit"
+            disableTouchRipple
           >
             {name}
             <Avatar alt="Remy Sharp" src="/images/profile.png" />
