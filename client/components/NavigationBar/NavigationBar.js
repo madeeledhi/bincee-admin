@@ -17,7 +17,7 @@ const NavigationBar = props => {
         <ListItem
           className={styles.navItem}
           button
-          selected= {selectedIndex === 0}
+          selected={selectedIndex === 0}
           onClick={() => onRouteChange('/dashboard', 0)}
         >
           <ListItemText primary={'Home'} />
@@ -25,15 +25,15 @@ const NavigationBar = props => {
         <ListItem
           className={styles.navItem}
           button
-          selected= {selectedIndex === 1}
-          onClick={() => onRouteChange('/dashboard/student', 1)}
+          selected={selectedIndex === 1}
+          onClick={() => onRouteChange('/dashboard/grades&sections', 1)}
         >
           <ListItemText primary={'Grades and Sections'} />
         </ListItem>
         <ListItem
           className={styles.navItem}
           button
-          selected= {selectedIndex === 2}
+          selected={selectedIndex === 2}
           onClick={() => onRouteChange('/dashboard', 2)}
         >
           <ListItemText primary={'Shift and Timings'} />
@@ -41,7 +41,7 @@ const NavigationBar = props => {
         <ListItem
           className={styles.navItem}
           button
-          selected= {selectedIndex === 3}
+          selected={selectedIndex === 3}
           onClick={() => onRouteChange('/dashboard/student', 3)}
         >
           <ListItemText primary={'Student Profiles'} />
@@ -49,7 +49,7 @@ const NavigationBar = props => {
         <ListItem
           className={styles.navItem}
           button
-          selected= {selectedIndex === 4}
+          selected={selectedIndex === 4}
           onClick={() => onRouteChange('/dashboard/student', 4)}
         >
           <ListItemText primary={'Driver Profiles'} />
@@ -57,7 +57,7 @@ const NavigationBar = props => {
         <ListItem
           className={styles.navItem}
           button
-          selected= {selectedIndex === 5}
+          selected={selectedIndex === 5}
           onClick={() => onRouteChange('/dashboard/student', 5)}
         >
           <ListItemText primary={'Bus Profiles'} />
@@ -65,7 +65,7 @@ const NavigationBar = props => {
         <ListItem
           className={styles.navItem}
           button
-          selected= {selectedIndex === 6}
+          selected={selectedIndex === 6}
           onClick={() => onRouteChange('/dashboard/student', 6)}
         >
           <ListItemText primary={'School Announcements'} />

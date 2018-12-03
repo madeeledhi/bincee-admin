@@ -7,6 +7,7 @@ import { Redirect, Route, Switch } from 'react-router'
 import Header from '../Header'
 import Home from '../Home'
 import Student from '../Student'
+import GradesSections from '../GradesSections'
 import NavigationBar from '../NavigationBar'
 import LoadingView from '../LoadingView'
 import styles from './Dashboard.less'
@@ -35,7 +36,10 @@ const DashboardInner = ({
 
         <div className={styles.container}>
           <div className={styles.navigation}>
-            <NavigationBar onRouteChange={onRouteChange} selectedIndex={selectedIndex}/>
+            <NavigationBar
+              onRouteChange={onRouteChange}
+              selectedIndex={selectedIndex}
+            />
           </div>
           <div className={styles.content}>
             <Switch>
@@ -44,6 +48,12 @@ const DashboardInner = ({
                 path={`${path}/student`}
                 exact
                 component={Student}
+                user={user}
+              />
+              <Route
+                path={`${path}/Grades&Sections`}
+                exact
+                component={GradesSections}
                 user={user}
               />
 
