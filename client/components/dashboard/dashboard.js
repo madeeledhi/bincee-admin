@@ -14,7 +14,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     const { user = {}, userDetails = {} } = props
-    this.state = { isLoading: true, user, userDetails , selectedIndex:0 }
+    this.state = { isLoading: true, user, userDetails, selectedIndex: 0 }
   }
 
   componentDidMount() {
@@ -52,12 +52,14 @@ class Dashboard extends Component {
   handleRouteChange = (route, index) => {
     const { dispatch } = this.props
     dispatch(push(route))
-    index !== undefined ? this.setState({ selectedIndex: index }): ''
+    if (index) {
+      this.setState({ selectedIndex: index })
+    }
   }
 
   render() {
     const { match, authenticated, error } = this.props
-    const { isLoading, user, userDetails } = this.state
+    const { isLoading, user, userDetails, selectedIndex } = this.state
     const path = getOr('/dashboard', 'path')(match)
     console.log(
       'dashboard: {authenticated} {isLoading}, {path} ',
@@ -65,6 +67,7 @@ class Dashboard extends Component {
       isLoading,
       path,
     )
+    //TODO: Destructure variables before use ;-)
     return (
       <DashboardInner
         path={path}
@@ -75,7 +78,7 @@ class Dashboard extends Component {
         isLoading={isLoading}
         authenticated={authenticated}
         onRouteChange={this.handleRouteChange}
-        selectedIndex= {this.state.selectedIndex}
+        selectedIndex={selectedIndex}
       />
     )
   }

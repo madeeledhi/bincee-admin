@@ -7,7 +7,7 @@ import ListSubheader from '@material-ui/core/ListSubheader'
 
 // src
 import styles from './NavigationBar.less'
-
+//TODO: Apply color to the navbar
 const NavigationBar = props => {
   const { onRouteChange, selectedIndex } = props
 

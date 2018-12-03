@@ -81,13 +81,21 @@ class Login extends React.Component {
           />
           <LoginButton label="Login" onClick={this.handleClick} />
         </div>
-        <If condition = {isLoading}>
+        <If condition={isLoading}>
+          {
+            //TODO: Fix this page properly
+            //TODO: Set the background Use the image with grey background
+            //TODO: Create proper login form design
+            //TODO: Create your own loading View
+            //TODO: Use the loading view on form only not the whole screen, also disable any functionality while loading
+            //TODO: Add form validator for empty fields and show errors on text fields border
+            //TODO: Added a file in shared folder with material fields that can help you with this
+          }
           <LoadingView message={'logging In'} />
         </If>
-        <If condition = {error}>
+        <If condition={error}>
           <h4 className={styles.errorMessage}>Invalid username or Password</h4>
         </If>
-        
       </div>
     )
   }
