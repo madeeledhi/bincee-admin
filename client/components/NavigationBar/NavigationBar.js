@@ -26,7 +26,7 @@ const NavigationBar = props => {
           className={styles.navItem}
           button
           selected={selectedIndex === 1}
-          onClick={() => onRouteChange('/dashboard/grades&sections', 1)}
+          onClick={() => onRouteChange('/dashboard/grades', 1)}
         >
           <ListItemText primary={'Grades and Sections'} />
         </ListItem>

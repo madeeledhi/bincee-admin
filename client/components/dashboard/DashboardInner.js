@@ -11,6 +11,8 @@ import GradesSections from '../GradesSections'
 import NavigationBar from '../NavigationBar'
 import LoadingView from '../LoadingView'
 import styles from './Dashboard.less'
+import CreateGrades from '../CreateGrades'
+import EditGrades from '../EditGrades'
 // TODO: create components for other routes
 /*
  * Remaining routes
@@ -66,9 +68,21 @@ const DashboardInner = ({
                 //TODO: Add edit and create subroute with grade route
               }
               <Route
-                path={`${path}/Grades&Sections`}
+                path={`${path}/grades`}
                 exact
                 component={GradesSections}
+                user={user}
+              />
+              <Route
+                path={`${path}/create/grades`}
+                exact
+                component={CreateGrades}
+                user={user}
+              />
+              <Route
+                path={`${path}/edit/grades/:id`}
+                exact
+                component={EditGrades}
                 user={user}
               />
 

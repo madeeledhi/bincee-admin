@@ -45,6 +45,7 @@ const EnhancedTableInner = props => {
     onEditRow,
     onDeleteRow,
     onRowClick,
+    onCreateRow,
     hasButtons = true,
   } = props
 
@@ -53,6 +54,7 @@ const EnhancedTableInner = props => {
       <EnhancedTableToolbar
         numSelected={selected.length}
         tableName={'Grades and Sections'}
+        onCreateRow={onCreateRow}
       />
       <div className={styles.tableWrapper}>
         <Table className={styles.table} aria-labelledby="tableTitle">
@@ -74,7 +76,6 @@ const EnhancedTableInner = props => {
                   <TableRow
                     hover
                     role="checkbox"
-                    onClick={event => onRowClick(event, n.id)}
                     aria-checked={isSelected}
                     tabIndex={-1}
                     key={n.id}

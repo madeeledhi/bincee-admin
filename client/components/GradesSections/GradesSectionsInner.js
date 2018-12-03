@@ -7,11 +7,26 @@ import size from 'lodash/fp/size'
 import EnhancedTable from '../EnhancedTable'
 import LoadingView from '../LoadingView'
 
-const GradesSectionsInner = ({ error, isLoading, rows, data }) => (
+const GradesSectionsInner = ({
+  error,
+  isLoading,
+  rows,
+  data,
+  onDeleteGrade,
+  handleCreateGrade,
+  handleUpdateGrade,
+}) => (
   <Choose>
     <When condition={!error && !isLoading}>
       <div>
-        <EnhancedTable rows={rows} data={data} error={error} />
+        <EnhancedTable
+          rows={rows}
+          data={data}
+          error={error}
+          handleDeleteRow={onDeleteGrade}
+          handleCreateRow={handleCreateGrade}
+          handleEditRow={handleUpdateGrade}
+        />
       </div>
     </When>
     <When condition={error}>

@@ -22,7 +22,7 @@ import { lighten } from '@material-ui/core/styles/colorManipulator'
 import styles from './EnhancedTableToolbar.less'
 
 const EnhancedTableToolbar = props => {
-  const { numSelected, tableName } = props
+  const { numSelected, tableName, onCreateRow } = props
 
   return (
     <Toolbar className={styles.root}>
@@ -47,7 +47,7 @@ const EnhancedTableToolbar = props => {
           </Tooltip>
         ) : (
           <Tooltip title="Create New">
-            <IconButton aria-label="Filter list">
+            <IconButton aria-label="Filter list" onClick={onCreateRow}>
               <Icon> add_circle</Icon>
             </IconButton>
           </Tooltip>

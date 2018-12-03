@@ -28,7 +28,7 @@ class EnhancedTable extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (hasPropChanged('rows', this.props, nextProps)) {
+    if (hasPropChanged(['rows', 'data'], this.props, nextProps)) {
       const { rows, data, error } = nextProps
       this.setState(() => ({ rows, data, error }))
     }
@@ -99,6 +99,7 @@ class EnhancedTable extends React.Component {
       handleDeleteRow,
       handleEditRow,
       handleRowClick,
+      handleCreateRow,
       hasButtons,
     } = this.props
 
@@ -123,6 +124,7 @@ class EnhancedTable extends React.Component {
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
             onChangePage={this.handleChangePage}
             isRowSelected={this.isSelected}
+            onCreateRow={handleCreateRow}
           />
         </When>
         <Otherwise>

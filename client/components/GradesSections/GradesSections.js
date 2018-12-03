@@ -3,6 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
+import { push } from 'react-router-redux'
 
 // src
 import EnhancedTable from '../EnhancedTable'
@@ -13,7 +14,8 @@ import {
   loadGrades,
   loadSingleGrade,
   createGrade,
-  EditGrade,
+  editGrade,
+  deleteGrade,
 } from '../../actions'
 import GradesSectionsInner from './GradesSectionsInner'
 
@@ -41,6 +43,22 @@ class GradesSections extends React.Component {
     }
   }
 
+  handleDeleteGrade = (event, id) => {
+    const { dispatch, user } = this.props
+    const { token } = user
+    dispatch(deleteGrade({ id, token })).then(({ payload }) => {
+      dispatch(loadGrades({ token }))
+    })
+  }
+  handleCreateGrade = () => {
+    const { dispatch } = this.props
+    dispatch(push('/dashboard/create/grades'))
+  }
+  handleUpdateGrade = (event, id) => {
+    const { dispatch } = this.props
+    dispatch(push(`/dashboard/edit/grades/${id}`))
+  }
+
   render() {
     const { error, isLoading } = this.state
     const { grades } = this.props
@@ -54,6 +72,9 @@ class GradesSections extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
+        onDeleteGrade={this.handleDeleteGrade}
+        handleCreateGrade={this.handleCreateGrade}
+        handleUpdateGrade={this.handleUpdateGrade}
       />
     )
   }
