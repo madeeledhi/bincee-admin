@@ -244,13 +244,19 @@ export const parseQueryString = (query: string): Object =>
 export const getPathname = (state: Object): string =>
   get(state, 'routing.location.pathname', '')
 
-export function parseLocation(location) {
-  const splited = split(location, '/', 3)
-  console.log('splited: ', splited)
-  const [f = '', s = '', third = 'home'] = splited
+/**
+ * Get the Path hash
+ * @param {*} location: String
+ */
+export function parseLocation(location: string): string {
+  const [f = '', s = '', third = 'home'] = split(location, '/', 3)
   return third
 }
 
-export function checkError(error) {
+/**
+ * Check for Violation Error
+ * @param {*} error: String
+ */
+export function checkError(error: string): boolean {
   return includes(error, 'violates foreign')
 }

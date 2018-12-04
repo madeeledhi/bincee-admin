@@ -25,12 +25,14 @@ function errorMessage(state = null, action) {
     return null
   }
   if (
-    type === ActionTypes.SHOW_ERROR_MESSAGE ||
-    error ||
-    (status && status !== 200)
+    type !== ActionTypes.USER_LOGIN_FAILURE &&
+    (type === ActionTypes.SHOW_ERROR_MESSAGE ||
+      error ||
+      (status && status !== 200))
   ) {
     if (data) {
-      return checkError
+      const { message } = data
+      return checkError(message)
         ? {
             message:
               'Cannot Create/Modify/Delete Record with Usage in Other Records.',
