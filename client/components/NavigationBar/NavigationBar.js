@@ -9,7 +9,7 @@ import ListSubheader from '@material-ui/core/ListSubheader'
 import styles from './NavigationBar.less'
 //TODO: Apply color to the navbar
 const NavigationBar = props => {
-  const { onRouteChange, selectedIndex } = props
+  const { onRouteChange, activePath } = props
 
   return (
     <div>
@@ -17,56 +17,56 @@ const NavigationBar = props => {
         <ListItem
           className={styles.navItem}
           button
-          selected={selectedIndex === 0}
-          onClick={() => onRouteChange('/dashboard', 0)}
+          selected={activePath === 'home'}
+          onClick={() => onRouteChange('/dashboard')}
         >
           <ListItemText primary={'Home'} />
         </ListItem>
         <ListItem
           className={styles.navItem}
           button
-          selected={selectedIndex === 1}
-          onClick={() => onRouteChange('/dashboard/grades', 1)}
+          selected={activePath === 'grades'}
+          onClick={() => onRouteChange('/dashboard/grades')}
         >
           <ListItemText primary={'Grades and Sections'} />
         </ListItem>
         <ListItem
           className={styles.navItem}
           button
-          selected={selectedIndex === 2}
-          onClick={() => onRouteChange('/dashboard', 2)}
+          selected={activePath === 'shifts'}
+          onClick={() => onRouteChange('/dashboard')}
         >
           <ListItemText primary={'Shift and Timings'} />
         </ListItem>
         <ListItem
           className={styles.navItem}
           button
-          selected={selectedIndex === 3}
-          onClick={() => onRouteChange('/dashboard/student', 3)}
+          selected={activePath === 'students'}
+          onClick={() => onRouteChange('/dashboard/students')}
         >
           <ListItemText primary={'Student Profiles'} />
         </ListItem>
         <ListItem
           className={styles.navItem}
           button
-          selected={selectedIndex === 4}
-          onClick={() => onRouteChange('/dashboard/student', 4)}
+          selected={activePath === 'drivers'}
+          onClick={() => onRouteChange('/dashboard/student')}
         >
           <ListItemText primary={'Driver Profiles'} />
         </ListItem>
         <ListItem
           className={styles.navItem}
           button
-          selected={selectedIndex === 5}
-          onClick={() => onRouteChange('/dashboard/student', 5)}
+          selected={activePath === 'bus'}
+          onClick={() => onRouteChange('/dashboard/student')}
         >
           <ListItemText primary={'Bus Profiles'} />
         </ListItem>
         <ListItem
           className={styles.navItem}
           button
-          selected={selectedIndex === 6}
-          onClick={() => onRouteChange('/dashboard/student', 6)}
+          selected={activePath === 'announcements'}
+          onClick={() => onRouteChange('/dashboard/student')}
         >
           <ListItemText primary={'School Announcements'} />
         </ListItem>

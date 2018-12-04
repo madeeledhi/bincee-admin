@@ -4,6 +4,8 @@ import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import fromPairs from 'lodash/fromPairs'
 import some from 'lodash/some'
+import split from 'lodash/split'
+import includes from 'lodash/includes'
 
 export const ENTITY_STATUS_UNATTEMPTED = 'ENTITY_STATUS_UNATTEMPTED'
 export const ENTITY_STATUS_LOADING = 'ENTITY_STATUS_LOADING'
@@ -17,15 +19,18 @@ export const ENTITY_STATUS_UPDATING = 'ENTITY_STATUS_UPDATING'
  */
 export const isServer = () => typeof window === 'undefined' || !window.document
 
-export const startSequentialTimer = (service: Function, interval: number = 30000) => {
-  let timeoutID;
-  (function initiateService() {
+export const startSequentialTimer = (
+  service: Function,
+  interval: number = 30000,
+) => {
+  let timeoutID
+  ;(function initiateService() {
     service()
       .catch()
       .then(() => {
         timeoutID = setTimeout(initiateService, interval)
       })
-  }())
+  })()
 
   return () => {
     clearInterval(timeoutID)
@@ -67,7 +72,12 @@ export const mergeNewEntities = (
   const newStatusObject = status ? { __status__: status } : {}
 
   entities.forEach(item => {
-    newEntitiesMap[item.id] = Object.assign({}, state[item.id] || {}, item, newStatusObject)
+    newEntitiesMap[item.id] = Object.assign(
+      {},
+      state[item.id] || {},
+      item,
+      newStatusObject,
+    )
   })
 
   return { ...state, ...newEntitiesMap }
@@ -110,7 +120,11 @@ export const pushEntitiesStatus = (
   entities: Array<Object>,
   status?: string = ENTITY_STATUS_DATA_AVAILABLE,
 ) =>
-  mergeNewEntities(state, entities.map(e => ({ ...e, __previousStatus__: e.__status__ })), status)
+  mergeNewEntities(
+    state,
+    entities.map(e => ({ ...e, __previousStatus__: e.__status__ })),
+    status,
+  )
 
 /**
  * If there's any __previousStatus__, puts it back to __status__
@@ -141,7 +155,11 @@ export const popEntitiesStatus = (state: Object, entities: Array<Object>) =>
  * @param {string} entityKey - (options) entity key
  * @return {boolean} - A boolean value
  */
-export const hasFeed = (state: Object, key: string, entityKey?: string): boolean => {
+export const hasFeed = (
+  state: Object,
+  key: string,
+  entityKey?: string,
+): boolean => {
   const items = get(state, `feed.${key}.items`, [])
   const hasItems = Boolean(items.length)
 
@@ -161,7 +179,11 @@ export const hasFeed = (state: Object, key: string, entityKey?: string): boolean
  * @param {string} feedKey
  * @param {string} entityKey
  */
-export const getFeed = (state: Object, feedKey: string, entityKey: ?string): Object => {
+export const getFeed = (
+  state: Object,
+  feedKey: string,
+  entityKey: ?string,
+): Object => {
   const feed = get(state, `feed.${feedKey}`, { items: [] })
 
   if (!entityKey) {
@@ -179,7 +201,11 @@ export const getFeed = (state: Object, feedKey: string, entityKey: ?string): Obj
  * Given a store state and an entity id, the func returns one of the four
  * states of the given entity
  */
-export const getEntityStatus = (state: Object, entity: string, id: number): string => {
+export const getEntityStatus = (
+  state: Object,
+  entity: string,
+  id: number,
+): string => {
   const instance = getEntity(state, entity, id)
 
   return instance ? instance.__status__ : ENTITY_STATUS_UNATTEMPTED
@@ -208,9 +234,23 @@ export const hasPropChanged = (
  * @param {*} query
  */
 export const parseQueryString = (query: string): Object =>
-  fromPairs(query
-    .substring(1)
-    .split('&')
-    .map(s => s.split('=').map(decodeURIComponent)))
+  fromPairs(
+    query
+      .substring(1)
+      .split('&')
+      .map(s => s.split('=').map(decodeURIComponent)),
+  )
 
-export const getPathname = (state: Object): string => get(state, 'routing.location.pathname', '')
+export const getPathname = (state: Object): string =>
+  get(state, 'routing.location.pathname', '')
+
+export function parseLocation(location) {
+  const splited = split(location, '/', 3)
+  console.log('splited: ', splited)
+  const [f = '', s = '', third = 'home'] = splited
+  return third
+}
+
+export function checkError(error) {
+  return includes(error, 'violates foreign')
+}

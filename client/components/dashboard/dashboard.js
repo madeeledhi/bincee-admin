@@ -7,14 +7,20 @@ import size from 'lodash/fp/size'
 
 //  src
 import DashboardInner from './DashboardInner'
-import { hasPropChanged } from '../../utils'
+import { hasPropChanged, parseLocation } from '../../utils'
 import { loadUser, logOut, loadUserDetails } from '../../actions'
 
 class Dashboard extends Component {
   constructor(props) {
     super(props)
-    const { user = {}, userDetails = {} } = props
-    this.state = { isLoading: true, user, userDetails, selectedIndex: 0 }
+    const { user = {}, userDetails = {}, location = {} } = props
+    const { pathname = '' } = location
+    this.state = {
+      isLoading: true,
+      user,
+      userDetails,
+      activePath: parseLocation(pathname),
+    }
   }
 
   componentDidMount() {
@@ -42,6 +48,12 @@ class Dashboard extends Component {
         this.setState(() => ({ userDetails, isLoading: false }))
       }
     }
+    if (hasPropChanged('location', this.props, nextProps)) {
+      const { location } = nextProps
+      const { pathname } = location
+      const activePath = parseLocation(pathname)
+      this.setState(() => ({ activePath }))
+    }
   }
 
   handleSignOut = () => {
@@ -49,23 +61,20 @@ class Dashboard extends Component {
     dispatch(logOut())
   }
 
-  handleRouteChange = (route, index) => {
+  handleRouteChange = route => {
     const { dispatch } = this.props
     dispatch(push(route))
-    if (index) {
-      this.setState({ selectedIndex: index })
-    }
   }
 
   render() {
     const { match, authenticated, error } = this.props
-    const { isLoading, user, userDetails, selectedIndex } = this.state
+    const { isLoading, user, userDetails, activePath } = this.state
     const path = getOr('/dashboard', 'path')(match)
     console.log(
       'dashboard: {authenticated} {isLoading}, {path} ',
       authenticated,
       isLoading,
-      path,
+      activePath,
     )
     //TODO: Destructure variables before use ;-)
     return (
@@ -78,7 +87,7 @@ class Dashboard extends Component {
         isLoading={isLoading}
         authenticated={authenticated}
         onRouteChange={this.handleRouteChange}
-        selectedIndex={selectedIndex}
+        activePath={activePath}
       />
     )
   }
