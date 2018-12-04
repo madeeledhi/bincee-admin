@@ -10,6 +10,7 @@ import { NotificationSystemConnector } from './components'
 import Dashboard from './components/Dashboard'
 import Login from './components/Login'
 import theme from '../config/theme'
+import * as styles from './app.less'
 
 // Add appropriate types check for store, routerProps and Router
 type Props = {
@@ -25,7 +26,7 @@ const App = (props: Props) => {
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
         <Router {...routerProps}>
-          <div>
+          <div className={styles.root}>
             <NotificationSystemConnector />
             <Switch>
               <Route exact path="/" component={Login} />
