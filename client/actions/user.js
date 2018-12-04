@@ -56,3 +56,13 @@ export const clearState = () => {
     return {}
   }
 }
+
+export const clearDetailsState = () => {
+  try {
+    localStorage.removeItem('userDetails')
+    return {}
+  } catch (err) {
+    //write error
+    return {}
+  }
+}
