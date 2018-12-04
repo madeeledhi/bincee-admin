@@ -31,7 +31,7 @@ export const createStudent = ({
   token,
 }) => ({
   [CALL_API]: {
-    types: [CREATE_STUDENT, CREATE_STUDENT_FAILURE, CREATE_STUDENT_SUCCESS],
+    types: [CREATE_STUDENT, CREATE_STUDENT_SUCCESS, CREATE_STUDENT_FAILURE],
     endpoint: 'https://bincee-server.herokuapp.com/api/school/student/create',
     method: 'POST',
     token,

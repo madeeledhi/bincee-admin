@@ -34,7 +34,7 @@ export const createParent = ({
   token,
 }) => ({
   [CALL_API]: {
-    types: [CREATE_PARENT, CREATE_PARENT_FAILURE, CREATE_PARENT_SUCCESS],
+    types: [CREATE_PARENT, CREATE_PARENT_SUCCESS, CREATE_PARENT_FAILURE],
     endpoint: 'https://bincee-server.herokuapp.com/api/school/parent/create',
     method: 'POST',
     token,

@@ -30,7 +30,7 @@ export const createDriver = ({
   token,
 }) => ({
   [CALL_API]: {
-    types: [CREATE_DRIVER, CREATE_DRIVER_FAILURE, CREATE_DRIVER_SUCCESS],
+    types: [CREATE_DRIVER, CREATE_DRIVER_SUCCESS, CREATE_DRIVER_FAILURE],
     endpoint: 'https://bincee-server.herokuapp.com/api/school/driver/create',
     method: 'POST',
     token,
