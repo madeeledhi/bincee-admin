@@ -8,10 +8,15 @@ export default (state = {}, action) => {
   switch (type) {
     case ActionTypes.LOAD_USER_DETAILS_SUCCESS: {
       const { data } = payload
+      ActionTypes.saveDetailstate(data)
       return { ...data }
     }
     case ActionTypes.LOAD_USER_DETAILS_FAILURE: {
       return initialState
+    }
+    case ActionTypes.LOAD_SAVED_DETAILS: {
+      const { data } = payload
+      return { ...data }
     }
     case ActionTypes.USER_LOGOUT: {
       return initialState

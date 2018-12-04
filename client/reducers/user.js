@@ -16,6 +16,7 @@ export default (state = {}, action) => {
     }
     case ActionTypes.USER_LOGOUT: {
       ActionTypes.clearState()
+      ActionTypes.clearDetailsState()
       return initialState
     }
     case ActionTypes.LOAD_USER: {
