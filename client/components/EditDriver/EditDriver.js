@@ -7,51 +7,51 @@ import getOr from 'lodash/fp/getOr'
 
 //src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
-import styles from './EditGrades.less'
-import { createGrade, editGrade, loadSingleGrade } from '../../actions'
+import styles from './EditDriver.less'
+import { loadSingleDriver, updateDriver } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { Button } from '@material-ui/core'
 
-class EditGrades extends React.Component {
+class EditDriver extends React.Component {
   componentDidMount() {
     const { user, dispatch, match, initialize } = this.props
     const { token } = user
     const id = getOr('', 'params.id')(match)
 
-    dispatch(loadSingleGrade({ id, token })).then(({ payload }) => {
-      const { status, data } = payload
-      const { grade_name, section, grade_section } = data
-      const config = { grade_name, section, grade_section }
+    dispatch(loadSingleDriver({ id, token })).then(({ payload }) => {
+      const { data } = payload
+      const { username, password, fullname, phone_no, status, photo } = data
+      const config = { username, password, fullname, phone_no, status, photo }
       initialize(config)
     })
   }
 
-  updateGrade = () => {
+  updateDriver = () => {
     const { dispatch, formValues, user, match } = this.props
     const { token } = user
     const id = getOr('', 'params.id')(match)
-    const { grade_name, section, grade_section } = formValues
+    const { fullname, phone_no, status, photo } = formValues
     this.setState(() => ({ isLoading: true }))
-    dispatch(editGrade({ id, grade_name, section, grade_section, token })).then(
-      ({ payload }) => {
-        dispatch(push('/dashboard/grades'))
-      },
-    )
+    dispatch(
+      updateDriver({ id, fullname, phone_no, status, photo, token }),
+    ).then(({ payload }) => {
+      dispatch(push('/dashboard/driver'))
+    })
   }
   handleCancel = () => {
     const { dispatch } = this.props
-    dispatch(push('/dashboard/grades'))
+    dispatch(push('/dashboard/driver'))
   }
   render() {
     return (
       <div className={styles.root}>
         <div className={styles.row}>
           <Field
-            id="gradeName"
-            name="grade_name"
+            id="fullname"
+            name="fullname"
             component={renderTextField}
-            label="Grade Name"
+            label="Fullname"
             disabled={false}
             variant="outlined"
             className={styles.item}
@@ -59,22 +59,32 @@ class EditGrades extends React.Component {
         </div>
         <div className={styles.row}>
           <Field
-            id="section"
-            name="section"
+            id="phone_no"
+            name="phone_no"
             component={renderTextField}
-            label="Section"
+            label="Phone No"
             disabled={false}
             variant="outlined"
             className={styles.item}
           />
         </div>
-
         <div className={styles.row}>
           <Field
-            id="gradeSection"
-            name="grade_section"
+            id="status"
+            name="status"
             component={renderTextField}
-            label="gradeSection"
+            label="Status"
+            disabled={false}
+            variant="outlined"
+            className={styles.item}
+          />
+        </div>
+        <div className={styles.row}>
+          <Field
+            id="photo"
+            name="photo"
+            component={renderTextField}
+            label="Photo Url"
             disabled={false}
             variant="outlined"
             className={styles.item}
@@ -83,11 +93,11 @@ class EditGrades extends React.Component {
         <div className={styles.row}>
           <div className={styles.item}>
             <Button
-              onClick={this.updateGrade}
+              onClick={this.createDriver}
               color="primary"
               variant="contained"
             >
-              Update
+              Create
             </Button>
             <Button
               onClick={this.handleCancel}
@@ -104,16 +114,19 @@ class EditGrades extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => {
   const user = getOr({}, 'user')(state)
-  return { formValues: getFormValues('editgrades')(state), user }
+  return { formValues: getFormValues('editDriver')(state), user }
 }
 export default connect(mapStateToProps)(
   reduxForm({
-    form: 'editgrades',
+    form: 'editDriver',
     enableReinitialize: true,
     initialValues: {
-      grade_name: '',
-      section: '',
-      grade_section: '',
+      username: '',
+      password: '',
+      fullname: '',
+      phone_no: '',
+      status: '',
+      photo: '',
     },
-  })(EditGrades),
+  })(EditDriver),
 )

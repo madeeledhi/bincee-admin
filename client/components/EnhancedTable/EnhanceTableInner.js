@@ -46,6 +46,7 @@ const EnhancedTableInner = props => {
     onDeleteRow,
     onRowClick,
     onCreateRow,
+    onDeleteMutipleRows,
     hasButtons = true,
   } = props
 
@@ -53,8 +54,10 @@ const EnhancedTableInner = props => {
     <Paper className={styles.root}>
       <EnhancedTableToolbar
         numSelected={selected.length}
+        selectedArray={selected}
         tableName={'Grades and Sections'}
         onCreateRow={onCreateRow}
+        onDeleteMutipleRows={onDeleteMutipleRows}
       />
       <div className={styles.tableWrapper}>
         <Table className={styles.table} aria-labelledby="tableTitle">

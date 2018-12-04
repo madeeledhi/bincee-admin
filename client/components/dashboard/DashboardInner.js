@@ -13,6 +13,8 @@ import LoadingView from '../LoadingView'
 import styles from './Dashboard.less'
 import CreateGrades from '../CreateGrades'
 import EditGrades from '../EditGrades'
+import CreateDriver from '../CreateDriver'
+import EditDriver from '../EditDriver/EditDriver'
 // TODO: create components for other routes
 /*
  * Remaining routes
@@ -75,18 +77,29 @@ const DashboardInner = ({
                 user={user}
               />
               <Route
-                path={`${path}/create/grades`}
+                path={`${path}/grades/create`}
                 exact
                 component={CreateGrades}
                 user={user}
               />
               <Route
-                path={`${path}/edit/grades/:id`}
+                path={`${path}/driver/create`}
+                exact
+                component={CreateDriver}
+                user={user}
+              />
+              <Route
+                path={`${path}/grades/edit/:id`}
                 exact
                 component={EditGrades}
                 user={user}
               />
-
+              <Route
+                path={`${path}/driver/edit/:id`}
+                exact
+                component={EditDriver}
+                user={user}
+              />
               <Redirect to="/dashboard" />
             </Switch>
           </div>

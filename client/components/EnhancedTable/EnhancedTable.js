@@ -1,5 +1,6 @@
 import React from 'react'
 import size from 'lodash/fp/size'
+import map from 'lodash/fp/map'
 
 //src
 import EnhancedTableInner from './EnhanceTableInner'
@@ -82,6 +83,10 @@ class EnhancedTable extends React.Component {
   handleChangeRowsPerPage = event => {
     this.setState({ rowsPerPage: event.target.value })
   }
+  handleDeleteMutipleRows = (event, selectedArray) => {
+    const { handleDeleteRow } = this.props
+    map(id => handleDeleteRow(event, id))(selectedArray)
+  }
 
   isSelected = id => this.state.selected.indexOf(id) !== -1
 
@@ -101,6 +106,7 @@ class EnhancedTable extends React.Component {
       handleRowClick,
       handleCreateRow,
       hasButtons,
+      handleDeleteMutipleRows,
     } = this.props
 
     return (

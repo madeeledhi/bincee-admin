@@ -22,7 +22,13 @@ import { lighten } from '@material-ui/core/styles/colorManipulator'
 import styles from './EnhancedTableToolbar.less'
 
 const EnhancedTableToolbar = props => {
-  const { numSelected, tableName, onCreateRow } = props
+  const {
+    numSelected,
+    tableName,
+    onCreateRow,
+    selectedArray,
+    onDeleteMutipleRows,
+  } = props
 
   return (
     <Toolbar className={styles.root}>
@@ -41,7 +47,10 @@ const EnhancedTableToolbar = props => {
       <div className={styles.actions}>
         {numSelected > 0 ? (
           <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
+            <IconButton
+              aria-label="Delete"
+              onClick={event => onDeleteMutipleRows(event, selectedArray)}
+            >
               <Icon> delete</Icon>
             </IconButton>
           </Tooltip>

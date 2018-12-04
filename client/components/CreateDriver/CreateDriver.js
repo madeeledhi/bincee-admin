@@ -7,23 +7,31 @@ import getOr from 'lodash/fp/getOr'
 
 //src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
-import styles from './CreateGrades.less'
-import { createGrade, editGrade } from '../../actions'
+import styles from './CreateDriver.less'
+import { createDriver } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { Button } from '@material-ui/core'
 
-class CreateGrades extends React.Component {
-  createGrade = () => {
+class CreateDriver extends React.Component {
+  createDriver = () => {
     const { dispatch, formValues, user } = this.props
     const { token } = user
-    const { grade_name, section, grade_section } = formValues
+    const { username, password, fullname, phone_no, status, photo } = formValues
     this.setState(() => ({ isLoading: true }))
-    dispatch(createGrade({ grade_name, section, grade_section, token })).then(
-      ({ payload }) => {
-        dispatch(push('/dashboard/grades'))
-      },
-    )
+    dispatch(
+      createDriver({
+        username,
+        password,
+        fullname,
+        phone_no,
+        status,
+        photo,
+        token,
+      }),
+    ).then(({ payload }) => {
+      dispatch(push('/dashboard/grades'))
+    })
   }
   handleCancel = () => {
     const { dispatch } = this.props
@@ -35,10 +43,10 @@ class CreateGrades extends React.Component {
       <div className={styles.root}>
         <div className={styles.row}>
           <Field
-            id="gradeName"
-            name="grade_name"
+            id="username"
+            name="username"
             component={renderTextField}
-            label="Grade Name"
+            label="UserName"
             disabled={false}
             variant="outlined"
             className={styles.item}
@@ -46,10 +54,10 @@ class CreateGrades extends React.Component {
         </div>
         <div className={styles.row}>
           <Field
-            id="section"
-            name="section"
+            id="password"
+            name="password"
             component={renderTextField}
-            label="Section"
+            label="Password"
             disabled={false}
             variant="outlined"
             className={styles.item}
@@ -58,10 +66,43 @@ class CreateGrades extends React.Component {
 
         <div className={styles.row}>
           <Field
-            id="gradeSection"
-            name="grade_section"
+            id="fullname"
+            name="fullname"
             component={renderTextField}
-            label="gradeSection"
+            label="Fullname"
+            disabled={false}
+            variant="outlined"
+            className={styles.item}
+          />
+        </div>
+        <div className={styles.row}>
+          <Field
+            id="phone_no"
+            name="phone_no"
+            component={renderTextField}
+            label="Phone No"
+            disabled={false}
+            variant="outlined"
+            className={styles.item}
+          />
+        </div>
+        <div className={styles.row}>
+          <Field
+            id="status"
+            name="status"
+            component={renderTextField}
+            label="Status"
+            disabled={false}
+            variant="outlined"
+            className={styles.item}
+          />
+        </div>
+        <div className={styles.row}>
+          <Field
+            id="photo"
+            name="photo"
+            component={renderTextField}
+            label="Photo Url"
             disabled={false}
             variant="outlined"
             className={styles.item}
@@ -70,7 +111,7 @@ class CreateGrades extends React.Component {
         <div className={styles.row}>
           <div className={styles.item}>
             <Button
-              onClick={this.createGrade}
+              onClick={this.createDriver}
               color="primary"
               variant="contained"
             >
@@ -91,16 +132,19 @@ class CreateGrades extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => {
   const user = getOr({}, 'user')(state)
-  return { formValues: getFormValues('grades')(state), user }
+  return { formValues: getFormValues('createDriver')(state), user }
 }
 export default connect(mapStateToProps)(
   reduxForm({
-    form: 'grades',
+    form: 'createDriver',
     enableReinitialize: true,
     initialValues: {
-      grade_name: '',
-      section: '',
-      grade_section: '',
+      username: '',
+      password: '',
+      fullname: '',
+      phone_no: '',
+      status: '',
+      photo: '',
     },
-  })(CreateGrades),
+  })(CreateDriver),
 )

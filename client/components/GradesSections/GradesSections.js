@@ -3,6 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
+import map from 'lodash/fp/map'
 import { push } from 'react-router-redux'
 
 // src
@@ -52,11 +53,17 @@ class GradesSections extends React.Component {
   }
   handleCreateGrade = () => {
     const { dispatch } = this.props
-    dispatch(push('/dashboard/create/grades'))
+    dispatch(push('/dashboard/grades/create'))
   }
   handleUpdateGrade = (event, id) => {
     const { dispatch } = this.props
-    dispatch(push(`/dashboard/edit/grades/${id}`))
+    dispatch(push(`/dashboard/grades/edit/${id}`))
+  }
+  handleDeleteMutipleGrades = selectedArray => {
+    const { dispatch, user } = this.props
+    const { token } = user
+    map(id => dispatch(deleteGrade({ id, token })))(selectedArray)
+    dispatch(loadGrades({ token }))
   }
 
   render() {
@@ -73,8 +80,8 @@ class GradesSections extends React.Component {
         rows={rows}
         data={data}
         onDeleteGrade={this.handleDeleteGrade}
-        handleCreateGrade={this.handleCreateGrade}
-        handleUpdateGrade={this.handleUpdateGrade}
+        onCreateGrade={this.handleCreateGrade}
+        onUpdateGrade={this.handleUpdateGrade}
       />
     )
   }

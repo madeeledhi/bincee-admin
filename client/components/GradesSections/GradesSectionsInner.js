@@ -13,8 +13,8 @@ const GradesSectionsInner = ({
   rows,
   data,
   onDeleteGrade,
-  handleCreateGrade,
-  handleUpdateGrade,
+  onCreateGrade,
+  onUpdateGrade,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -24,8 +24,8 @@ const GradesSectionsInner = ({
           data={data}
           error={error}
           handleDeleteRow={onDeleteGrade}
-          handleCreateRow={handleCreateGrade}
-          handleEditRow={handleUpdateGrade}
+          handleCreateRow={onCreateGrade}
+          handleEditRow={onUpdateGrade}
         />
       </div>
     </When>
