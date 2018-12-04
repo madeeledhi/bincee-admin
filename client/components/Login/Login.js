@@ -4,6 +4,7 @@ import { Field, getFormValues, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // src
 import { RenderTextField } from '../shared/form-fields'
@@ -11,7 +12,8 @@ import { LoginButton } from '../shared/buttons/loginButton'
 import styles from './Login.less'
 import { login, loadUser, logOut } from '../../actions'
 import { hasPropChanged } from '../../utils'
-import LoadingView from '../LoadingView'
+import { isEmptyOrNil } from '../../utils/formValidation'
+
 
 class Login extends React.Component {
   constructor(props) {
@@ -69,7 +71,8 @@ class Login extends React.Component {
             name="username"
             component={RenderTextField}
             label="Username"
-            disabled={false}
+            disabled={isLoading}
+            validate={isEmptyOrNil}
           />
           <Field
             id="password"
@@ -77,9 +80,10 @@ class Login extends React.Component {
             component={RenderTextField}
             type="password"
             label="Password"
-            disabled={false}
+            disabled={isLoading}
+            validate={isEmptyOrNil}
           />
-          <LoginButton label="Login" onClick={this.handleClick} />
+          <LoginButton label="Login" onClick={this.handleClick} disabled={isLoading} />
         </div>
         <If condition={isLoading}>
           {
@@ -91,10 +95,11 @@ class Login extends React.Component {
             //TODO: Add form validator for empty fields and show errors on text fields border
             //TODO: Added a file in shared folder with material fields that can help you with this
           }
-          <LoadingView message={'logging In'} />
+          <CircularProgress classes={{root: styles.circularLogin}} size={20} />
+          <h4 className={styles.loadingText}>Logging you in</h4>
         </If>
         <If condition={error}>
-          <h4 className={styles.errorMessage}>Invalid username or Password</h4>
+          <h4 className= {styles.errorMessage }>Invalid Username or Password</h4>
         </If>
       </div>
     )
