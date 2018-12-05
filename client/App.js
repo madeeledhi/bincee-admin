@@ -32,7 +32,7 @@ const App = (props: Props) => {
               <Route exact path="/" component={Login} />
               <Route path="/dashboard" component={Dashboard} />
               {/* <Route component={() => <div>404</div>} /> */}
-              <Redirect to="/" />
+              <Redirect to="/dashboard" />
             </Switch>
           </div>
         </Router>

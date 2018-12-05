@@ -70,7 +70,7 @@ class Header extends React.Component {
             open={open}
             onClose={this.handleClose}
           >
-            <MenuItem onClick={() => onRouteChange('/profile')}>
+            <MenuItem onClick={() => onRouteChange('/dashboard/profile')}>
               Profile
             </MenuItem>
             <MenuItem onClick={onClickSignout}>Logout</MenuItem>

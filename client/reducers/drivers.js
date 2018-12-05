@@ -39,8 +39,8 @@ export default (state = initialState, action) => {
     }
     case ActionTypes.LOAD_SINGLE_DRIVER_SUCCESS: {
       const { data } = payload
-      const { id } = data
-      return { ...state, [id]: data, message: '' }
+      const { driver_id } = data
+      return { ...state, [driver_id]: data, message: '' }
     }
     case ActionTypes.LOAD_SINGLE_DRIVER_FAILURE: {
       return { ...state, message: 'Cannot find Driver' }

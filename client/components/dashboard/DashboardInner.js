@@ -40,7 +40,6 @@ const DashboardInner = ({
   path,
   onRouteChange,
   isLoading,
-  selectedIndex,
   activePath,
 }) => (
   <div className={styles.root}>
@@ -126,6 +125,12 @@ const DashboardInner = ({
                 path={`${path}/announcements`}
                 exact
                 component={Announcements}
+                user={user}
+              />
+              <Route
+                path={`${path}/profile`}
+                exact
+                component={() => <div>I am Profile</div>}
                 user={user}
               />
               <Redirect to="/dashboard" />

@@ -33,8 +33,8 @@ export default (state = initialState, action) => {
     }
     case ActionTypes.LOAD_SINGLE_SHIFT_SUCCESS: {
       const { data } = payload
-      const { id } = data
-      return { ...state, [id]: data, message: '' }
+      const { shift_id } = data
+      return { ...state, [shift_id]: data, message: '' }
     }
     case ActionTypes.LOAD_SINGLE_SHIFT_FAILURE: {
       return { ...state, message: 'Cannot find Shift' }

@@ -39,8 +39,8 @@ export default (state = initialState, action) => {
     }
     case ActionTypes.LOAD_SINGLE_PARENT_SUCCESS: {
       const { data } = payload
-      const { id } = data
-      return { ...state, [id]: data, message: '' }
+      const { parent_id } = data
+      return { ...state, [parent_id]: data, message: '' }
     }
     case ActionTypes.LOAD_SINGLE_PARENT_FAILURE: {
       return { ...state, message: 'Cannot find Parent' }
