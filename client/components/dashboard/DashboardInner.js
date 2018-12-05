@@ -15,6 +15,10 @@ import CreateGrades from '../CreateGrades'
 import EditGrades from '../EditGrades'
 import CreateDriver from '../CreateDriver'
 import EditDriver from '../EditDriver/EditDriver'
+import Announcements from '../Announcements'
+import ShiftsAndTimings from '../ShiftsAndTimings'
+import Busses from '../Busses'
+import Drivers from '../Drivers'
 // TODO: create components for other routes
 /*
  * Remaining routes
@@ -83,6 +87,12 @@ const DashboardInner = ({
                 user={user}
               />
               <Route
+                path={`${path}/drivers`}
+                exact
+                component={Drivers}
+                user={user}
+              />
+              <Route
                 path={`${path}/driver/create`}
                 exact
                 component={CreateDriver}
@@ -98,6 +108,24 @@ const DashboardInner = ({
                 path={`${path}/driver/edit/:id`}
                 exact
                 component={EditDriver}
+                user={user}
+              />
+              <Route
+                path={`${path}/bus`}
+                exact
+                component={Busses}
+                user={user}
+              />
+              <Route
+                path={`${path}/shifts`}
+                exact
+                component={ShiftsAndTimings}
+                user={user}
+              />
+              <Route
+                path={`${path}/announcements`}
+                exact
+                component={Announcements}
                 user={user}
               />
               <Redirect to="/dashboard" />

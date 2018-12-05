@@ -34,7 +34,7 @@ const NavigationBar = props => {
           className={styles.navItem}
           button
           selected={activePath === 'shifts'}
-          onClick={() => onRouteChange('/dashboard')}
+          onClick={() => onRouteChange('/dashboard/shifts')}
         >
           <ListItemText primary={'Shift and Timings'} />
         </ListItem>
@@ -50,7 +50,7 @@ const NavigationBar = props => {
           className={styles.navItem}
           button
           selected={activePath === 'drivers'}
-          onClick={() => onRouteChange('/dashboard/student')}
+          onClick={() => onRouteChange('/dashboard/drivers')}
         >
           <ListItemText primary={'Driver Profiles'} />
         </ListItem>
@@ -58,7 +58,7 @@ const NavigationBar = props => {
           className={styles.navItem}
           button
           selected={activePath === 'bus'}
-          onClick={() => onRouteChange('/dashboard/student')}
+          onClick={() => onRouteChange('/dashboard/bus')}
         >
           <ListItemText primary={'Bus Profiles'} />
         </ListItem>
@@ -66,7 +66,7 @@ const NavigationBar = props => {
           className={styles.navItem}
           button
           selected={activePath === 'announcements'}
-          onClick={() => onRouteChange('/dashboard/student')}
+          onClick={() => onRouteChange('/dashboard/announcements')}
         >
           <ListItemText primary={'School Announcements'} />
         </ListItem>
