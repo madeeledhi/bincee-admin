@@ -4,9 +4,10 @@ export const LoginButton = ({ label, style, onClick, disabled }) => {
   return (
     <div
       style={style}
-      className={`${styles.postion} ${styles.buttonClass} ${disabled? styles.disable : ''}`}
-      onClick={onClick}
-      disabled={disabled ? onClick : ''}
+      className={`${styles.postion} ${styles.buttonClass} ${
+        disabled ? styles.disable : ''
+      }`}
+      onClick={disabled ? {} : onClick}
     >
       <div className={styles.loginText}>{label}</div>
     </div>

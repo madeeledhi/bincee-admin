@@ -22,6 +22,8 @@ import { isEmptyOrNil } from '../../utils/formValidation'
 class Login extends React.Component {
   constructor(props) {
     super(props)
+
+    this.field = React.createRef()
     this.state = {
       isLoading: false,
       user: { username: '', type: '' },
@@ -83,7 +85,7 @@ class Login extends React.Component {
           <div className={styles.binceeCardLogo} />
           <h4 className={styles.signInText}>SIGN IN</h4>
 
-          <div className={styles.loginFields}>
+          <form className={styles.loginFields}>
             <Field
               id="username"
               name="username"
@@ -142,7 +144,7 @@ class Login extends React.Component {
                 By signing in you agree with our Terms & Conditions
               </p>
             </div>
-          </div>
+          </form>
           {
             //TODO: Fix this page properly
             //TODO: Set the background Use the image with grey background
@@ -170,7 +172,6 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps)(
   reduxForm({
     form: 'login',
-    enableReinitialize: true,
     validate: isEmptyOrNil,
     initialValues: {
       username: '',
