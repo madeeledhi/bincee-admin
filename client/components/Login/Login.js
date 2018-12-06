@@ -1,14 +1,15 @@
 // libs
 import React from 'react'
-import { Field, getFormValues, reduxForm } from 'redux-form'
+import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
+import size from 'lodash/fp/size'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import CheckBoxOutlineBlankIcon from '@material-ui/core/SvgIcon'
-import CheckBoxIcon from "@material-ui/core/SvgIcon"
+import CheckBoxIcon from '@material-ui/core/SvgIcon'
 
 // src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
@@ -18,7 +19,6 @@ import { login, loadUser, logOut } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import { isEmptyOrNil } from '../../utils/formValidation'
 
-
 class Login extends React.Component {
   constructor(props) {
     super(props)
@@ -26,6 +26,7 @@ class Login extends React.Component {
       isLoading: false,
       user: { username: '', type: '' },
       error: false,
+      disabled: false,
     }
   }
 
@@ -47,12 +48,20 @@ class Login extends React.Component {
         dispatch(push('/dashboard'))
       }
     }
+    if (hasPropChanged('formValues', this.props, nextProps)) {
+      const { validationErrors } = nextProps
+      if (size(validationErrors) > 0) {
+        this.setState(() => ({ disabled: true }))
+      } else {
+        this.setState(() => ({ disabled: false }))
+      }
+    }
   }
 
   handleClick = () => {
     const { dispatch, formValues } = this.props
     const { username, password } = formValues
-    this.setState(() => ({ isLoading: true }))
+    this.setState(() => ({ isLoading: true, error: false }))
     dispatch(login({ username, password })).then(({ payload }) => {
       const { status, data } = payload
       const { type } = data
@@ -66,24 +75,23 @@ class Login extends React.Component {
   }
 
   render() {
-    const { user, isLoading, error } = this.state
+    const { user, isLoading, error, disabled } = this.state
     return (
       <div className={styles.header}>
-        <div className={styles.mainLogo}></div>
+        <div className={styles.mainLogo} />
         <div className={styles.card}>
-          <div className={styles.binceeCardLogo}></div>
+          <div className={styles.binceeCardLogo} />
           <h4 className={styles.signInText}>SIGN IN</h4>
-          <If condition={error}>
-            <h4 className={styles.errorMessage}>Invalid Username or Password</h4>
-          </If>
+
           <div className={styles.loginFields}>
             <Field
-              id="userName"
+              id="username"
               name="username"
               component={renderTextField}
               label="Username"
               disabled={isLoading}
-              validate={isEmptyOrNil}
+              variant="outlined"
+              margin="dense"
             />
             <Field
               id="password"
@@ -92,7 +100,8 @@ class Login extends React.Component {
               type="password"
               label="Password"
               disabled={isLoading}
-              validate={isEmptyOrNil}
+              variant="outlined"
+              margin="dense"
             />
             <FormControlLabel
               control={
@@ -107,17 +116,31 @@ class Login extends React.Component {
               label="Remember Me"
             />
             <a className={styles.forgetPass}>Forget Password?</a>
-            <If condition={isLoading}>
+            {isLoading && (
               <div className={styles.center}>
-                <CircularProgress classes={{ root: styles.circularLogin }} size={20} />
+                <CircularProgress
+                  classes={{ root: styles.circularLogin }}
+                  size={20}
+                />
                 <h4 className={styles.loadingText}>Logging you in</h4>
               </div>
-            </If>
-            <LoginButton label="Login" onClick={this.handleClick} disabled={isLoading} />
+            )}
+            {error && (
+              <h4 className={styles.errorMessage}>
+                {'Invalid Username or Password'}
+              </h4>
+            )}
+            <LoginButton
+              label="Login"
+              onClick={this.handleClick}
+              disabled={isLoading || disabled}
+            />
             <div>
               <p className={styles.memberText}>Not a member yet?</p>
               <p className={styles.signUpText}>Sign Up here</p>
-              <p className={styles.termsAndConditionsText}>By signing in you agree with our Terms & Conditions</p>
+              <p className={styles.termsAndConditionsText}>
+                By signing in you agree with our Terms & Conditions
+              </p>
             </div>
           </div>
           {
@@ -129,8 +152,6 @@ class Login extends React.Component {
             //TODO: Add form validator for empty fields and show errors on text fields border
             //TODO: Added a file in shared folder with material fields that can help you with this
           }
-
-          
         </div>
       </div>
     )
@@ -139,13 +160,18 @@ class Login extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const user = getOr({}, 'user')(state)
-  return { formValues: getFormValues('login')(state), user }
+  return {
+    formValues: getFormValues('login')(state),
+    validationErrors: getFormSyncErrors('login')(state),
+    user,
+  }
 }
 
 export default connect(mapStateToProps)(
   reduxForm({
     form: 'login',
     enableReinitialize: true,
+    validate: isEmptyOrNil,
     initialValues: {
       username: '',
       password: '',

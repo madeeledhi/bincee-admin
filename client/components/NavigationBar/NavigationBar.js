@@ -15,60 +15,95 @@ const NavigationBar = props => {
     <div>
       <List>
         <ListItem
-          className={styles.navItem}
+          className={`${styles.navItem} ${
+            activePath === 'home' ? styles.active : ''
+          }`}
           button
           selected={activePath === 'home'}
           onClick={() => onRouteChange('/dashboard')}
         >
-          <ListItemText primary={'Home'} />
+          <ListItemText
+            classes={{ primary: styles.activeText }}
+            primary={'Home'}
+          />
         </ListItem>
         <ListItem
-          className={styles.navItem}
+          className={`${styles.navItem} ${
+            activePath === 'grades' ? styles.active : ''
+          }`}
           button
           selected={activePath === 'grades'}
           onClick={() => onRouteChange('/dashboard/grades')}
         >
-          <ListItemText primary={'Grades and Sections'} />
+          <ListItemText
+            classes={{ primary: styles.activeText }}
+            primary={'Grades and Sections'}
+          />
         </ListItem>
         <ListItem
-          className={styles.navItem}
+          className={`${styles.navItem} ${
+            activePath === 'shifts' ? styles.active : ''
+          }`}
           button
           selected={activePath === 'shifts'}
           onClick={() => onRouteChange('/dashboard/shifts')}
         >
-          <ListItemText primary={'Shift and Timings'} />
+          <ListItemText
+            classes={{ primary: styles.activeText }}
+            primary={'Shift and Timings'}
+          />
         </ListItem>
         <ListItem
-          className={styles.navItem}
+          className={`${styles.navItem} ${
+            activePath === 'students' ? styles.active : ''
+          }`}
           button
           selected={activePath === 'students'}
           onClick={() => onRouteChange('/dashboard/students')}
         >
-          <ListItemText primary={'Student Profiles'} />
+          <ListItemText
+            classes={{ primary: styles.activeText }}
+            primary={'Student Profiles'}
+          />
         </ListItem>
         <ListItem
-          className={styles.navItem}
+          className={`${styles.navItem} ${
+            activePath === 'drivers' ? styles.active : ''
+          }`}
           button
           selected={activePath === 'drivers'}
           onClick={() => onRouteChange('/dashboard/drivers')}
         >
-          <ListItemText primary={'Driver Profiles'} />
+          <ListItemText
+            classes={{ primary: styles.activeText }}
+            primary={'Driver Profiles'}
+          />
         </ListItem>
         <ListItem
-          className={styles.navItem}
+          className={`${styles.navItem} ${
+            activePath === 'bus' ? styles.active : ''
+          }`}
           button
           selected={activePath === 'bus'}
           onClick={() => onRouteChange('/dashboard/bus')}
         >
-          <ListItemText primary={'Bus Profiles'} />
+          <ListItemText
+            classes={{ primary: styles.activeText }}
+            primary={'Bus Profiles'}
+          />
         </ListItem>
         <ListItem
-          className={styles.navItem}
+          className={`${styles.navItem} ${
+            activePath === 'announcements' ? styles.active : ''
+          }`}
           button
           selected={activePath === 'announcements'}
           onClick={() => onRouteChange('/dashboard/announcements')}
         >
-          <ListItemText primary={'School Announcements'} />
+          <ListItemText
+            classes={{ primary: styles.activeText }}
+            primary={'School Announcements'}
+          />
         </ListItem>
       </List>
     </div>
