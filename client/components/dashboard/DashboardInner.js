@@ -92,7 +92,7 @@ const DashboardInner = ({
                 user={user}
               />
               <Route
-                path={`${path}/driver/create`}
+                path={`${path}/drivers/create`}
                 exact
                 component={CreateDriver}
                 user={user}
@@ -104,7 +104,7 @@ const DashboardInner = ({
                 user={user}
               />
               <Route
-                path={`${path}/driver/edit/:id`}
+                path={`${path}/drivers/edit/:id`}
                 exact
                 component={EditDriver}
                 user={user}

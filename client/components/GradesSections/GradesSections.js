@@ -70,7 +70,6 @@ class GradesSections extends React.Component {
     const { error, isLoading } = this.state
     const { grades } = this.props
     // TODO: Change the names in enhanced Tables
-    // TODO: Fix Enhanced Table inner, there is problem with it
     const { columns: rows, rows: data } = grades
 
     return (
