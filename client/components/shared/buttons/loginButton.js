@@ -7,7 +7,7 @@ export const LoginButton = ({ label, style, onClick, disabled }) => {
       className={`${styles.postion} ${styles.buttonClass} ${
         disabled ? styles.disable : ''
       }`}
-      onClick={disabled ? {} : onClick}
+      onClick={disabled ? () => {} : onClick}
     >
       <div className={styles.loginText}>{label}</div>
     </div>
