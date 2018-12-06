@@ -19,7 +19,7 @@ function getColumns(drivers) {
         {
           id: key,
           numeric: typeof current === 'number',
-          disablePadding: key === 'fullname',
+          disablePadding: false,
           label: startCase(key),
         },
       ]

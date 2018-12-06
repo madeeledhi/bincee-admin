@@ -107,12 +107,14 @@ class EnhancedTable extends React.Component {
       handleCreateRow,
       hasButtons,
       handleDeleteMutipleRows,
+      tableName,
     } = this.props
 
     return (
       <Choose>
         <When condition={size(rows) > 0}>
           <EnhancedTableInner
+            tableName={tableName}
             rows={rows}
             data={data}
             order={order}

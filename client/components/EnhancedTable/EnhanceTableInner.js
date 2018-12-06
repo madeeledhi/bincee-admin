@@ -48,6 +48,7 @@ const EnhancedTableInner = props => {
     onCreateRow,
     onDeleteMutipleRows,
     hasButtons = true,
+    tableName = { tableName },
   } = props
 
   return (
@@ -55,7 +56,7 @@ const EnhancedTableInner = props => {
       <EnhancedTableToolbar
         numSelected={selected.length}
         selectedArray={selected}
-        tableName={'Grades and Sections'}
+        tableName={tableName}
         onCreateRow={onCreateRow}
         onDeleteMutipleRows={onDeleteMutipleRows}
       />
@@ -93,7 +94,16 @@ const EnhancedTableInner = props => {
 
                     {times(i => (
                       <TableCell component="th" scope="row">
-                        {n[`${rows[i]['id']}`]}
+                        <Choose>
+                          <When condition={rows[i]['id'] === 'status'}>
+                            <span className={styles.status}>
+                              {n[`${rows[i]['id']}`]}
+                            </span>
+                          </When>
+                          <Otherwise>
+                            <span>{n[`${rows[i]['id']}`]}</span>
+                          </Otherwise>
+                        </Choose>
                       </TableCell>
                     ))(size(rows))}
                     {hasButtons && (

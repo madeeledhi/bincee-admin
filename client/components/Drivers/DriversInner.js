@@ -20,6 +20,7 @@ const DriversInner = ({
     <When condition={!error && !isLoading}>
       <div>
         <EnhancedTable
+          tableName={'Drivers'}
           rows={rows}
           data={data}
           error={error}

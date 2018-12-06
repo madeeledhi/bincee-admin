@@ -20,6 +20,7 @@ const GradesSectionsInner = ({
     <When condition={!error && !isLoading}>
       <div>
         <EnhancedTable
+          tableName={'Grades & Sections'}
           rows={rows}
           data={data}
           error={error}
