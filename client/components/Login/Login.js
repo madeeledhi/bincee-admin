@@ -22,8 +22,6 @@ import { isEmptyOrNil } from '../../utils/formValidation'
 class Login extends React.Component {
   constructor(props) {
     super(props)
-
-    this.field = React.createRef()
     this.state = {
       isLoading: false,
       user: { username: '', type: '' },
@@ -50,7 +48,9 @@ class Login extends React.Component {
         dispatch(push('/dashboard'))
       }
     }
-    if (hasPropChanged('formValues', this.props, nextProps)) {
+    if (
+      hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
+    ) {
       const { validationErrors } = nextProps
       if (size(validationErrors) > 0) {
         this.setState(() => ({ disabled: true }))
@@ -69,7 +69,6 @@ class Login extends React.Component {
       const { type } = data
       const error = status !== 200 || type !== 2
       this.setState(() => ({ isLoading: false, error }))
-      console.log('error:', error)
       if (error) {
         dispatch(logOut())
       }
@@ -78,6 +77,8 @@ class Login extends React.Component {
 
   render() {
     const { user, isLoading, error, disabled } = this.state
+
+    console.log('{error}, {disabled}:', error, disabled)
     return (
       <div className={styles.header}>
         <div className={styles.mainLogo} />

@@ -14,6 +14,7 @@ import TextField from '@material-ui/core/TextField'
 export const renderTextField = ({
   input,
   label,
+  inputProps = {},
   meta: { touched, error },
   ...custom
 }) => (
@@ -23,6 +24,11 @@ export const renderTextField = ({
     error={touched && error}
     helperText={touched && error}
     FormHelperTextProps={{ style: { marginTop: 10, alignSelf: 'flex-start' } }}
+    InputProps={{
+      autoComplete: 'new-password',
+      autofill: 'off',
+      ...inputProps,
+    }}
     {...input}
     {...custom}
   />
