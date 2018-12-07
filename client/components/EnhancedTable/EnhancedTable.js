@@ -1,6 +1,8 @@
 import React from 'react'
 import size from 'lodash/fp/size'
 import map from 'lodash/fp/map'
+import filter from 'lodash/fp/filter'
+import includes from 'lodash/fp/includes'
 
 //src
 import EnhancedTableInner from './EnhanceTableInner'
@@ -31,7 +33,10 @@ class EnhancedTable extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged(['rows', 'data'], this.props, nextProps)) {
       const { rows, data, error } = nextProps
-      this.setState(() => ({ rows, data, error }))
+      const { selected: prevSelected } = this.state
+      const ids = map(({ id }) => id)(data)
+      const selected = filter(id => includes(id)(ids))(prevSelected)
+      this.setState(() => ({ rows, data, error, selected }))
     }
   }
 
@@ -83,9 +88,15 @@ class EnhancedTable extends React.Component {
   handleChangeRowsPerPage = event => {
     this.setState({ rowsPerPage: event.target.value })
   }
+
   handleDeleteMutipleRows = (event, selectedArray) => {
     const { handleDeleteRow } = this.props
-    map(id => handleDeleteRow(event, id))(selectedArray)
+    Promise.all(map(id => handleDeleteRow(event, id))(selectedArray)).then(
+      () => {
+        // TODO: Use this for isLoading on/off
+        console.log('resolved')
+      },
+    )
   }
 
   isSelected = id => this.state.selected.indexOf(id) !== -1
@@ -132,7 +143,7 @@ class EnhancedTable extends React.Component {
             onChangePage={this.handleChangePage}
             isRowSelected={this.isSelected}
             onCreateRow={handleCreateRow}
-            handleRowClick={handleRowClick}
+            onRowClick={handleRowClick}
           />
         </When>
         <Otherwise>

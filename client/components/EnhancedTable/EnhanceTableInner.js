@@ -48,7 +48,7 @@ const EnhancedTableInner = props => {
     onDeleteMutipleRows,
     hasButtons = true,
     tableName,
-    handleRowClick,
+    onRowClick,
   } = props
 
   return (
@@ -84,7 +84,7 @@ const EnhancedTableInner = props => {
                     tabIndex={-1}
                     key={n.id}
                     selected={isSelected}
-                    onRowClick={n => handleRowClick(n)}
+                    onClick={() => onRowClick(n)}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox

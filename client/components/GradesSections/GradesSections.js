@@ -10,7 +10,7 @@ import { push } from 'react-router-redux'
 import EnhancedTable from '../EnhancedTable'
 import LoadingView from '../LoadingView'
 import transformData from './transformers/transformData'
-import { hasPropChanged } from '../../utils'
+import { hasPropChanged, infoDrawer } from '../../utils'
 import {
   loadGrades,
   loadSingleGrade,
@@ -51,14 +51,33 @@ class GradesSections extends React.Component {
       dispatch(loadGrades({ token }))
     })
   }
+
   handleCreateGrade = () => {
     const { dispatch } = this.props
     dispatch(push('/dashboard/grades/create'))
   }
+
   handleUpdateGrade = (event, id) => {
     const { dispatch } = this.props
     dispatch(push(`/dashboard/grades/edit/${id}`))
   }
+
+  handleRowClick = data => {
+    const { triggerDrawer } = this.props
+    // TODO: Create a component that will show the details {data} in the drawer
+    /*
+    Component format will be as following
+    Heading
+    firstKey: firstValue
+    SecondKey: SecondValue
+    */
+    // Pass the data object as a prop to that component, style the component properly as same style will be used for other tables
+    // and will render data that will be have more than 1 heading
+    triggerDrawer({
+      content: <div>Drawer for Info</div>,
+    })
+  }
+
   handleDeleteMutipleGrades = selectedArray => {
     const { dispatch, user } = this.props
     const { token } = user
@@ -69,7 +88,6 @@ class GradesSections extends React.Component {
   render() {
     const { error, isLoading } = this.state
     const { grades } = this.props
-    // TODO: Change the names in enhanced Tables
     const { columns: rows, rows: data } = grades
 
     return (
@@ -78,6 +96,7 @@ class GradesSections extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
+        onRowClick={this.handleRowClick}
         onDeleteGrade={this.handleDeleteGrade}
         onCreateGrade={this.handleCreateGrade}
         onUpdateGrade={this.handleUpdateGrade}
@@ -94,4 +113,8 @@ const mapStateToProps = (state, ownProps) => {
   const transformedGrades = transformData(gradesList)
   return { grades: transformedGrades, user, error }
 }
-export default connect(mapStateToProps)(GradesSections)
+
+const drawerSettings = {}
+export default infoDrawer(drawerSettings)(
+  connect(mapStateToProps)(GradesSections),
+)
