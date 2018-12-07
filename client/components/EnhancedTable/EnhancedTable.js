@@ -127,12 +127,12 @@ class EnhancedTable extends React.Component {
             onClick={this.handleClick}
             onDeleteRow={handleDeleteRow}
             onEditRow={handleEditRow}
-            onRowClick={handleRowClick}
             onDeleteMutipleRows={this.handleDeleteMutipleRows}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
             onChangePage={this.handleChangePage}
             isRowSelected={this.isSelected}
             onCreateRow={handleCreateRow}
+            handleRowClick={handleRowClick}
           />
         </When>
         <Otherwise>
