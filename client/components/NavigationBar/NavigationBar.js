@@ -81,11 +81,11 @@ const NavigationBar = props => {
         </ListItem>
         <ListItem
           className={`${styles.navItem} ${
-            activePath === 'bus' ? styles.active : ''
+            activePath === 'busses' ? styles.active : ''
           }`}
           button
-          selected={activePath === 'bus'}
-          onClick={() => onRouteChange('/dashboard/bus')}
+          selected={activePath === 'busses'}
+          onClick={() => onRouteChange('/dashboard/busses')}
         >
           <ListItemText
             classes={{ primary: styles.activeText }}

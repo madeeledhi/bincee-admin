@@ -4,14 +4,19 @@ import { Field, getFormValues, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
+import Button from '@material-ui/core/Button'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Radio from '@material-ui/core/Radio'
 
 //src
-import { renderTextField } from '../shared/reduxFormMaterialUI'
+import {
+  renderTextField,
+  renderRadioGroup,
+} from '../shared/reduxFormMaterialUI'
 import styles from './EditDriver.less'
 import { loadSingleDriver, updateDriver } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
-import { Button } from '@material-ui/core'
 
 class EditDriver extends React.Component {
   componentDidMount() {
@@ -36,12 +41,12 @@ class EditDriver extends React.Component {
     dispatch(
       updateDriver({ id, fullname, phone_no, status, photo, token }),
     ).then(({ payload }) => {
-      dispatch(push('/dashboard/driver'))
+      dispatch(push('/dashboard/drivers'))
     })
   }
   handleCancel = () => {
     const { dispatch } = this.props
-    dispatch(push('/dashboard/driver'))
+    dispatch(push('/dashboard/drivers'))
   }
   render() {
     return (
@@ -70,14 +75,22 @@ class EditDriver extends React.Component {
         </div>
         <div className={styles.row}>
           <Field
-            id="status"
+            className={styles.radioButton}
             name="status"
-            component={renderTextField}
             label="Status"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
+            component={renderRadioGroup}
+          >
+            <FormControlLabel
+              value="Active"
+              control={<Radio color="primary" />}
+              label="Active"
+            />
+            <FormControlLabel
+              value="Inactive"
+              control={<Radio color="primary" />}
+              label="Inactive"
+            />
+          </Field>
         </div>
         <div className={styles.row}>
           <Field
@@ -93,11 +106,11 @@ class EditDriver extends React.Component {
         <div className={styles.row}>
           <div className={styles.item}>
             <Button
-              onClick={this.createDriver}
+              onClick={this.updateDriver}
               color="primary"
               variant="contained"
             >
-              Create
+              Update
             </Button>
             <Button
               onClick={this.handleCancel}
