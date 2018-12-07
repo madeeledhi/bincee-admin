@@ -10,6 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
 import size from 'lodash/fp/size'
 import Input from '@material-ui/core/Input'
+import InputAdornment from '@material-ui/core/InputAdornment'
 import FormData from 'form-data'
 
 //src
@@ -95,7 +96,7 @@ class CreateDriver extends React.Component {
   }
 
   render() {
-    const { disabled } = this.state
+    const { disabled, selectedFile } = this.state
     return (
       <form className={styles.root}>
         <div className={styles.row}>
@@ -153,15 +154,27 @@ class CreateDriver extends React.Component {
         <div className={styles.row}>
           <Field
             id="photo"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            input={selectedFile}
             name="photo"
+            margin="normal"
             component={renderTextField}
-            label="Photo Url"
+            label="Photo Url ."
             disabled={false}
             variant="outlined"
             className={styles.item}
+            type="file"
+            onChange={this.fileChangedHandler}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Button onClick={this.uploadHandler}>Upload!</Button>
+                </InputAdornment>
+              ),
+            }}
           />
-          <Input type="file" onChange={this.fileChangedHandler} />
-          <Button onClick={this.uploadHandler}>Upload!</Button>
         </div>
         <div className={styles.row}>
           <div className={styles.item}>
