@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles'
 // src
 import styles from './Header.less'
 
-//TODO: This is one way of styling material components
 const ActionItem = withStyles({
   root: {
     '&:hover': {
@@ -57,10 +56,6 @@ class Header extends React.Component {
             {name}
             <Avatar alt="Remy Sharp" src="/images/profile.png" />
           </ActionItem>
-          {
-            //TODO: This is proper way of styling material components with classes in less files
-            //TODO: replace root with the className that you find in the inspector to replace
-          }
           <Menu
             id="menu-appbar"
             anchorEl={anchorEl}

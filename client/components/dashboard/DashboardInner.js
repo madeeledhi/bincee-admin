@@ -19,18 +19,7 @@ import Announcements from '../Announcements'
 import ShiftsAndTimings from '../ShiftsAndTimings'
 import Busses from '../Busses'
 import Drivers from '../Drivers'
-// TODO: create components for other routes
-/*
- * Remaining routes
- * parents
- * students
- * shifts
- * drivers
- * profile
- * fleet tracking
- * Bus
- * School announcements
- */
+
 const DashboardInner = ({
   onClickSignout,
   user,
@@ -69,10 +58,6 @@ const DashboardInner = ({
                 component={Student}
                 user={user}
               />
-              {
-                //TODO: dont use capitalized routes and special characters, use only grades with this route
-                //TODO: Add edit and create subroute with grade route
-              }
               <Route
                 path={`${path}/grades`}
                 exact

@@ -107,17 +107,12 @@ class Login extends React.Component {
               margin="dense"
             />
             <FormControlLabel
-              control={
-                // TODO: i can't seem to find the CheckBoxOutlineBlankIcon CheckBoxIcon in material core
-                // <Checkbox
-                //   style={{ width: 36, height: 36 }}
-                //   icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
-                //   checkedIcon={<CheckBoxIcon style={{ fontSize: 20, color: "#000" }} />}
-                // />
-                <Checkbox color={'primary'} />
-              }
+              control={<Checkbox color={'primary'} />}
               label="Remember Me"
             />
+            {
+              //TODO: Change this to a span or div, for onclick function
+            }
             <a className={styles.forgetPass}>Forget Password?</a>
             {isLoading && (
               <div className={styles.center}>
@@ -146,15 +141,6 @@ class Login extends React.Component {
               </p>
             </div>
           </form>
-          {
-            //TODO: Fix this page properly
-            //TODO: Set the background Use the image with grey background
-            //TODO: Create proper login form design
-            //TODO: Create your own loading View
-            //TODO: Use the loading view on form only not the whole screen, also disable any functionality while loading
-            //TODO: Add form validator for empty fields and show errors on text fields border
-            //TODO: Added a file in shared folder with material fields that can help you with this
-          }
         </div>
       </div>
     )

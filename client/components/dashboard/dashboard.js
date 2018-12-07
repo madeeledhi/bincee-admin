@@ -76,7 +76,6 @@ class Dashboard extends Component {
       isLoading,
       activePath,
     )
-    //TODO: Destructure variables before use ;-)
     return (
       <DashboardInner
         path={path}
