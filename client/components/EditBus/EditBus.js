@@ -7,56 +7,59 @@ import getOr from 'lodash/fp/getOr'
 import Button from '@material-ui/core/Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
+import MenuItem from '@material-ui/core/MenuItem'
+import map from 'lodash/fp/map'
 
 //src
 import {
   renderTextField,
   renderRadioGroup,
 } from '../shared/reduxFormMaterialUI'
-import styles from './EditDriver.less'
-import { loadSingleDriver, updateDriver } from '../../actions'
+import styles from './EditBus.less'
+import { loadSingleBus, editBus, loadDrivers } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 
-class EditDriver extends React.Component {
+class EditBus extends React.Component {
   componentDidMount() {
     const { user, dispatch, match, initialize } = this.props
     const { token } = user
     const id = getOr('', 'params.id')(match)
-
-    dispatch(loadSingleDriver({ id, token })).then(({ payload }) => {
+    dispatch(loadDrivers({ token }))
+    dispatch(loadSingleBus({ id, token })).then(({ payload }) => {
       const { data } = payload
-      const { username, password, fullname, phone_no, status, photo } = data
-      const config = { username, password, fullname, phone_no, status, photo }
+      const { registration_no, description, driver_id } = data
+      const config = { registration_no, description, driver_id }
       initialize(config)
     })
   }
 
-  updateDriver = () => {
+  updateBus = () => {
     const { dispatch, formValues, user, match } = this.props
     const { token } = user
     const id = getOr('', 'params.id')(match)
-    const { fullname, phone_no, status, photo } = formValues
+    const { registration_no, description, driver_id } = formValues
     this.setState(() => ({ isLoading: true }))
     dispatch(
-      updateDriver({ id, fullname, phone_no, status, photo, token }),
+      editBus({ id, registration_no, description, driver_id, token }),
     ).then(({ payload }) => {
-      dispatch(push('/dashboard/drivers'))
+      dispatch(push('/dashboard/busses'))
     })
   }
   handleCancel = () => {
     const { dispatch } = this.props
-    dispatch(push('/dashboard/drivers'))
+    dispatch(push('/dashboard/busses'))
   }
   render() {
+    const { driversList } = this.props
     return (
       <div className={styles.root}>
         <div className={styles.row}>
           <Field
-            id="fullname"
-            name="fullname"
+            id="registration_no"
+            name="registration_no"
             component={renderTextField}
-            label="Fullname"
+            label="Registration no"
             disabled={false}
             variant="outlined"
             className={styles.item}
@@ -64,10 +67,10 @@ class EditDriver extends React.Component {
         </div>
         <div className={styles.row}>
           <Field
-            id="phone_no"
-            name="phone_no"
+            id="description"
+            name="description"
             component={renderTextField}
-            label="Phone No"
+            label="Description"
             disabled={false}
             variant="outlined"
             className={styles.item}
@@ -75,42 +78,29 @@ class EditDriver extends React.Component {
         </div>
         <div className={styles.row}>
           <Field
-            className={styles.radioButton}
-            name="status"
-            label="Status"
-            component={renderRadioGroup}
+            className={styles.item}
+            name="driver_id"
+            component={renderTextField}
+            select
+            label="Select Driver"
+            variant="outlined"
+            margin="dense"
           >
-            <FormControlLabel
-              value="Active"
-              control={<Radio color="primary" />}
-              label="Active"
-            />
-            <FormControlLabel
-              value="Inactive"
-              control={<Radio color="primary" />}
-              label="Inactive"
-            />
+            {map(({ driver_id, fullname }) => (
+              <MenuItem key={driver_id} value={driver_id}>
+                {fullname}
+              </MenuItem>
+            ))(driversList)}
           </Field>
-        </div>
-        <div className={styles.row}>
-          <Field
-            id="photo"
-            name="photo"
-            component={renderTextField}
-            label="Photo Url"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
         </div>
         <div className={styles.row}>
           <div className={styles.item}>
             <Button
-              onClick={this.updateDriver}
+              onClick={this.createBus}
               color="primary"
               variant="contained"
             >
-              Update
+              Create
             </Button>
             <Button
               onClick={this.handleCancel}
@@ -127,19 +117,18 @@ class EditDriver extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => {
   const user = getOr({}, 'user')(state)
-  return { formValues: getFormValues('editDriver')(state), user }
+  const drivers = getOr({}, 'drivers')(state)
+  const driversList = getOr([], 'drivers')(drivers)
+  return { formValues: getFormValues('editBus')(state), user, driversList }
 }
 export default connect(mapStateToProps)(
   reduxForm({
-    form: 'editDriver',
+    form: 'editBus',
     enableReinitialize: true,
     initialValues: {
-      username: '',
-      password: '',
-      fullname: '',
-      phone_no: '',
-      status: '',
-      photo: '',
+      registration_no: '',
+      description: '',
+      driver_id: '',
     },
-  })(EditDriver),
+  })(EditBus),
 )

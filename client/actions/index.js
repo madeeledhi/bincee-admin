@@ -10,6 +10,7 @@ export * from './parents'
 export * from './bus'
 export * from './students'
 export * from './shifts'
+export * from './photo'
 
 export const SHOW_ERROR_MESSAGE = 'SHOW_ERROR_MESSAGE'
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'

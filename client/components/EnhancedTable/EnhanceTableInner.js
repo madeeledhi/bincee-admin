@@ -97,7 +97,13 @@ const EnhancedTableInner = props => {
                       <TableCell component="th" scope="row">
                         <Choose>
                           <When condition={rows[i]['id'] === 'status'}>
-                            <span className={styles.status}>
+                            <span
+                              className={
+                                n[`${rows[i]['id']}`] === 'Active'
+                                  ? styles.status
+                                  : styles.inactive
+                              }
+                            >
                               {n[`${rows[i]['id']}`]}
                             </span>
                           </When>

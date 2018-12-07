@@ -4,20 +4,32 @@ import { Field, getFormValues, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
+import uniqueId from 'lodash/fp/uniqueId'
+import Button from '@material-ui/core/Button'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Radio from '@material-ui/core/Radio'
+import Input from '@material-ui/core/Input'
+import FormData from 'form-data'
 
 //src
-import { renderTextField } from '../shared/reduxFormMaterialUI'
+import {
+  renderTextField,
+  renderRadioGroup,
+} from '../shared/reduxFormMaterialUI'
 import styles from './CreateDriver.less'
-import { createDriver } from '../../actions'
+import { createDriver, uploadImage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
-import { Button } from '@material-ui/core'
 
+// TODO: Refactor Photo upload
 class CreateDriver extends React.Component {
+  state = { selectedFile: null }
+
   createDriver = () => {
     const { dispatch, formValues, user } = this.props
     const { token } = user
-    const { username, password, fullname, phone_no, status, photo } = formValues
+    const username = uniqueId(formValues.fullname)
+    const { password, fullname, phone_no, status, photo } = formValues
     this.setState(() => ({ isLoading: true }))
     dispatch(
       createDriver({
@@ -30,12 +42,36 @@ class CreateDriver extends React.Component {
         token,
       }),
     ).then(({ payload }) => {
-      dispatch(push('/dashboard/grades'))
+      dispatch(push('/dashboard/drivers'))
     })
   }
+
   handleCancel = () => {
     const { dispatch } = this.props
-    dispatch(push('/dashboard/grades'))
+    dispatch(push('/dashboard/drivers'))
+  }
+
+  fileChangedHandler = event => {
+    this.setState({ selectedFile: event.target.files[0] })
+  }
+
+  uploadHandler = () => {
+    const { selectedFile } = this.state
+    if (selectedFile) {
+      const { dispatch, user } = this.props
+      const { token } = user
+      const formData = new FormData()
+      formData.append('image', selectedFile)
+      formData.append('name', selectedFile.name)
+      dispatch(
+        uploadImage({
+          id: 1,
+          user: 'driver',
+          image: formData,
+          token,
+        }),
+      )
+    }
   }
 
   render() {
@@ -43,10 +79,10 @@ class CreateDriver extends React.Component {
       <div className={styles.root}>
         <div className={styles.row}>
           <Field
-            id="username"
-            name="username"
+            id="fullname"
+            name="fullname"
             component={renderTextField}
-            label="UserName"
+            label="Fullname"
             disabled={false}
             variant="outlined"
             className={styles.item}
@@ -58,18 +94,6 @@ class CreateDriver extends React.Component {
             name="password"
             component={renderTextField}
             label="Password"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
-        </div>
-
-        <div className={styles.row}>
-          <Field
-            id="fullname"
-            name="fullname"
-            component={renderTextField}
-            label="Fullname"
             disabled={false}
             variant="outlined"
             className={styles.item}
@@ -88,14 +112,22 @@ class CreateDriver extends React.Component {
         </div>
         <div className={styles.row}>
           <Field
-            id="status"
+            className={styles.radioButton}
             name="status"
-            component={renderTextField}
             label="Status"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
+            component={renderRadioGroup}
+          >
+            <FormControlLabel
+              value="Active"
+              control={<Radio color="primary" />}
+              label="Active"
+            />
+            <FormControlLabel
+              value="Inactive"
+              control={<Radio color="primary" />}
+              label="Inactive"
+            />
+          </Field>
         </div>
         <div className={styles.row}>
           <Field
@@ -107,6 +139,8 @@ class CreateDriver extends React.Component {
             variant="outlined"
             className={styles.item}
           />
+          <Input type="file" onChange={this.fileChangedHandler} />
+          <Button onClick={this.uploadHandler}>Upload!</Button>
         </div>
         <div className={styles.row}>
           <div className={styles.item}>
@@ -139,11 +173,10 @@ export default connect(mapStateToProps)(
     form: 'createDriver',
     enableReinitialize: true,
     initialValues: {
-      username: '',
       password: '',
       fullname: '',
       phone_no: '',
-      status: '',
+      status: 'Active',
       photo: '',
     },
   })(CreateDriver),

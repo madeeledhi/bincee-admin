@@ -19,6 +19,8 @@ import Announcements from '../Announcements'
 import ShiftsAndTimings from '../ShiftsAndTimings'
 import Busses from '../Busses'
 import Drivers from '../Drivers'
+import CreateBus from '../CreateBus'
+import EditBus from '../EditBus'
 
 const DashboardInner = ({
   onClickSignout,
@@ -83,6 +85,12 @@ const DashboardInner = ({
                 user={user}
               />
               <Route
+                path={`${path}/busses/create`}
+                exact
+                component={CreateBus}
+                user={user}
+              />
+              <Route
                 path={`${path}/grades/edit/:id`}
                 exact
                 component={EditGrades}
@@ -95,7 +103,13 @@ const DashboardInner = ({
                 user={user}
               />
               <Route
-                path={`${path}/bus`}
+                path={`${path}/busses/edit/:id`}
+                exact
+                component={EditBus}
+                user={user}
+              />
+              <Route
+                path={`${path}/busses`}
                 exact
                 component={Busses}
                 user={user}

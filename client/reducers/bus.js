@@ -24,11 +24,11 @@ export default (state = initialState, action) => {
     case ActionTypes.DELETE_BUS_FAILURE: {
       return { ...state, message: 'Bus Deletion Failed' }
     }
-    case ActionTypes.LOAD_BUSS_SUCCESS: {
+    case ActionTypes.LOAD_BUS_SUCCESS: {
       const { data } = payload
       return { ...state, bus: data, message: '' }
     }
-    case ActionTypes.LOAD_BUSS_FAILURE: {
+    case ActionTypes.LOAD_BUS_FAILURE: {
       return { ...state, message: 'Cannot find Bus' }
     }
     case ActionTypes.LOAD_SINGLE_BUS_SUCCESS: {

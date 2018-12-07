@@ -7,20 +7,18 @@ import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
 import cloneDeep from 'lodash/cloneDeep'
 
-function getColumns(drivers) {
-  const [first] = drivers
+function getColumns(busses) {
+  const [first] = busses
   return flow(
     keys,
-    filter(
-      key => key !== 'driver_id' && key !== 'school_id' && key !== 'photo',
-    ),
+    filter(key => key !== 'id'),
     reduce((final, key) => {
       const current = first[key]
       return [
         ...final,
         {
           id: key,
-          numeric: typeof current === 'number',
+          numeric: false,
           disablePadding: false,
           label: startCase(key),
         },
@@ -29,18 +27,18 @@ function getColumns(drivers) {
   )(first)
 }
 
-function getRows(drivers) {
-  return map(driver => {
-    return renameKeyName(driver, 'driver_id', 'id')
-  })(drivers)
+function getRows(busses) {
+  return map(bus => {
+    return renameKeyName(bus, 'id', 'id')
+  })(busses)
 }
 
-export default drivers => {
-  if (size(drivers) < 1) {
+export default busses => {
+  if (size(busses) < 1) {
     return { columns: [], rows: [] }
   }
-  const columns = getColumns(drivers)
-  const rows = getRows(drivers)
+  const columns = getColumns(busses)
+  const rows = getRows(busses)
   return { columns, rows }
 }
 export function renameKeyName(obj, oldName, newName) {
