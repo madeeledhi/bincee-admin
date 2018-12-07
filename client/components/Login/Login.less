@@ -1,6 +1,7 @@
 .header {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  flex-direction: column-reverse;
   justify-content: space-between;
   min-height: 100vh;
   background-image: url(/images/sign_in_bg.png);
@@ -39,22 +40,24 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  min-height: 7vh;
+  min-height: 9vh;
   background-image: url(/images/Logo.png);
   background-repeat: no-repeat;
   width: 46vh;
   background-size: 160px;
   background-position-x: inherit;
   margin: 3em;
+  position: absolute;
 }
 .card {
-  margin: auto;
+  margin: auto 0;
+  margin-right: 22em;
   background: #f5f5f5;
-  width: 43vh;
+  width: 39vh;
   border-radius: 34px;
-  padding: 51px 20px 20px 20px;
+  padding: 32px 22px 20px 22px;
   border: 1px solid #f5f5f5;
-  box-shadow: 0 0 31px rgba(0, 0, 0, 0.26);
+  box-shadow: 0 0 31px rgba(0, 0, 0, 0.26)
 }
 .binceeCardLogo {
   display: flex;
@@ -100,4 +103,18 @@
 }
 .checkbox {
   color: #05b6dd;
+}
+.room{
+  height: 15px;
+  padding-top: 6px;
+}
+.fieldBorder{
+  div>fieldset{
+    border-radius: 25px;
+    
+  }
+  div>input{
+    border: 1px solid transparent;
+    border-radius: 26px;
+  }
 }

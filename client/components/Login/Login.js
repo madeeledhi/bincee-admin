@@ -80,67 +80,69 @@ class Login extends React.Component {
 
     console.log('{error}, {disabled}:', error, disabled)
     return (
-      <div className={styles.header}>
+      <div>
         <div className={styles.mainLogo} />
-        <div className={styles.card}>
-          <div className={styles.binceeCardLogo} />
-          <h4 className={styles.signInText}>SIGN IN</h4>
+        <div className={styles.header}>
+          <div className={styles.card}>
+            <div className={styles.binceeCardLogo} />
+            <h4 className={styles.signInText}>SIGN IN</h4>
 
-          <form className={styles.loginFields}>
-            <Field
-              id="username"
-              name="username"
-              component={renderTextField}
-              label="Username"
-              disabled={isLoading}
-              variant="outlined"
-              margin="dense"
-            />
-            <Field
-              id="password"
-              name="password"
-              component={renderTextField}
-              type="password"
-              label="Password"
-              disabled={isLoading}
-              variant="outlined"
-              margin="dense"
-            />
-            <FormControlLabel
-              control={<Checkbox color={'primary'} />}
-              label="Remember Me"
-            />
-            {
-              //TODO: Change this to a span or div, for onclick function
-            }
-            <a className={styles.forgetPass}>Forget Password?</a>
-            {isLoading && (
-              <div className={styles.center}>
-                <CircularProgress
-                  classes={{ root: styles.circularLogin }}
-                  size={20}
-                />
-                <h4 className={styles.loadingText}>Logging you in</h4>
+            <form className={styles.loginFields}>
+              <Field
+                id="username"
+                name="username"
+                component={renderTextField}
+                label="Username"
+                disabled={isLoading}
+                variant="outlined"
+                margin="dense"
+                className={styles.fieldBorder}
+              />
+              <Field
+                id="password"
+                name="password"
+                component={renderTextField}
+                type="password"
+                label="Password"
+                disabled={isLoading}
+                variant="outlined"
+                margin="dense"
+                className={styles.fieldBorder}
+              />
+              {
+                //TODO: Change this to a span or div, for onclick function
+              }
+              <div className={styles.room}>
+                <span className={styles.forgetPass}>Forget Password?</span>
               </div>
-            )}
-            {error && (
-              <h4 className={styles.errorMessage}>
-                {'Invalid Username or Password'}
-              </h4>
-            )}
-            <LoginButton
-              label="Login"
-              onClick={this.handleClick}
-              disabled={isLoading || disabled}
-            />
-            <div>
-              <p className={styles.memberText}>Not a member yet?</p>
-              <p className={styles.signUpText}>Sign Up here</p>
-              <p className={styles.termsAndConditionsText}>
-                By signing in you agree with our Terms & Conditions
+              {isLoading && (
+                <div className={styles.center}>
+                  <CircularProgress
+                    classes={{ root: styles.circularLogin }}
+                    size={20}
+                  />
+                  <h4 className={styles.loadingText}>Logging you in</h4>
+                </div>
+              )}
+              {error && (
+                <h4 className={styles.errorMessage}>
+                  {'Invalid Username or Password'}
+                </h4>
+              )}
+              <LoginButton
+                label="Login"
+                onClick={this.handleClick}
+                disabled={isLoading || disabled}
+              />
+              <div>
+                <p className={styles.memberText}>Not a member yet?</p>
+                <p className={styles.termsAndConditionsText}>
+                  By signing in you agree with our 
+                  <a className={styles.signUpText}> Terms & Conditions</a>
               </p>
-            </div>
-          </form>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     )
