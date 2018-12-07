@@ -1,9 +1,10 @@
 // libs
 import React from 'react'
-import { Field, getFormValues, reduxForm } from 'redux-form'
+import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
+import size from 'lodash/fp/size'
 
 //src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
@@ -12,8 +13,15 @@ import { createGrade, editGrade, loadSingleGrade } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { Button } from '@material-ui/core'
+import { validate } from './util'
 
 class EditGrades extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      disabled: false,
+    }
+  }
   componentDidMount() {
     const { user, dispatch, match, initialize } = this.props
     const { token } = user
@@ -25,6 +33,18 @@ class EditGrades extends React.Component {
       const config = { grade_name, section, grade_section }
       initialize(config)
     })
+  }
+  componentWillReceiveProps(nextProps) {
+    if (
+      hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
+    ) {
+      const { validationErrors } = nextProps
+      if (size(validationErrors) > 0) {
+        this.setState(() => ({ disabled: true }))
+      } else {
+        this.setState(() => ({ disabled: false }))
+      }
+    }
   }
 
   updateGrade = () => {
@@ -44,8 +64,9 @@ class EditGrades extends React.Component {
     dispatch(push('/dashboard/grades'))
   }
   render() {
+    const { disabled } = this.state
     return (
-      <div className={styles.root}>
+      <form className={styles.root}>
         <div className={styles.row}>
           <Field
             id="gradeName"
@@ -83,6 +104,7 @@ class EditGrades extends React.Component {
         <div className={styles.row}>
           <div className={styles.item}>
             <Button
+              disabled={disabled}
               onClick={this.updateGrade}
               color="primary"
               variant="contained"
@@ -98,17 +120,22 @@ class EditGrades extends React.Component {
             </Button>
           </div>
         </div>
-      </div>
+      </form>
     )
   }
 }
 const mapStateToProps = (state, ownProps) => {
   const user = getOr({}, 'user')(state)
-  return { formValues: getFormValues('editgrades')(state), user }
+  return {
+    formValues: getFormValues('editgrade')(state),
+    validationErrors: getFormSyncErrors('editgrade')(state),
+    user,
+  }
 }
 export default connect(mapStateToProps)(
   reduxForm({
-    form: 'editgrades',
+    form: 'editgrade',
+    validate: validate,
     enableReinitialize: true,
     initialValues: {
       grade_name: '',

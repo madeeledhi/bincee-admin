@@ -1,12 +1,13 @@
 // libs
 import React from 'react'
-import { Field, getFormValues, reduxForm } from 'redux-form'
+import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 import Button from '@material-ui/core/Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
+import size from 'lodash/fp/size'
 
 //src
 import {
@@ -17,8 +18,15 @@ import styles from './EditDriver.less'
 import { loadSingleDriver, updateDriver } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
+import { validate } from './util'
 
 class EditDriver extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      disabled: false,
+    }
+  }
   componentDidMount() {
     const { user, dispatch, match, initialize } = this.props
     const { token } = user
@@ -30,6 +38,18 @@ class EditDriver extends React.Component {
       const config = { username, password, fullname, phone_no, status, photo }
       initialize(config)
     })
+  }
+  componentWillReceiveProps(nextProps) {
+    if (
+      hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
+    ) {
+      const { validationErrors } = nextProps
+      if (size(validationErrors) > 0) {
+        this.setState(() => ({ disabled: true }))
+      } else {
+        this.setState(() => ({ disabled: false }))
+      }
+    }
   }
 
   updateDriver = () => {
@@ -49,8 +69,9 @@ class EditDriver extends React.Component {
     dispatch(push('/dashboard/drivers'))
   }
   render() {
+    const { disabled } = this.state
     return (
-      <div className={styles.root}>
+      <form className={styles.root}>
         <div className={styles.row}>
           <Field
             id="fullname"
@@ -106,6 +127,7 @@ class EditDriver extends React.Component {
         <div className={styles.row}>
           <div className={styles.item}>
             <Button
+              disabled={disabled}
               onClick={this.updateDriver}
               color="primary"
               variant="contained"
@@ -121,21 +143,24 @@ class EditDriver extends React.Component {
             </Button>
           </div>
         </div>
-      </div>
+      </form>
     )
   }
 }
 const mapStateToProps = (state, ownProps) => {
   const user = getOr({}, 'user')(state)
-  return { formValues: getFormValues('editDriver')(state), user }
+  return {
+    formValues: getFormValues('editDriver')(state),
+    validationErrors: getFormSyncErrors('editDriver')(state),
+    user,
+  }
 }
 export default connect(mapStateToProps)(
   reduxForm({
     form: 'editDriver',
     enableReinitialize: true,
+    validate: validate,
     initialValues: {
-      username: '',
-      password: '',
       fullname: '',
       phone_no: '',
       status: '',

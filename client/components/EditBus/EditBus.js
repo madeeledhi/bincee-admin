@@ -1,6 +1,6 @@
 // libs
 import React from 'react'
-import { Field, getFormValues, reduxForm } from 'redux-form'
+import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
@@ -9,6 +9,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
 import MenuItem from '@material-ui/core/MenuItem'
 import map from 'lodash/fp/map'
+import size from 'lodash/fp/size'
 
 //src
 import {
@@ -19,8 +20,15 @@ import styles from './EditBus.less'
 import { loadSingleBus, editBus, loadDrivers } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
+import { validate } from './util'
 
 class EditBus extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      disabled: false,
+    }
+  }
   componentDidMount() {
     const { user, dispatch, match, initialize } = this.props
     const { token } = user
@@ -32,6 +40,18 @@ class EditBus extends React.Component {
       const config = { registration_no, description, driver_id }
       initialize(config)
     })
+  }
+  componentWillReceiveProps(nextProps) {
+    if (
+      hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
+    ) {
+      const { validationErrors } = nextProps
+      if (size(validationErrors) > 0) {
+        this.setState(() => ({ disabled: true }))
+      } else {
+        this.setState(() => ({ disabled: false }))
+      }
+    }
   }
 
   updateBus = () => {
@@ -51,9 +71,10 @@ class EditBus extends React.Component {
     dispatch(push('/dashboard/busses'))
   }
   render() {
+    const { disabled } = this.state
     const { driversList } = this.props
     return (
-      <div className={styles.root}>
+      <form className={styles.root}>
         <div className={styles.row}>
           <Field
             id="registration_no"
@@ -96,11 +117,12 @@ class EditBus extends React.Component {
         <div className={styles.row}>
           <div className={styles.item}>
             <Button
-              onClick={this.createBus}
+              disabled={disabled}
+              onClick={this.updateBus}
               color="primary"
               variant="contained"
             >
-              Create
+              Update
             </Button>
             <Button
               onClick={this.handleCancel}
@@ -111,7 +133,7 @@ class EditBus extends React.Component {
             </Button>
           </div>
         </div>
-      </div>
+      </form>
     )
   }
 }
@@ -119,12 +141,18 @@ const mapStateToProps = (state, ownProps) => {
   const user = getOr({}, 'user')(state)
   const drivers = getOr({}, 'drivers')(state)
   const driversList = getOr([], 'drivers')(drivers)
-  return { formValues: getFormValues('editBus')(state), user, driversList }
+  return {
+    formValues: getFormValues('editBus')(state),
+    validationErrors: getFormSyncErrors('editBus')(state),
+    user,
+    driversList,
+  }
 }
 export default connect(mapStateToProps)(
   reduxForm({
     form: 'editBus',
     enableReinitialize: true,
+    validate: validate,
     initialValues: {
       registration_no: '',
       description: '',

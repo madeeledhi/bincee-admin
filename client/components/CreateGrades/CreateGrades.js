@@ -1,9 +1,10 @@
 // libs
 import React from 'react'
-import { Field, getFormValues, reduxForm } from 'redux-form'
+import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
+import size from 'lodash/fp/size'
 
 //src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
@@ -12,8 +13,27 @@ import { createGrade, editGrade } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { Button } from '@material-ui/core'
+import { validate } from './util'
 
 class CreateGrades extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      disabled: false,
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (
+      hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
+    ) {
+      const { validationErrors } = nextProps
+      if (size(validationErrors) > 0) {
+        this.setState(() => ({ disabled: true }))
+      } else {
+        this.setState(() => ({ disabled: false }))
+      }
+    }
+  }
   createGrade = () => {
     const { dispatch, formValues, user } = this.props
     const { token } = user
@@ -31,6 +51,7 @@ class CreateGrades extends React.Component {
   }
 
   render() {
+    const { disabled } = this.state
     return (
       <div className={styles.root}>
         <div className={styles.row}>
@@ -70,6 +91,7 @@ class CreateGrades extends React.Component {
         <div className={styles.row}>
           <div className={styles.item}>
             <Button
+              disabled={disabled}
               onClick={this.createGrade}
               color="primary"
               variant="contained"
@@ -91,12 +113,17 @@ class CreateGrades extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => {
   const user = getOr({}, 'user')(state)
-  return { formValues: getFormValues('grades')(state), user }
+  return {
+    formValues: getFormValues('createGrade')(state),
+    validationErrors: getFormSyncErrors('createGrade')(state),
+    user,
+  }
 }
 export default connect(mapStateToProps)(
   reduxForm({
-    form: 'grades',
+    form: 'createGrade',
     enableReinitialize: true,
+    validate: validate,
     initialValues: {
       grade_name: '',
       section: '',

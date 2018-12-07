@@ -1,6 +1,6 @@
 // libs
 import React from 'react'
-import { Field, getFormValues, reduxForm } from 'redux-form'
+import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
@@ -8,6 +8,7 @@ import uniqueId from 'lodash/fp/uniqueId'
 import Button from '@material-ui/core/Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
+import size from 'lodash/fp/size'
 import Input from '@material-ui/core/Input'
 import FormData from 'form-data'
 
@@ -20,10 +21,29 @@ import styles from './CreateDriver.less'
 import { createDriver, uploadImage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
+import { validate } from './util'
 
 // TODO: Refactor Photo upload
 class CreateDriver extends React.Component {
-  state = { selectedFile: null }
+  constructor(props) {
+    super(props)
+    this.state = {
+      disabled: false,
+      selectedFile: null,
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (
+      hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
+    ) {
+      const { validationErrors } = nextProps
+      if (size(validationErrors) > 0) {
+        this.setState(() => ({ disabled: true }))
+      } else {
+        this.setState(() => ({ disabled: false }))
+      }
+    }
+  }
 
   createDriver = () => {
     const { dispatch, formValues, user } = this.props
@@ -75,8 +95,9 @@ class CreateDriver extends React.Component {
   }
 
   render() {
+    const { disabled } = this.state
     return (
-      <div className={styles.root}>
+      <form className={styles.root}>
         <div className={styles.row}>
           <Field
             id="fullname"
@@ -145,6 +166,7 @@ class CreateDriver extends React.Component {
         <div className={styles.row}>
           <div className={styles.item}>
             <Button
+              disabled={disabled}
               onClick={this.createDriver}
               color="primary"
               variant="contained"
@@ -160,18 +182,23 @@ class CreateDriver extends React.Component {
             </Button>
           </div>
         </div>
-      </div>
+      </form>
     )
   }
 }
 const mapStateToProps = (state, ownProps) => {
   const user = getOr({}, 'user')(state)
-  return { formValues: getFormValues('createDriver')(state), user }
+  return {
+    formValues: getFormValues('createDriver')(state),
+    validationErrors: getFormSyncErrors('createDriver')(state),
+    user,
+  }
 }
 export default connect(mapStateToProps)(
   reduxForm({
     form: 'createDriver',
     enableReinitialize: true,
+    validate: validate,
     initialValues: {
       password: '',
       fullname: '',
