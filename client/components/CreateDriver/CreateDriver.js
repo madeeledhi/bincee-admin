@@ -8,6 +8,8 @@ import uniqueId from 'lodash/fp/uniqueId'
 import Button from '@material-ui/core/Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
+import Input from '@material-ui/core/Input'
+import FormData from 'form-data'
 
 //src
 import {
@@ -15,11 +17,14 @@ import {
   renderRadioGroup,
 } from '../shared/reduxFormMaterialUI'
 import styles from './CreateDriver.less'
-import { createDriver } from '../../actions'
+import { createDriver, uploadImage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 
+// TODO: Refactor Photo upload
 class CreateDriver extends React.Component {
+  state = { selectedFile: null }
+
   createDriver = () => {
     const { dispatch, formValues, user } = this.props
     const { token } = user
@@ -40,9 +45,33 @@ class CreateDriver extends React.Component {
       dispatch(push('/dashboard/drivers'))
     })
   }
+
   handleCancel = () => {
     const { dispatch } = this.props
     dispatch(push('/dashboard/drivers'))
+  }
+
+  fileChangedHandler = event => {
+    this.setState({ selectedFile: event.target.files[0] })
+  }
+
+  uploadHandler = () => {
+    const { selectedFile } = this.state
+    if (selectedFile) {
+      const { dispatch, user } = this.props
+      const { token } = user
+      const formData = new FormData()
+      formData.append('image', selectedFile)
+      formData.append('name', selectedFile.name)
+      dispatch(
+        uploadImage({
+          id: 1,
+          user: 'driver',
+          image: formData,
+          token,
+        }),
+      )
+    }
   }
 
   render() {
@@ -110,6 +139,8 @@ class CreateDriver extends React.Component {
             variant="outlined"
             className={styles.item}
           />
+          <Input type="file" onChange={this.fileChangedHandler} />
+          <Button onClick={this.uploadHandler}>Upload!</Button>
         </div>
         <div className={styles.row}>
           <div className={styles.item}>

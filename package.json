@@ -51,6 +51,7 @@
     "ejs": "^2.4.1",
     "element-closest": "^2.0.2",
     "event-source-polyfill": "0.0.12",
+    "form-data": "^2.3.3",
     "history": "^4.6.1",
     "ify-loader": "^1.1.0",
     "isomorphic-fetch": "^2.2.1",

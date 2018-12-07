@@ -14,6 +14,7 @@ import parents from './parents'
 import bus from './bus'
 import students from './students'
 import shifts from './shifts'
+import photo from './photo'
 import * as ActionTypes from '../actions'
 import { checkError } from '../utils'
 
@@ -60,6 +61,7 @@ const rootReducer = combineReducers({
   bus,
   students,
   shifts,
+  photo,
   form: formReducer,
 })
 

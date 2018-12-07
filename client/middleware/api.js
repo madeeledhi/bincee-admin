@@ -94,7 +94,7 @@ export default store => next => action => {
   }
 
   let { endpoint, fetchOptions } = callAPI
-  const { schema, types, method, type, token } = callAPI
+  const { schema, types, method, type, token, content } = callAPI
   if (type) {
     return new Promise(resolve => resolve(next(actionWith(callAPI))))
   }
@@ -142,9 +142,14 @@ export default store => next => action => {
   const body =
     options.method === 'GET' ? {} : { body: JSON.stringify(action.payload) }
   if (!fetchOptions) {
-    fetchOptions = {
-      ...options,
-      ...body,
+    if (content === 'image') {
+      fetchOptions = {
+        method: 'POST',
+        headers: { Authorization },
+        body: action.payload,
+      }
+    } else {
+      fetchOptions = { ...options, ...body }
     }
   }
   return callApi(endpoint, schema, fetchOptions).then(
