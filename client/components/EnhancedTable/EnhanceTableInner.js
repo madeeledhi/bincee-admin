@@ -79,6 +79,7 @@ const EnhancedTableInner = props => {
                 return (
                   <TableRow
                     hover
+                    className={styles.row}
                     role="checkbox"
                     aria-checked={isSelected}
                     tabIndex={-1}
@@ -86,15 +87,16 @@ const EnhancedTableInner = props => {
                     selected={isSelected}
                     onClick={() => onRowClick(n)}
                   >
-                    <TableCell padding="checkbox">
+                    <TableCell padding="checkbox" className={styles.tableText}>
                       <Checkbox
                         checked={isSelected}
                         onClick={event => onClick(event, n.id)}
+                        className={styles.checkbox}
                       />
                     </TableCell>
 
                     {times(i => (
-                      <TableCell component="th" scope="row">
+                      <TableCell component="th" scope="row" className={styles.tableText}>
                         <Choose>
                           <When condition={rows[i]['id'] === 'status'}>
                             <span
@@ -114,18 +116,19 @@ const EnhancedTableInner = props => {
                       </TableCell>
                     ))(size(rows))}
                     {hasButtons && (
-                      <TableCell padding="checkbox" component="th" scope="row">
+                      <TableCell padding="checkbox" component="th" scope="row" className={styles.action}>
                         <IconButton
                           aria-label="Filter list"
                           onClick={event => onEditRow(event, n.id)}
+                          
                         >
-                          <Icon> edit</Icon>
+                          <Icon className={styles.editIcon} fontSize={'small'} > edit</Icon>
                         </IconButton>
                         <IconButton
                           aria-label="Filter list"
                           onClick={event => onDeleteRow(event, n.id)}
                         >
-                          <Icon> delete</Icon>
+                          <Icon className={styles.deleteIcon} fontSize={'small'} > delete</Icon>
                         </IconButton>
                       </TableCell>
                     )}
@@ -149,6 +152,7 @@ const EnhancedTableInner = props => {
         }}
         onChangePage={onChangePage}
         onChangeRowsPerPage={onChangeRowsPerPage}
+        className={styles.spacer}
       />
     </Paper>
   )

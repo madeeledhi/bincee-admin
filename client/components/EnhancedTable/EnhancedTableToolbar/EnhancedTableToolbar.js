@@ -34,11 +34,11 @@ const EnhancedTableToolbar = props => {
     <Toolbar className={styles.root}>
       <div className={styles.title}>
         {numSelected > 0 ? (
-          <Typography color="inherit" variant="subtitle1">
+          <Typography color="inherit" variant="subtitle1" className={styles.head}>
             {numSelected} selected
           </Typography>
         ) : (
-          <Typography variant="h6" id="tableTitle">
+          <Typography variant="h6" id="tableTitle" className={styles.head}>
             {tableName}
           </Typography>
         )}
@@ -51,13 +51,13 @@ const EnhancedTableToolbar = props => {
               aria-label="Delete"
               onClick={event => onDeleteMutipleRows(event, selectedArray)}
             >
-              <Icon> delete</Icon>
+              <Icon className={styles.deleteIcon} fontSize={'small'} > delete</Icon>
             </IconButton>
           </Tooltip>
         ) : (
           <Tooltip title="Create New">
             <IconButton aria-label="Filter list" onClick={onCreateRow}>
-              <Icon> add_circle</Icon>
+              <Icon className={styles.createIcon} > add_circle</Icon>
             </IconButton>
           </Tooltip>
         )}

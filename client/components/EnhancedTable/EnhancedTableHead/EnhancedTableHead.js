@@ -6,6 +6,8 @@ import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import Tooltip from '@material-ui/core/Tooltip'
 
+import styles from './EnhancedTableHeadInner.less'
+
 class EnhancedTableHead extends React.Component {
   createSortHandler = property => event => {
     this.props.onRequestSort(event, property)
@@ -22,13 +24,14 @@ class EnhancedTableHead extends React.Component {
     } = this.props
 
     return (
-      <TableHead>
-        <TableRow>
-          <TableCell padding="checkbox">
+      <TableHead className={styles.root}>
+        <TableRow >
+          <TableCell padding="checkbox" className={styles.headerText}>
             <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
               onChange={onSelectAllClick}
+              className={styles.checkbox}
             />
           </TableCell>
           {rows.map(row => {
@@ -38,6 +41,7 @@ class EnhancedTableHead extends React.Component {
                 numeric={row.numeric}
                 padding={row.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === row.id ? order : false}
+                className={styles.headerText}
               >
                 <Tooltip
                   title="Sort"
@@ -56,7 +60,7 @@ class EnhancedTableHead extends React.Component {
             )
           }, this)}
 
-          <TableCell padding="checkbox">{'Actions'}</TableCell>
+          <TableCell padding="checkbox" className={styles.headerText}>{'Actions'}</TableCell>
         </TableRow>
       </TableHead>
     )
