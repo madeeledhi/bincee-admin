@@ -29,7 +29,7 @@ function errorMessage(state = null, action) {
     type !== ActionTypes.USER_LOGIN_FAILURE &&
     (type === ActionTypes.SHOW_ERROR_MESSAGE ||
       error ||
-      (status && status !== 200))
+      (status && status !== 200 && status !== 'Active' && status !== 'active'))
   ) {
     if (data) {
       const { message } = data
@@ -45,7 +45,6 @@ function errorMessage(state = null, action) {
   if (type === ActionTypes.CLEAR_ERROR_MESSAGES) {
     return { clearAll: true }
   }
-
   return state
 }
 

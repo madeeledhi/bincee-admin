@@ -122,8 +122,7 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps)(
   reduxForm({
     form: 'createGrade',
-    enableReinitialize: true,
-    validate: validate,
+    validate,
     initialValues: {
       grade_name: '',
       section: '',

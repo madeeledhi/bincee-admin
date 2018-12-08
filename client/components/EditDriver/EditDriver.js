@@ -158,8 +158,7 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps)(
   reduxForm({
     form: 'editDriver',
-    enableReinitialize: true,
-    validate: validate,
+    validate,
     initialValues: {
       fullname: '',
       phone_no: '',

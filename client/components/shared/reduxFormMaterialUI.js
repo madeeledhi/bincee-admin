@@ -11,28 +11,41 @@ import RadioButtonGroup from '@material-ui/core/RadioGroup'
 import SelectField from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 
-export const renderTextField = ({
-  input,
-  label,
-  inputProps = {},
-  meta: { touched, error },
-  ...custom
-}) => (
-  <TextField
-    label={label}
-    fullWidth
-    error={touched && error}
-    helperText={touched && error}
-    FormHelperTextProps={{ style: { marginTop: 10, alignSelf: 'flex-start' } }}
-    InputProps={{
-      autoComplete: 'new-password',
-      autofill: 'off',
-      ...inputProps,
-    }}
-    {...input}
-    {...custom}
-  />
-)
+export const renderTextField = props => {
+  const {
+    input,
+    label,
+    inputProps = {},
+    meta: { touched, error },
+    ...custom
+  } = props
+  const { onChange } = input || {
+    onChange: () => {
+      console.log('checked')
+    },
+  }
+  return (
+    <TextField
+      label={label}
+      fullWidth
+      onChange={event => {
+        onChange(event)
+      }}
+      error={touched && error}
+      helperText={touched && error}
+      FormHelperTextProps={{
+        style: { marginTop: 10, alignSelf: 'flex-start' },
+      }}
+      InputProps={{
+        autoComplete: 'new-password',
+        autofill: 'off',
+        ...inputProps,
+      }}
+      {...input}
+      {...custom}
+    />
+  )
+}
 
 export const renderCheckbox = ({ input, label, style = {} }) => (
   <FormControlLabel

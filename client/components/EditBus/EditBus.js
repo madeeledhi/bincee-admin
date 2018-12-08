@@ -151,8 +151,7 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps)(
   reduxForm({
     form: 'editBus',
-    enableReinitialize: true,
-    validate: validate,
+    validate,
     initialValues: {
       registration_no: '',
       description: '',

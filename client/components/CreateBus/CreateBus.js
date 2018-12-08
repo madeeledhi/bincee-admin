@@ -155,7 +155,6 @@ export default connect(mapStateToProps)(
   reduxForm({
     form: 'createBus',
     validate,
-    enableReinitialize: true,
     initialValues: {
       registration_no: '',
       description: '',

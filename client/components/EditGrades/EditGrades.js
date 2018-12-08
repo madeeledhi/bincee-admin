@@ -135,8 +135,7 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps)(
   reduxForm({
     form: 'editgrade',
-    validate: validate,
-    enableReinitialize: true,
+    validate,
     initialValues: {
       grade_name: '',
       section: '',

@@ -24,7 +24,6 @@ import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 
-// TODO: Refactor Photo upload
 class CreateDriver extends React.Component {
   constructor(props) {
     super(props)
@@ -32,6 +31,7 @@ class CreateDriver extends React.Component {
       disabled: false,
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
@@ -71,7 +71,6 @@ class CreateDriver extends React.Component {
     dispatch(push('/dashboard/drivers'))
   }
 
-  //TODO: THis on change handler is not working
   fileChangedHandler = event => {
     const [selectedFile] = event.target.files
     if (selectedFile) {
@@ -99,7 +98,8 @@ class CreateDriver extends React.Component {
   }
 
   render() {
-    const { disabled, selectedFile } = this.state
+    // TODO: Change file upload control
+    const { disabled } = this.state
     return (
       <form className={styles.root}>
         <div className={styles.row}>
@@ -157,19 +157,16 @@ class CreateDriver extends React.Component {
         <div className={styles.row}>
           <Field
             id="photo"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            input={selectedFile}
+            InputLabelProps={{ shrink: true }}
+            input={{ value: '', onChange: this.fileChangedHandler }}
             name="photo"
             margin="normal"
             component={renderTextField}
-            label="Photo Url ."
+            label="Photo Url"
             disabled={false}
             variant="outlined"
             className={styles.item}
             type="file"
-            onChange={this.fileChangedHandler}
           />
         </div>
         <div className={styles.row}>
@@ -206,7 +203,6 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps)(
   reduxForm({
     form: 'createDriver',
-    enableReinitialize: true,
     validate,
     initialValues: {
       password: '',
