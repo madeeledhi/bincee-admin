@@ -7,21 +7,21 @@ import map from 'lodash/fp/map'
 import { push } from 'react-router-redux'
 
 // src
-import EnhancedTable from '../EnhancedTable'
-import LoadingView from '../LoadingView'
 import transformData from './transformers/transformData'
 import { hasPropChanged } from '../../utils'
 import { loadAllBus, deleteBus } from '../../actions'
 import BussesInner from './BussesInner'
 
 class Busses extends React.Component {
-  state = { error: '', isLoading: false }
+  state = { error: '', isLoading: true }
 
   componentDidMount() {
     const { dispatch, user } = this.props
     if (user) {
       const { token } = user
-      dispatch(loadAllBus({ token }))
+      dispatch(loadAllBus({ token })).then(() => {
+        this.setState(() => ({ isLoading: false }))
+      })
     }
   }
 
@@ -31,7 +31,9 @@ class Busses extends React.Component {
       const { token } = user
       if (size(busses) < 1) {
         this.setState(() => ({ isLoading: true }))
-        dispatch(loadAllBus({ token }))
+        dispatch(loadAllBus({ token })).then(() => {
+          this.setState(() => ({ isLoading: false }))
+        })
       } else {
         this.setState(() => ({ error, isLoading: false }))
       }
@@ -45,14 +47,17 @@ class Busses extends React.Component {
       dispatch(loadAllBus({ token }))
     })
   }
+
   handleCreateBus = () => {
     const { dispatch } = this.props
     dispatch(push('/dashboard/busses/create'))
   }
+
   handleUpdateBus = (event, id) => {
     const { dispatch } = this.props
     dispatch(push(`/dashboard/busses/edit/${id}`))
   }
+
   handleDeleteMutipleBusses = selectedArray => {
     const { dispatch, user } = this.props
     const { token } = user
@@ -79,7 +84,7 @@ class Busses extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   const busses = getOr({}, 'bus')(state)
   const user = getOr({}, 'user')(state)
   const bussesList = getOr([], 'bus')(busses)

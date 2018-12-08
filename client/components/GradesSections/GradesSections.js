@@ -7,27 +7,21 @@ import map from 'lodash/fp/map'
 import { push } from 'react-router-redux'
 
 // src
-import EnhancedTable from '../EnhancedTable'
-import LoadingView from '../LoadingView'
 import transformData from './transformers/transformData'
 import { hasPropChanged, infoDrawer } from '../../utils'
-import {
-  loadGrades,
-  loadSingleGrade,
-  createGrade,
-  editGrade,
-  deleteGrade,
-} from '../../actions'
+import { loadGrades, deleteGrade } from '../../actions'
 import GradesSectionsInner from './GradesSectionsInner'
 
 class GradesSections extends React.Component {
-  state = { error: '', isLoading: false }
+  state = { error: '', isLoading: true }
 
   componentDidMount() {
     const { dispatch, user } = this.props
     if (user) {
       const { token } = user
-      dispatch(loadGrades({ token }))
+      dispatch(loadGrades({ token })).then(() => {
+        this.setState(() => ({ isLoading: false }))
+      })
     }
   }
 
@@ -37,7 +31,9 @@ class GradesSections extends React.Component {
       const { token } = user
       if (size(grades) < 1) {
         this.setState(() => ({ isLoading: true }))
-        dispatch(loadGrades({ token }))
+        dispatch(loadGrades({ token })).then(() => {
+          this.setState(() => ({ isLoading: false }))
+        })
       } else {
         this.setState(() => ({ error, isLoading: false }))
       }
@@ -105,7 +101,7 @@ class GradesSections extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   const grades = getOr({}, 'grades')(state)
   const user = getOr({}, 'user')(state)
   const gradesList = getOr([], 'grades')(grades)

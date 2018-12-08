@@ -135,11 +135,10 @@ class Login extends React.Component {
                 disabled={isLoading || disabled}
               />
               <div>
-                <p className={styles.memberText}>Not a member yet?</p>
                 <p className={styles.termsAndConditionsText}>
-                  By signing in you agree with our 
+                  By signing in you agree with our
                   <a className={styles.signUpText}> Terms & Conditions</a>
-              </p>
+                </p>
               </div>
             </form>
           </div>

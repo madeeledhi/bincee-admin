@@ -7,21 +7,21 @@ import map from 'lodash/fp/map'
 import { push } from 'react-router-redux'
 
 // src
-import EnhancedTable from '../EnhancedTable'
-import LoadingView from '../LoadingView'
 import transformData from './transformers/transformData'
 import { hasPropChanged } from '../../utils'
 import { loadDrivers, deleteDriver } from '../../actions'
 import DriversInner from './DriversInner'
 
 class Drivers extends React.Component {
-  state = { error: '', isLoading: false }
+  state = { error: '', isLoading: true }
 
   componentDidMount() {
     const { dispatch, user } = this.props
     if (user) {
       const { token } = user
-      dispatch(loadDrivers({ token }))
+      dispatch(loadDrivers({ token })).then(() => {
+        this.setState(() => ({ isLoading: false }))
+      })
     }
   }
 
@@ -31,7 +31,9 @@ class Drivers extends React.Component {
       const { token } = user
       if (size(drivers) < 1) {
         this.setState(() => ({ isLoading: true }))
-        dispatch(loadDrivers({ token }))
+        dispatch(loadDrivers({ token })).then(() => {
+          this.setState(() => ({ isLoading: false }))
+        })
       } else {
         this.setState(() => ({ error, isLoading: false }))
       }
@@ -45,14 +47,17 @@ class Drivers extends React.Component {
       dispatch(loadDrivers({ token }))
     })
   }
+
   handleCreateDriver = () => {
     const { dispatch } = this.props
     dispatch(push('/dashboard/drivers/create'))
   }
+
   handleUpdateDriver = (event, id) => {
     const { dispatch } = this.props
     dispatch(push(`/dashboard/drivers/edit/${id}`))
   }
+
   handleDeleteMutipleDrivers = selectedArray => {
     const { dispatch, user } = this.props
     const { token } = user
@@ -79,7 +84,7 @@ class Drivers extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   const drivers = getOr({}, 'drivers')(state)
   const user = getOr({}, 'user')(state)
   const driversList = getOr([], 'drivers')(drivers)

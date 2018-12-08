@@ -28,6 +28,7 @@ class CreateBus extends React.Component {
       disabled: false,
     }
   }
+
   componentDidMount() {
     const { dispatch, user } = this.props
     if (user) {
@@ -35,6 +36,7 @@ class CreateBus extends React.Component {
       dispatch(loadDrivers({ token }))
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
@@ -47,6 +49,7 @@ class CreateBus extends React.Component {
       }
     }
   }
+
   createBus = () => {
     const { dispatch, formValues, user } = this.props
     const { token } = user
@@ -64,6 +67,7 @@ class CreateBus extends React.Component {
       dispatch(push('/dashboard/busses'))
     })
   }
+
   handleCancel = () => {
     const { dispatch } = this.props
     dispatch(push('/dashboard/busses'))
@@ -150,7 +154,7 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps)(
   reduxForm({
     form: 'createBus',
-    validate: validate,
+    validate,
     enableReinitialize: true,
     initialValues: {
       registration_no: '',
