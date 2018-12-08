@@ -12,6 +12,7 @@ const BussesInner = ({
   isLoading,
   rows,
   data,
+  onRowClick,
   onDeleteBus,
   onCreateBus,
   onUpdateBus,
@@ -24,6 +25,7 @@ const BussesInner = ({
           rows={rows}
           data={data}
           error={error}
+          handleRowClick={onRowClick}
           handleDeleteRow={onDeleteBus}
           handleCreateRow={onCreateBus}
           handleEditRow={onUpdateBus}
