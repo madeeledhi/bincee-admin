@@ -11,6 +11,7 @@ import transformData from './transformers/transformData'
 import { hasPropChanged, infoDrawer } from '../../utils'
 import { loadGrades, deleteGrade } from '../../actions'
 import GradesSectionsInner from './GradesSectionsInner'
+import Drawer from '../Drawer'
 
 class GradesSections extends React.Component {
   state = { error: '', isLoading: true }
@@ -70,7 +71,7 @@ class GradesSections extends React.Component {
     // Pass the data object as a prop to that component, style the component properly as same style will be used for other tables
     // and will render data that will be have more than 1 heading
     triggerDrawer({
-      content: <div>Drawer for Info</div>,
+      content: <Drawer data={data}/>,
     })
   }
 
