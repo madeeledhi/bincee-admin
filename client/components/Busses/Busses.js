@@ -8,8 +8,8 @@ import { push } from 'react-router-redux'
 
 // src
 import transformData from './transformers/transformData'
-import { hasPropChanged } from '../../utils'
-import { loadAllBus, deleteBus } from '../../actions'
+import { hasPropChanged, infoDrawer } from '../../utils'
+import { loadAllBus, deleteBus, loadSingleDriver } from '../../actions'
 import BussesInner from './BussesInner'
 
 class Busses extends React.Component {
@@ -65,6 +65,21 @@ class Busses extends React.Component {
     dispatch(loadAllBus({ token }))
   }
 
+  handleRowClick = data => {
+    const { triggerDrawer, dispatch, user } = this.props
+    const { driver_id } = data
+    const { token } = user
+    dispatch(loadSingleDriver({ id: driver_id, token })).then(({ payload }) => {
+      const { status, data: payloadData } = payload
+      if (status === 200) {
+        const dataToShow = { bus: data, driver: payloadData }
+        triggerDrawer({
+          content: <div>{JSON.stringify(dataToShow)}</div>,
+        })
+      }
+    })
+  }
+
   render() {
     const { error, isLoading } = this.state
     const { busses } = this.props
@@ -76,6 +91,7 @@ class Busses extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
+        onRowClick={this.handleRowClick}
         onDeleteBus={this.handleDeleteBus}
         onCreateBus={this.handleCreateBus}
         onUpdateBus={this.handleUpdateBus}
@@ -92,4 +108,5 @@ const mapStateToProps = state => {
   const transformedBusses = transformData(bussesList)
   return { busses: transformedBusses, user, error }
 }
-export default connect(mapStateToProps)(Busses)
+const drawerSettings = {}
+export default infoDrawer(drawerSettings)(connect(mapStateToProps)(Busses))
