@@ -28,6 +28,8 @@ class Login extends React.Component {
       error: false,
       disabled: false,
     }
+    this.handleClick = this.handleClick.bind(this)
+    this.enterPressed = this.enterPressed.bind(this)
   }
 
   componentDidMount() {
@@ -59,6 +61,7 @@ class Login extends React.Component {
       }
     }
   }
+  
 
   handleClick = () => {
     const { dispatch, formValues } = this.props
@@ -73,6 +76,15 @@ class Login extends React.Component {
         dispatch(logOut())
       }
     })
+  }
+
+  enterPressed= (event) => {
+    const code = event.keyCode || event.which,
+      { isLoading,  disabled }= this.state,
+      disableEnter = isLoading || disabled
+    if(code === 13 && !disableEnter) { 
+      this.handleClick()
+    } 
   }
 
   render() {
@@ -97,6 +109,7 @@ class Login extends React.Component {
                 variant="outlined"
                 margin="dense"
                 className={styles.fieldBorder}
+                onKeyPress={this.enterPressed}
               />
               <Field
                 id="password"
@@ -108,6 +121,7 @@ class Login extends React.Component {
                 variant="outlined"
                 margin="dense"
                 className={styles.fieldBorder}
+                onKeyPress={this.enterPressed}
               />
               {
                 //TODO: Change this to a span or div, for onclick function
