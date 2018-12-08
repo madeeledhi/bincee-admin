@@ -30,7 +30,6 @@ class CreateDriver extends React.Component {
     super(props)
     this.state = {
       disabled: false,
-      selectedFile: null,
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -72,12 +71,9 @@ class CreateDriver extends React.Component {
     dispatch(push('/dashboard/drivers'))
   }
 
+  //TODO: THis on change handler is not working
   fileChangedHandler = event => {
-    this.setState({ selectedFile: event.target.files[0] })
-  }
-
-  uploadHandler = () => {
-    const { selectedFile } = this.state
+    const [selectedFile] = event.target.files
     if (selectedFile) {
       const { dispatch, user } = this.props
       const { token } = user
@@ -91,7 +87,14 @@ class CreateDriver extends React.Component {
           image: formData,
           token,
         }),
-      )
+      ).then(({ payload }) => {
+        const { status, data } = payload
+        if (status === 200) {
+          const { path } = data
+          const { formValues, initialize } = this.props
+          initialize({ ...formValues, photo: path })
+        }
+      })
     }
   }
 
@@ -167,13 +170,6 @@ class CreateDriver extends React.Component {
             className={styles.item}
             type="file"
             onChange={this.fileChangedHandler}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Button onClick={this.uploadHandler}>Upload!</Button>
-                </InputAdornment>
-              ),
-            }}
           />
         </div>
         <div className={styles.row}>
@@ -211,7 +207,7 @@ export default connect(mapStateToProps)(
   reduxForm({
     form: 'createDriver',
     enableReinitialize: true,
-    validate: validate,
+    validate,
     initialValues: {
       password: '',
       fullname: '',
