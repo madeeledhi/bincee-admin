@@ -19,6 +19,7 @@ import Icon from '@material-ui/core/Icon'
 import { lighten } from '@material-ui/core/styles/colorManipulator'
 import times from 'lodash/fp/times'
 import size from 'lodash/fp/size'
+import toLower from 'lodash/toLower'
 
 //src
 import styles from './EnhanceTableInner.less'
@@ -96,12 +97,16 @@ const EnhancedTableInner = props => {
                     </TableCell>
 
                     {times(i => (
-                      <TableCell component="th" scope="row" className={styles.tableText}>
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        className={styles.tableText}
+                      >
                         <Choose>
                           <When condition={rows[i]['id'] === 'status'}>
                             <span
                               className={
-                                n[`${rows[i]['id']}`] === 'Active'
+                                toLower(n[`${rows[i]['id']}`]) === 'active'
                                   ? styles.status
                                   : styles.inactive
                               }
@@ -116,19 +121,26 @@ const EnhancedTableInner = props => {
                       </TableCell>
                     ))(size(rows))}
                     {hasButtons && (
-                      <TableCell padding="checkbox" component="th" scope="row" className={styles.action}>
+                      <TableCell
+                        padding="checkbox"
+                        component="th"
+                        scope="row"
+                        className={styles.action}
+                      >
                         <IconButton
                           aria-label="Filter list"
                           onClick={event => onEditRow(event, n.id)}
-                          
                         >
-                          <Icon className={styles.editIcon} fontSize={'small'} > edit</Icon>
+                          <Icon className={styles.editIcon} fontSize={'small'}>
+                            {' '}
+                            edit
+                          </Icon>
                         </IconButton>
                         <IconButton
                           aria-label="Filter list"
                           onClick={event => onDeleteRow(event, n.id)}
                         >
-                          <Icon fontSize={'small'} > delete</Icon>
+                          <Icon fontSize={'small'}> delete</Icon>
                         </IconButton>
                       </TableCell>
                     )}
