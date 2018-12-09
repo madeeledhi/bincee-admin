@@ -128,7 +128,7 @@ const EnhancedTableInner = props => {
                           aria-label="Filter list"
                           onClick={event => onDeleteRow(event, n.id)}
                         >
-                          <Icon className={styles.deleteIcon} fontSize={'small'} > delete</Icon>
+                          <Icon fontSize={'small'} > delete</Icon>
                         </IconButton>
                       </TableCell>
                     )}

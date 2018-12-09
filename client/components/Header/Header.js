@@ -51,6 +51,7 @@ class Header extends React.Component {
             aria-haspopup="true"
             onClick={this.handleMenu}
             color="inherit"
+            className={styles.profile}
             disableTouchRipple
           >
             {name}
