@@ -4,7 +4,7 @@ import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
-import Button from '@material-ui/core/Button'
+import Button from '../Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -119,18 +119,14 @@ class EditBus extends React.Component {
             <Button
               disabled={disabled}
               onClick={this.updateBus}
-              color="primary"
-              variant="contained"
-            >
-              Update
-            </Button>
+              label="Update"
+              style={{backgroundColor:'#0adfbd', borderColor:'#0adfbd' }}
+            />
             <Button
               onClick={this.handleCancel}
-              color="secondary"
-              variant="contained"
-            >
-              Cancel
-            </Button>
+              label="Cancel"
+              style={{backgroundColor:'#ff4747', borderColor:'#ff4747' }}
+            />
           </div>
         </div>
       </form>

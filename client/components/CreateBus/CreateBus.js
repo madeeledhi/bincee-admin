@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 import uniqueId from 'lodash/fp/uniqueId'
-import Button from '@material-ui/core/Button'
 import MenuItem from '@material-ui/core/MenuItem'
 import map from 'lodash/fp/map'
 import size from 'lodash/fp/size'
@@ -20,6 +19,7 @@ import { loadDrivers, createBus } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
+import Button from '../Button'
 
 class CreateBus extends React.Component {
   constructor(props) {
@@ -122,18 +122,14 @@ class CreateBus extends React.Component {
             <Button
               disabled={disabled}
               onClick={this.createBus}
-              color="primary"
-              variant="contained"
-            >
-              Create
-            </Button>
+              label="Create"
+              style={{backgroundColor:'#0adfbd', borderColor:'#0adfbd' }}
+            />
             <Button
               onClick={this.handleCancel}
-              color="secondary"
-              variant="contained"
-            >
-              Cancel
-            </Button>
+              label="Cancel"
+              style={{backgroundColor:'#ff4747', borderColor:'#ff4747' }}
+            />
           </div>
         </div>
       </form>

@@ -12,7 +12,7 @@ import styles from './EditGrades.less'
 import { createGrade, editGrade, loadSingleGrade } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
-import { Button } from '@material-ui/core'
+import Button  from '../Button'
 import { validate } from './util'
 
 class EditGrades extends React.Component {
@@ -106,18 +106,14 @@ class EditGrades extends React.Component {
             <Button
               disabled={disabled}
               onClick={this.updateGrade}
-              color="primary"
-              variant="contained"
-            >
-              Update
-            </Button>
+              label="Update"
+              style={{backgroundColor:'#0adfbd', borderColor:'#0adfbd' }}
+            />
             <Button
               onClick={this.handleCancel}
-              color="secondary"
-              variant="contained"
-            >
-              Cancel
-            </Button>
+              label="Cancel"
+              style={{backgroundColor:'#ff4747', borderColor:'#ff4747' }}
+            />
           </div>
         </div>
       </form>

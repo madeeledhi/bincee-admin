@@ -87,6 +87,7 @@ const EnhancedTableInner = props => {
                     selected={isSelected}
                     onClick={() => onRowClick(n)}
                   >
+                  {/* TODO: change the color on selction of row */}
                     <TableCell padding="checkbox" className={styles.tableText}>
                       <Checkbox
                         checked={isSelected}
@@ -128,7 +129,7 @@ const EnhancedTableInner = props => {
                           aria-label="Filter list"
                           onClick={event => onDeleteRow(event, n.id)}
                         >
-                          <Icon fontSize={'small'} > delete</Icon>
+                          <Icon className={styles.deleteIcon} fontSize={'small'} > delete</Icon>
                         </IconButton>
                       </TableCell>
                     )}
@@ -138,6 +139,7 @@ const EnhancedTableInner = props => {
           </TableBody>
         </Table>
       </div>
+      {/* TODO: check if this could be styled */}
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
