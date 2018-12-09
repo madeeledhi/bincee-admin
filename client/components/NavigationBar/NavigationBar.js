@@ -68,6 +68,19 @@ const NavigationBar = props => {
         </ListItem>
         <ListItem
           className={`${styles.navItem} ${
+            activePath === 'parents' ? styles.active : ''
+          }`}
+          button
+          selected={activePath === 'parents'}
+          onClick={() => onRouteChange('/dashboard/parents')}
+        >
+          <ListItemText
+            classes={{ primary: styles.activeText }}
+            primary={'Parent Profiles'}
+          />
+        </ListItem>
+        <ListItem
+          className={`${styles.navItem} ${
             activePath === 'drivers' ? styles.active : ''
           }`}
           button

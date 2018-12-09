@@ -6,7 +6,7 @@ import { Redirect, Route, Switch } from 'react-router'
 
 import Header from '../Header'
 import Home from '../Home'
-import Student from '../Student'
+import Students from '../Students'
 import GradesSections from '../GradesSections'
 import NavigationBar from '../NavigationBar'
 import LoadingView from '../LoadingView'
@@ -21,6 +21,9 @@ import Busses from '../Busses'
 import Drivers from '../Drivers'
 import CreateBus from '../CreateBus'
 import EditBus from '../EditBus'
+import Parents from '../Parents'
+import CreateStudent from '../CreateStudent'
+import EditStudent from '../EditStudent'
 
 const DashboardInner = ({
   onClickSignout,
@@ -57,7 +60,26 @@ const DashboardInner = ({
               <Route
                 path={`${path}/students`}
                 exact
-                component={Student}
+                component={Students}
+                user={user}
+              />
+              <Route
+                path={`${path}/students/create`}
+                exact
+                component={CreateStudent}
+                user={user}
+              />
+              <Route
+                path={`${path}/students/edit/:id`}
+                exact
+                component={EditStudent}
+                user={user}
+              />
+
+              <Route
+                path={`${path}/parents`}
+                exact
+                component={Parents}
                 user={user}
               />
               <Route
