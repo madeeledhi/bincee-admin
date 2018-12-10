@@ -72,6 +72,7 @@ class GradesSections extends React.Component {
     // Pass the data object as a prop to that component, style the component properly as same style will be used for other tables
     // and will render data that will be have more than 1 heading
     triggerDrawer({
+      title: 'Grade Content',
       content: (
         <Drawer data={{ grade: { grade_name, section, grade_section } }} />
       ),
@@ -113,8 +114,8 @@ const mapStateToProps = state => {
   const transformedGrades = transformData(gradesList)
   return { grades: transformedGrades, user, error }
 }
-
-const drawerSettings = {}
+// TODO: send the style for drawer header
+const drawerSettings = { style: {} }
 export default infoDrawer(drawerSettings)(
   connect(mapStateToProps)(GradesSections),
 )

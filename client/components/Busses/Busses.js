@@ -80,7 +80,10 @@ class Busses extends React.Component {
           bus: data,
           driver: payloadData,
         })
-        triggerDrawer({ content: <Drawer data={dataToShow} /> })
+        triggerDrawer({
+          title: 'Bus Content',
+          content: <Drawer data={dataToShow} />,
+        })
       }
     })
   }
@@ -113,5 +116,5 @@ const mapStateToProps = state => {
   const transformedBusses = transformData(bussesList)
   return { busses: transformedBusses, user, error }
 }
-const drawerSettings = {}
+const drawerSettings = { style: {} }
 export default infoDrawer(drawerSettings)(connect(mapStateToProps)(Busses))

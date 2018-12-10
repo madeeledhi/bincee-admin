@@ -12,7 +12,7 @@ import Divider from '@material-ui/core/Divider'
  */
 
 export default (options = {}) => WrappedComponent => {
-  const { style, classes = {} } = options
+  const { style = {}, classes = {} } = options
   return class InfoDialog extends React.Component {
     state = {
       open: false,
@@ -29,7 +29,7 @@ export default (options = {}) => WrappedComponent => {
     }
 
     render() {
-      const { open, anchor, content } = this.state
+      const { open, anchor, content, title } = this.state
       return (
         <React.Fragment>
           <Drawer
@@ -44,6 +44,7 @@ export default (options = {}) => WrappedComponent => {
               <IconButton onClick={this.handleRequestClose}>
                 <Icon>{'arrow_forward'}</Icon>
               </IconButton>
+              <h4 style={style}>{title}</h4>
             </div>
             <Divider />
             <div style={{ width: 240 }}>{content}</div>
