@@ -30,9 +30,6 @@ const DriversInner = ({
         />
       </div>
     </When>
-    <When condition={error}>
-      <div>{error}</div>
-    </When>
     <Otherwise>
       <LoadingView message={'Loading Drivers'} />
     </Otherwise>

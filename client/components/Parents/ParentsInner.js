@@ -30,9 +30,6 @@ const ParentsInner = ({
         />
       </div>
     </When>
-    <When condition={error}>
-      <div>{error}</div>
-    </When>
     <Otherwise>
       <LoadingView message={'Loading Parents'} />
     </Otherwise>

@@ -32,9 +32,6 @@ const GradesSectionsInner = ({
         />
       </div>
     </When>
-    <When condition={error}>
-      <div>{error}</div>
-    </When>
     <Otherwise>
       <LoadingView message={'Loading Grades & Sections'} />
     </Otherwise>

@@ -61,6 +61,7 @@ class GradesSections extends React.Component {
 
   handleRowClick = data => {
     const { triggerDrawer } = this.props
+    const { grade_name, section, grade_section } = data
     // TODO: Create a component that will show the details {data} in the drawer
     /*
     Component format will be as following
@@ -71,7 +72,9 @@ class GradesSections extends React.Component {
     // Pass the data object as a prop to that component, style the component properly as same style will be used for other tables
     // and will render data that will be have more than 1 heading
     triggerDrawer({
-      content: <Drawer data={data}/>,
+      content: (
+        <Drawer data={{ grade: { grade_name, section, grade_section } }} />
+      ),
     })
   }
 

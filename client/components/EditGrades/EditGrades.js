@@ -12,7 +12,7 @@ import styles from './EditGrades.less'
 import { createGrade, editGrade, loadSingleGrade } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
-import Button  from '../Button'
+import Button from '../Button'
 import { validate } from './util'
 
 class EditGrades extends React.Component {
@@ -98,6 +98,7 @@ class EditGrades extends React.Component {
             label="gradeSection"
             disabled={false}
             variant="outlined"
+            margin="dense"
             className={styles.item}
           />
         </div>
@@ -107,12 +108,12 @@ class EditGrades extends React.Component {
               disabled={disabled}
               onClick={this.updateGrade}
               label="Update"
-              style={{backgroundColor:'#0adfbd', borderColor:'#0adfbd' }}
+              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
             />
             <Button
               onClick={this.handleCancel}
               label="Cancel"
-              style={{backgroundColor:'#ff4747', borderColor:'#ff4747' }}
+              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
             />
           </div>
         </div>

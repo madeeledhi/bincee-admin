@@ -50,3 +50,21 @@ export function renameKeyName(obj, oldName, newName) {
 
   return clone
 }
+
+export function transformDrawerData(data) {
+  const { bus, driver } = data
+  const { registration_no, description } = bus
+  const { fullname, phone_no, photo, status } = driver
+  return {
+    bus: {
+      registration_no,
+      description,
+    },
+    driver: {
+      fullname,
+      phone_no,
+      photo,
+      status,
+    },
+  }
+}

@@ -7,10 +7,13 @@ import map from 'lodash/fp/map'
 import { push } from 'react-router-redux'
 
 // src
-import transformData from './transformers/transformData'
+import transformData, {
+  transformDrawerData,
+} from './transformers/transformData'
 import { hasPropChanged, infoDrawer } from '../../utils'
 import { loadAllBus, deleteBus, loadSingleDriver } from '../../actions'
 import BussesInner from './BussesInner'
+import Drawer from '../Drawer'
 
 class Busses extends React.Component {
   state = { error: '', isLoading: true }
@@ -66,16 +69,18 @@ class Busses extends React.Component {
   }
 
   handleRowClick = data => {
-    const { triggerDrawer, dispatch, user } = this.props
+    const { triggerDrawer, dispatch, user, onDrawerClose } = this.props
     const { driver_id } = data
     const { token } = user
+    onDrawerClose()
     dispatch(loadSingleDriver({ id: driver_id, token })).then(({ payload }) => {
       const { status, data: payloadData } = payload
       if (status === 200) {
-        const dataToShow = { bus: data, driver: payloadData }
-        triggerDrawer({
-          content: <div>{JSON.stringify(dataToShow)}</div>,
+        const dataToShow = transformDrawerData({
+          bus: data,
+          driver: payloadData,
         })
+        triggerDrawer({ content: <Drawer data={dataToShow} /> })
       }
     })
   }

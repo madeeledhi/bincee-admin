@@ -30,9 +30,6 @@ const StudentsInner = ({
         />
       </div>
     </When>
-    <When condition={error}>
-      <div>{error}</div>
-    </When>
     <Otherwise>
       <LoadingView message={'Loading Students'} />
     </Otherwise>

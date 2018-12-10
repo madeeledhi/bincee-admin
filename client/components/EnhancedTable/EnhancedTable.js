@@ -125,34 +125,27 @@ class EnhancedTable extends React.Component {
     } = this.props
 
     return (
-      <Choose>
-        <When condition={size(rows) > 0}>
-          <EnhancedTableInner
-            tableName={tableName}
-            rows={rows}
-            data={data}
-            order={order}
-            orderBy={orderBy}
-            selected={selected}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onSelectAllClick={this.handleSelectAllClick}
-            onRequestSort={this.handleRequestSort}
-            onClick={this.handleClick}
-            onDeleteRow={handleDeleteRow}
-            onEditRow={handleEditRow}
-            onDeleteMutipleRows={this.handleDeleteMutipleRows}
-            onChangeRowsPerPage={this.handleChangeRowsPerPage}
-            onChangePage={this.handleChangePage}
-            isRowSelected={this.isSelected}
-            onCreateRow={handleCreateRow}
-            onRowClick={handleRowClick}
-          />
-        </When>
-        <Otherwise>
-          <div>{'No Data Available'}</div>
-        </Otherwise>
-      </Choose>
+      <EnhancedTableInner
+        tableName={tableName}
+        rows={rows}
+        data={data}
+        order={order}
+        orderBy={orderBy}
+        selected={selected}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onSelectAllClick={this.handleSelectAllClick}
+        onRequestSort={this.handleRequestSort}
+        onClick={this.handleClick}
+        onDeleteRow={handleDeleteRow}
+        onEditRow={handleEditRow}
+        onDeleteMutipleRows={this.handleDeleteMutipleRows}
+        onChangeRowsPerPage={this.handleChangeRowsPerPage}
+        onChangePage={this.handleChangePage}
+        isRowSelected={this.isSelected}
+        onCreateRow={handleCreateRow}
+        onRowClick={handleRowClick}
+      />
     )
   }
 }
