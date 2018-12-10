@@ -18,10 +18,9 @@ import { validate } from './util'
 class CreateGrades extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      disabled: false,
-    }
+    this.state = { disabled: false, isLoading: false }
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
@@ -34,6 +33,7 @@ class CreateGrades extends React.Component {
       }
     }
   }
+
   createGrade = () => {
     const { dispatch, formValues, user } = this.props
     const { token } = user
@@ -45,6 +45,7 @@ class CreateGrades extends React.Component {
       },
     )
   }
+
   handleCancel = () => {
     const { dispatch } = this.props
     dispatch(push('/dashboard/grades'))
@@ -94,12 +95,12 @@ class CreateGrades extends React.Component {
               disabled={disabled}
               onClick={this.createGrade}
               label="Create"
-              style={{backgroundColor:'#0adfbd', borderColor:'#0adfbd' }}
+              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
             />
             <Button
               onClick={this.handleCancel}
               label="Cancel"
-              style={{backgroundColor:'#ff4747', borderColor:'#ff4747' }}
+              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
             />
           </div>
         </div>

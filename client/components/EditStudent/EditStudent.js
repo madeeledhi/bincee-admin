@@ -35,8 +35,10 @@ class EditStudent extends React.Component {
     super(props)
     this.state = {
       disabled: false,
+      isLoading: true,
     }
   }
+
   componentDidMount() {
     const { user, dispatch, match, initialize } = this.props
     const { token } = user
@@ -46,6 +48,7 @@ class EditStudent extends React.Component {
     dispatch(loadShifts({ token }))
     dispatch(loadGrades({ token }))
     dispatch(loadSingleStudent({ id, token })).then(({ payload }) => {
+      this.setState(() => ({ isLoading: false }))
       const { data } = payload
       const {
         fullname,
@@ -68,6 +71,7 @@ class EditStudent extends React.Component {
       initialize(config)
     })
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
@@ -111,10 +115,12 @@ class EditStudent extends React.Component {
       dispatch(push('/dashboard/students'))
     })
   }
+
   handleCancel = () => {
     const { dispatch } = this.props
     dispatch(push('/dashboard/students'))
   }
+
   render() {
     const { disabled } = this.state
     const { driversList, parentsList, gradesList, shiftsList } = this.props
@@ -239,12 +245,12 @@ class EditStudent extends React.Component {
               disabled={disabled}
               onClick={this.updateStudent}
               label="Update"
-              style={{backgroundColor:'#0adfbd', borderColor:'#0adfbd' }}
+              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
             />
             <Button
               onClick={this.handleCancel}
               label="Cancel"
-              style={{backgroundColor:'#ff4747', borderColor:'#ff4747' }}
+              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
             />
           </div>
         </div>

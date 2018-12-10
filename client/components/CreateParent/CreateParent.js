@@ -31,9 +31,7 @@ import Button from '../Button'
 class CreateParent extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      disabled: false,
-    }
+    this.state = { disabled: false, isLoading: false }
   }
 
   componentWillReceiveProps(nextProps) {
