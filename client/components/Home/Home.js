@@ -1,9 +1,9 @@
 // libs
 import React from 'react'
-
+import styles from './styles.less'
 class Home extends React.Component {
   render() {
-    return <div>i am home</div>
+    return <div className={styles.main}/>
   }
 }
 

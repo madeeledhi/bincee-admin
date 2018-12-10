@@ -4,7 +4,6 @@ import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
-import Button from '@material-ui/core/Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -29,6 +28,7 @@ import {
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
+import Button from '../Button'
 
 class EditStudent extends React.Component {
   constructor(props) {
@@ -238,18 +238,14 @@ class EditStudent extends React.Component {
             <Button
               disabled={disabled}
               onClick={this.updateStudent}
-              color="primary"
-              variant="contained"
-            >
-              Update
-            </Button>
+              label="Update"
+              style={{backgroundColor:'#0adfbd', borderColor:'#0adfbd' }}
+            />
             <Button
               onClick={this.handleCancel}
-              color="secondary"
-              variant="contained"
-            >
-              Cancel
-            </Button>
+              label="Cancel"
+              style={{backgroundColor:'#ff4747', borderColor:'#ff4747' }}
+            />
           </div>
         </div>
       </form>

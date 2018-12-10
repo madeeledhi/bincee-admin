@@ -4,7 +4,6 @@ import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
-import Button from '../Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
 import size from 'lodash/fp/size'
@@ -19,6 +18,7 @@ import { loadSingleDriver, updateDriver } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
+import Button from '../Button'
 
 class EditDriver extends React.Component {
   constructor(props) {
