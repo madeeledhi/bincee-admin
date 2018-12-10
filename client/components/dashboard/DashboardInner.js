@@ -24,6 +24,8 @@ import EditBus from '../EditBus'
 import Parents from '../Parents'
 import CreateStudent from '../CreateStudent'
 import EditStudent from '../EditStudent'
+import CreateParent from '../CreateParent'
+import EditParent from '../EditParent'
 
 const DashboardInner = ({
   onClickSignout,
@@ -80,6 +82,18 @@ const DashboardInner = ({
                 path={`${path}/parents`}
                 exact
                 component={Parents}
+                user={user}
+              />
+              <Route
+                path={`${path}/parents/create`}
+                exact
+                component={CreateParent}
+                user={user}
+              />
+              <Route
+                path={`${path}/parents/edit/:id`}
+                exact
+                component={EditParent}
                 user={user}
               />
               <Route

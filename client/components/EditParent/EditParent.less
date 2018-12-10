@@ -1,0 +1,37 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  .buttonGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 1rem;
+
+    .item {
+      width: 30%;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      div > fieldset {
+        border-radius: 25px;
+      }
+      div > input {
+        border: 1px solid transparent;
+        border-radius: 26px;
+      }
+    }
+    .radioButton {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      margin: 0.1rem 1rem 0.1rem;
+    }
+  }
+}
