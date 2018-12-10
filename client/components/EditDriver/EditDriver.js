@@ -25,20 +25,24 @@ class EditDriver extends React.Component {
     super(props)
     this.state = {
       disabled: false,
+      isLoading: true,
     }
   }
+
   componentDidMount() {
     const { user, dispatch, match, initialize } = this.props
     const { token } = user
     const id = getOr('', 'params.id')(match)
 
     dispatch(loadSingleDriver({ id, token })).then(({ payload }) => {
+      this.setState(() => ({ isLoading: false }))
       const { data } = payload
       const { username, password, fullname, phone_no, status, photo } = data
       const config = { username, password, fullname, phone_no, status, photo }
       initialize(config)
     })
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
@@ -64,10 +68,12 @@ class EditDriver extends React.Component {
       dispatch(push('/dashboard/drivers'))
     })
   }
+
   handleCancel = () => {
     const { dispatch } = this.props
     dispatch(push('/dashboard/drivers'))
   }
+
   render() {
     const { disabled } = this.state
     return (
@@ -130,12 +136,12 @@ class EditDriver extends React.Component {
               disabled={disabled}
               onClick={this.updateDriver}
               label="Update"
-              style={{backgroundColor:'#0adfbd', borderColor:'#0adfbd' }}
+              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
             />
             <Button
               onClick={this.handleCancel}
               label="Cancel"
-              style={{backgroundColor:'#ff4747', borderColor:'#ff4747' }}
+              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
             />
           </div>
         </div>

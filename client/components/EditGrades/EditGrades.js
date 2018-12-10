@@ -20,20 +20,24 @@ class EditGrades extends React.Component {
     super(props)
     this.state = {
       disabled: false,
+      isLoading: true,
     }
   }
+
   componentDidMount() {
     const { user, dispatch, match, initialize } = this.props
     const { token } = user
     const id = getOr('', 'params.id')(match)
 
     dispatch(loadSingleGrade({ id, token })).then(({ payload }) => {
+      this.setState(() => ({ isLoading: false }))
       const { status, data } = payload
       const { grade_name, section, grade_section } = data
       const config = { grade_name, section, grade_section }
       initialize(config)
     })
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)

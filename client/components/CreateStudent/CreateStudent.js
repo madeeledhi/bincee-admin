@@ -38,10 +38,9 @@ import Button from '../Button'
 class CreateStudent extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      disabled: false,
-    }
+    this.state = { disabled: false, isLoading: false }
   }
+
   componentDidMount() {
     const { dispatch, user } = this.props
     if (user) {
@@ -52,6 +51,7 @@ class CreateStudent extends React.Component {
       dispatch(loadGrades({ token }))
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
@@ -250,12 +250,12 @@ class CreateStudent extends React.Component {
               disabled={disabled}
               onClick={this.createNewStudent}
               label="Create"
-              style={{backgroundColor:'#0adfbd', borderColor:'#0adfbd' }}
+              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
             />
             <Button
               onClick={this.handleCancel}
               label="Cancel"
-              style={{backgroundColor:'#ff4747', borderColor:'#ff4747' }}
+              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
             />
           </div>
         </div>

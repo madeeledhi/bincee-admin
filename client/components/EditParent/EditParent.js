@@ -25,20 +25,24 @@ class EditParent extends React.Component {
     super(props)
     this.state = {
       disabled: false,
+      isLoading: true,
     }
   }
+
   componentDidMount() {
     const { user, dispatch, match, initialize } = this.props
     const { token } = user
     const id = getOr('', 'params.id')(match)
 
     dispatch(loadSingleParent({ id, token })).then(({ payload }) => {
+      this.setState(() => ({ isLoading: false }))
       const { data } = payload
       const { fullname, address, phone_no, email, status, photo } = data
       const config = { fullname, address, phone_no, email, status, photo }
       initialize(config)
     })
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
@@ -77,10 +81,12 @@ class EditParent extends React.Component {
       dispatch(push('/dashboard/parents'))
     })
   }
+
   handleCancel = () => {
     const { dispatch } = this.props
     dispatch(push('/dashboard/parents'))
   }
+
   render() {
     const { disabled } = this.state
     return (

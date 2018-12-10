@@ -26,6 +26,7 @@ class CreateBus extends React.Component {
     super(props)
     this.state = {
       disabled: false,
+      isLoading: false,
     }
   }
 
@@ -123,12 +124,12 @@ class CreateBus extends React.Component {
               disabled={disabled}
               onClick={this.createBus}
               label="Create"
-              style={{backgroundColor:'#0adfbd', borderColor:'#0adfbd' }}
+              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
             />
             <Button
               onClick={this.handleCancel}
               label="Cancel"
-              style={{backgroundColor:'#ff4747', borderColor:'#ff4747' }}
+              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
             />
           </div>
         </div>

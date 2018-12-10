@@ -25,22 +25,23 @@ import { validate } from './util'
 class EditBus extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      disabled: false,
-    }
+    this.state = { disabled: false, isLoading: true }
   }
+
   componentDidMount() {
     const { user, dispatch, match, initialize } = this.props
     const { token } = user
     const id = getOr('', 'params.id')(match)
     dispatch(loadDrivers({ token }))
     dispatch(loadSingleBus({ id, token })).then(({ payload }) => {
+      this.setState(() => ({ isLoading: false }))
       const { data } = payload
       const { registration_no, description, driver_id } = data
       const config = { registration_no, description, driver_id }
       initialize(config)
     })
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
@@ -66,10 +67,12 @@ class EditBus extends React.Component {
       dispatch(push('/dashboard/busses'))
     })
   }
+
   handleCancel = () => {
     const { dispatch } = this.props
     dispatch(push('/dashboard/busses'))
   }
+
   render() {
     const { disabled } = this.state
     const { driversList } = this.props
@@ -120,12 +123,12 @@ class EditBus extends React.Component {
               disabled={disabled}
               onClick={this.updateBus}
               label="Update"
-              style={{backgroundColor:'#0adfbd', borderColor:'#0adfbd' }}
+              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
             />
             <Button
               onClick={this.handleCancel}
               label="Cancel"
-              style={{backgroundColor:'#ff4747', borderColor:'#ff4747' }}
+              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
             />
           </div>
         </div>
