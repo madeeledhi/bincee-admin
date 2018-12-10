@@ -60,6 +60,8 @@ class EnhancedTable extends React.Component {
   }
 
   handleClick = (event, id) => {
+    event.stopPropagation()
+    event.preventDefault()
     const { selected } = this.state
     const selectedIndex = selected.indexOf(id)
 
@@ -79,6 +81,7 @@ class EnhancedTable extends React.Component {
     }
 
     this.setState({ selected: newSelected })
+    return false
   }
 
   handleChangePage = (event, page) => {

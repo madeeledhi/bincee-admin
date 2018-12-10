@@ -29,12 +29,20 @@ const EnhancedTableToolbar = props => {
     selectedArray,
     onDeleteMutipleRows,
   } = props
-
+  // TODO: Bring the content to center in rows just like in the design
   return (
-    <Toolbar className={`${styles.root} ${numSelected> 0 ? styles.selectedBackground: ''}`}>
+    <Toolbar
+      className={`${styles.root} ${
+        numSelected > 0 ? styles.selectedBackground : ''
+      }`}
+    >
       <div className={styles.title}>
         {numSelected > 0 ? (
-          <Typography color="inherit" variant="subtitle1" className={`${styles.head} ${styles.headColor}`} >
+          <Typography
+            color="inherit"
+            variant="subtitle1"
+            className={`${styles.head} ${styles.headColor}`}
+          >
             {numSelected} selected
           </Typography>
         ) : (
@@ -51,7 +59,10 @@ const EnhancedTableToolbar = props => {
               aria-label="Delete"
               onClick={event => onDeleteMutipleRows(event, selectedArray)}
             >
-              <Icon className={styles.deleteIcon} fontSize={'small'} > delete</Icon>
+              <Icon className={styles.deleteIcon} fontSize={'small'}>
+                {' '}
+                delete
+              </Icon>
             </IconButton>
           </Tooltip>
         ) : (
@@ -60,10 +71,9 @@ const EnhancedTableToolbar = props => {
           //     <Icon className={styles.createIcon} > add_circle</Icon>
           //   </IconButton>
           // </Tooltip>
-          <Button onClick={onCreateRow} label= {'Create'}  />
+          <Button onClick={onCreateRow} label={'Create'} />
         )}
       </div>
-      
     </Toolbar>
   )
 }

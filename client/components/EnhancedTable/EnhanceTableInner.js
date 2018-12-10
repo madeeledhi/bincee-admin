@@ -88,7 +88,7 @@ const EnhancedTableInner = props => {
                     selected={isSelected}
                     onClick={() => onRowClick(n)}
                   >
-                  {/* TODO: change the color on selction of row */}
+                    {/* TODO: change the color on selction of row */}
                     <TableCell padding="checkbox" className={styles.tableText}>
                       <Checkbox
                         checked={isSelected}
@@ -130,18 +130,32 @@ const EnhancedTableInner = props => {
                       >
                         <IconButton
                           aria-label="Filter list"
-                          onClick={event => onEditRow(event, n.id)}
+                          onClick={event => {
+                            event.stopPropagation()
+                            event.preventDefault()
+                            onEditRow(event, n.id)
+                            return false
+                          }}
                         >
                           <Icon className={styles.editIcon} fontSize={'small'}>
-                            {' '}
-                            edit
+                            {'edit'}
                           </Icon>
                         </IconButton>
                         <IconButton
                           aria-label="Filter list"
-                          onClick={event => onDeleteRow(event, n.id)}
+                          onClick={event => {
+                            event.stopPropagation()
+                            event.preventDefault()
+                            onDeleteRow(event, n.id)
+                            return false
+                          }}
                         >
-                          <Icon className={styles.deleteIcon} fontSize={'small'} > delete</Icon>
+                          <Icon
+                            className={styles.deleteIcon}
+                            fontSize={'small'}
+                          >
+                            {'delete'}
+                          </Icon>
                         </IconButton>
                       </TableCell>
                     )}
