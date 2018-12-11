@@ -289,6 +289,7 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps)(
   reduxForm({
     form: 'editStudent',
+    validate,
     initialValues: {
       fullname: '',
       status: '',
