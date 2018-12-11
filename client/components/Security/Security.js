@@ -6,12 +6,12 @@ import { push } from 'react-router-redux'
 import { getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import size from 'lodash/fp/size'
 //src
-import ProfileInner from './ProfileInner'
-import { editUserDetails } from '../../actions'
-import { hasPropChanged } from '../../utils'
+import SecurityInner from './SecurityInner'
+import { editPassword } from '../../actions'
 import { validate } from './util'
+import { hasPropChanged } from '../../utils'
 
-class Profile extends React.Component {
+class Security extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -21,12 +21,6 @@ class Profile extends React.Component {
     this.handleUpdate = this.handleUpdate.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
 
-  }
-
-  componentDidMount() {
-    const { userDetails, initialize } = this.props
-    const { name = '', address = '', phone_no = '' } = userDetails
-    initialize({ name, address, phone_no })
   }
 
 
@@ -41,21 +35,13 @@ class Profile extends React.Component {
         this.setState(() => ({ disabled: false }))
       }
     }
-    if (
-      hasPropChanged('userDetails', this.props, nextProps)
-    ) {
-
-      const { userDetails, initialize } = nextProps
-      const { name = '', address = '', phone_no = '' } = userDetails
-      initialize({ name, address, phone_no })
-    }
   }
 
   handleUpdate() {
     const { dispatch, user, formValues } = this.props
-    const { name, address, phone_no } = formValues
+    const { new_password } = formValues
     const { id, token } = user
-    dispatch(editUserDetails({ id, name, address, phone_no, token })).then(({ payload }) => {
+    dispatch(editPassword({ id, new_password, token })).then(({ payload }) => {
 
     })
   }
@@ -66,11 +52,11 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { userDetails } = this.props
+    const { user } = this.props
     const {disabled, isLoading} =this.state
     return (
-      <ProfileInner
-        data={userDetails}
+      <SecurityInner
+        data={user}
         disabled={disabled}
         isLoading={isLoading}
         handleUpdate={this.handleUpdate}
@@ -81,25 +67,23 @@ class Profile extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const userDetails = getOr({}, 'userDetails')(state)
   const user = getOr({}, 'user')(state)
-  const error = getOr('', 'message')(userDetails)
+  const error = getOr('', 'message')(user)
   return {
-    formValues: getFormValues('profile')(state),
-    validationErrors: getFormSyncErrors('profile')(state),
-    userDetails, error,
-    user,
+    formValues: getFormValues('security')(state),
+    validationErrors: getFormSyncErrors('security')(state),
+    user, error,
   }
 }
 
 export default connect(mapStateToProps)(
   reduxForm({
-    form: 'profile',
+    form: 'security',
     validate,
     initialValues: {
-      name: '',
-      phone_no: '',
-      address: '',
+      current_password: '',
+      new_password: '',
+      re_enter_password: '',
     },
-  })(Profile),
+  })(Security),
 )

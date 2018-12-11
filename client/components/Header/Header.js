@@ -4,6 +4,7 @@ import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
+import Icon from '@material-ui/core/Icon'
 import { withStyles } from '@material-ui/core/styles'
 // src
 import styles from './Header.less'
@@ -67,9 +68,23 @@ class Header extends React.Component {
             onClose={this.handleClose}
           >
             <MenuItem onClick={() => onRouteChange('/dashboard/profile')}>
+              <Icon className={styles .iconColor} fontSize={'small'}>
+              account_circle
+              </Icon>
               Profile
             </MenuItem>
-            <MenuItem onClick={onClickSignout}>Logout</MenuItem>
+            <MenuItem onClick={() => onRouteChange('/dashboard/security')}>
+              <Icon className={styles .iconColor} fontSize={'small'}>
+                security
+              </Icon>
+              Security
+            </MenuItem>
+            <MenuItem onClick={onClickSignout}>
+              <Icon className={styles .iconColor} fontSize={'small'}>
+              credit_card
+              </Icon>
+              Logout
+            </MenuItem>
           </Menu>
         </div>
       </div>
