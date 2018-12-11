@@ -22,7 +22,7 @@ const Drawer = ({ data }) => {
           filter(key => key !== 'photo'),
         )(current)
         return (
-          <div>
+          <div className={styles.divider}>
             <h4 className={styles.heading}>{startCase(heading)}</h4>
             {hasPhoto && (
               <Avatar

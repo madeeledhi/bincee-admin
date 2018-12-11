@@ -91,87 +91,104 @@ class EditParent extends React.Component {
     const { disabled } = this.state
     return (
       <form className={styles.root}>
-        <div className={styles.row}>
-          <Field
-            className={styles.radioButton}
-            name="status"
-            label="Status"
-            component={renderRadioGroup}
-          >
-            <FormControlLabel
-              value="Active"
-              control={<Radio color="primary" />}
-              label="Active"
+        <div className={styles.sameRow}>
+          <div className={styles.row}>
+            <Field
+              id="fullname"
+              name="fullname"
+              component={renderTextField}
+              label="Fullname"
+              disabled={false}
+              variant="outlined"
+              className={styles.item}
             />
-            <FormControlLabel
-              value="Inactive"
-              control={<Radio color="primary" />}
-              label="Inactive"
+          </div>
+          <div className={styles.row}>
+            <Field
+              id="password"
+              name="password"
+              component={renderTextField}
+              label="Password"
+              disabled={true}
+              variant="outlined"
+              className={styles.item}
             />
-          </Field>
+          </div>
         </div>
-        <div className={styles.row}>
-          <Field
-            id="fullname"
-            name="fullname"
-            component={renderTextField}
-            label="Fullname"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
+        <div className={styles.sameRow}>
+          <div className={styles.row}>
+            <Field
+              id="email"
+              name="email"
+              component={renderTextField}
+              label="Email"
+              disabled={false}
+              variant="outlined"
+              className={styles.item}
+            />
+          </div>
+          <div className={styles.row}>
+            <Field
+              id="address"
+              name="address"
+              component={renderTextField}
+              label="Address"
+              disabled={false}
+              variant="outlined"
+              className={styles.item}
+            />
+          </div>
         </div>
-
-        <div className={styles.row}>
-          <Field
-            id="email"
-            name="email"
-            component={renderTextField}
-            label="Email"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
+        <div className={styles.sameRow}>
+          <div className={styles.row}>
+            <Field
+              id="phone_no"
+              name="phone_no"
+              component={renderTextField}
+              label="Phone no"
+              disabled={false}
+              variant="outlined"
+              className={styles.item}
+            />
+          </div>
+          <div className={styles.row}>
+            <Field
+              className={styles.radioButton}
+              name="status"
+              label="Status"
+              component={renderRadioGroup}
+            >
+              <FormControlLabel
+                value="Active"
+                control={<Radio color="primary" />}
+                label="Active"
+              />
+              <FormControlLabel
+                value="Inactive"
+                control={<Radio color="primary" />}
+                label="Inactive"
+              />
+            </Field>
+          </div>
         </div>
-        <div className={styles.row}>
-          <Field
-            id="address"
-            name="address"
-            component={renderTextField}
-            label="Address"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
+        <div className={styles.sameRow}>
+          <div className={styles.row}>
+            <Field
+              id="photo"
+              InputLabelProps={{ shrink: true }}
+              input={{ value: '', onChange: this.fileChangedHandler }}
+              name="photo"
+              margin="normal"
+              component={renderTextField}
+              label="Photo Url"
+              disabled={false}
+              variant="outlined"
+              className={styles.item}
+              type="file"
+            />
+          </div>
         </div>
-        <div className={styles.row}>
-          <Field
-            id="phone_no"
-            name="phone_no"
-            component={renderTextField}
-            label="Phone no"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
-        </div>
-        <div className={styles.row}>
-          <Field
-            id="photo"
-            InputLabelProps={{ shrink: true }}
-            input={{ value: '', onChange: this.fileChangedHandler }}
-            name="photo"
-            margin="normal"
-            component={renderTextField}
-            label="Photo Url"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-            type="file"
-          />
-        </div>
-
-        <div className={styles.row}>
+        <div className={styles.fullRow}>
           <div className={styles.item}>
             <Button
               disabled={disabled}
@@ -187,6 +204,7 @@ class EditParent extends React.Component {
           </div>
         </div>
       </form>
+
     )
   }
 }

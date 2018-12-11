@@ -103,6 +103,25 @@ class CreateDriver extends React.Component {
       <form className={styles.root}>
         <div className={styles.row}>
           <Field
+            className={styles.radioButton}
+            name="status"
+            label="Status"
+            component={renderRadioGroup}
+          >
+            <FormControlLabel
+              value="Active"
+              control={<Radio color="primary" />}
+              label="Active"
+            />
+            <FormControlLabel
+              value="Inactive"
+              control={<Radio color="primary" />}
+              label="Inactive"
+            />
+          </Field>
+        </div>
+        <div className={styles.row}>
+          <Field
             id="fullname"
             name="fullname"
             component={renderTextField}
@@ -133,25 +152,6 @@ class CreateDriver extends React.Component {
             variant="outlined"
             className={styles.item}
           />
-        </div>
-        <div className={styles.row}>
-          <Field
-            className={styles.radioButton}
-            name="status"
-            label="Status"
-            component={renderRadioGroup}
-          >
-            <FormControlLabel
-              value="Active"
-              control={<Radio color="primary" />}
-              label="Active"
-            />
-            <FormControlLabel
-              value="Inactive"
-              control={<Radio color="primary" />}
-              label="Inactive"
-            />
-          </Field>
         </div>
         <div className={styles.row}>
           <Field

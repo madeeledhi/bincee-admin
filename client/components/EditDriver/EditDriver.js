@@ -80,6 +80,25 @@ class EditDriver extends React.Component {
       <form className={styles.root}>
         <div className={styles.row}>
           <Field
+            className={styles.radioButton}
+            name="status"
+            label="Status"
+            component={renderRadioGroup}
+          >
+            <FormControlLabel
+              value="Active"
+              control={<Radio color="primary" />}
+              label="Active"
+            />
+            <FormControlLabel
+              value="Inactive"
+              control={<Radio color="primary" />}
+              label="Inactive"
+            />
+          </Field>
+        </div>
+        <div className={styles.row}>
+          <Field
             id="fullname"
             name="fullname"
             component={renderTextField}
@@ -102,32 +121,17 @@ class EditDriver extends React.Component {
         </div>
         <div className={styles.row}>
           <Field
-            className={styles.radioButton}
-            name="status"
-            label="Status"
-            component={renderRadioGroup}
-          >
-            <FormControlLabel
-              value="Active"
-              control={<Radio color="primary" />}
-              label="Active"
-            />
-            <FormControlLabel
-              value="Inactive"
-              control={<Radio color="primary" />}
-              label="Inactive"
-            />
-          </Field>
-        </div>
-        <div className={styles.row}>
-          <Field
             id="photo"
+            InputLabelProps={{ shrink: true }}
+            input={{ value: '', onChange: this.fileChangedHandler }}
             name="photo"
+            margin="normal"
             component={renderTextField}
             label="Photo Url"
             disabled={false}
             variant="outlined"
             className={styles.item}
+            type="file"
           />
         </div>
         <div className={styles.row}>

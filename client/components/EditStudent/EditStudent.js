@@ -126,25 +126,6 @@ class EditStudent extends React.Component {
     const { driversList, parentsList, gradesList, shiftsList } = this.props
     return (
       <form className={styles.root}>
-        <div className={styles.fullRow}>
-          <Field
-            className={styles.radioButton}
-            name="status"
-            label="Status"
-            component={renderRadioGroup}
-          >
-            <FormControlLabel
-              value="Active"
-              control={<Radio color="primary" />}
-              label="Active"
-            />
-            <FormControlLabel
-              value="Inactive"
-              control={<Radio color="primary" />}
-              label="Inactive"
-            />
-          </Field>
-        </div>
         <div className={styles.sameRow}>
           <div className={styles.row}>
             <Field
@@ -213,23 +194,6 @@ class EditStudent extends React.Component {
           <div className={styles.row}>
             <Field
               className={styles.item}
-              name="parent_id"
-              component={renderTextField}
-              select
-              label="Select Parent"
-              variant="outlined"
-              margin="dense"
-            >
-              {map(({ parent_id, fullname }) => (
-                <MenuItem key={parent_id} value={parent_id}>
-                  {fullname}
-                </MenuItem>
-              ))(parentsList)}
-            </Field>
-          </div>
-          <div className={styles.row}>
-            <Field
-              className={styles.item}
               name="driver_id"
               component={renderTextField}
               select
@@ -242,6 +206,44 @@ class EditStudent extends React.Component {
                   {fullname}
                 </MenuItem>
               ))(driversList)}
+            </Field>
+          </div>
+          <div className={styles.row}>
+            <Field
+              className={styles.radioButton}
+              name="status"
+              label="Status"
+              component={renderRadioGroup}
+            >
+              <FormControlLabel
+                value="Active"
+                control={<Radio color="primary" />}
+                label="Active"
+              />
+              <FormControlLabel
+                value="Inactive"
+                control={<Radio color="primary" />}
+                label="Inactive"
+              />
+            </Field>
+          </div>
+        </div>
+        <div className={styles.sameRow}>
+          <div className={styles.row}>
+            <Field
+              className={styles.item}
+              name="parent_id"
+              component={renderTextField}
+              select
+              label="Select Parent"
+              variant="outlined"
+              margin="dense"
+            >
+              {map(({ parent_id, fullname }) => (
+                <MenuItem key={parent_id} value={parent_id}>
+                  {fullname}
+                </MenuItem>
+              ))(parentsList)}
             </Field>
           </div>
         </div>
