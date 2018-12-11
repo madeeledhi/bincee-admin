@@ -10,10 +10,7 @@ import map from 'lodash/fp/map'
 import size from 'lodash/fp/size'
 
 //src
-import {
-  renderTextField,
-  renderRadioGroup,
-} from '../shared/reduxFormMaterialUI'
+import { renderTextField } from '../shared/reduxFormMaterialUI'
 import styles from './CreateBus.less'
 import { loadDrivers, createBus } from '../../actions'
 import { hasPropChanged } from '../../utils'

@@ -8,11 +8,7 @@ import uniqueId from 'lodash/fp/uniqueId'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
 import size from 'lodash/fp/size'
-import Input from '@material-ui/core/Input'
-import InputAdornment from '@material-ui/core/InputAdornment'
 import FormData from 'form-data'
-import MenuItem from '@material-ui/core/MenuItem'
-import map from 'lodash/fp/map'
 
 //src
 import {
@@ -20,12 +16,10 @@ import {
   renderRadioGroup,
 } from '../shared/reduxFormMaterialUI'
 import styles from './CreateParent.less'
-import { createParent } from '../../actions'
+import { createParent, uploadImage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
-import grades from '../../reducers/grades'
-import shifts from '../../reducers/shifts'
 import Button from '../Button'
 
 class CreateParent extends React.Component {
@@ -239,6 +233,7 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps)(
   reduxForm({
     form: 'createParent',
+    validate,
     initialValues: {
       password: '',
       fullname: '',

@@ -8,8 +8,6 @@ import uniqueId from 'lodash/fp/uniqueId'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
 import size from 'lodash/fp/size'
-import Input from '@material-ui/core/Input'
-import InputAdornment from '@material-ui/core/InputAdornment'
 import FormData from 'form-data'
 
 //src

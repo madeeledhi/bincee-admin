@@ -2,7 +2,7 @@ import trim from 'lodash/fp/trim'
 
 export const validate = values => {
   const errors = {}
-  const { registration_no, driver_id, phone_no } = values
+  const { registration_no, driver_id } = values
   if (!trim(registration_no)) {
     errors.registration_no = 'Required'
   }
