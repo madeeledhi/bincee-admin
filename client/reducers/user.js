@@ -14,6 +14,20 @@ export default (state = {}, action) => {
     case ActionTypes.USER_LOGIN_FAILURE: {
       return { ...initialState }
     }
+    case ActionTypes.GET_PASSWORD_SUCCESS: {
+      const { data } = payload
+      const { password } = data || {}
+      return { ...state, password }
+    }
+    case ActionTypes.GET_PASSWORD_FAILURE: {
+      return { ...state, password: '' }
+    }
+    case ActionTypes.EDIT_PASSWORD_SUCCESS: {
+      return { ...state, message: 'Password Updated Successfully' }
+    }
+    case ActionTypes.EDIT_PASSWORD_FAILURE: {
+      return { ...state, message: 'Password Updated UnSuccessfull' }
+    }
     case ActionTypes.USER_LOGOUT: {
       ActionTypes.clearState()
       ActionTypes.clearDetailsState()

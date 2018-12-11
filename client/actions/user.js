@@ -4,6 +4,12 @@ import { CALL_API } from '../middleware/api'
 export const USER_LOGIN = 'USER_LOGIN'
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
 export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE'
+export const GET_PASSWORD = 'GET_PASSWORD'
+export const GET_PASSWORD_SUCCESS = 'GET_PASSWORD_SUCCESS'
+export const GET_PASSWORD_FAILURE = 'GET_PASSWORD_FAILURE'
+export const EDIT_PASSWORD = 'EDIT_PASSWORD'
+export const EDIT_PASSWORD_SUCCESS = 'EDIT_PASSWORD_SUCCESS'
+export const EDIT_PASSWORD_FAILURE = 'EDIT_PASSWORD_FAILURE'
 export const USER_LOGOUT = 'USER_LOGOUT'
 export const LOAD_USER = 'LOAD_USER'
 
@@ -14,6 +20,26 @@ export const login = ({ username, password }) => ({
     method: 'POST',
   },
   payload: { username, password },
+})
+
+export const verify = ({ id, token }) => ({
+  [CALL_API]: {
+    types: [GET_PASSWORD, GET_PASSWORD_SUCCESS, GET_PASSWORD_FAILURE],
+    endpoint: `https://bincee-server.herokuapp.com/api/users/${id}`,
+    method: 'GET',
+    token,
+  },
+  payload: {},
+})
+
+export const editPassword = ({ id, password, token }) => ({
+  [CALL_API]: {
+    types: [EDIT_PASSWORD, EDIT_PASSWORD_SUCCESS, EDIT_PASSWORD_FAILURE],
+    endpoint: `https://bincee-server.herokuapp.com/api/users/${id}`,
+    method: 'POST',
+    token,
+  },
+  payload: { password },
 })
 
 export const loadUser = () => {
