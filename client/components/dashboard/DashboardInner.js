@@ -16,7 +16,6 @@ import EditGrades from '../EditGrades'
 import CreateDriver from '../CreateDriver'
 import EditDriver from '../EditDriver/EditDriver'
 import Announcements from '../Announcements'
-import ShiftsAndTimings from '../ShiftsAndTimings'
 import Busses from '../Busses'
 import Drivers from '../Drivers'
 import CreateBus from '../CreateBus'
@@ -26,6 +25,9 @@ import CreateStudent from '../CreateStudent'
 import EditStudent from '../EditStudent'
 import CreateParent from '../CreateParent'
 import EditParent from '../EditParent'
+import ShiftsAndTimings from '../ShiftsAndTimings'
+import CreateShifts from '../CreateShifts'
+import EditShift from '../EditShift'
 
 const DashboardInner = ({
   onClickSignout,
@@ -154,6 +156,18 @@ const DashboardInner = ({
                 path={`${path}/shifts`}
                 exact
                 component={ShiftsAndTimings}
+                user={user}
+              />
+              <Route
+                path={`${path}/shifts/create`}
+                exact
+                component={CreateShifts}
+                user={user}
+              />
+              <Route
+                path={`${path}/shifts/edit/:id`}
+                exact
+                component={EditShift}
                 user={user}
               />
               <Route
