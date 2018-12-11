@@ -50,7 +50,10 @@ class CreateShifts extends React.Component {
         token,
       }),
     ).then(({ payload }) => {
-      dispatch(push('/dashboard/shifts'))
+      const { status: requestStatus } = payload
+      if (requestStatus === 200) {
+        dispatch(push('/dashboard/shifts'))
+      }
     })
   }
 

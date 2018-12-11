@@ -73,7 +73,10 @@ class CreateParent extends React.Component {
         token,
       }),
     ).then(({ payload }) => {
-      dispatch(push('/dashboard/parents'))
+      const { status: requestStatus } = payload
+      if (requestStatus === 200) {
+        dispatch(push('/dashboard/parents'))
+      }
     })
   }
 

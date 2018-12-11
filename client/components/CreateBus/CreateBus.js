@@ -62,7 +62,10 @@ class CreateBus extends React.Component {
         token,
       }),
     ).then(({ payload }) => {
-      dispatch(push('/dashboard/busses'))
+      const { status: requestStatus } = payload
+      if (requestStatus === 200) {
+        dispatch(push('/dashboard/busses'))
+      }
     })
   }
 

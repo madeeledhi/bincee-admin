@@ -65,7 +65,10 @@ class EditDriver extends React.Component {
     dispatch(
       updateDriver({ id, fullname, phone_no, status, photo, token }),
     ).then(({ payload }) => {
-      dispatch(push('/dashboard/drivers'))
+      const { status: requestStatus } = payload
+      if (requestStatus === 200) {
+        dispatch(push('/dashboard/drivers'))
+      }
     })
   }
 
@@ -75,81 +78,88 @@ class EditDriver extends React.Component {
   }
 
   render() {
-    const { disabled } = this.state
+    const { disabled, isLoading } = this.state
     return (
-      <form className={styles.root}>
-        <div className={styles.row}>
-          <Field
-            className={styles.radioButton}
-            name="status"
-            label="Status"
-            component={renderRadioGroup}
-          >
-            <FormControlLabel
-              value="Active"
-              control={<Radio color="primary" />}
-              label="Active"
-            />
-            <FormControlLabel
-              value="Inactive"
-              control={<Radio color="primary" />}
-              label="Inactive"
-            />
-          </Field>
-        </div>
-        <div className={styles.row}>
-          <Field
-            id="fullname"
-            name="fullname"
-            component={renderTextField}
-            label="Fullname"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
-        </div>
-        <div className={styles.row}>
-          <Field
-            id="phone_no"
-            name="phone_no"
-            component={renderTextField}
-            label="Phone No"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
-        </div>
-        <div className={styles.row}>
-          <Field
-            id="photo"
-            InputLabelProps={{ shrink: true }}
-            input={{ value: '', onChange: this.fileChangedHandler }}
-            name="photo"
-            margin="normal"
-            component={renderTextField}
-            label="Photo Url"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-            type="file"
-          />
-        </div>
-        <div className={styles.row}>
-          <div className={styles.item}>
-            <Button
-              disabled={disabled}
-              onClick={this.updateDriver}
-              label="Update"
-              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
-            />
-            <Button
-              onClick={this.handleCancel}
-              label="Cancel"
-              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
-            />
-          </div>
-        </div>
-      </form>
+      <Choose>
+        <When condition={isLoading}>
+          <LoadingView />
+        </When>
+        <Otherwise>
+          <form className={styles.root}>
+            <div className={styles.row}>
+              <Field
+                className={styles.radioButton}
+                name="status"
+                label="Status"
+                component={renderRadioGroup}
+              >
+                <FormControlLabel
+                  value="Active"
+                  control={<Radio color="primary" />}
+                  label="Active"
+                />
+                <FormControlLabel
+                  value="Inactive"
+                  control={<Radio color="primary" />}
+                  label="Inactive"
+                />
+              </Field>
+            </div>
+            <div className={styles.row}>
+              <Field
+                id="fullname"
+                name="fullname"
+                component={renderTextField}
+                label="Fullname"
+                disabled={false}
+                variant="outlined"
+                className={styles.item}
+              />
+            </div>
+            <div className={styles.row}>
+              <Field
+                id="phone_no"
+                name="phone_no"
+                component={renderTextField}
+                label="Phone No"
+                disabled={false}
+                variant="outlined"
+                className={styles.item}
+              />
+            </div>
+            <div className={styles.row}>
+              <Field
+                id="photo"
+                InputLabelProps={{ shrink: true }}
+                input={{ value: '', onChange: this.fileChangedHandler }}
+                name="photo"
+                margin="normal"
+                component={renderTextField}
+                label="Photo Url"
+                disabled={false}
+                variant="outlined"
+                className={styles.item}
+                type="file"
+              />
+            </div>
+            <div className={styles.row}>
+              <div className={styles.item}>
+                <Button
+                  disabled={disabled}
+                  onClick={this.updateDriver}
+                  label="Update"
+                  style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                />
+                <Button
+                  onClick={this.handleCancel}
+                  label="Cancel"
+                  style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                />
+              </div>
+            </div>
+          </form>
+        </Otherwise>
+      </Choose>
     )
   }
 }

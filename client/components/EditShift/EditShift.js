@@ -65,7 +65,10 @@ class EditShift extends React.Component {
         token,
       }),
     ).then(({ payload }) => {
-      dispatch(push('/dashboard/shifts'))
+      const { status: requestStatus } = payload
+      if (requestStatus === 200) {
+        dispatch(push('/dashboard/shifts'))
+      }
     })
   }
 
@@ -75,68 +78,75 @@ class EditShift extends React.Component {
   }
 
   render() {
-    const { disabled } = this.state
+    const { disabled, isLoading } = this.state
     return (
-      <form className={styles.root}>
-        <div className={styles.row}>
-          <Field
-            id="shift_name"
-            name="shift_name"
-            component={renderTextField}
-            label="Shift Name"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
-        </div>
-        <div className={styles.row}>
-          <Field
-            id="start_time"
-            name="start_time"
-            component={renderTextField}
-            label="Start Time"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-            InputLabelProps={{ shrink: true }}
-            inputProps={
-              { step: 300 } // 5 min
-            }
-            type="time"
-          />
-        </div>
-        <div className={styles.row}>
-          <Field
-            id="end_time"
-            name="end_time"
-            component={renderTextField}
-            label="End Time"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-            type="time"
-            InputLabelProps={{ shrink: true }}
-            inputProps={
-              { step: 300 } // 5 min
-            }
-          />
-        </div>
-        <div className={styles.row}>
-          <div className={styles.item}>
-            <Button
-              disabled={disabled}
-              onClick={this.updateShift}
-              label="Update"
-              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
-            />
-            <Button
-              onClick={this.handleCancel}
-              label="Cancel"
-              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
-            />
-          </div>
-        </div>
-      </form>
+      <Choose>
+        <When condition={isLoading}>
+          <LoadingView />
+        </When>
+        <Otherwise>
+          <form className={styles.root}>
+            <div className={styles.row}>
+              <Field
+                id="shift_name"
+                name="shift_name"
+                component={renderTextField}
+                label="Shift Name"
+                disabled={false}
+                variant="outlined"
+                className={styles.item}
+              />
+            </div>
+            <div className={styles.row}>
+              <Field
+                id="start_time"
+                name="start_time"
+                component={renderTextField}
+                label="Start Time"
+                disabled={false}
+                variant="outlined"
+                className={styles.item}
+                InputLabelProps={{ shrink: true }}
+                inputProps={
+                  { step: 300 } // 5 min
+                }
+                type="time"
+              />
+            </div>
+            <div className={styles.row}>
+              <Field
+                id="end_time"
+                name="end_time"
+                component={renderTextField}
+                label="End Time"
+                disabled={false}
+                variant="outlined"
+                className={styles.item}
+                type="time"
+                InputLabelProps={{ shrink: true }}
+                inputProps={
+                  { step: 300 } // 5 min
+                }
+              />
+            </div>
+            <div className={styles.row}>
+              <div className={styles.item}>
+                <Button
+                  disabled={disabled}
+                  onClick={this.updateShift}
+                  label="Update"
+                  style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                />
+                <Button
+                  onClick={this.handleCancel}
+                  label="Cancel"
+                  style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                />
+              </div>
+            </div>
+          </form>
+        </Otherwise>
+      </Choose>
     )
   }
 }

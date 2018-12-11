@@ -41,7 +41,10 @@ class CreateGrades extends React.Component {
     this.setState(() => ({ isLoading: true }))
     dispatch(createGrade({ grade_name, section, grade_section, token })).then(
       ({ payload }) => {
-        dispatch(push('/dashboard/grades'))
+        const { status: requestStatus } = payload
+        if (requestStatus === 200) {
+          dispatch(push('/dashboard/grades'))
+        }
       },
     )
   }

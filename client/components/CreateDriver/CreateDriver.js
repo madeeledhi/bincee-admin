@@ -61,7 +61,10 @@ class CreateDriver extends React.Component {
         token,
       }),
     ).then(({ payload }) => {
-      dispatch(push('/dashboard/drivers'))
+      const { status: requestStatus } = payload
+      if (requestStatus === 200) {
+        dispatch(push('/dashboard/drivers'))
+      }
     })
   }
 

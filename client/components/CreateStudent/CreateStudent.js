@@ -85,7 +85,10 @@ class CreateStudent extends React.Component {
         token,
       }),
     ).then(({ payload }) => {
-      dispatch(push('/dashboard/students'))
+      const { status: requestStatus } = payload
+      if (requestStatus === 200) {
+        dispatch(push('/dashboard/students'))
+      }
     })
   }
 

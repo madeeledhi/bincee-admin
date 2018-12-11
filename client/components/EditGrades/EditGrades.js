@@ -59,69 +59,81 @@ class EditGrades extends React.Component {
     this.setState(() => ({ isLoading: true }))
     dispatch(editGrade({ id, grade_name, section, grade_section, token })).then(
       ({ payload }) => {
-        dispatch(push('/dashboard/grades'))
+        const { status: requestStatus } = payload
+        if (requestStatus === 200) {
+          dispatch(push('/dashboard/grades'))
+        }
       },
     )
   }
+
   handleCancel = () => {
     const { dispatch } = this.props
     dispatch(push('/dashboard/grades'))
   }
-  render() {
-    const { disabled } = this.state
-    return (
-      <form className={styles.root}>
-        <div className={styles.row}>
-          <Field
-            id="gradeName"
-            name="grade_name"
-            component={renderTextField}
-            label="Grade Name"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
-        </div>
-        <div className={styles.row}>
-          <Field
-            id="section"
-            name="section"
-            component={renderTextField}
-            label="Section"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
-        </div>
 
-        <div className={styles.row}>
-          <Field
-            id="gradeSection"
-            name="grade_section"
-            component={renderTextField}
-            label="gradeSection"
-            disabled={false}
-            variant="outlined"
-            margin="dense"
-            className={styles.item}
-          />
-        </div>
-        <div className={styles.row}>
-          <div className={styles.item}>
-            <Button
-              disabled={disabled}
-              onClick={this.updateGrade}
-              label="Update"
-              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
-            />
-            <Button
-              onClick={this.handleCancel}
-              label="Cancel"
-              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
-            />
-          </div>
-        </div>
-      </form>
+  render() {
+    const { disabled, isLoading } = this.state
+    return (
+      <Choose>
+        <When condition={isLoading}>
+          <LoadingView />
+        </When>
+        <Otherwise>
+          <form className={styles.root}>
+            <div className={styles.row}>
+              <Field
+                id="gradeName"
+                name="grade_name"
+                component={renderTextField}
+                label="Grade Name"
+                disabled={false}
+                variant="outlined"
+                className={styles.item}
+              />
+            </div>
+            <div className={styles.row}>
+              <Field
+                id="section"
+                name="section"
+                component={renderTextField}
+                label="Section"
+                disabled={false}
+                variant="outlined"
+                className={styles.item}
+              />
+            </div>
+
+            <div className={styles.row}>
+              <Field
+                id="gradeSection"
+                name="grade_section"
+                component={renderTextField}
+                label="gradeSection"
+                disabled={false}
+                variant="outlined"
+                margin="dense"
+                className={styles.item}
+              />
+            </div>
+            <div className={styles.row}>
+              <div className={styles.item}>
+                <Button
+                  disabled={disabled}
+                  onClick={this.updateGrade}
+                  label="Update"
+                  style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                />
+                <Button
+                  onClick={this.handleCancel}
+                  label="Cancel"
+                  style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                />
+              </div>
+            </div>
+          </form>
+        </Otherwise>
+      </Choose>
     )
   }
 }

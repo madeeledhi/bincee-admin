@@ -64,7 +64,10 @@ class EditBus extends React.Component {
     dispatch(
       editBus({ id, registration_no, description, driver_id, token }),
     ).then(({ payload }) => {
-      dispatch(push('/dashboard/busses'))
+      const { status: requestStatus } = payload
+      if (requestStatus === 200) {
+        dispatch(push('/dashboard/busses'))
+      }
     })
   }
 
@@ -74,65 +77,72 @@ class EditBus extends React.Component {
   }
 
   render() {
-    const { disabled } = this.state
+    const { disabled, isLoading } = this.state
     const { driversList } = this.props
     return (
-      <form className={styles.root}>
-        <div className={styles.row}>
-          <Field
-            id="registration_no"
-            name="registration_no"
-            component={renderTextField}
-            label="Registration no"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
-        </div>
-        <div className={styles.row}>
-          <Field
-            id="description"
-            name="description"
-            component={renderTextField}
-            label="Description"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
-        </div>
-        <div className={styles.row}>
-          <Field
-            className={styles.item}
-            name="driver_id"
-            component={renderTextField}
-            select
-            label="Select Driver"
-            variant="outlined"
-            margin="dense"
-          >
-            {map(({ driver_id, fullname }) => (
-              <MenuItem key={driver_id} value={driver_id}>
-                {fullname}
-              </MenuItem>
-            ))(driversList)}
-          </Field>
-        </div>
-        <div className={styles.row}>
-          <div className={styles.item}>
-            <Button
-              disabled={disabled}
-              onClick={this.updateBus}
-              label="Update"
-              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
-            />
-            <Button
-              onClick={this.handleCancel}
-              label="Cancel"
-              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
-            />
-          </div>
-        </div>
-      </form>
+      <Choose>
+        <When condition={isLoading}>
+          <LoadingView />
+        </When>
+        <Otherwise>
+          <form className={styles.root}>
+            <div className={styles.row}>
+              <Field
+                id="registration_no"
+                name="registration_no"
+                component={renderTextField}
+                label="Registration no"
+                disabled={false}
+                variant="outlined"
+                className={styles.item}
+              />
+            </div>
+            <div className={styles.row}>
+              <Field
+                id="description"
+                name="description"
+                component={renderTextField}
+                label="Description"
+                disabled={false}
+                variant="outlined"
+                className={styles.item}
+              />
+            </div>
+            <div className={styles.row}>
+              <Field
+                className={styles.item}
+                name="driver_id"
+                component={renderTextField}
+                select
+                label="Select Driver"
+                variant="outlined"
+                margin="dense"
+              >
+                {map(({ driver_id, fullname }) => (
+                  <MenuItem key={driver_id} value={driver_id}>
+                    {fullname}
+                  </MenuItem>
+                ))(driversList)}
+              </Field>
+            </div>
+            <div className={styles.row}>
+              <div className={styles.item}>
+                <Button
+                  disabled={disabled}
+                  onClick={this.updateBus}
+                  label="Update"
+                  style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                />
+                <Button
+                  onClick={this.handleCancel}
+                  label="Cancel"
+                  style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                />
+              </div>
+            </div>
+          </form>
+        </Otherwise>
+      </Choose>
     )
   }
 }
