@@ -28,7 +28,7 @@ import EditParent from '../EditParent'
 import ShiftsAndTimings from '../ShiftsAndTimings'
 import CreateShifts from '../CreateShifts'
 import EditShift from '../EditShift'
-
+import Profile from '../Profile'
 const DashboardInner = ({
   onClickSignout,
   user,
@@ -179,7 +179,7 @@ const DashboardInner = ({
               <Route
                 path={`${path}/profile`}
                 exact
-                component={() => <div>I am Profile</div>}
+                component={Profile}
                 user={user}
               />
               <Redirect to="/dashboard" />

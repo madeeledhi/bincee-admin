@@ -10,7 +10,8 @@ import { push } from 'react-router-redux'
 import transformData, {
   transformDrawerData,
 } from './transformers/transformData'
-import { hasPropChanged, infoDrawer } from '../../utils'
+import { hasPropChanged } from '../../utils'
+import { infoDrawer } from '../shared/infoDrawer'
 import { loadAllBus, deleteBus, loadSingleDriver } from '../../actions'
 import BussesInner from './BussesInner'
 import Drawer from '../Drawer'

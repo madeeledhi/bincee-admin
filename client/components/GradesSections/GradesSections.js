@@ -8,7 +8,8 @@ import { push } from 'react-router-redux'
 
 // src
 import transformData from './transformers/transformData'
-import { hasPropChanged, infoDrawer } from '../../utils'
+import { hasPropChanged } from '../../utils'
+import { infoDrawer } from '../shared/infoDrawer'
 import { loadGrades, deleteGrade } from '../../actions'
 import GradesSectionsInner from './GradesSectionsInner'
 import Drawer from '../Drawer'
