@@ -57,7 +57,7 @@ class CreateGrades extends React.Component {
   render() {
     const { disabled } = this.state
     return (
-      <div className={styles.root}>
+      <form className={styles.root}>
         <div className={styles.row}>
           <Field
             id="gradeName"
@@ -107,7 +107,7 @@ class CreateGrades extends React.Component {
             />
           </div>
         </div>
-      </div>
+      </form>
     )
   }
 }

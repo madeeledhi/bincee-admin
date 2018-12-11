@@ -2,6 +2,7 @@
 import React from 'react'
 import getOr from 'lodash/fp/getOr'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import { getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import size from 'lodash/fp/size'
 //src
@@ -16,6 +17,9 @@ class Profile extends React.Component {
       disabled: false,
       isLoading: false,
     }
+    this.handleUpdate = this.handleUpdate.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
+
   }
 
   componentDidMount() {
@@ -55,11 +59,21 @@ class Profile extends React.Component {
     })
   }
 
+  handleCancel = () => {
+    const { dispatch } = this.props
+    dispatch(push('/dashboard'))
+  }
+
   render() {
     const { userDetails } = this.props
+    const {disabled, isLoading} =this.state
     return (
       <ProfileInner
         data={userDetails}
+        disabled={disabled}
+        isLoading={isLoading}
+        handleUpdate={this.handleUpdate}
+        handleCancel={this.handleCancel}
       />
     )
   }

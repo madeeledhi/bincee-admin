@@ -5,12 +5,14 @@ import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 // src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
+import Button from '../Button'
 import styles from './Profile.less'
 
 const ProfileInner = props => {
+  const {handleUpdate, handleCancel, disabled, isLoading} = props
   return (
-    <div className={styles.main}>
-      <div className={styles.row}>
+    <form className={styles.root}>
+       <div className={styles.row}>
         <Field
           id="name"
           name="name"
@@ -18,6 +20,7 @@ const ProfileInner = props => {
           label="Name"
           disabled={false}
           variant="outlined"
+          className={styles.item}
         />
       </div>
       <div className={styles.row}>
@@ -28,6 +31,7 @@ const ProfileInner = props => {
           label="Phone No"
           disabled={false}
           variant="outlined"
+          className={styles.item}
         />
       </div>
       <div className={styles.row}>
@@ -38,9 +42,25 @@ const ProfileInner = props => {
           label="Address"
           disabled={false}
           variant="outlined"
+          className={styles.item}
         />
       </div>
-    </div>
+      <div className={styles.row}>
+          <div className={styles.item}>
+            <Button
+              disabled={disabled}
+              onClick={handleUpdate}
+              label="Update"
+              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+            />
+            <Button
+              onClick={handleCancel}
+              label="Cancel"
+              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+            />
+          </div>
+        </div>
+    </form>
   )
 }
 export default ProfileInner
