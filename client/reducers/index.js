@@ -21,7 +21,7 @@ import { checkError } from '../utils'
 // Updates error message to notify about the failed fetches.
 function errorMessage(state = null, action) {
   const { type, error, payload } = action
-  const { status, data } = payload || {}
+  const { status, data, message: errormessage, type: errorType } = payload || {}
   if (type === ActionTypes.RESET_ERROR_MESSAGE) {
     return null
   }
@@ -39,6 +39,9 @@ function errorMessage(state = null, action) {
               'Cannot Create/Modify/Delete Record with Usage in Other Records.',
           }
         : data
+    }
+    if (errormessage) {
+      return { message: errormessage, type: errorType }
     }
     return { message: 'Something Bad Happened.' }
   }

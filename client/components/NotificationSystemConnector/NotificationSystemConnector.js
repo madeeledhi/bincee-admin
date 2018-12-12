@@ -20,21 +20,21 @@ const mapStateToProps = state => {
 
 @connect(mapStateToProps)
 export default class NotificationSystemConnector extends React.Component {
-  componentWillReceiveProps(nextProps) {
-    const { errorMessage, type, clearAll } = nextProps
-    if (hasPropChanged('errorMessage', this.props, nextProps) && errorMessage) {
-      this.errorDidAppear(errorMessage, type)
-    } else if (hasPropChanged('clearAll', this.props, nextProps) && clearAll) {
-      this.notificationSystem.clearNotifications()
-    }
-  }
-
   componentDidMount() {
     const { errorMessage, type, clearAll } = this.props
     if (size(errorMessage) > 0 && size(type) > 0) {
       this.errorDidAppear(errorMessage, type)
     }
     if (clearAll) {
+      this.notificationSystem.clearNotifications()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { errorMessage, type, clearAll } = nextProps
+    if (hasPropChanged('errorMessage', this.props, nextProps) && errorMessage) {
+      this.errorDidAppear(errorMessage, type)
+    } else if (hasPropChanged('clearAll', this.props, nextProps) && clearAll) {
       this.notificationSystem.clearNotifications()
     }
   }
