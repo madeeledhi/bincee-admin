@@ -29,6 +29,7 @@ import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
+import { showErrorMessage } from '../../actions'
 
 class CreateStudent extends React.Component {
   constructor(props) {
@@ -88,6 +89,7 @@ class CreateStudent extends React.Component {
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
         dispatch(push('/dashboard/students'))
+        dispatch(showErrorMessage('Created successfully', 'success'))
       }
     })
   }

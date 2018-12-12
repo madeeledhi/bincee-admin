@@ -21,6 +21,7 @@ import { loadSingleBus, editBus, loadDrivers } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
+import { showErrorMessage } from '../../actions'
 
 class EditBus extends React.Component {
   constructor(props) {
@@ -67,6 +68,7 @@ class EditBus extends React.Component {
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
         dispatch(push('/dashboard/busses'))
+        dispatch(showErrorMessage('Updated successfully', 'success'))
       }
     })
   }

@@ -10,6 +10,7 @@ import ProfileInner from './ProfileInner'
 import { editUserDetails } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import { validate } from './util'
+import { showErrorMessage } from '../../actions'
 
 class Profile extends React.Component {
   constructor(props) {
@@ -56,7 +57,11 @@ class Profile extends React.Component {
     const { name, address, phone_no } = formValues
     const { id, token } = user
     dispatch(editUserDetails({ id, name, address, phone_no, token })).then(({ payload }) => {
-
+      const { status: requestStatus } = payload
+      if (requestStatus === 200) {
+        dispatch(push('/dashboard/parents'))
+        dispatch(showErrorMessage('Updated successfully', 'success'))
+      }
     })
   }
 

@@ -25,6 +25,7 @@ import toLower from 'lodash/toLower'
 import styles from './EnhanceTableInner.less'
 import EnhancedTableHead from './EnhancedTableHead'
 import EnhancedTableToolbar from './EnhancedTableToolbar'
+import BlankState from './BlankState'
 import { desc, stableSort, getSorting } from './utils'
 import { editGrade } from '../../actions'
 
@@ -189,7 +190,7 @@ const EnhancedTableInner = props => {
           />
         </When>
         <Otherwise>
-          <div>{'No Data Available'}</div>
+          <BlankState tableName={tableName}/>
         </Otherwise>
       </Choose>
     </Paper>

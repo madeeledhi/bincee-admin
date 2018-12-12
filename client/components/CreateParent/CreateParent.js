@@ -21,6 +21,7 @@ import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
+import { showErrorMessage } from '../../actions'
 
 class CreateParent extends React.Component {
   constructor(props) {
@@ -76,6 +77,7 @@ class CreateParent extends React.Component {
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
         dispatch(push('/dashboard/parents'))
+        dispatch(showErrorMessage('Created successfully', 'success'))
       }
     })
   }

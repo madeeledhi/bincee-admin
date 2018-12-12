@@ -14,6 +14,7 @@ import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
+import { showErrorMessage } from '../../actions'
 
 class CreateShifts extends React.Component {
   constructor(props) {
@@ -53,6 +54,7 @@ class CreateShifts extends React.Component {
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
         dispatch(push('/dashboard/shifts'))
+        dispatch(showErrorMessage('Created successfully', 'success'))
       }
     })
   }

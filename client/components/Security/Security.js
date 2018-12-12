@@ -10,6 +10,7 @@ import SecurityInner from './SecurityInner'
 import { editPassword } from '../../actions'
 import { validate } from './util'
 import { hasPropChanged } from '../../utils'
+import { showErrorMessage } from '../../actions'
 
 class Security extends React.Component {
   constructor(props) {
@@ -44,6 +45,12 @@ class Security extends React.Component {
     dispatch(editPassword({ id, new_password, token })).then(({ payload }) => {
 
     })
+    const { status: requestStatus } = payload
+    if (requestStatus === 200) {
+      dispatch(push('/dashboard/parents'))
+      dispatch(showErrorMessage('Updated successfully', 'success'))
+    }
+
   }
 
   handleCancel = () => {
@@ -53,7 +60,7 @@ class Security extends React.Component {
 
   render() {
     const { user } = this.props
-    const {disabled, isLoading} =this.state
+    const { disabled, isLoading } = this.state
     return (
       <SecurityInner
         data={user}
