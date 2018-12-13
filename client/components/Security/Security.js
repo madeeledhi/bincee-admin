@@ -7,7 +7,7 @@ import { getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import size from 'lodash/fp/size'
 //src
 import SecurityInner from './SecurityInner'
-import { editPassword } from '../../actions'
+import { editPassword, verify } from '../../actions'
 import { validate } from './util'
 import { hasPropChanged } from '../../utils'
 import { showErrorMessage } from '../../actions'
@@ -21,9 +21,7 @@ class Security extends React.Component {
     }
     this.handleUpdate = this.handleUpdate.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
-
   }
-
 
   componentWillReceiveProps(nextProps) {
     if (
@@ -38,24 +36,40 @@ class Security extends React.Component {
     }
   }
 
-  handleUpdate() {
-    const { dispatch, user, formValues } = this.props
-    const { new_password } = formValues
-    const { id, token } = user
-    dispatch(editPassword({ id, new_password, token })).then(({ payload }) => {
-
-    })
-    const { status: requestStatus } = payload
-    if (requestStatus === 200) {
-      dispatch(push('/dashboard/parents'))
-      dispatch(showErrorMessage('Updated successfully', 'success'))
-    }
-
-  }
-
   handleCancel = () => {
     const { dispatch } = this.props
     dispatch(push('/dashboard'))
+  }
+
+  handleUpdate() {
+    const { dispatch, user, formValues } = this.props
+    const { new_password, current_password } = formValues
+    const { id, token } = user
+    dispatch(verify({ id, token })).then(({ payload }) => {
+      const { status, data } = payload
+      if (status === 200) {
+        const { password } = data
+        if (password === current_password) {
+          dispatch(editPassword({ id, password: new_password, token })).then(
+            ({ payload: editPayload }) => {
+              const { status: requestStatus } = editPayload
+              if (requestStatus === 200) {
+                dispatch(push('/dashboard/parents'))
+                dispatch(
+                  showErrorMessage('Password Updated successfully', 'success'),
+                )
+              } else {
+                dispatch(showErrorMessage('Password Change Failed', 'error'))
+              }
+            },
+          )
+        } else {
+          dispatch(
+            showErrorMessage('Current Password Provided is Incorrect', 'error'),
+          )
+        }
+      }
+    })
   }
 
   render() {
@@ -79,7 +93,8 @@ const mapStateToProps = state => {
   return {
     formValues: getFormValues('security')(state),
     validationErrors: getFormSyncErrors('security')(state),
-    user, error,
+    user,
+    error,
   }
 }
 
