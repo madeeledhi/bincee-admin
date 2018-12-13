@@ -30,10 +30,6 @@ class Header extends React.Component {
     this.setState({ anchorEl: null })
   }
 
-  handleSignOut = () => {
-    this.setState({ anchorEl: null })
-  }
-
   render() {
     const { user, onClickSignout, onRouteChange, userDetails } = this.props
     const { username } = user
@@ -67,21 +63,36 @@ class Header extends React.Component {
             open={open}
             onClose={this.handleClose}
           >
-            <MenuItem onClick={() => onRouteChange('/dashboard/profile')}>
-              <Icon className={styles .iconColor} fontSize={'small'}>
-              account_circle
+            <MenuItem
+              onClick={() => {
+                onRouteChange('/dashboard/profile')
+                this.handleClose()
+              }}
+            >
+              <Icon className={styles.iconColor} fontSize={'small'}>
+                account_circle
               </Icon>
               Profile
             </MenuItem>
-            <MenuItem onClick={() => onRouteChange('/dashboard/security')}>
-              <Icon className={styles .iconColor} fontSize={'small'}>
+            <MenuItem
+              onClick={() => {
+                onRouteChange('/dashboard/security')
+                this.handleClose()
+              }}
+            >
+              <Icon className={styles.iconColor} fontSize={'small'}>
                 security
               </Icon>
               Security
             </MenuItem>
-            <MenuItem onClick={onClickSignout}>
-              <Icon className={styles .iconColor} fontSize={'small'}>
-              credit_card
+            <MenuItem
+              onClick={() => {
+                onClickSignout()
+                this.handleClose()
+              }}
+            >
+              <Icon className={styles.iconColor} fontSize={'small'}>
+                credit_card
               </Icon>
               Logout
             </MenuItem>
