@@ -72,7 +72,7 @@ class EditGrades extends React.Component {
       const config = { grade_name, section, grade_section }
       initialize(config)
     })
-
+  }
 
   render() {
     const { disabled, isLoading } = this.state
