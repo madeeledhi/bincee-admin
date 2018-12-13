@@ -5,7 +5,10 @@ import size from 'lodash/fp/size'
 
 // src
 import EnhancedTable from '../EnhancedTable'
+import CreateGrades from '../CreateGrades'
+import EditGrades from '../EditGrades'
 import LoadingView from '../LoadingView'
+import { createGrade } from '../../actions/grades'
 
 const GradesSectionsInner = ({
   error,
@@ -16,6 +19,10 @@ const GradesSectionsInner = ({
   onCreateGrade,
   onUpdateGrade,
   onRowClick,
+  createDialog,
+  editDialog,
+  editId,
+  handleClose,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -30,6 +37,8 @@ const GradesSectionsInner = ({
           handleCreateRow={onCreateGrade}
           handleEditRow={onUpdateGrade}
         />
+        <EditGrades id={editId} open={editDialog} onClose={handleClose} />
+        <CreateGrades open={createDialog} onClose={handleClose} />
       </div>
     </When>
     <Otherwise>

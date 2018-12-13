@@ -15,7 +15,13 @@ import GradesSectionsInner from './GradesSectionsInner'
 import Drawer from '../Drawer'
 
 class GradesSections extends React.Component {
-  state = { error: '', isLoading: true }
+  state = {
+    error: '',
+    isLoading: true,
+    createDialog: false,
+    editDialog: false,
+    editId: '',
+  }
 
   componentDidMount() {
     const { dispatch, user } = this.props
@@ -28,7 +34,9 @@ class GradesSections extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (hasPropChanged(['user', 'grades'], this.props, nextProps)) {
+    if (
+      hasPropChanged(['user', 'grades', 'gradesList'], this.props, nextProps)
+    ) {
       const { dispatch, user, grades, error } = nextProps
       const { token } = user
       if (size(grades) < 1) {
@@ -51,13 +59,25 @@ class GradesSections extends React.Component {
   }
 
   handleCreateGrade = () => {
-    const { dispatch } = this.props
-    dispatch(push('/dashboard/grades/create'))
+    this.setState(() => ({
+      createDialog: true,
+    }))
   }
 
   handleUpdateGrade = (event, id) => {
-    const { dispatch } = this.props
-    dispatch(push(`/dashboard/grades/edit/${id}`))
+    this.setState(() => ({
+      editDialog: true,
+      editId: id,
+    }))
+  }
+  handleClose = () => {
+    const { dispatch, user } = this.props
+    const { token } = user
+    dispatch(loadGrades({ token }))
+    this.setState(() => ({
+      createDialog: false,
+      editDialog: false,
+    }))
   }
 
   handleRowClick = data => {
@@ -88,7 +108,7 @@ class GradesSections extends React.Component {
   }
 
   render() {
-    const { error, isLoading } = this.state
+    const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { grades } = this.props
     const { columns: rows, rows: data } = grades
 
@@ -102,6 +122,10 @@ class GradesSections extends React.Component {
         onDeleteGrade={this.handleDeleteGrade}
         onCreateGrade={this.handleCreateGrade}
         onUpdateGrade={this.handleUpdateGrade}
+        createDialog={createDialog}
+        editDialog={editDialog}
+        editId={editId}
+        handleClose={this.handleClose}
       />
     )
   }

@@ -5,6 +5,10 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogActions from '@material-ui/core/DialogActions'
 
 //src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
@@ -36,7 +40,7 @@ class CreateGrades extends React.Component {
   }
 
   createGrade = () => {
-    const { dispatch, formValues, user } = this.props
+    const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
     const { grade_name, section, grade_section } = formValues
     this.setState(() => ({ isLoading: true }))
@@ -44,72 +48,91 @@ class CreateGrades extends React.Component {
       ({ payload }) => {
         const { status: requestStatus } = payload
         if (requestStatus === 200) {
-          dispatch(push('/dashboard/grades'))
-          (showErrorMessage('Created successfully', 'success'))
+          dispatch(showErrorMessage('Created successfully', 'success'))(
+            onClose(),
+          )
         }
       },
     )
   }
 
   handleCancel = () => {
-    const { dispatch } = this.props
-    dispatch(push('/dashboard/grades'))
+    const { onClose } = this.props
+    onClose()
+  }
+  onEnter = () => {
+    const { initialize } = this.props
+    const config = { grade_name: '', section: '', grade_section: '' }
+    initialize(config)
   }
 
   render() {
     const { disabled } = this.state
+    const { classes, onClose, ...other } = this.props
     return (
-      <form className={styles.root}>
-        <div className={styles.row}>
-          <Field
-            id="gradeName"
-            name="grade_name"
-            component={renderTextField}
-            label="Grade Name"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
-        </div>
-        <div className={styles.row}>
-          <Field
-            id="section"
-            name="section"
-            component={renderTextField}
-            label="Section"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
-        </div>
+      <Dialog
+        onClose={onClose}
+        onEnter={this.onEnter}
+        aria-labelledby="simple-dialog-title"
+        {...other}
+        fullWidth
+      >
+        <DialogTitle id="simple-dialog-title">Create Grades</DialogTitle>
+        <DialogContent>
+          <form className={styles.root}>
+            <div className={styles.row}>
+              <Field
+                id="gradeName"
+                name="grade_name"
+                component={renderTextField}
+                label="Grade Name"
+                disabled={false}
+                variant="outlined"
+                className={styles.item}
+              />
+            </div>
+            <div className={styles.row}>
+              <Field
+                id="section"
+                name="section"
+                component={renderTextField}
+                label="Section"
+                disabled={false}
+                variant="outlined"
+                className={styles.item}
+              />
+            </div>
 
-        <div className={styles.row}>
-          <Field
-            id="gradeSection"
-            name="grade_section"
-            component={renderTextField}
-            label="gradeSection"
-            disabled={false}
-            variant="outlined"
-            className={styles.item}
-          />
-        </div>
-        <div className={styles.row}>
-          <div className={styles.item}>
-            <Button
-              disabled={disabled}
-              onClick={this.createGrade}
-              label="Create"
-              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
-            />
-            <Button
-              onClick={this.handleCancel}
-              label="Cancel"
-              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
-            />
-          </div>
-        </div>
-      </form>
+            <div className={styles.row}>
+              <Field
+                id="gradeSection"
+                name="grade_section"
+                component={renderTextField}
+                label="gradeSection"
+                disabled={false}
+                variant="outlined"
+                className={styles.item}
+              />
+            </div>
+
+            <div className={styles.row}>
+              <div className={styles.item}>
+                <Button
+                  disabled={disabled}
+                  onClick={this.createGrade}
+                  label="Create"
+                  style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                />
+                <Button
+                  onClick={this.handleCancel}
+                  label="Cancel"
+                  style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                />
+              </div>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     )
   }
 }

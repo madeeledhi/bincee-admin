@@ -105,12 +105,7 @@ const DashboardInner = ({
                 component={GradesSections}
                 user={user}
               />
-              <Route
-                path={`${path}/grades/create`}
-                exact
-                component={CreateGrades}
-                user={user}
-              />
+
               <Route
                 path={`${path}/drivers`}
                 exact
@@ -129,12 +124,7 @@ const DashboardInner = ({
                 component={CreateBus}
                 user={user}
               />
-              <Route
-                path={`${path}/grades/edit/:id`}
-                exact
-                component={EditGrades}
-                user={user}
-              />
+
               <Route
                 path={`${path}/drivers/edit/:id`}
                 exact
