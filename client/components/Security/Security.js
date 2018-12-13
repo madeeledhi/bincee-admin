@@ -42,7 +42,7 @@ class Security extends React.Component {
   }
 
   handleUpdate() {
-    const { dispatch, user, formValues } = this.props
+    const { dispatch, user, formValues, initialize } = this.props
     const { new_password, current_password } = formValues
     const { id, token } = user
     dispatch(verify({ id, token })).then(({ payload }) => {
@@ -60,6 +60,12 @@ class Security extends React.Component {
                 )
               } else {
                 dispatch(showErrorMessage('Password Change Failed', 'error'))
+
+                initialize({
+                  current_password: '',
+                  new_password: '',
+                  re_enter_password: '',
+                })
               }
             },
           )
@@ -67,6 +73,11 @@ class Security extends React.Component {
           dispatch(
             showErrorMessage('Current Password Provided is Incorrect', 'error'),
           )
+          initialize({
+            current_password: '',
+            new_password: '',
+            re_enter_password: '',
+          })
         }
       }
     })
