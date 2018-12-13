@@ -85,7 +85,7 @@ class EditGrades extends React.Component {
         {...other}
         fullWidth
       >
-        <DialogTitle id="simple-dialog-title">Edit Grades</DialogTitle>
+        <DialogTitle id="simple-dialog-title" className={styles.head}>Edit Grades</DialogTitle>
         <DialogContent className={styles.dialog}>
           <Choose>
             <When condition={isLoading}>

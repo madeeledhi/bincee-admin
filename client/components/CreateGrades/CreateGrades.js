@@ -77,7 +77,7 @@ class CreateGrades extends React.Component {
         {...other}
         fullWidth
       >
-        <DialogTitle id="simple-dialog-title">Create Grades</DialogTitle>
+        <DialogTitle id="simple-dialog-title" className={styles.head}>Create Grades</DialogTitle>
         <DialogContent>
           <form className={styles.root}>
             <div className={styles.row}>

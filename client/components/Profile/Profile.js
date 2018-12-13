@@ -11,6 +11,7 @@ import { editUserDetails } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import { validate } from './util'
 import { showErrorMessage } from '../../actions'
+import LoadingView from '../LoadingView'
 
 class Profile extends React.Component {
   constructor(props) {
@@ -71,6 +72,8 @@ class Profile extends React.Component {
     const { userDetails } = this.props
     const { disabled, isLoading } = this.state
     return (
+      <Choose>
+        <When condition={!isLoading}>
       <ProfileInner
         data={userDetails}
         disabled={disabled}
@@ -78,6 +81,13 @@ class Profile extends React.Component {
         handleUpdate={this.handleUpdate}
         handleCancel={this.handleCancel}
       />
+        </When>
+        <Otherwise>
+          <LoadingView message={'Loading Profile'} />
+        </Otherwise>
+      </Choose>
+
+
     )
   }
 }
