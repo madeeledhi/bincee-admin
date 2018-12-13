@@ -16,7 +16,7 @@ export default (state = {}, action) => {
     }
     case ActionTypes.EDIT_USER_DETAILS_SUCCESS: {
       ActionTypes.clearDetailsState()
-      return { ...initialState, message: 'edited Successfully' }
+      return initialState
     }
     case ActionTypes.EDIT_USER_DETAILS_FAILURE: {
       return state
