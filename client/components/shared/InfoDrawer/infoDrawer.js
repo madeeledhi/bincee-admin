@@ -4,6 +4,7 @@ import Drawer from '@material-ui/core/Drawer'
 import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import Divider from '@material-ui/core/Divider'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 
 import styles from './shared.less'
@@ -33,6 +34,7 @@ export default (options = {}) => WrappedComponent => {
     render() {
       const { open, anchor, content, title } = this.state
       return (
+        <ClickAwayListener onClickAway={this.handleRequestClose}>
         <React.Fragment>
           <Drawer
             anchor={anchor}
@@ -61,6 +63,7 @@ export default (options = {}) => WrappedComponent => {
             onDrawerClose={this.handleRequestClose}
           />
         </React.Fragment>
+        </ClickAwayListener>
       )
     }
   }
