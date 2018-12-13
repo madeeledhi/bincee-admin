@@ -21,7 +21,6 @@ class Profile extends React.Component {
     }
     this.handleUpdate = this.handleUpdate.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
-
   }
 
   componentDidMount() {
@@ -29,7 +28,6 @@ class Profile extends React.Component {
     const { name = '', address = '', phone_no = '' } = userDetails
     initialize({ name, address, phone_no })
   }
-
 
   componentWillReceiveProps(nextProps) {
     if (
@@ -42,10 +40,7 @@ class Profile extends React.Component {
         this.setState(() => ({ disabled: false }))
       }
     }
-    if (
-      hasPropChanged('userDetails', this.props, nextProps)
-    ) {
-
+    if (hasPropChanged('userDetails', this.props, nextProps)) {
       const { userDetails, initialize } = nextProps
       const { name = '', address = '', phone_no = '' } = userDetails
       initialize({ name, address, phone_no })
@@ -56,13 +51,15 @@ class Profile extends React.Component {
     const { dispatch, user, formValues } = this.props
     const { name, address, phone_no } = formValues
     const { id, token } = user
-    dispatch(editUserDetails({ id, name, address, phone_no, token })).then(({ payload }) => {
-      const { status: requestStatus } = payload
-      if (requestStatus === 200) {
-        dispatch(push('/dashboard/parents'))
-        dispatch(showErrorMessage('Updated successfully', 'success'))
-      }
-    })
+    dispatch(editUserDetails({ id, name, address, phone_no, token })).then(
+      ({ payload }) => {
+        const { status: requestStatus } = payload
+        if (requestStatus === 200) {
+          dispatch(push('/dashboard'))
+          dispatch(showErrorMessage('Updated successfully', 'success'))
+        }
+      },
+    )
   }
 
   handleCancel = () => {
@@ -72,7 +69,7 @@ class Profile extends React.Component {
 
   render() {
     const { userDetails } = this.props
-    const {disabled, isLoading} =this.state
+    const { disabled, isLoading } = this.state
     return (
       <ProfileInner
         data={userDetails}
@@ -92,7 +89,8 @@ const mapStateToProps = state => {
   return {
     formValues: getFormValues('profile')(state),
     validationErrors: getFormSyncErrors('profile')(state),
-    userDetails, error,
+    userDetails,
+    error,
     user,
   }
 }

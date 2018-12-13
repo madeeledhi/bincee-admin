@@ -1,7 +1,7 @@
 import size from 'lodash/fp/size'
 // src
 import { CALL_API } from '../middleware/api'
-import { clearDetailsState } from './user';
+import { clearDetailsState } from './user'
 
 export const LOAD_USER_DETAILS = 'LOAD_USER_DETAILS'
 export const LOAD_USER_DETAILS_SUCCESS = 'LOAD_USER_DETAILS_SUCCESS'
@@ -55,7 +55,6 @@ export const loadUserDetails = ({ id, token }) => {
   }
 }
 
-
 export const editUserDetails = ({ id, name, phone_no, address, token }) => {
   return {
     [CALL_API]: {
@@ -68,6 +67,6 @@ export const editUserDetails = ({ id, name, phone_no, address, token }) => {
       method: 'POST',
       token,
     },
-    payload: {name, phone_no, address,},
+    payload: { name, phone_no, address },
   }
 }

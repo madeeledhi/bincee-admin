@@ -15,10 +15,8 @@ export default (state = {}, action) => {
       return initialState
     }
     case ActionTypes.EDIT_USER_DETAILS_SUCCESS: {
-      const { data } = payload
       ActionTypes.clearDetailsState()
-      ActionTypes.saveDetailstate(data)
-      return { ...data }
+      return { ...initialState, message: 'edited Successfully' }
     }
     case ActionTypes.EDIT_USER_DETAILS_FAILURE: {
       return state
