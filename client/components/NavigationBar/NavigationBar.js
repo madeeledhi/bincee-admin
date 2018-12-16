@@ -107,6 +107,19 @@ const NavigationBar = props => {
         </ListItem>
         <ListItem
           className={`${styles.navItem} ${
+            activePath === 'leaves' ? styles.active : ''
+          }`}
+          button
+          selected={activePath === 'leaves'}
+          onClick={() => onRouteChange('/dashboard/leaves')}
+        >
+          <ListItemText
+            classes={{ primary: styles.activeText }}
+            primary={'Leaves'}
+          />
+        </ListItem>
+        <ListItem
+          className={`${styles.navItem} ${
             activePath === 'announcements' ? styles.active : ''
           }`}
           button

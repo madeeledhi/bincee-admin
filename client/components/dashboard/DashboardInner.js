@@ -30,6 +30,7 @@ import CreateShifts from '../CreateShifts'
 import EditShift from '../EditShift'
 import Profile from '../Profile'
 import Security from '../Security'
+import Leaves from '../Leaves'
 const DashboardInner = ({
   onClickSignout,
   user,
@@ -165,6 +166,12 @@ const DashboardInner = ({
                 path={`${path}/announcements`}
                 exact
                 component={Announcements}
+                user={user}
+              />
+              <Route
+                path={`${path}/leaves`}
+                exact
+                component={Leaves}
                 user={user}
               />
               <Route
