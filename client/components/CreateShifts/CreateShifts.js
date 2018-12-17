@@ -5,6 +5,9 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
 
 //src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
@@ -39,7 +42,7 @@ class CreateShifts extends React.Component {
   }
 
   createShift = () => {
-    const { dispatch, formValues, user } = this.props
+    const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
     const { shift_name, start_time, end_time } = formValues
     this.setState(() => ({ isLoading: true }))
@@ -53,21 +56,36 @@ class CreateShifts extends React.Component {
     ).then(({ payload }) => {
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
-        dispatch(push('/dashboard/shifts'))
-        dispatch(showErrorMessage('Created successfully', 'success'))
+        dispatch(showErrorMessage('Created successfully', 'success'))(
+        onClose(),)
       }
     })
   }
 
   handleCancel = () => {
-    const { dispatch } = this.props
-    dispatch(push('/dashboard/shifts'))
+    const { onClose } = this.props
+    onClose()
+  }
+  onEnter = () => {
+    const { initialize } = this.props
+    const config = {  shift_name: '',  start_time: '', end_time: '' }
+    initialize(config)
   }
 
   render() {
     // TODO: Change file upload control
     const { disabled } = this.state
+    const { classes, onClose, ...other } = this.props
     return (
+      <Dialog
+        onClose={onClose}
+        onEnter={this.onEnter}
+        aria-labelledby="simple-dialog-title"
+        {...other}
+        fullWidth
+      >
+        <DialogTitle id="simple-dialog-title" className={styles.head}>Create Shifts</DialogTitle>
+        <DialogContent>
       <form className={styles.root}>
         <div className={styles.row}>
           <Field
@@ -128,6 +146,8 @@ class CreateShifts extends React.Component {
           </div>
         </div>
       </form>
+      </DialogContent>
+      </Dialog>
     )
   }
 }

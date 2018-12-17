@@ -1,8 +1,10 @@
 // lib
 import React from 'react'
 
-// src
+
 import EnhancedTable from '../EnhancedTable'
+import CreateShifts from '../CreateShifts'
+import EditShift from '../EditShift'
 import LoadingView from '../LoadingView'
 
 const ShiftsAndTimingsInner = ({
@@ -13,6 +15,11 @@ const ShiftsAndTimingsInner = ({
   onDeleteShift,
   onCreateShift,
   onUpdateShift,
+  onRowClick,
+  createDialog,
+  editDialog,
+  editId,
+  handleClose,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -27,6 +34,8 @@ const ShiftsAndTimingsInner = ({
           handleEditRow={onUpdateShift}
         />
       </div>
+      <EditShift id={editId} open={editDialog} onClose={handleClose} />
+      <CreateShifts open={createDialog} onClose={handleClose} />
     </When>
     <Otherwise>
       <LoadingView message={'Loading Shifts'} />

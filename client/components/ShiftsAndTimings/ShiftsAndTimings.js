@@ -13,7 +13,12 @@ import { loadShifts, deleteShift } from '../../actions'
 import ShiftsAndTimingsInner from './ShiftsAndTimingsInner'
 
 class ShiftsAndTimings extends React.Component {
-  state = { error: '', isLoading: true }
+  state = { error: '', 
+  isLoading: true,
+  createDialog: false,
+  editDialog: false,
+  editId: '',
+ }
 
   componentDidMount() {
     const { dispatch, user } = this.props
@@ -49,13 +54,16 @@ class ShiftsAndTimings extends React.Component {
   }
 
   handleCreateShift = () => {
-    const { dispatch } = this.props
-    dispatch(push('/dashboard/shifts/create'))
+    this.setState(() => ({
+      createDialog: true,
+    }))
   }
 
   handleUpdateShift = (event, id) => {
-    const { dispatch } = this.props
-    dispatch(push(`/dashboard/shifts/edit/${id}`))
+    this.setState(() => ({
+      editDialog: true,
+      editId: id,
+    }))
   }
 
   handleDeleteMutipleShifts = selectedArray => {
@@ -65,8 +73,18 @@ class ShiftsAndTimings extends React.Component {
     dispatch(loadShifts({ token }))
   }
 
+  handleClose = () => {
+    const { dispatch, user } = this.props
+    const { token } = user
+    dispatch(loadShifts({ token }))
+    this.setState(() => ({
+      createDialog: false,
+      editDialog: false,
+    }))
+  }
+
   render() {
-    const { error, isLoading } = this.state
+    const { error, isLoading, createDialog, editDialog, editId  } = this.state
     const { shifts } = this.props
     const { columns: rows, rows: data } = shifts
 
@@ -79,6 +97,10 @@ class ShiftsAndTimings extends React.Component {
         onDeleteShift={this.handleDeleteShift}
         onCreateShift={this.handleCreateShift}
         onUpdateShift={this.handleUpdateShift}
+        createDialog={createDialog}
+        editDialog={editDialog}
+        editId={editId}
+        handleClose={this.handleClose}
       />
     )
   }
