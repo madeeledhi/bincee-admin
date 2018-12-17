@@ -13,7 +13,13 @@ import { loadDrivers, deleteDriver } from '../../actions'
 import DriversInner from './DriversInner'
 
 class Drivers extends React.Component {
-  state = { error: '', isLoading: true }
+  state = { 
+    error: '',
+    isLoading: true,
+    createDialog: false,
+    editDialog: false,
+    editId: '',
+  }
 
   componentDidMount() {
     const { dispatch, user } = this.props
@@ -49,13 +55,26 @@ class Drivers extends React.Component {
   }
 
   handleCreateDriver = () => {
-    const { dispatch } = this.props
-    dispatch(push('/dashboard/drivers/create'))
+    this.setState(() => ({
+      createDialog: true,
+    }))
   }
 
   handleUpdateDriver = (event, id) => {
-    const { dispatch } = this.props
-    dispatch(push(`/dashboard/drivers/edit/${id}`))
+    this.setState(() => ({
+      editDialog: true,
+      editId: id,
+    }))
+  }
+
+  handleClose = () => {
+    const { dispatch, user } = this.props
+    const { token } = user
+    dispatch(loadDrivers({ token }))
+    this.setState(() => ({
+      createDialog: false,
+      editDialog: false,
+    }))
   }
 
   handleDeleteMutipleDrivers = selectedArray => {
@@ -66,7 +85,7 @@ class Drivers extends React.Component {
   }
 
   render() {
-    const { error, isLoading } = this.state
+    const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { drivers } = this.props
     const { columns: rows, rows: data } = drivers
 
@@ -79,6 +98,10 @@ class Drivers extends React.Component {
         onDeleteDriver={this.handleDeleteDriver}
         onCreateDriver={this.handleCreateDriver}
         onUpdateDriver={this.handleUpdateDriver}
+        createDialog={createDialog}
+        editDialog={editDialog}
+        editId={editId}
+        handleClose={this.handleClose}
       />
     )
   }

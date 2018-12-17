@@ -13,7 +13,13 @@ import { loadParents, deleteParent } from '../../actions'
 import ParentsInner from './ParentsInner'
 
 class Parents extends React.Component {
-  state = { error: '', isLoading: true }
+  state = {
+    error: '',
+    isLoading: true,
+    createDialog: false,
+    editDialog: false,
+    editId: '',
+  }
 
   componentDidMount() {
     const { dispatch, user } = this.props
@@ -49,13 +55,16 @@ class Parents extends React.Component {
   }
 
   handleCreateParent = () => {
-    const { dispatch } = this.props
-    dispatch(push('/dashboard/parents/create'))
+    this.setState(() => ({
+      createDialog: true,
+    }))
   }
 
   handleUpdateParent = (event, id) => {
-    const { dispatch } = this.props
-    dispatch(push(`/dashboard/parents/edit/${id}`))
+    this.setState(() => ({
+      editDialog: true,
+      editId: id,
+    }))
   }
 
   handleDeleteMutipleParents = selectedArray => {
@@ -64,9 +73,18 @@ class Parents extends React.Component {
     map(id => dispatch(deleteParent({ id, token })))(selectedArray)
     dispatch(loadParents({ token }))
   }
+  handleClose = () => {
+    const { dispatch, user } = this.props
+    const { token } = user
+    dispatch(loadParents({ token }))
+    this.setState(() => ({
+      createDialog: false,
+      editDialog: false,
+    }))
+  }
 
   render() {
-    const { error, isLoading } = this.state
+    const { error, isLoading, createDialog, editDialog, editId  } = this.state
     const { parents } = this.props
     const { columns: rows, rows: data } = parents
 
@@ -79,6 +97,10 @@ class Parents extends React.Component {
         onDeleteParent={this.handleDeleteParent}
         onCreateParent={this.handleCreateParent}
         onUpdateParent={this.handleUpdateParent}
+        createDialog={createDialog}
+        editDialog={editDialog}
+        editId={editId}
+        handleClose={this.handleClose}
       />
     )
   }

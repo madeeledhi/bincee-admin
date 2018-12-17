@@ -10,6 +10,10 @@ import size from 'lodash/fp/size'
 import FormData from 'form-data'
 import MenuItem from '@material-ui/core/MenuItem'
 import map from 'lodash/fp/map'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogActions from '@material-ui/core/DialogActions'
 
 //src
 import {
@@ -62,7 +66,7 @@ class CreateStudent extends React.Component {
   }
 
   createNewStudent = () => {
-    const { dispatch, formValues, user } = this.props
+    const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
     const {
       fullname,
@@ -88,15 +92,22 @@ class CreateStudent extends React.Component {
     ).then(({ payload }) => {
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
-        dispatch(push('/dashboard/students'))
-        dispatch(showErrorMessage('Created successfully', 'success'))
+        dispatch(showErrorMessage('Created successfully', 'success'))(
+          onClose(),
+        )
       }
     })
   }
 
   handleCancel = () => {
-    const { dispatch } = this.props
-    dispatch(push('/dashboard/students'))
+    const { onClose } = this.props
+    onClose()
+  }
+
+  onEnter = () => {
+    const { initialize } = this.props
+    const config = { fullname: '', status: '', photo: '', grade: '', shift: '', parent_id: '', driver_id: '', token: '' }
+    initialize(config)
   }
 
   fileChangedHandler = event => {
@@ -129,145 +140,157 @@ class CreateStudent extends React.Component {
     // TODO: Change file upload control
     const { disabled } = this.state
     const { driversList, parentsList, gradesList, shiftsList } = this.props
+    const { classes, onClose, ...other } = this.props
     return (
-      <form className={styles.root}>
-        <div className={styles.sameRow}>
-          <div className={styles.row}>
-            <Field
-              id="fullname"
-              name="fullname"
-              component={renderTextField}
-              label="Fullname"
-              disabled={false}
-              variant="outlined"
-              className={styles.item}
-            />
-          </div>
-          <div className={styles.row}>
-            <Field
-              id="photo"
-              InputLabelProps={{ shrink: true }}
-              input={{ value: '', onChange: this.fileChangedHandler }}
-              name="photo"
-              margin="normal"
-              component={renderTextField}
-              label="Photo Url"
-              disabled={false}
-              variant="outlined"
-              className={styles.item}
-              type="file"
-            />
-          </div>
-        </div>
-        <div className={styles.sameRow}>
-          <div className={styles.row}>
-            <Field
-              className={styles.item}
-              name="grade"
-              component={renderTextField}
-              select
-              label="Select Grade"
-              variant="outlined"
-              margin="dense"
-            >
-              {map(({ grade_id, grade_section }) => (
-                <MenuItem key={grade_id} value={grade_id}>
-                  {grade_section}
-                </MenuItem>
-              ))(gradesList)}
-            </Field>
-          </div>
-          <div className={styles.row}>
-            <Field
-              className={styles.item}
-              name="shift"
-              component={renderTextField}
-              select
-              label="Select Shift"
-              variant="outlined"
-              margin="dense"
-            >
-              {map(({ shift_id, shift_name }) => (
-                <MenuItem key={shift_id} value={shift_id}>
-                  {shift_name}
-                </MenuItem>
-              ))(shiftsList)}
-            </Field>
-          </div>
-        </div>
-        <div className={styles.sameRow}>
-          <div className={styles.row}>
-            <Field
-              className={styles.item}
-              name="driver_id"
-              component={renderTextField}
-              select
-              label="Select Driver"
-              variant="outlined"
-              margin="dense"
-            >
-              {map(({ driver_id, fullname }) => (
-                <MenuItem key={driver_id} value={driver_id}>
-                  {fullname}
-                </MenuItem>
-              ))(driversList)}
-            </Field>
-          </div>
-          <div className={styles.row}>
-            <Field
-              className={styles.radioButton}
-              name="status"
-              label="Status"
-              component={renderRadioGroup}
-            >
-              <FormControlLabel
-                value="Active"
-                control={<Radio color="primary" />}
-                label="Active"
-              />
-              <FormControlLabel
-                value="Inactive"
-                control={<Radio color="primary" />}
-                label="Inactive"
-              />
-            </Field>
-          </div>
-        </div>
-        <div className={styles.sameRow}>
-          <div className={styles.row}>
-            <Field
-              className={styles.item}
-              name="parent_id"
-              component={renderTextField}
-              select
-              label="Select Parent"
-              variant="outlined"
-              margin="dense"
-            >
-              {map(({ parent_id, fullname }) => (
-                <MenuItem key={parent_id} value={parent_id}>
-                  {fullname}
-                </MenuItem>
-              ))(parentsList)}
-            </Field>
-          </div>
-        </div>
-        <div className={styles.fullRow}>
-          <div className={styles.item}>
-            <Button
-              disabled={disabled}
-              onClick={this.createNewStudent}
-              label="Update"
-              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
-            />
-            <Button
-              onClick={this.handleCancel}
-              label="Cancel"
-              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
-            />
-          </div>
-        </div>
-      </form>
+      <Dialog
+        onClose={onClose}
+        onEnter={this.onEnter}
+        aria-labelledby="simple-dialog-title"
+        {...other}
+        fullWidth
+      >
+        <DialogTitle id="simple-dialog-title" className={styles.head}>Create Student</DialogTitle>
+        <DialogContent>
+          <form className={styles.root}>
+            <div className={styles.sameRow}>
+              <div className={styles.row}>
+                <Field
+                  id="fullname"
+                  name="fullname"
+                  component={renderTextField}
+                  label="Fullname"
+                  disabled={false}
+                  variant="outlined"
+                  className={styles.item}
+                />
+              </div>
+              <div className={styles.row}>
+                <Field
+                  id="photo"
+                  InputLabelProps={{ shrink: true }}
+                  input={{ value: '', onChange: this.fileChangedHandler }}
+                  name="photo"
+                  margin="normal"
+                  component={renderTextField}
+                  label="Photo Url"
+                  disabled={false}
+                  variant="outlined"
+                  className={styles.item}
+                  type="file"
+                />
+              </div>
+            </div>
+            <div className={styles.sameRow}>
+              <div className={styles.row}>
+                <Field
+                  className={styles.item}
+                  name="grade"
+                  component={renderTextField}
+                  select
+                  label="Select Grade"
+                  variant="outlined"
+                  margin="dense"
+                >
+                  {map(({ grade_id, grade_section }) => (
+                    <MenuItem key={grade_id} value={grade_id}>
+                      {grade_section}
+                    </MenuItem>
+                  ))(gradesList)}
+                </Field>
+              </div>
+              <div className={styles.row}>
+                <Field
+                  className={styles.item}
+                  name="shift"
+                  component={renderTextField}
+                  select
+                  label="Select Shift"
+                  variant="outlined"
+                  margin="dense"
+                >
+                  {map(({ shift_id, shift_name }) => (
+                    <MenuItem key={shift_id} value={shift_id}>
+                      {shift_name}
+                    </MenuItem>
+                  ))(shiftsList)}
+                </Field>
+              </div>
+            </div>
+            <div className={styles.sameRow}>
+              <div className={styles.row}>
+                <Field
+                  className={styles.item}
+                  name="driver_id"
+                  component={renderTextField}
+                  select
+                  label="Select Driver"
+                  variant="outlined"
+                  margin="dense"
+                >
+                  {map(({ driver_id, fullname }) => (
+                    <MenuItem key={driver_id} value={driver_id}>
+                      {fullname}
+                    </MenuItem>
+                  ))(driversList)}
+                </Field>
+              </div>
+              <div className={styles.row}>
+                <Field
+                  className={styles.radioButton}
+                  name="status"
+                  label="Status"
+                  component={renderRadioGroup}
+                >
+                  <FormControlLabel
+                    value="Active"
+                    control={<Radio color="primary" />}
+                    label="Active"
+                  />
+                  <FormControlLabel
+                    value="Inactive"
+                    control={<Radio color="primary" />}
+                    label="Inactive"
+                  />
+                </Field>
+              </div>
+            </div>
+            <div className={styles.sameRow}>
+              <div className={styles.row}>
+                <Field
+                  className={styles.item}
+                  name="parent_id"
+                  component={renderTextField}
+                  select
+                  label="Select Parent"
+                  variant="outlined"
+                  margin="dense"
+                >
+                  {map(({ parent_id, fullname }) => (
+                    <MenuItem key={parent_id} value={parent_id}>
+                      {fullname}
+                    </MenuItem>
+                  ))(parentsList)}
+                </Field>
+              </div>
+            </div>
+            <div className={styles.fullRow}>
+              <div className={styles.item}>
+                <Button
+                  disabled={disabled}
+                  onClick={this.createNewStudent}
+                  label="Update"
+                  style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                />
+                <Button
+                  onClick={this.handleCancel}
+                  label="Cancel"
+                  style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                />
+              </div>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     )
   }
 }

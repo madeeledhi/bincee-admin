@@ -5,6 +5,8 @@ import size from 'lodash/fp/size'
 
 // src
 import EnhancedTable from '../EnhancedTable'
+import CreateDriver from '../CreateDriver'
+import EditDriver from '../EditDriver'
 import LoadingView from '../LoadingView'
 
 const DriversInner = ({
@@ -15,6 +17,10 @@ const DriversInner = ({
   onDeleteDriver,
   onCreateDriver,
   onUpdateDriver,
+  createDialog,
+  editDialog,
+  editId,
+  handleClose,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -28,6 +34,8 @@ const DriversInner = ({
           handleCreateRow={onCreateDriver}
           handleEditRow={onUpdateDriver}
         />
+        <EditDriver id={editId} open={editDialog} onClose={handleClose} />
+        <CreateDriver open={createDialog} onClose={handleClose} />
       </div>
     </When>
     <Otherwise>

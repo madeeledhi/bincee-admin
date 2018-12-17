@@ -13,7 +13,13 @@ import { loadStudents, deleteStudent } from '../../actions'
 import StudentsInner from './StudentsInner'
 
 class Students extends React.Component {
-  state = { error: '', isLoading: true }
+  state = { 
+    error: '',
+    isLoading: true,
+    createDialog: false,
+    editDialog: false,
+    editId: '',
+   }
 
   componentDidMount() {
     const { dispatch, user } = this.props
@@ -49,13 +55,25 @@ class Students extends React.Component {
   }
 
   handleCreateStudent = () => {
-    const { dispatch } = this.props
-    dispatch(push('/dashboard/students/create'))
+    this.setState(() => ({
+      createDialog: true,
+    }))
   }
 
   handleUpdateStudent = (event, id) => {
-    const { dispatch } = this.props
-    dispatch(push(`/dashboard/students/edit/${id}`))
+    this.setState(() => ({
+      editDialog: true,
+      editId: id,
+    }))
+  }
+  handleClose = () => {
+    const { dispatch, user } = this.props
+    const { token } = user
+    dispatch(loadStudents({ token }))
+    this.setState(() => ({
+      createDialog: false,
+      editDialog: false,
+    }))
   }
 
   handleDeleteMutipleStudents = selectedArray => {
@@ -66,7 +84,7 @@ class Students extends React.Component {
   }
 
   render() {
-    const { error, isLoading } = this.state
+    const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { students } = this.props
     const { columns: rows, rows: data } = students
 
@@ -79,6 +97,10 @@ class Students extends React.Component {
         onDeleteStudent={this.handleDeleteStudent}
         onCreateStudent={this.handleCreateStudent}
         onUpdateStudent={this.handleUpdateStudent}
+        createDialog={createDialog}
+        editDialog={editDialog}
+        editId={editId}
+        handleClose={this.handleClose}
       />
     )
   }

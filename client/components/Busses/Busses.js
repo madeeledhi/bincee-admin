@@ -17,7 +17,13 @@ import BussesInner from './BussesInner'
 import Drawer from '../Drawer'
 
 class Busses extends React.Component {
-  state = { error: '', isLoading: true }
+  state = {
+    error: '',
+    isLoading: true,
+    createDialog: false,
+    editDialog: false,
+    editId: '',
+   }
 
   componentDidMount() {
     const { dispatch, user } = this.props
@@ -53,13 +59,16 @@ class Busses extends React.Component {
   }
 
   handleCreateBus = () => {
-    const { dispatch } = this.props
-    dispatch(push('/dashboard/busses/create'))
+    this.setState(() => ({
+      createDialog: true,
+    }))
   }
 
   handleUpdateBus = (event, id) => {
-    const { dispatch } = this.props
-    dispatch(push(`/dashboard/busses/edit/${id}`))
+    this.setState(() => ({
+      editDialog: true,
+      editId: id,
+    }))
   }
 
   handleDeleteMutipleBusses = selectedArray => {
@@ -89,8 +98,18 @@ class Busses extends React.Component {
     })
   }
 
+  handleClose = () => {
+    const { dispatch, user } = this.props
+    const { token } = user
+    dispatch(loadAllBus({ token }))
+    this.setState(() => ({
+      createDialog: false,
+      editDialog: false,
+    }))
+  }
+
   render() {
-    const { error, isLoading } = this.state
+    const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { busses } = this.props
     const { columns: rows, rows: data } = busses
 
@@ -104,6 +123,10 @@ class Busses extends React.Component {
         onDeleteBus={this.handleDeleteBus}
         onCreateBus={this.handleCreateBus}
         onUpdateBus={this.handleUpdateBus}
+        createDialog={createDialog}
+        editDialog={editDialog}
+        editId={editId}
+        handleClose={this.handleClose}
       />
     )
   }

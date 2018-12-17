@@ -5,6 +5,8 @@ import size from 'lodash/fp/size'
 
 // src
 import EnhancedTable from '../EnhancedTable'
+import CreateBus from '../CreateBus'
+import EditBus from '../EditBus'
 import LoadingView from '../LoadingView'
 
 const BussesInner = ({
@@ -16,6 +18,10 @@ const BussesInner = ({
   onDeleteBus,
   onCreateBus,
   onUpdateBus,
+  createDialog,
+  editDialog,
+  editId,
+  handleClose,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -30,6 +36,8 @@ const BussesInner = ({
           handleCreateRow={onCreateBus}
           handleEditRow={onUpdateBus}
         />
+        <EditBus id={editId} open={editDialog} onClose={handleClose} />
+        <CreateBus open={createDialog} onClose={handleClose} />
       </div>
     </When>
     <Otherwise>
