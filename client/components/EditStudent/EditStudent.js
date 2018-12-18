@@ -2,7 +2,6 @@
 import React from 'react'
 import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
@@ -12,9 +11,8 @@ import size from 'lodash/fp/size'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
 
-//src
+// src
 import {
   renderTextField,
   renderRadioGroup,
@@ -23,17 +21,12 @@ import styles from './EditStudent.less'
 import {
   loadSingleStudent,
   updateSTUDENT,
-  uploadImage,
-  loadParents,
-  loadDrivers,
-  loadGrades,
-  loadShifts,
+  showErrorMessage,
 } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
-import { showErrorMessage } from '../../actions'
 
 class EditStudent extends React.Component {
   constructor(props) {
@@ -43,7 +36,6 @@ class EditStudent extends React.Component {
       isLoading: true,
     }
   }
-
 
   componentWillReceiveProps(nextProps) {
     if (
@@ -59,7 +51,7 @@ class EditStudent extends React.Component {
   }
 
   updateStudent = () => {
-    const { dispatch, formValues, user, match, id, onClose } = this.props
+    const { dispatch, formValues, user, id, onClose } = this.props
     const { token } = user
     const {
       fullname,
@@ -91,18 +83,36 @@ class EditStudent extends React.Component {
       }
     })
   }
+
   handleCancel = () => {
     const { onClose } = this.props
     onClose()
   }
+
   onEnter = () => {
-    const { user, dispatch, match, initialize, id } = this.props
+    const { user, dispatch, initialize, id } = this.props
     const { token } = user
     dispatch(loadSingleStudent({ id, token })).then(({ payload }) => {
       this.setState(() => ({ isLoading: false }))
       const { status: requestStatus, data } = payload
-      const { fullname, status, photo, grade, shift, parent_id, driver_id } = data
-      const config = { fullname, status, photo, grade, shift, parent_id, driver_id }
+      const {
+        fullname,
+        status,
+        photo,
+        grade,
+        shift,
+        parent_id,
+        driver_id,
+      } = data
+      const config = {
+        fullname,
+        status,
+        photo,
+        grade,
+        shift,
+        parent_id,
+        driver_id,
+      }
       initialize(config)
     })
   }
@@ -119,7 +129,9 @@ class EditStudent extends React.Component {
         {...other}
         fullWidth
       >
-        <DialogTitle id="simple-dialog-title" className={styles.head}>Edit Student</DialogTitle>
+        <DialogTitle id="simple-dialog-title" className={styles.head}>
+          {'Edit Student'}
+        </DialogTitle>
         <DialogContent className={styles.dialog}>
           <Choose>
             <When condition={isLoading}>
@@ -254,12 +266,18 @@ class EditStudent extends React.Component {
                       disabled={disabled}
                       onClick={this.updateStudent}
                       label="Update"
-                      style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                      style={{
+                        backgroundColor: '#0adfbd',
+                        borderColor: '#0adfbd',
+                      }}
                     />
                     <Button
                       onClick={this.handleCancel}
                       label="Cancel"
-                      style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                      style={{
+                        backgroundColor: '#ff4747',
+                        borderColor: '#ff4747',
+                      }}
                     />
                   </div>
                 </div>
@@ -271,7 +289,7 @@ class EditStudent extends React.Component {
     )
   }
 }
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   const user = getOr({}, 'user')(state)
   const drivers = getOr({}, 'drivers')(state)
   const driversList = getOr([], 'drivers')(drivers)

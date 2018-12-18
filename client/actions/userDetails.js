@@ -55,7 +55,14 @@ export const loadUserDetails = ({ id, token }) => {
   }
 }
 
-export const editUserDetails = ({ id, name, phone_no, address, token }) => {
+export const editUserDetails = ({
+  id,
+  name,
+  phone_no,
+  address,
+  email,
+  token,
+}) => {
   return {
     [CALL_API]: {
       types: [
@@ -67,6 +74,6 @@ export const editUserDetails = ({ id, name, phone_no, address, token }) => {
       method: 'POST',
       token,
     },
-    payload: { name, phone_no, address },
+    payload: { name, phone_no, address, email },
   }
 }

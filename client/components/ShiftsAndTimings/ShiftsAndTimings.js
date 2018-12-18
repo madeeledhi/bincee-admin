@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 import map from 'lodash/fp/map'
-import { push } from 'react-router-redux'
 
 // src
 import transformData from './transformers/transformData'
@@ -13,12 +12,13 @@ import { loadShifts, deleteShift } from '../../actions'
 import ShiftsAndTimingsInner from './ShiftsAndTimingsInner'
 
 class ShiftsAndTimings extends React.Component {
-  state = { error: '', 
-  isLoading: true,
-  createDialog: false,
-  editDialog: false,
-  editId: '',
- }
+  state = {
+    error: '',
+    isLoading: true,
+    createDialog: false,
+    editDialog: false,
+    editId: '',
+  }
 
   componentDidMount() {
     const { dispatch, user } = this.props
@@ -84,7 +84,7 @@ class ShiftsAndTimings extends React.Component {
   }
 
   render() {
-    const { error, isLoading, createDialog, editDialog, editId  } = this.state
+    const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { shifts } = this.props
     const { columns: rows, rows: data } = shifts
 

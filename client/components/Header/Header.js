@@ -32,8 +32,6 @@ class Header extends React.Component {
 
   render() {
     const { user, onClickSignout, onRouteChange, userDetails } = this.props
-    const { username } = user
-    const { name } = userDetails
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
 
@@ -69,9 +67,9 @@ class Header extends React.Component {
               }}
             >
               <Icon className={styles.iconColor} fontSize={'small'}>
-                account_circle
+                {'account_circle'}
               </Icon>
-              Profile
+              {'Profile'}
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -80,9 +78,9 @@ class Header extends React.Component {
               }}
             >
               <Icon className={styles.iconColor} fontSize={'small'}>
-                security
+                {'security'}
               </Icon>
-              Security
+              {'Security'}
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -91,9 +89,9 @@ class Header extends React.Component {
               }}
             >
               <Icon className={styles.iconColor} fontSize={'small'}>
-                credit_card
+                {'credit_card'}
               </Icon>
-              Logout
+              {'Logout'}
             </MenuItem>
           </Menu>
         </div>

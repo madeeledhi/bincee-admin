@@ -6,10 +6,6 @@ import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import Checkbox from '@material-ui/core/Checkbox'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import CheckBoxOutlineBlankIcon from '@material-ui/core/SvgIcon'
-import CheckBoxIcon from '@material-ui/core/SvgIcon'
 
 // src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
@@ -28,8 +24,6 @@ class Login extends React.Component {
       error: false,
       disabled: false,
     }
-    this.handleClick = this.handleClick.bind(this)
-    this.enterPressed = this.enterPressed.bind(this)
   }
 
   componentDidMount() {
@@ -61,7 +55,6 @@ class Login extends React.Component {
       }
     }
   }
-  
 
   handleClick = () => {
     const { dispatch, formValues } = this.props
@@ -78,17 +71,17 @@ class Login extends React.Component {
     })
   }
 
-  enterPressed= (event) => {
-    const code = event.keyCode || event.which,
-      { isLoading,  disabled }= this.state,
-      disableEnter = isLoading || disabled
-    if(code === 13 && !disableEnter) { 
+  enterPressed = event => {
+    const code = event.keyCode || event.which
+    const { isLoading, disabled } = this.state
+    const disableEnter = isLoading || disabled
+    if (code === 13 && !disableEnter) {
       this.handleClick()
-    } 
+    }
   }
 
   render() {
-    const { user, isLoading, error, disabled } = this.state
+    const { isLoading, error, disabled } = this.state
 
     console.log('{error}, {disabled}:', error, disabled)
     return (
@@ -109,7 +102,7 @@ class Login extends React.Component {
                 variant="outlined"
                 margin="dense"
                 className={styles.fieldBorder}
-                onKeyPress={this.enterPressed}
+                onKeyPress={e => this.enterPressed(e)}
               />
               <Field
                 id="password"
@@ -121,11 +114,8 @@ class Login extends React.Component {
                 variant="outlined"
                 margin="dense"
                 className={styles.fieldBorder}
-                onKeyPress={this.enterPressed}
+                onKeyPress={e => this.enterPressed(e)}
               />
-              {
-                //TODO: Change this to a span or div, for onclick function
-              }
               <div className={styles.room}>
                 <span className={styles.forgetPass}>Forget Password?</span>
               </div>
@@ -150,7 +140,7 @@ class Login extends React.Component {
               />
               <div>
                 <p className={styles.termsAndConditionsText}>
-                  By signing in you agree with our
+                  {'By signing in you agree with our'}
                   <a className={styles.signUpText}> Terms & Conditions</a>
                 </p>
               </div>
@@ -162,7 +152,7 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   const user = getOr({}, 'user')(state)
   return {
     formValues: getFormValues('login')(state),

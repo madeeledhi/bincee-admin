@@ -2,23 +2,20 @@
 import React from 'react'
 import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
 
-//src
+// src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
 import styles from './EditGrades.less'
-import { createGrade, editGrade, loadSingleGrade } from '../../actions'
+import { editGrade, loadSingleGrade, showErrorMessage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import Button from '../Button'
 import { validate } from './util'
-import { showErrorMessage } from '../../actions'
 
 class EditGrades extends React.Component {
   constructor(props) {
@@ -43,7 +40,7 @@ class EditGrades extends React.Component {
   }
 
   updateGrade = () => {
-    const { dispatch, formValues, user, match, id, onClose } = this.props
+    const { dispatch, formValues, user, id, onClose } = this.props
     const { token } = user
     const { grade_name, section, grade_section } = formValues
     this.setState(() => ({ isLoading: true }))
@@ -62,12 +59,13 @@ class EditGrades extends React.Component {
     const { onClose } = this.props
     onClose()
   }
+
   onEnter = () => {
-    const { user, dispatch, match, initialize, id } = this.props
+    const { user, dispatch, initialize, id } = this.props
     const { token } = user
     dispatch(loadSingleGrade({ id, token })).then(({ payload }) => {
       this.setState(() => ({ isLoading: false }))
-      const { status, data } = payload
+      const { data } = payload
       const { grade_name, section, grade_section } = data
       const config = { grade_name, section, grade_section }
       initialize(config)
@@ -85,7 +83,9 @@ class EditGrades extends React.Component {
         {...other}
         fullWidth
       >
-        <DialogTitle id="simple-dialog-title" className={styles.head}>Edit Grades</DialogTitle>
+        <DialogTitle id="simple-dialog-title" className={styles.head}>
+          {'Edit Grades'}
+        </DialogTitle>
         <DialogContent className={styles.dialog}>
           <Choose>
             <When condition={isLoading}>
@@ -157,7 +157,7 @@ class EditGrades extends React.Component {
     )
   }
 }
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   const user = getOr({}, 'user')(state)
   return {
     formValues: getFormValues('editgrade')(state),

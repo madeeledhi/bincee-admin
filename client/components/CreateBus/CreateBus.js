@@ -2,26 +2,22 @@
 import React from 'react'
 import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
-import uniqueId from 'lodash/fp/uniqueId'
 import MenuItem from '@material-ui/core/MenuItem'
 import map from 'lodash/fp/map'
 import size from 'lodash/fp/size'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
 
-//src
+// src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
 import styles from './CreateBus.less'
-import { loadDrivers, createBus } from '../../actions'
+import { loadDrivers, createBus, showErrorMessage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
-import { showErrorMessage } from '../../actions'
 
 class CreateBus extends React.Component {
   constructor(props) {
@@ -31,7 +27,7 @@ class CreateBus extends React.Component {
       isLoading: false,
     }
   }
-  
+
   componentDidMount() {
     const { dispatch, user } = this.props
     if (user) {
@@ -56,7 +52,6 @@ class CreateBus extends React.Component {
   createBus = () => {
     const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
-    const username = uniqueId(formValues.fullname)
     const { registration_no, description, driver_id } = formValues
     this.setState(() => ({ isLoading: true }))
     dispatch(
@@ -69,10 +64,7 @@ class CreateBus extends React.Component {
     ).then(({ payload }) => {
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
-        dispatch(showErrorMessage('Created successfully', 'success'))(
-          onClose(),
-        )
-
+        dispatch(showErrorMessage('Created successfully', 'success'))(onClose())
       }
     })
   }
@@ -81,6 +73,7 @@ class CreateBus extends React.Component {
     const { onClose } = this.props
     onClose()
   }
+
   onEnter = () => {
     const { initialize } = this.props
     const config = { registration_no: '', description: '', driver_id: '' }
@@ -99,7 +92,9 @@ class CreateBus extends React.Component {
         {...other}
         fullWidth
       >
-        <DialogTitle id="simple-dialog-title" className={styles.head}>Create Bus</DialogTitle>
+        <DialogTitle id="simple-dialog-title" className={styles.head}>
+          {'Create Bus'}
+        </DialogTitle>
         <DialogContent>
           <form className={styles.root}>
             <div className={styles.row}>

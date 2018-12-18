@@ -2,23 +2,20 @@
 import React from 'react'
 import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
 
-//src
+// src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
 import styles from './CreateGrades.less'
-import { createGrade, editGrade } from '../../actions'
+import { createGrade, showErrorMessage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import Button from '../Button'
 import { validate } from './util'
-import { showErrorMessage } from '../../actions'
 
 class CreateGrades extends React.Component {
   constructor(props) {
@@ -60,6 +57,7 @@ class CreateGrades extends React.Component {
     const { onClose } = this.props
     onClose()
   }
+
   onEnter = () => {
     const { initialize } = this.props
     const config = { grade_name: '', section: '', grade_section: '' }
@@ -77,7 +75,9 @@ class CreateGrades extends React.Component {
         {...other}
         fullWidth
       >
-        <DialogTitle id="simple-dialog-title" className={styles.head}>Create Grades</DialogTitle>
+        <DialogTitle id="simple-dialog-title" className={styles.head}>
+          {'Create Grades'}
+        </DialogTitle>
         <DialogContent>
           <form className={styles.root}>
             <div className={styles.row}>

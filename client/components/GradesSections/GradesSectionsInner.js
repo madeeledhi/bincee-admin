@@ -1,14 +1,11 @@
 // lib
 import React from 'react'
-import getOr from 'lodash/fp/getOr'
-import size from 'lodash/fp/size'
 
 // src
 import EnhancedTable from '../EnhancedTable'
 import CreateGrades from '../CreateGrades'
 import EditGrades from '../EditGrades'
 import LoadingView from '../LoadingView'
-import { createGrade } from '../../actions/grades'
 
 const GradesSectionsInner = ({
   error,

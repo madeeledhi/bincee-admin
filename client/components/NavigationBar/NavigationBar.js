@@ -3,11 +3,10 @@ import React from 'react'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
-import ListSubheader from '@material-ui/core/ListSubheader'
 
 // src
 import styles from './NavigationBar.less'
-//TODO: Apply color to the navbar
+
 const NavigationBar = props => {
   const { onRouteChange, activePath } = props
 

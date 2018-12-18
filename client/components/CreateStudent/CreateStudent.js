@@ -2,7 +2,6 @@
 import React from 'react'
 import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
@@ -13,9 +12,8 @@ import map from 'lodash/fp/map'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
 
-//src
+// src
 import {
   renderTextField,
   renderRadioGroup,
@@ -28,12 +26,12 @@ import {
   loadDrivers,
   loadGrades,
   loadShifts,
+  showErrorMessage,
 } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
-import { showErrorMessage } from '../../actions'
 
 class CreateStudent extends React.Component {
   constructor(props) {
@@ -92,9 +90,7 @@ class CreateStudent extends React.Component {
     ).then(({ payload }) => {
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
-        dispatch(showErrorMessage('Created successfully', 'success'))(
-          onClose(),
-        )
+        dispatch(showErrorMessage('Created successfully', 'success'))(onClose())
       }
     })
   }
@@ -106,7 +102,16 @@ class CreateStudent extends React.Component {
 
   onEnter = () => {
     const { initialize } = this.props
-    const config = { fullname: '', status: '', photo: '', grade: '', shift: '', parent_id: '', driver_id: '', token: '' }
+    const config = {
+      fullname: '',
+      status: '',
+      photo: '',
+      grade: '',
+      shift: '',
+      parent_id: '',
+      driver_id: '',
+      token: '',
+    }
     initialize(config)
   }
 
@@ -149,7 +154,9 @@ class CreateStudent extends React.Component {
         {...other}
         fullWidth
       >
-        <DialogTitle id="simple-dialog-title" className={styles.head}>Create Student</DialogTitle>
+        <DialogTitle id="simple-dialog-title" className={styles.head}>
+          {'Create Student'}
+        </DialogTitle>
         <DialogContent>
           <form className={styles.root}>
             <div className={styles.sameRow}>

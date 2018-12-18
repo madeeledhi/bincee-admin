@@ -1,7 +1,8 @@
 import trim from 'lodash/fp/trim'
+
 export const validate = values => {
   const errors = {}
-  const { fullname, password, phone_no } = values
+  const { fullname, phone_no } = values
   if (!trim(fullname)) {
     errors.fullname = 'Required'
   }
@@ -10,3 +11,5 @@ export const validate = values => {
   }
   return errors
 }
+
+export default { validate }

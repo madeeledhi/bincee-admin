@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 import map from 'lodash/fp/map'
-import { push } from 'react-router-redux'
 
 // src
 import transformData from './transformers/transformData'
@@ -13,13 +12,13 @@ import { loadStudents, deleteStudent } from '../../actions'
 import StudentsInner from './StudentsInner'
 
 class Students extends React.Component {
-  state = { 
+  state = {
     error: '',
     isLoading: true,
     createDialog: false,
     editDialog: false,
     editId: '',
-   }
+  }
 
   componentDidMount() {
     const { dispatch, user } = this.props
@@ -66,6 +65,7 @@ class Students extends React.Component {
       editId: id,
     }))
   }
+
   handleClose = () => {
     const { dispatch, user } = this.props
     const { token } = user

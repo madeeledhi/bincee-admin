@@ -1,4 +1,5 @@
 import trim from 'lodash/fp/trim'
+
 export const validate = values => {
   const errors = {}
   const { grade_name, section, grade_section } = values
@@ -13,3 +14,5 @@ export const validate = values => {
   }
   return errors
 }
+
+export default { validate }

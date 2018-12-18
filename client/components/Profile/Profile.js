@@ -1,16 +1,16 @@
-//lib
+// lib
 import React from 'react'
 import getOr from 'lodash/fp/getOr'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import size from 'lodash/fp/size'
-//src
+
+// src
 import ProfileInner from './ProfileInner'
-import { editUserDetails } from '../../actions'
+import { editUserDetails, showErrorMessage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import { validate } from './util'
-import { showErrorMessage } from '../../actions'
 import LoadingView from '../LoadingView'
 
 class Profile extends React.Component {
@@ -26,8 +26,8 @@ class Profile extends React.Component {
 
   componentDidMount() {
     const { userDetails, initialize } = this.props
-    const { name = '', address = '', phone_no = '' } = userDetails
-    initialize({ name, address, phone_no })
+    const { name = '', address = '', phone_no = '', email = '' } = userDetails
+    initialize({ name, address, phone_no, email })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,29 +43,29 @@ class Profile extends React.Component {
     }
     if (hasPropChanged('userDetails', this.props, nextProps)) {
       const { userDetails, initialize } = nextProps
-      const { name = '', address = '', phone_no = '' } = userDetails
-      initialize({ name, address, phone_no })
+      const { name = '', address = '', phone_no = '', email = '' } = userDetails
+      initialize({ name, address, phone_no, email })
     }
-  }
-
-  handleUpdate() {
-    const { dispatch, user, formValues } = this.props
-    const { name, address, phone_no } = formValues
-    const { id, token } = user
-    dispatch(editUserDetails({ id, name, address, phone_no, token })).then(
-      ({ payload }) => {
-        const { status: requestStatus } = payload
-        if (requestStatus === 200) {
-          dispatch(push('/dashboard'))
-          dispatch(showErrorMessage('Updated successfully', 'success'))
-        }
-      },
-    )
   }
 
   handleCancel = () => {
     const { dispatch } = this.props
     dispatch(push('/dashboard'))
+  }
+
+  handleUpdate() {
+    const { dispatch, user, formValues } = this.props
+    const { name, address, phone_no, email } = formValues
+    const { id, token } = user
+    dispatch(
+      editUserDetails({ id, name, address, phone_no, email, token }),
+    ).then(({ payload }) => {
+      const { status: requestStatus } = payload
+      if (requestStatus === 200) {
+        dispatch(push('/dashboard'))
+        dispatch(showErrorMessage('Updated successfully', 'success'))
+      }
+    })
   }
 
   render() {
@@ -74,20 +74,18 @@ class Profile extends React.Component {
     return (
       <Choose>
         <When condition={!isLoading}>
-      <ProfileInner
-        data={userDetails}
-        disabled={disabled}
-        isLoading={isLoading}
-        handleUpdate={this.handleUpdate}
-        handleCancel={this.handleCancel}
-      />
+          <ProfileInner
+            data={userDetails}
+            disabled={disabled}
+            isLoading={isLoading}
+            handleUpdate={this.handleUpdate}
+            handleCancel={this.handleCancel}
+          />
         </When>
         <Otherwise>
           <LoadingView message={'Loading Profile'} />
         </Otherwise>
       </Choose>
-
-
     )
   }
 }
@@ -113,6 +111,7 @@ export default connect(mapStateToProps)(
       name: '',
       phone_no: '',
       address: '',
+      email: '',
     },
   })(Profile),
 )

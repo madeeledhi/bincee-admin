@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 import map from 'lodash/fp/map'
-import { push } from 'react-router-redux'
 
 // src
 import transformData from './transformers/transformData'
@@ -13,7 +12,7 @@ import { loadDrivers, deleteDriver } from '../../actions'
 import DriversInner from './DriversInner'
 
 class Drivers extends React.Component {
-  state = { 
+  state = {
     error: '',
     isLoading: true,
     createDialog: false,

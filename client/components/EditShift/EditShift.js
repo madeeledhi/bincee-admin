@@ -2,23 +2,20 @@
 import React from 'react'
 import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
 
-//src
+// src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
 import styles from './EditShift.less'
-import { loadSingleShift, editShift } from '../../actions'
+import { loadSingleShift, editShift, showErrorMessage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
-import { showErrorMessage } from '../../actions'
 
 class EditShift extends React.Component {
   constructor(props) {
@@ -68,12 +65,13 @@ class EditShift extends React.Component {
     const { onClose } = this.props
     onClose()
   }
+
   onEnter = () => {
-    const { user, dispatch, match, initialize, id } = this.props
+    const { user, dispatch, initialize, id } = this.props
     const { token } = user
     dispatch(loadSingleShift({ id, token })).then(({ payload }) => {
       this.setState(() => ({ isLoading: false }))
-      const { status, data } = payload
+      const { data } = payload
       const { shift_name, start_time, end_time } = data
       const config = { shift_name, start_time, end_time }
       initialize(config)
@@ -81,7 +79,7 @@ class EditShift extends React.Component {
   }
 
   render() {
-    const { disabled, isLoading } = this.state    
+    const { disabled, isLoading } = this.state
     const { classes, onClose, ...other } = this.props
     return (
       <Dialog
@@ -91,7 +89,9 @@ class EditShift extends React.Component {
         {...other}
         fullWidth
       >
-        <DialogTitle id="simple-dialog-title" className={styles.head}>Edit Shift</DialogTitle>
+        <DialogTitle id="simple-dialog-title" className={styles.head}>
+          {'Edit Shift'}
+        </DialogTitle>
         <DialogContent className={styles.dialog}>
           <Choose>
             <When condition={isLoading}>
@@ -148,12 +148,18 @@ class EditShift extends React.Component {
                       disabled={disabled}
                       onClick={this.updateShift}
                       label="Update"
-                      style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                      style={{
+                        backgroundColor: '#0adfbd',
+                        borderColor: '#0adfbd',
+                      }}
                     />
                     <Button
                       onClick={this.handleCancel}
                       label="Cancel"
-                      style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                      style={{
+                        backgroundColor: '#ff4747',
+                        borderColor: '#ff4747',
+                      }}
                     />
                   </div>
                 </div>
@@ -165,7 +171,7 @@ class EditShift extends React.Component {
     )
   }
 }
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   const user = getOr({}, 'user')(state)
   return {
     formValues: getFormValues('editShift')(state),

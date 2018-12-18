@@ -2,7 +2,6 @@
 import React from 'react'
 import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 import uniqueId from 'lodash/fp/uniqueId'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -12,20 +11,18 @@ import FormData from 'form-data'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
 
-//src
+// src
 import {
   renderTextField,
   renderRadioGroup,
 } from '../shared/reduxFormMaterialUI'
 import styles from './CreateDriver.less'
-import { createDriver, uploadImage } from '../../actions'
+import { createDriver, uploadImage, showErrorMessage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
-import { showErrorMessage } from '../../actions'
 
 class CreateDriver extends React.Component {
   constructor(props) {
@@ -68,9 +65,7 @@ class CreateDriver extends React.Component {
     ).then(({ payload }) => {
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
-        dispatch(showErrorMessage('Created successfully', 'success'))(
-          onClose(),
-        )
+        dispatch(showErrorMessage('Created successfully', 'success'))(onClose())
       }
     })
   }
@@ -79,9 +74,16 @@ class CreateDriver extends React.Component {
     const { onClose } = this.props
     onClose()
   }
+
   onEnter = () => {
     const { initialize } = this.props
-    const config = { password: '', fullname: '', phone_no: '', status: '', photo: '', }
+    const config = {
+      password: '',
+      fullname: '',
+      phone_no: '',
+      status: '',
+      photo: '',
+    }
     initialize(config)
   }
 
@@ -123,7 +125,9 @@ class CreateDriver extends React.Component {
         {...other}
         fullWidth
       >
-        <DialogTitle id="simple-dialog-title" className={styles.head}>Create Driver</DialogTitle>
+        <DialogTitle id="simple-dialog-title" className={styles.head}>
+          {'Create Driver'}
+        </DialogTitle>
         <DialogContent>
           <form className={styles.root}>
             <div className={styles.row}>

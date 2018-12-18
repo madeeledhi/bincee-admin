@@ -1,7 +1,5 @@
 // lib
 import React from 'react'
-import getOr from 'lodash/fp/getOr'
-import size from 'lodash/fp/size'
 
 // src
 import EnhancedTable from '../EnhancedTable'

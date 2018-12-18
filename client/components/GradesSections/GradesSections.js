@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 import map from 'lodash/fp/map'
-import { push } from 'react-router-redux'
 
 // src
 import transformData from './transformers/transformData'
@@ -70,6 +69,7 @@ class GradesSections extends React.Component {
       editId: id,
     }))
   }
+
   handleClose = () => {
     const { dispatch, user } = this.props
     const { token } = user
@@ -83,15 +83,6 @@ class GradesSections extends React.Component {
   handleRowClick = data => {
     const { triggerDrawer } = this.props
     const { grade_name, section, grade_section } = data
-    // TODO: Create a component that will show the details {data} in the drawer
-    /*
-    Component format will be as following
-    Heading
-    firstKey: firstValue
-    SecondKey: SecondValue
-    */
-    // Pass the data object as a prop to that component, style the component properly as same style will be used for other tables
-    // and will render data that will be have more than 1 heading
     triggerDrawer({
       title: 'Grade Content',
       content: (

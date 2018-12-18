@@ -3,7 +3,7 @@ import equals from 'lodash/fp/equals'
 
 export const validate = values => {
   const errors = {}
-  const { current_password,  new_password,  re_enter_password, } = values
+  const { current_password, new_password, re_enter_password } = values
   if (!trim(current_password)) {
     errors.current_password = 'Required'
   }
@@ -19,3 +19,5 @@ export const validate = values => {
   }
   return errors
 }
+
+export default { validate }

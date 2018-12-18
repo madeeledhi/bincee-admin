@@ -2,7 +2,6 @@
 import React from 'react'
 import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
@@ -10,20 +9,18 @@ import size from 'lodash/fp/size'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
 
-//src
+// src
 import {
   renderTextField,
   renderRadioGroup,
 } from '../shared/reduxFormMaterialUI'
 import styles from './EditParent.less'
-import { loadSingleParent, updateParent } from '../../actions'
+import { loadSingleParent, updateParent, showErrorMessage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
-import { showErrorMessage } from '../../actions'
 
 class EditParent extends React.Component {
   constructor(props) {
@@ -48,7 +45,7 @@ class EditParent extends React.Component {
   }
 
   updateParent = () => {
-    const { dispatch, formValues, user, match, id, onClose } = this.props
+    const { dispatch, formValues, user, id, onClose } = this.props
     const { token } = user
     const lat = 33.99
     const lng = 70.89
@@ -80,8 +77,9 @@ class EditParent extends React.Component {
     const { onClose } = this.props
     onClose()
   }
+
   onEnter = () => {
-    const { user, dispatch, match, initialize, id } = this.props
+    const { user, dispatch, initialize, id } = this.props
     const { token } = user
     dispatch(loadSingleParent({ id, token })).then(({ payload }) => {
       this.setState(() => ({ isLoading: false }))
@@ -103,7 +101,9 @@ class EditParent extends React.Component {
         {...other}
         fullWidth
       >
-        <DialogTitle id="simple-dialog-title" className={styles.head}>Edit Grades</DialogTitle>
+        <DialogTitle id="simple-dialog-title" className={styles.head}>
+          {'Edit Grades'}
+        </DialogTitle>
         <DialogContent className={styles.dialog}>
           <Choose>
             <When condition={isLoading}>
@@ -129,7 +129,7 @@ class EditParent extends React.Component {
                       name="password"
                       component={renderTextField}
                       label="Password"
-                      disabled={true}
+                      disabled
                       variant="outlined"
                       className={styles.item}
                     />
@@ -214,12 +214,18 @@ class EditParent extends React.Component {
                       disabled={disabled}
                       onClick={this.updateParent}
                       label="Update"
-                      style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                      style={{
+                        backgroundColor: '#0adfbd',
+                        borderColor: '#0adfbd',
+                      }}
                     />
                     <Button
                       onClick={this.handleCancel}
                       label="Cancel"
-                      style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                      style={{
+                        backgroundColor: '#ff4747',
+                        borderColor: '#ff4747',
+                      }}
                     />
                   </div>
                 </div>
@@ -231,7 +237,7 @@ class EditParent extends React.Component {
     )
   }
 }
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   const user = getOr({}, 'user')(state)
   return {
     formValues: getFormValues('editParent')(state),

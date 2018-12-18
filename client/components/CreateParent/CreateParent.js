@@ -2,7 +2,6 @@
 import React from 'react'
 import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 import uniqueId from 'lodash/fp/uniqueId'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -12,20 +11,18 @@ import FormData from 'form-data'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
 
-//src
+// src
 import {
   renderTextField,
   renderRadioGroup,
 } from '../shared/reduxFormMaterialUI'
 import styles from './CreateParent.less'
-import { createParent, uploadImage } from '../../actions'
+import { createParent, uploadImage, showErrorMessage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
-import { showErrorMessage } from '../../actions'
 
 class CreateParent extends React.Component {
   constructor(props) {
@@ -90,9 +87,18 @@ class CreateParent extends React.Component {
     const { onClose } = this.props
     onClose()
   }
+
   onEnter = () => {
     const { initialize } = this.props
-    const config = { password: '', fullname: '', address: '', phone_no: '', email: '', status: '', photo: '' }
+    const config = {
+      password: '',
+      fullname: '',
+      address: '',
+      phone_no: '',
+      email: '',
+      status: '',
+      photo: '',
+    }
     initialize(config)
   }
 
@@ -134,7 +140,9 @@ class CreateParent extends React.Component {
         {...other}
         fullWidth
       >
-        <DialogTitle id="simple-dialog-title" className={styles.head}>Create Grades</DialogTitle>
+        <DialogTitle id="simple-dialog-title" className={styles.head}>
+          {'Create Parent'}
+        </DialogTitle>
         <DialogContent>
           <form className={styles.root}>
             <div className={styles.sameRow}>

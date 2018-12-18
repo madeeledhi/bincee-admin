@@ -1,7 +1,6 @@
 // lib
 import React from 'react'
 
-
 import EnhancedTable from '../EnhancedTable'
 import CreateShifts from '../CreateShifts'
 import EditShift from '../EditShift'
@@ -15,7 +14,6 @@ const ShiftsAndTimingsInner = ({
   onDeleteShift,
   onCreateShift,
   onUpdateShift,
-  onRowClick,
   createDialog,
   editDialog,
   editId,

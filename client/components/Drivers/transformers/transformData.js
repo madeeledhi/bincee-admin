@@ -43,6 +43,7 @@ export default drivers => {
   const rows = getRows(drivers)
   return { columns, rows }
 }
+
 export function renameKeyName(obj, oldName, newName) {
   const clone = cloneDeep(obj)
   const keyVal = clone[oldName]

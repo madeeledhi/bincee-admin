@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 import map from 'lodash/fp/map'
-import { push } from 'react-router-redux'
 
 // src
 import transformData, {
@@ -23,7 +22,7 @@ class Busses extends React.Component {
     createDialog: false,
     editDialog: false,
     editId: '',
-   }
+  }
 
   componentDidMount() {
     const { dispatch, user } = this.props

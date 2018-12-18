@@ -2,7 +2,6 @@
 import React from 'react'
 import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import getOr from 'lodash/fp/getOr'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
@@ -10,21 +9,18 @@ import size from 'lodash/fp/size'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
 
-
-//src
+// src
 import {
   renderTextField,
   renderRadioGroup,
 } from '../shared/reduxFormMaterialUI'
 import styles from './EditDriver.less'
-import { loadSingleDriver, updateDriver } from '../../actions'
+import { loadSingleDriver, updateDriver, showErrorMessage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
-import { showErrorMessage } from '../../actions'
 
 class EditDriver extends React.Component {
   constructor(props) {
@@ -49,7 +45,7 @@ class EditDriver extends React.Component {
   }
 
   updateDriver = () => {
-    const { dispatch, formValues, user, match, id, onClose } = this.props
+    const { dispatch, formValues, user, id, onClose } = this.props
     const { token } = user
     const { fullname, phone_no, status, photo } = formValues
     this.setState(() => ({ isLoading: true }))
@@ -68,8 +64,9 @@ class EditDriver extends React.Component {
     const { onClose } = this.props
     onClose()
   }
+
   onEnter = () => {
-    const { user, dispatch, match, initialize, id } = this.props
+    const { user, dispatch, initialize, id } = this.props
     const { token } = user
     dispatch(loadSingleDriver({ id, token })).then(({ payload }) => {
       this.setState(() => ({ isLoading: false }))
@@ -91,7 +88,9 @@ class EditDriver extends React.Component {
         {...other}
         fullWidth
       >
-        <DialogTitle id="simple-dialog-title" className={styles.head}>Edit Driver</DialogTitle>
+        <DialogTitle id="simple-dialog-title" className={styles.head}>
+          {'Edit Driver'}
+        </DialogTitle>
         <DialogContent className={styles.dialog}>
           <Choose>
             <When condition={isLoading}>
@@ -161,12 +160,18 @@ class EditDriver extends React.Component {
                       disabled={disabled}
                       onClick={this.updateDriver}
                       label="Update"
-                      style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                      style={{
+                        backgroundColor: '#0adfbd',
+                        borderColor: '#0adfbd',
+                      }}
                     />
                     <Button
                       onClick={this.handleCancel}
                       label="Cancel"
-                      style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                      style={{
+                        backgroundColor: '#ff4747',
+                        borderColor: '#ff4747',
+                      }}
                     />
                   </div>
                 </div>
@@ -178,7 +183,7 @@ class EditDriver extends React.Component {
     )
   }
 }
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   const user = getOr({}, 'user')(state)
   return {
     formValues: getFormValues('editDriver')(state),

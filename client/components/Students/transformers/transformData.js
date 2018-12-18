@@ -1,7 +1,6 @@
 import size from 'lodash/fp/size'
 import keys from 'lodash/fp/keys'
 import reduce from 'lodash/fp/reduce'
-import map from 'lodash/fp/map'
 import startCase from 'lodash/fp/startCase'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
