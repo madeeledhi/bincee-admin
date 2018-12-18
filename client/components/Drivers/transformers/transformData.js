@@ -11,18 +11,17 @@ function getColumns(drivers) {
   const [first] = drivers
   return flow(
     keys,
-    filter(
-      key => key !== 'driver_id' && key !== 'school_id' && key !== 'photo',
-    ),
+    filter(key => key !== 'school_id' && key !== 'photo'),
     reduce((final, key) => {
       const current = first[key]
+      const currentKey = key === 'driver_id' ? 'id' : key
       return [
         ...final,
         {
-          id: key,
-          numeric: typeof current === 'number',
+          id: currentKey,
+          numeric: false,
           disablePadding: false,
-          label: startCase(key),
+          label: startCase(currentKey),
         },
       ]
     }, []),
