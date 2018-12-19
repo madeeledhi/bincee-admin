@@ -29,7 +29,7 @@ class CreateDriver extends React.Component {
     super(props)
     this.state = {
       disabled: false,
-      isLoading: false,
+      isLoading: true,
     }
   }
 
@@ -84,6 +84,7 @@ class CreateDriver extends React.Component {
       status: '',
       photo: '',
     }
+    this.setState(() => ({ isLoading: false }))
     initialize(config)
   }
 
@@ -115,7 +116,7 @@ class CreateDriver extends React.Component {
 
   render() {
     // TODO: Change file upload control
-    const { disabled } = this.state
+    const { disabled, isLoading } = this.state
     const { classes, onClose, ...other } = this.props
     return (
       <Dialog
@@ -129,90 +130,97 @@ class CreateDriver extends React.Component {
           {'Create Driver'}
         </DialogTitle>
         <DialogContent>
-          <form className={styles.root}>
-            <div className={styles.row}>
-              <Field
-                className={styles.radioButton}
-                name="status"
-                label="Status"
-                component={renderRadioGroup}
-              >
-                <FormControlLabel
-                  value="Active"
-                  control={<Radio color="primary" />}
-                  label="Active"
-                />
-                <FormControlLabel
-                  value="Inactive"
-                  control={<Radio color="primary" />}
-                  label="Inactive"
-                />
-              </Field>
-            </div>
-            <div className={styles.row}>
-              <Field
-                id="fullname"
-                name="fullname"
-                component={renderTextField}
-                label="Fullname"
-                disabled={false}
-                variant="outlined"
-                className={styles.item}
-              />
-            </div>
-            <div className={styles.row}>
-              <Field
-                id="password"
-                name="password"
-                component={renderTextField}
-                label="Password"
-                disabled={false}
-                variant="outlined"
-                className={styles.item}
-              />
-            </div>
-            <div className={styles.row}>
-              <Field
-                id="phone_no"
-                name="phone_no"
-                component={renderTextField}
-                label="Phone No"
-                disabled={false}
-                variant="outlined"
-                className={styles.item}
-              />
-            </div>
-            <div className={styles.row}>
-              <Field
-                id="photo"
-                InputLabelProps={{ shrink: true }}
-                input={{ value: '', onChange: this.fileChangedHandler }}
-                name="photo"
-                margin="normal"
-                component={renderTextField}
-                label="Photo Url"
-                disabled={false}
-                variant="outlined"
-                className={styles.item}
-                type="file"
-              />
-            </div>
-            <div className={styles.row}>
-              <div className={styles.item}>
-                <Button
-                  disabled={disabled}
-                  onClick={this.createDriver}
-                  label="Create"
-                  style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
-                />
-                <Button
-                  onClick={this.handleCancel}
-                  label="Cancel"
-                  style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
-                />
-              </div>
-            </div>
-          </form>
+          <Choose>
+            <When condition={isLoading}>
+              <LoadingView />
+            </When>
+            <Otherwise>
+              <form className={styles.root}>
+                <div className={styles.row}>
+                  <Field
+                    className={styles.radioButton}
+                    name="status"
+                    label="Status"
+                    component={renderRadioGroup}
+                  >
+                    <FormControlLabel
+                      value="Active"
+                      control={<Radio color="primary" />}
+                      label="Active"
+                    />
+                    <FormControlLabel
+                      value="Inactive"
+                      control={<Radio color="primary" />}
+                      label="Inactive"
+                    />
+                  </Field>
+                </div>
+                <div className={styles.row}>
+                  <Field
+                    id="fullname"
+                    name="fullname"
+                    component={renderTextField}
+                    label="Fullname"
+                    disabled={false}
+                    variant="outlined"
+                    className={styles.item}
+                  />
+                </div>
+                <div className={styles.row}>
+                  <Field
+                    id="password"
+                    name="password"
+                    component={renderTextField}
+                    label="Password"
+                    disabled={false}
+                    variant="outlined"
+                    className={styles.item}
+                  />
+                </div>
+                <div className={styles.row}>
+                  <Field
+                    id="phone_no"
+                    name="phone_no"
+                    component={renderTextField}
+                    label="Phone No"
+                    disabled={false}
+                    variant="outlined"
+                    className={styles.item}
+                  />
+                </div>
+                <div className={styles.row}>
+                  <Field
+                    id="photo"
+                    InputLabelProps={{ shrink: true }}
+                    input={{ value: '', onChange: this.fileChangedHandler }}
+                    name="photo"
+                    margin="normal"
+                    component={renderTextField}
+                    label="Photo Url"
+                    disabled={false}
+                    variant="outlined"
+                    className={styles.item}
+                    type="file"
+                  />
+                </div>
+                <div className={styles.row}>
+                  <div className={styles.item}>
+                    <Button
+                      disabled={disabled}
+                      onClick={this.createDriver}
+                      label="Create"
+                      style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                    />
+                    <Button
+                      onClick={this.handleCancel}
+                      label="Cancel"
+                      style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                    />
+                  </div>
+                </div>
+              </form>
+            </Otherwise>
+          </Choose>
         </DialogContent>
       </Dialog>
     )

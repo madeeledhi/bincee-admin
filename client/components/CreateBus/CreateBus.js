@@ -24,7 +24,7 @@ class CreateBus extends React.Component {
     super(props)
     this.state = {
       disabled: false,
-      isLoading: false,
+      isLoading: true,
     }
   }
 
@@ -77,12 +77,13 @@ class CreateBus extends React.Component {
   onEnter = () => {
     const { initialize } = this.props
     const config = { registration_no: '', description: '', driver_id: '' }
+    this.setState(() => ({ isLoading: false }))
     initialize(config)
   }
 
   render() {
     const { driversList } = this.props
-    const { disabled } = this.state
+    const { disabled, isLoading } = this.state
     const { classes, onClose, ...other } = this.props
     return (
       <Dialog
@@ -96,62 +97,69 @@ class CreateBus extends React.Component {
           {'Create Bus'}
         </DialogTitle>
         <DialogContent>
-          <form className={styles.root}>
-            <div className={styles.row}>
-              <Field
-                id="registration_no"
-                name="registration_no"
-                component={renderTextField}
-                label="Registration no"
-                disabled={false}
-                variant="outlined"
-                className={styles.item}
-              />
-            </div>
-            <div className={styles.row}>
-              <Field
-                id="description"
-                name="description"
-                component={renderTextField}
-                label="Description"
-                disabled={false}
-                variant="outlined"
-                className={styles.item}
-              />
-            </div>
-            <div className={styles.row}>
-              <Field
-                className={styles.item}
-                name="driver_id"
-                component={renderTextField}
-                select
-                label="Select Driver"
-                variant="outlined"
-                margin="dense"
-              >
-                {map(({ driver_id, fullname }) => (
-                  <MenuItem key={driver_id} value={driver_id}>
-                    {fullname}
-                  </MenuItem>
-                ))(driversList)}
-              </Field>
-            </div>
-            <div className={styles.row}>
-              <div className={styles.item}>
-                <Button
-                  disabled={disabled}
-                  onClick={this.createBus}
-                  label="Create"
-                  style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
-                />
-                <Button
-                  onClick={this.handleCancel}
-                  label="Cancel"
-                  style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
-                />
-              </div>
-            </div>
-          </form>
+          <Choose>
+            <When condition={isLoading}>
+              <LoadingView />
+            </When>
+            <Otherwise>
+              <form className={styles.root}>
+                <div className={styles.row}>
+                  <Field
+                    id="registration_no"
+                    name="registration_no"
+                    component={renderTextField}
+                    label="Registration no"
+                    disabled={false}
+                    variant="outlined"
+                    className={styles.item}
+                  />
+                </div>
+                <div className={styles.row}>
+                  <Field
+                    id="description"
+                    name="description"
+                    component={renderTextField}
+                    label="Description"
+                    disabled={false}
+                    variant="outlined"
+                    className={styles.item}
+                  />
+                </div>
+                <div className={styles.row}>
+                  <Field
+                    className={styles.item}
+                    name="driver_id"
+                    component={renderTextField}
+                    select
+                    label="Select Driver"
+                    variant="outlined"
+                    margin="dense"
+                  >
+                    {map(({ driver_id, fullname }) => (
+                      <MenuItem key={driver_id} value={driver_id}>
+                        {fullname}
+                      </MenuItem>
+                    ))(driversList)}
+                  </Field>
+                </div>
+                <div className={styles.row}>
+                  <div className={styles.item}>
+                    <Button
+                      disabled={disabled}
+                      onClick={this.createBus}
+                      label="Create"
+                      style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                    />
+                    <Button
+                      onClick={this.handleCancel}
+                      label="Cancel"
+                      style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                    />
+                  </div>
+                </div>
+              </form>
+            </Otherwise>
+          </Choose>
         </DialogContent>
       </Dialog>
     )

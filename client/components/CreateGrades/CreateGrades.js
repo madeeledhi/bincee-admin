@@ -20,7 +20,7 @@ import { validate } from './util'
 class CreateGrades extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { disabled: false, isLoading: false }
+    this.state = { disabled: false, isLoading: true }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -61,11 +61,12 @@ class CreateGrades extends React.Component {
   onEnter = () => {
     const { initialize } = this.props
     const config = { grade_name: '', section: '', grade_section: '' }
+    this.setState(() => ({ isLoading: false }))
     initialize(config)
   }
 
   render() {
-    const { disabled } = this.state
+    const { disabled, isLoading } = this.state
     const { classes, onClose, ...other } = this.props
     return (
       <Dialog
@@ -79,58 +80,65 @@ class CreateGrades extends React.Component {
           {'Create Grades'}
         </DialogTitle>
         <DialogContent>
-          <form className={styles.root}>
-            <div className={styles.row}>
-              <Field
-                id="gradeName"
-                name="grade_name"
-                component={renderTextField}
-                label="Grade Name"
-                disabled={false}
-                variant="outlined"
-                className={styles.item}
-              />
-            </div>
-            <div className={styles.row}>
-              <Field
-                id="section"
-                name="section"
-                component={renderTextField}
-                label="Section"
-                disabled={false}
-                variant="outlined"
-                className={styles.item}
-              />
-            </div>
+          <Choose>
+            <When condition={isLoading}>
+              <LoadingView />
+            </When>
+            <Otherwise>
+              <form className={styles.root}>
+                <div className={styles.row}>
+                  <Field
+                    id="gradeName"
+                    name="grade_name"
+                    component={renderTextField}
+                    label="Grade Name"
+                    disabled={false}
+                    variant="outlined"
+                    className={styles.item}
+                  />
+                </div>
+                <div className={styles.row}>
+                  <Field
+                    id="section"
+                    name="section"
+                    component={renderTextField}
+                    label="Section"
+                    disabled={false}
+                    variant="outlined"
+                    className={styles.item}
+                  />
+                </div>
 
-            <div className={styles.row}>
-              <Field
-                id="gradeSection"
-                name="grade_section"
-                component={renderTextField}
-                label="gradeSection"
-                disabled={false}
-                variant="outlined"
-                className={styles.item}
-              />
-            </div>
+                <div className={styles.row}>
+                  <Field
+                    id="gradeSection"
+                    name="grade_section"
+                    component={renderTextField}
+                    label="gradeSection"
+                    disabled={false}
+                    variant="outlined"
+                    className={styles.item}
+                  />
+                </div>
 
-            <div className={styles.row}>
-              <div className={styles.item}>
-                <Button
-                  disabled={disabled}
-                  onClick={this.createGrade}
-                  label="Create"
-                  style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
-                />
-                <Button
-                  onClick={this.handleCancel}
-                  label="Cancel"
-                  style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
-                />
-              </div>
-            </div>
-          </form>
+                <div className={styles.row}>
+                  <div className={styles.item}>
+                    <Button
+                      disabled={disabled}
+                      onClick={this.createGrade}
+                      label="Create"
+                      style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                    />
+                    <Button
+                      onClick={this.handleCancel}
+                      label="Cancel"
+                      style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                    />
+                  </div>
+                </div>
+              </form>
+            </Otherwise>
+          </Choose>
         </DialogContent>
       </Dialog>
     )
