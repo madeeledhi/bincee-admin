@@ -8,9 +8,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormLabel from '@material-ui/core/FormLabel'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
-import Input from '@material-ui/core/Input'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
 import Chip from '@material-ui/core/Chip'
-import ListItem from '@material-ui/core/ListItem'
+import MenuItem from '@material-ui/core/MenuItem'
+import Checkbox from '@material-ui/core/Checkbox'
+import ListItemText from '@material-ui/core/ListItemText'
 import Button from '@material-ui/core/Button'
 
 // src
@@ -18,62 +20,78 @@ import EnhancedTable from '../EnhancedTable'
 import CreateStudent from '../CreateStudent'
 import EditStudent from '../EditStudent'
 import LoadingView from '../LoadingView'
+import styles from './AnnouncementsInner.less'
 
 const AnnouncementsInner = ({
   error,
   handleChange,
+  handleChangeAll,
   isLoading,
   students,
-  sendTo,
+  type,
   selectedStudents,
   subject,
   message,
   sendNotification,
+  hasAll,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
-      <div>
+      <div className={styles.root}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Gender</FormLabel>
           <RadioGroup
             aria-label="Send To"
-            value={sendTo}
-            onChange={handleChange('sendTo')}
+            value={type}
+            onChange={handleChange('type')}
           >
             <FormControlLabel
-              value="all"
+              value="school"
               control={<Radio />}
-              label="All Students"
+              label="School"
             />
             <FormControlLabel
-              value="few"
+              value="student"
               control={<Radio />}
-              label="few Students"
+              label="Students"
             />
           </RadioGroup>
         </FormControl>
-        <If condition={sendTo === 'few'}>
+        <If condition={type === 'student'}>
           <FormControl>
-            <InputLabel htmlFor="select-multiple-chip">Students</InputLabel>
+            <InputLabel htmlFor="select-multiple-chip">
+              Select Students
+            </InputLabel>
             <Select
+              variant="outlined"
               multiple
               value={selectedStudents}
               onChange={handleChange('selectedStudents')}
-              input={<Input id="select-multiple-chip" />}
+              input={<OutlinedInput id="select-multiple-chip" />}
               renderValue={selected => (
                 <div>
-                  {selected.map(value => (
-                    <Chip key={value} label={value.fullname} />
-                  ))}
+                  {selected.map(value => {
+                    console.log(value)
+
+                    const { fullname } = value
+                    return <Chip key={value} label={fullname} />
+                  })}
                 </div>
               )}
             >
+              <MenuItem key={'000'} value={'all'}>
+                <Checkbox checked={hasAll} onChange={handleChangeAll} />
+                <ListItemText primary={'All'} />
+              </MenuItem>
               {students.map(student => {
                 const { id: student_id, parent_id, fullname } = student
                 return (
-                  <ListItem key={student_id} value={student}>
-                    {fullname}
-                  </ListItem>
+                  <MenuItem key={student_id} value={student}>
+                    <Checkbox
+                      checked={selectedStudents.indexOf(student) > -1}
+                    />
+                    <ListItemText primary={fullname} />
+                  </MenuItem>
                 )
               })}
             </Select>
@@ -85,6 +103,7 @@ const AnnouncementsInner = ({
           value={subject}
           onChange={handleChange('subject')}
           margin="normal"
+          variant="outlined"
         />
         <TextField
           id="standard-message"
@@ -94,8 +113,11 @@ const AnnouncementsInner = ({
           value={message}
           onChange={handleChange('message')}
           margin="normal"
+          variant="outlined"
         />
-        <Button onClick={sendNotification}>Send</Button>
+        <Button color="primary" onClick={sendNotification}>
+          Send
+        </Button>
       </div>
     </When>
     <Otherwise>

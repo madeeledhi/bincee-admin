@@ -7,17 +7,22 @@ import map from 'lodash/fp/map'
 
 // src
 import { hasPropChanged } from '../../utils'
-import { loadStudents, createAnnouncement } from '../../actions'
+import {
+  loadStudents,
+  createAnnouncement,
+  showErrorMessage,
+} from '../../actions'
 import AnnouncementsInner from './AnnouncementsInner'
 
 class Announcements extends React.Component {
   state = {
     error: '',
     isLoading: true,
-    sendTo: 'all',
+    type: 'school',
     selectedStudents: [],
     subject: '',
     message: '',
+    hasAll: false,
   }
 
   componentDidMount() {
@@ -44,32 +49,73 @@ class Announcements extends React.Component {
       }
     }
   }
-  handleChange = name => event => {
-    const val = event.target.value
+  handleChangeAll = event => {
+    const { studentsList } = this.props
+    const val = event.target.checked ? studentsList : []
+    const hasAll = event.target.checked
     this.setState(() => ({
-      [name]: val,
+      selectedStudents: val,
+      hasAll: hasAll,
     }))
   }
-  sendNotification = () => {}
+  handleChange = name => event => {
+    const val = event.target.value
+    const { studentsList } = this.props
+    const hasAll =
+      size(val) === size(studentsList) && name === 'selectedStudents'
+        ? true
+        : false
+
+    if (val[size(val) - 1] !== 'all') {
+      this.setState(() => ({
+        [name]: val,
+        hasAll: hasAll,
+      }))
+    }
+  }
+  sendNotification = () => {
+    const { dispatch, user } = this.props
+    const { token } = user
+    const { type, selectedStudents, subject, message } = this.state
+    const last_updated = new Date()
+    createAnnouncement({})
+    dispatch(
+      createAnnouncement({
+        last_updated,
+        description: message,
+        type,
+        studentArray: selectedStudents,
+        token,
+      }),
+    ).then(({ payload }) => {
+      const { status: requestStatus } = payload
+      if (requestStatus === 200) {
+        dispatch(showErrorMessage('Created successfully', 'success'))
+      }
+    })
+  }
 
   render() {
     const {
       error,
       isLoading,
-      sendTo,
+      type,
       selectedStudents,
       subject,
       message,
+      hasAll,
     } = this.state
     const { studentsList } = this.props
 
     return (
       <AnnouncementsInner
         error={error}
+        hasAll={hasAll}
         handleChange={this.handleChange}
+        handleChangeAll={this.handleChangeAll}
         isLoading={isLoading}
         students={studentsList}
-        sendTo={sendTo}
+        type={type}
         selectedStudents={selectedStudents}
         subject={subject}
         message={message}

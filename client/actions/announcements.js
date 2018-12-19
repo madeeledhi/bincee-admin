@@ -12,7 +12,7 @@ export const createAnnouncement = ({
   last_updated,
   description,
   type,
-  studentsArray = null,
+  studentArray = [],
   token,
 }) => ({
   [CALL_API]: {
@@ -26,7 +26,7 @@ export const createAnnouncement = ({
     method: 'POST',
     token,
   },
-  payload: { last_updated, description, type, studentsArray },
+  payload: { last_updated, description, type, studentArray },
 })
 
 export const loadAnnouncements = ({ token }) => ({
