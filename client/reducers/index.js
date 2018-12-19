@@ -18,6 +18,7 @@ import students from './students'
 import shifts from './shifts'
 import photo from './photo'
 import announcements from './announcements'
+import leaves from './leaves'
 import * as ActionTypes from '../actions'
 import { checkError } from '../utils'
 
@@ -65,6 +66,7 @@ const rootReducer = combineReducers({
   userDetails,
   grades,
   drivers,
+  leaves,
   parents,
   bus,
   students,
