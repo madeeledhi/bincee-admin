@@ -180,6 +180,7 @@ class CreateParent extends React.Component {
                       name="password"
                       component={renderTextField}
                       label="Password"
+                      type="password"
                       disabled={false}
                       variant="outlined"
                       className={styles.item}

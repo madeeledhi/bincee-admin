@@ -184,6 +184,7 @@ class CreateDriver extends React.Component {
                     label="Password"
                     disabled={false}
                     variant="outlined"
+                    type="password"
                     className={styles.item}
                   />
                 </div>
