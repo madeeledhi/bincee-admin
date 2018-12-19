@@ -16,11 +16,12 @@ import {
   renderRadioGroup,
 } from '../shared/reduxFormMaterialUI'
 import styles from './EditParent.less'
-import { loadSingleParent, updateParent, showErrorMessage } from '../../actions'
+import { loadSingleParent, updateParent, showErrorMessage, uploadImage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
+import Picture from '../Picture'
 
 class EditParent extends React.Component {
   constructor(props) {
@@ -90,9 +91,39 @@ class EditParent extends React.Component {
     })
   }
 
+  fileChangedHandler = event => {
+    const [selectedFile] = event.target.files
+    if (selectedFile) {
+      const { dispatch, user } = this.props
+      const { token } = user
+      const formData = new FormData()
+      formData.append('image', selectedFile)
+      formData.append('name', selectedFile.name)
+      this.setState(() => ({ isLoading: true }))
+      dispatch(
+        uploadImage({
+          id: 1,
+          user: 'parent',
+          image: formData,
+          token,
+        }),
+      ).then(({ payload }) => {
+        const { status, data } = payload
+
+        this.setState(() => ({ isLoading: false }))
+        if (status === 200) {
+          const { path } = data
+          const { formValues, initialize } = this.props
+          initialize({ ...formValues, photo: path })
+        }
+      })
+    }
+  }
+
   render() {
     const { disabled, isLoading } = this.state
-    const { classes, onClose, ...other } = this.props
+    const { classes, onClose, formValues, ...other } = this.props
+    const { photo } = formValues || {}
     return (
       <Dialog
         onClose={onClose}
@@ -111,6 +142,12 @@ class EditParent extends React.Component {
             </When>
             <Otherwise>
               <form className={styles.root}>
+                <div className={styles.fullRow}>
+                  <Picture
+                    source={photo || '/images/profile.png'}
+                    onChange={this.fileChangedHandler}
+                  />
+                </div>
                 <div className={styles.sameRow}>
                   <div className={styles.row}>
                     <Field
@@ -191,7 +228,7 @@ class EditParent extends React.Component {
                     </Field>
                   </div>
                 </div>
-                <div className={styles.sameRow}>
+                {/* <div className={styles.sameRow}>
                   <div className={styles.row}>
                     <Field
                       id="photo"
@@ -207,7 +244,7 @@ class EditParent extends React.Component {
                       type="file"
                     />
                   </div>
-                </div>
+                </div> */}
                 <div className={styles.fullRow}>
                   <div className={styles.item}>
                     <Button

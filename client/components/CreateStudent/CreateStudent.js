@@ -32,6 +32,7 @@ import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
+import Picture from '../Picture'
 
 class CreateStudent extends React.Component {
   constructor(props) {
@@ -124,6 +125,7 @@ class CreateStudent extends React.Component {
       const formData = new FormData()
       formData.append('image', selectedFile)
       formData.append('name', selectedFile.name)
+      this.setState(() => ({ isLoading: true }))
       dispatch(
         uploadImage({
           id: 1,
@@ -133,6 +135,7 @@ class CreateStudent extends React.Component {
         }),
       ).then(({ payload }) => {
         const { status, data } = payload
+        this.setState(() => ({ isLoading: false }))
         if (status === 200) {
           const { path } = data
           const { formValues, initialize } = this.props
@@ -146,7 +149,8 @@ class CreateStudent extends React.Component {
     // TODO: Change file upload control
     const { disabled, isLoading } = this.state
     const { driversList, parentsList, gradesList, shiftsList } = this.props
-    const { classes, onClose, ...other } = this.props
+    const { classes, onClose, formValues, ...other } = this.props
+    const { photo } = formValues || {}
     return (
       <Dialog
         onClose={onClose}
@@ -165,6 +169,12 @@ class CreateStudent extends React.Component {
             </When>
             <Otherwise>
               <form className={styles.root}>
+               <div className={styles.fullRow}>
+                  <Picture
+                    source={photo || '/images/profile.png'}
+                    onChange={this.fileChangedHandler}
+                  />
+                </div>
                 <div className={styles.sameRow}>
                   <div className={styles.row}>
                     <Field
@@ -179,18 +189,20 @@ class CreateStudent extends React.Component {
                   </div>
                   <div className={styles.row}>
                     <Field
-                      id="photo"
-                      InputLabelProps={{ shrink: true }}
-                      input={{ value: '', onChange: this.fileChangedHandler }}
-                      name="photo"
-                      margin="normal"
-                      component={renderTextField}
-                      label="Photo Url"
-                      disabled={false}
-                      variant="outlined"
                       className={styles.item}
-                      type="file"
-                    />
+                      name="parent_id"
+                      component={renderTextField}
+                      select
+                      label="Select Parent"
+                      variant="outlined"
+                      margin="dense"
+                    >
+                      {map(({ parent_id, fullname }) => (
+                        <MenuItem key={parent_id} value={parent_id}>
+                          {fullname}
+                        </MenuItem>
+                      ))(parentsList)}
+                    </Field>
                   </div>
                 </div>
                 <div className={styles.sameRow}>
@@ -264,25 +276,6 @@ class CreateStudent extends React.Component {
                         control={<Radio color="primary" />}
                         label="Inactive"
                       />
-                    </Field>
-                  </div>
-                </div>
-                <div className={styles.sameRow}>
-                  <div className={styles.row}>
-                    <Field
-                      className={styles.item}
-                      name="parent_id"
-                      component={renderTextField}
-                      select
-                      label="Select Parent"
-                      variant="outlined"
-                      margin="dense"
-                    >
-                      {map(({ parent_id, fullname }) => (
-                        <MenuItem key={parent_id} value={parent_id}>
-                          {fullname}
-                        </MenuItem>
-                      ))(parentsList)}
                     </Field>
                   </div>
                 </div>

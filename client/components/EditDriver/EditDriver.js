@@ -16,11 +16,12 @@ import {
   renderRadioGroup,
 } from '../shared/reduxFormMaterialUI'
 import styles from './EditDriver.less'
-import { loadSingleDriver, updateDriver, showErrorMessage } from '../../actions'
+import { loadSingleDriver, updateDriver, showErrorMessage, uploadImage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
+import Picture from '../Picture'
 
 class EditDriver extends React.Component {
   constructor(props) {
@@ -77,9 +78,39 @@ class EditDriver extends React.Component {
     })
   }
 
+  fileChangedHandler = event => {
+    const [selectedFile] = event.target.files
+    if (selectedFile) {
+      const { dispatch, user } = this.props
+      const { token } = user
+      const formData = new FormData()
+      formData.append('image', selectedFile)
+      formData.append('name', selectedFile.name)
+      this.setState(() => ({ isLoading: true }))
+      dispatch(
+        uploadImage({
+          id: 1,
+          user: 'driver',
+          image: formData,
+          token,
+        }),
+      ).then(({ payload }) => {
+        const { status, data } = payload
+
+        this.setState(() => ({ isLoading: false }))
+        if (status === 200) {
+          const { path } = data
+          const { formValues, initialize } = this.props
+          initialize({ ...formValues, photo: path })
+        }
+      })
+    }
+  }
+
   render() {
     const { disabled, isLoading } = this.state
-    const { classes, onClose, ...other } = this.props
+    const { classes, onClose, formValues, ...other } = this.props
+    const { photo } = formValues || {}
     return (
       <Dialog
         onClose={onClose}
@@ -98,6 +129,12 @@ class EditDriver extends React.Component {
             </When>
             <Otherwise>
               <form className={styles.root}>
+              <div className={styles.row}>
+                  <Picture
+                    source={photo || '/images/profile.png'}
+                    onChange={this.fileChangedHandler}
+                  />
+                </div>
                 <div className={styles.row}>
                   <Field
                     className={styles.radioButton}
@@ -137,21 +174,6 @@ class EditDriver extends React.Component {
                     disabled={false}
                     variant="outlined"
                     className={styles.item}
-                  />
-                </div>
-                <div className={styles.row}>
-                  <Field
-                    id="photo"
-                    InputLabelProps={{ shrink: true }}
-                    input={{ value: '', onChange: this.fileChangedHandler }}
-                    name="photo"
-                    margin="normal"
-                    component={renderTextField}
-                    label="Photo Url"
-                    disabled={false}
-                    variant="outlined"
-                    className={styles.item}
-                    type="file"
                   />
                 </div>
                 <div className={styles.row}>
