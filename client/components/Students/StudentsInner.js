@@ -13,6 +13,7 @@ const StudentsInner = ({
   rows,
   data,
   onDeleteStudent,
+  onRowClick,
   onCreateStudent,
   onUpdateStudent,
   createDialog,
@@ -31,6 +32,7 @@ const StudentsInner = ({
           handleDeleteRow={onDeleteStudent}
           handleCreateRow={onCreateStudent}
           handleEditRow={onUpdateStudent}
+          handleRowClick={onRowClick}
         />
         <EditStudent id={editId} open={editDialog} onClose={handleClose} />
         <CreateStudent open={createDialog} onClose={handleClose} />

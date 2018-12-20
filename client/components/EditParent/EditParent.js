@@ -16,7 +16,12 @@ import {
   renderRadioGroup,
 } from '../shared/reduxFormMaterialUI'
 import styles from './EditParent.less'
-import { loadSingleParent, updateParent, showErrorMessage, uploadImage } from '../../actions'
+import {
+  loadSingleParent,
+  updateParent,
+  showErrorMessage,
+  uploadImage,
+} from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
@@ -75,6 +80,7 @@ class EditParent extends React.Component {
   }
 
   handleCancel = () => {
+    this.setState(() => ({ isLoading: true }))
     const { onClose } = this.props
     onClose()
   }

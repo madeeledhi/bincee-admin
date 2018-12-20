@@ -16,7 +16,12 @@ import {
   renderRadioGroup,
 } from '../shared/reduxFormMaterialUI'
 import styles from './EditDriver.less'
-import { loadSingleDriver, updateDriver, showErrorMessage, uploadImage } from '../../actions'
+import {
+  loadSingleDriver,
+  updateDriver,
+  showErrorMessage,
+  uploadImage,
+} from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
@@ -63,6 +68,7 @@ class EditDriver extends React.Component {
 
   handleCancel = () => {
     const { onClose } = this.props
+    this.setState(() => ({ isLoading: true }))
     onClose()
   }
 
@@ -129,7 +135,7 @@ class EditDriver extends React.Component {
             </When>
             <Otherwise>
               <form className={styles.root}>
-              <div className={styles.row}>
+                <div className={styles.row}>
                   <Picture
                     source={photo || '/images/profile.png'}
                     onChange={this.fileChangedHandler}

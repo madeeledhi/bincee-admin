@@ -117,10 +117,8 @@ class EnhancedTable extends React.Component {
     const {
       handleDeleteRow,
       handleEditRow,
-      handleRowClick,
+      handleRowClick = () => true,
       handleCreateRow,
-      hasButtons,
-      handleDeleteMutipleRows,
       tableName,
     } = this.props
 

@@ -48,7 +48,9 @@ class Drivers extends React.Component {
   handleDeleteDriver = (event, id) => {
     const { dispatch, user } = this.props
     const { token } = user
+    this.setState(() => ({ isLoading: true }))
     dispatch(deleteDriver({ id, token })).then(({ payload }) => {
+      this.setState(() => ({ isLoading: false }))
       dispatch(loadDrivers({ token }))
     })
   }
@@ -74,13 +76,6 @@ class Drivers extends React.Component {
       createDialog: false,
       editDialog: false,
     }))
-  }
-
-  handleDeleteMutipleDrivers = selectedArray => {
-    const { dispatch, user } = this.props
-    const { token } = user
-    map(id => dispatch(deleteDriver({ id, token })))(selectedArray)
-    dispatch(loadDrivers({ token }))
   }
 
   render() {

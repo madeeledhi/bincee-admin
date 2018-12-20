@@ -15,7 +15,6 @@ const GradesSectionsInner = ({
   onDeleteGrade,
   onCreateGrade,
   onUpdateGrade,
-  onRowClick,
   createDialog,
   editDialog,
   editId,
@@ -29,7 +28,6 @@ const GradesSectionsInner = ({
           rows={rows}
           data={data}
           error={error}
-          handleRowClick={onRowClick}
           handleDeleteRow={onDeleteGrade}
           handleCreateRow={onCreateGrade}
           handleEditRow={onUpdateGrade}

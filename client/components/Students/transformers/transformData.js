@@ -47,3 +47,42 @@ export function renameKeyName(obj, oldName, newName) {
 
   return clone
 }
+
+export function transformDrawerData(data) {
+  const { student, driver, parent, grade, shift } = data
+  const {
+    fullname: parentName,
+    photo: parentPhoto,
+    phone_no: parentPhone,
+    address: parentAddress,
+    email: parentEmail,
+    status: parentStatus,
+  } = parent
+  const {
+    fullname: driverName,
+    phone_no: driverPhone,
+    photo: driverPhoto,
+    status: driverStatus,
+  } = driver
+  const { grade_name, section, grade_section } = grade
+  const { shift_name, start_time, end_time } = shift
+  return {
+    student,
+    driver: {
+      fullname: driverName,
+      phone_no: driverPhone,
+      photo: driverPhoto,
+      status: driverStatus,
+    },
+    parent: {
+      fullname: parentName,
+      email: parentEmail,
+      photo: parentPhoto,
+      address: parentAddress,
+      phone_no: parentPhone,
+      status: parentStatus,
+    },
+    grade: { grade_name, grade_section, section },
+    shift: { start_time, end_time, shift_name },
+  }
+}

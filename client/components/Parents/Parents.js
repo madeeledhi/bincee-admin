@@ -48,7 +48,9 @@ class Parents extends React.Component {
   handleDeleteParent = (event, id) => {
     const { dispatch, user } = this.props
     const { token } = user
+    this.setState(() => ({ isLoading: true }))
     dispatch(deleteParent({ id, token })).then(({ payload }) => {
+      this.setState(() => ({ isLoading: false }))
       dispatch(loadParents({ token }))
     })
   }
@@ -64,13 +66,6 @@ class Parents extends React.Component {
       editDialog: true,
       editId: id,
     }))
-  }
-
-  handleDeleteMutipleParents = selectedArray => {
-    const { dispatch, user } = this.props
-    const { token } = user
-    map(id => dispatch(deleteParent({ id, token })))(selectedArray)
-    dispatch(loadParents({ token }))
   }
 
   handleClose = () => {
