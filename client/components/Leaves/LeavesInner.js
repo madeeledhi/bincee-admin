@@ -12,21 +12,19 @@ import styles from './LeavesInner.less'
 const LeavesInner = ({ error, isLoading, rows, data }) => (
   <Choose>
     <When condition={!error && !isLoading}>
-      <div>
-        <MaterialTable
-          components={{
-            Toolbar: props => (
-              <MTableToolbar
-                classes={{ root: styles.root, title: styles.head }}
-                {...props}
-              />
-            ),
-          }}
-          title={'Leaves'}
-          columns={rows}
-          data={data}
-        />
-      </div>
+      <MaterialTable
+        components={{
+          Toolbar: props => (
+            <MTableToolbar
+              classes={{ root: styles.root, title: styles.head }}
+              {...props}
+            />
+          ),
+        }}
+        title={'Leaves'}
+        columns={rows}
+        data={data}
+      />
     </When>
     <Otherwise>
       <LoadingView message={'Loading Leaves'} />
