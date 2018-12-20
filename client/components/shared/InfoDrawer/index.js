@@ -1,1 +1,0 @@
-export infoDrawer from './infoDrawer'

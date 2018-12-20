@@ -8,7 +8,7 @@ import map from 'lodash/fp/map'
 // src
 import transformData from './transformers/transformData'
 import { hasPropChanged } from '../../utils'
-import { infoDrawer } from '../shared/infoDrawer'
+import InfoDrawer from '../InfoDrawer'
 import { loadGrades, deleteGrade } from '../../actions'
 import GradesSectionsInner from './GradesSectionsInner'
 import Drawer from '../Drawer'
@@ -132,6 +132,6 @@ const mapStateToProps = state => {
 }
 // TODO: send the style for drawer header
 const drawerSettings = { style: {} }
-export default infoDrawer(drawerSettings)(
+export default InfoDrawer(drawerSettings)(
   connect(mapStateToProps)(GradesSections),
 )

@@ -10,7 +10,7 @@ import transformData, {
   transformDrawerData,
 } from './transformers/transformData'
 import { hasPropChanged } from '../../utils'
-import { infoDrawer } from '../shared/infoDrawer'
+import InfoDrawer from '../InfoDrawer'
 import { loadAllBus, deleteBus, loadSingleDriver } from '../../actions'
 import BussesInner from './BussesInner'
 import Drawer from '../Drawer'
@@ -140,4 +140,4 @@ const mapStateToProps = state => {
   return { busses: transformedBusses, user, error }
 }
 const drawerSettings = { style: {} }
-export default infoDrawer(drawerSettings)(connect(mapStateToProps)(Busses))
+export default InfoDrawer(drawerSettings)(connect(mapStateToProps)(Busses))
