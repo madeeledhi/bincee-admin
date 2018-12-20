@@ -8,7 +8,11 @@ export const isTest = () => process.env.NODE_ENV === 'test'
 
 export const makeLogContextString = req => {
   let strUser
-  const { user, headers, connection: { remoteAddress } } = req
+  const {
+    user,
+    headers,
+    connection: { remoteAddress },
+  } = req
 
   // to get forwarded header, added this line on nginx website config
   // proxy_set_header  X-Forwarded-For $remote_addr;
@@ -26,4 +30,4 @@ export const makeLogContextString = req => {
 export const stringEndsWith = (str, suffix) =>
   str.indexOf(suffix, str.length - suffix.length) !== -1
 
-export const getPort = () => (isProduction() ? process.env.PORT : 4000)
+export const getPort = () => (isProduction() ? 4000 : 4000)
