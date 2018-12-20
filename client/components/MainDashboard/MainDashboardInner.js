@@ -10,7 +10,7 @@ import Students from '../Students'
 import GradesSections from '../GradesSections'
 import NavigationBar from '../NavigationBar'
 import LoadingView from '../LoadingView'
-import styles from './Dashboard.less'
+import styles from './MainDashboard.less'
 import CreateGrades from '../CreateGrades'
 import EditGrades from '../EditGrades'
 import CreateDriver from '../CreateDriver'
@@ -31,7 +31,8 @@ import EditShift from '../EditShift'
 import Profile from '../Profile'
 import Security from '../Security'
 import Leaves from '../Leaves'
-const DashboardInner = ({
+
+const MainDashboardInner = ({
   onClickSignout,
   user,
   userDetails,
@@ -201,4 +202,4 @@ const DashboardInner = ({
   </div>
 )
 
-export default DashboardInner
+export default MainDashboardInner

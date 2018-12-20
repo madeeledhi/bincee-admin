@@ -6,11 +6,11 @@ import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 
 //  src
-import DashboardInner from './DashboardInner'
+import MainDashboardInner from './MainDashboardInner'
 import { hasPropChanged, parseLocation } from '../../utils'
 import { loadUser, logOut, loadUserDetails } from '../../actions'
 
-class Dashboard extends Component {
+class MainDashboard extends Component {
   constructor(props) {
     super(props)
     const { user = {}, userDetails = {}, location = {} } = props
@@ -77,7 +77,7 @@ class Dashboard extends Component {
       activePath,
     )
     return (
-      <DashboardInner
+      <MainDashboardInner
         path={path}
         onClickSignout={this.handleSignOut}
         user={user}
@@ -105,4 +105,4 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps)(Dashboard)
+export default connect(mapStateToProps)(MainDashboard)

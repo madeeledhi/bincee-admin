@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import { NotificationSystemConnector } from './components'
 
 // src
-import Dashboard from './components/Dashboard'
+import MainDashboard from './components/MainDashboard'
 import Login from './components/Login'
 import theme from '../config/theme'
 import * as styles from './app.less'
@@ -30,7 +30,7 @@ const App = (props: Props) => {
             <NotificationSystemConnector />
             <Switch>
               <Route exact path="/" component={Login} />
-              <Route path="/dashboard" component={Dashboard} />
+              <Route path="/dashboard" component={MainDashboard} />
               {/* <Route component={() => <div>404</div>} /> */}
               <Redirect to="/dashboard" />
             </Switch>
