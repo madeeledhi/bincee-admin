@@ -9,8 +9,6 @@ import transformData, {
   transformDrawerData,
 } from './transformers/transformData'
 import { hasPropChanged } from '../../utils'
-import InfoDrawer from '../InfoDrawer'
-import Drawer from '../Drawer'
 import {
   loadStudents,
   deleteStudent,
@@ -20,6 +18,8 @@ import {
   loadSingleShift,
 } from '../../actions'
 import StudentsInner from './StudentsInner'
+import InfoDrawer from '../InfoDrawer'
+import Drawer from '../Drawer'
 
 class Students extends React.Component {
   state = {

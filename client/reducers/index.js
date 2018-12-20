@@ -19,6 +19,7 @@ import shifts from './shifts'
 import photo from './photo'
 import announcements from './announcements'
 import leaves from './leaves'
+import users from './users'
 import * as ActionTypes from '../actions'
 import { checkError } from '../utils'
 
@@ -73,6 +74,7 @@ const rootReducer = combineReducers({
   shifts,
   photo,
   announcements,
+  users,
   form: formReducer,
 })
 

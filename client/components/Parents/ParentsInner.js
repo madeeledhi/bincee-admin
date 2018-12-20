@@ -15,6 +15,7 @@ const ParentsInner = ({
   onDeleteParent,
   onCreateParent,
   onUpdateParent,
+  onRowClick,
   createDialog,
   editDialog,
   editId,
@@ -28,6 +29,7 @@ const ParentsInner = ({
           rows={rows}
           data={data}
           error={error}
+          handleRowClick={onRowClick}
           handleDeleteRow={onDeleteParent}
           handleCreateRow={onCreateParent}
           handleEditRow={onUpdateParent}
