@@ -3,7 +3,7 @@ import React from 'react'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 import MaterialTable from 'material-table'
-import MTableToolbar from 'material-table/dist/m-table-toolbar'
+import { MTableToolbar } from 'material-table'
 // src
 import EnhancedTable from '../EnhancedTable'
 import LoadingView from '../LoadingView'
@@ -18,11 +18,11 @@ const LeavesInner = ({ error, isLoading, rows, data }) => (
             Toolbar: props => (
               <MTableToolbar
                 classes={{ root: styles.root, title: styles.head }}
-                title={'Leaves'}
                 {...props}
               />
             ),
           }}
+          title={'Leaves'}
           columns={rows}
           data={data}
         />
