@@ -17,10 +17,10 @@ function getColumns(leaves) {
       return [
         ...final,
         {
-          id: key,
           numeric: false,
           disablePadding: false,
-          label: startCase(key),
+          title: startCase(key),
+          field: key,
         },
       ]
     }, []),

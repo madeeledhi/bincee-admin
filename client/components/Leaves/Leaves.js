@@ -44,6 +44,7 @@ class Leaves extends React.Component {
     const { error, isLoading } = this.state
     const { leaves } = this.props
     const { columns: rows, rows: data } = leaves
+    console.log(leaves, rows, data)
 
     return (
       <LeavesInner
