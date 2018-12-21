@@ -8,7 +8,18 @@ class Home extends React.Component {
   render() {
     return (
       <div className={styles.main}>
-        <div className={styles.text}>Welcome to Bincee Home</div>
+        <div className={styles.image}>
+          <div className={styles.wrap}>
+            <div className={styles.text}>Welcome to Bincee Portal</div>
+            <div className={styles.smallText}>
+              this is a long paragraph
+              this is a long paragraph
+              this is a long paragraph
+              this is a long paragraph
+              this is a long paragraph
+            </div>
+          </div>
+        </div>
       </div>
     )
   }

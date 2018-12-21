@@ -16,7 +16,7 @@ const LeavesInner = ({ error, isLoading, rows, data }) => (
         components={{
           Toolbar: props => (
             <MTableToolbar
-              classes={{ root: styles.root, title: styles.head }}
+              classes={{ root: styles.root, title: styles.head, actions: styles.actions }}
               {...props}
             />
           ),

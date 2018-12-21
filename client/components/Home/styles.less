@@ -1,18 +1,33 @@
 .main {
   display: flex;
   flex-wrap: wrap-reverse;
-  flex-direction: column-reverse;
-  justify-content: space-between;
-  min-height: 91vh;
-  background-image: url(/images/sign_in_bg.png);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position-x: inherit;
+  /* justify-content: center; */
+  margin-top: 7em;
+  margin-left: 12em;
+  overflow: hidden;
+  .wrap{
+    padding-top: 27em;
+  }
   .text{
-    color: #07b9ed;
-    text-align: right;
-    padding: 10em 7em;
-    font-size: 20pt;
-    font-family: gotham-black;
+    text-align: center;
+    font-size: 14pt;
+    font-family: gotham-book;
+    font-weight: bold;
+    margin: 13px 0 13px 8em;
+
+  }
+  .smallText{
+    text-align: center;
+    font-family: gotham-book;
+    font-size: 9pt;
+    margin: 13px 0 13px 12em;
+  }
+  .image{
+    width: 110vh;
+    height: 78vh;
+    background-image: url(/images/portal_home_alternate.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position-x: inherit;
   }
 }
