@@ -136,6 +136,7 @@ const EnhancedTableInner = props => {
                             className={styles.action}
                           >
                             <IconButton
+                              className={styles.actionButton}
                               aria-label="Filter list"
                               onClick={event => {
                                 event.stopPropagation()
@@ -152,6 +153,7 @@ const EnhancedTableInner = props => {
                               </Icon>
                             </IconButton>
                             <IconButton
+                              className={styles.actionButton}
                               aria-label="Filter list"
                               onClick={event => {
                                 event.stopPropagation()
@@ -190,7 +192,7 @@ const EnhancedTableInner = props => {
           />
         </When>
         <Otherwise>
-          <BlankState tableName={tableName}/>
+          <BlankState tableName={tableName} />
         </Otherwise>
       </Choose>
     </Paper>
