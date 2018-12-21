@@ -40,7 +40,7 @@ const AnnouncementsInner = ({
       <form className={styles.root}>
         <div className={styles.row}>
           <FormControl component="fieldset">
-            <FormLabel component="legend">Gender</FormLabel>
+            {/* <FormLabel component="legend">Gender</FormLabel> */}
             <RadioGroup
               aria-label="Send To"
               value={type}
@@ -49,26 +49,32 @@ const AnnouncementsInner = ({
             >
               <FormControlLabel
                 value="school"
-                control={<Radio />}
+                control={<Radio className={styles.radioButton} />}
                 label="School"
               />
               <FormControlLabel
                 value="student"
-                control={<Radio />}
+                control={<Radio className={styles.radioButton} />}
                 label="Students"
               />
             </RadioGroup>
           </FormControl>
+          <Button
+            onClick={sendNotification}
+            label="History"
+            style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+          />
         </div>
         <If condition={type === 'student'}>
-          {/* <div className={styles.row}> */}
-            <FormControl>
+          <div className={styles.row}>
+            <FormControl className={ styles.item}>
               <InputLabel htmlFor="select-multiple-chip">
                 Select Students
               </InputLabel>
               <Select
                 variant="outlined"
                 multiple
+                // className={{select: styles.find}}
                 value={selectedStudents}
                 onChange={handleChange('selectedStudents')}
                 input={<OutlinedInput id="select-multiple-chip" />}
@@ -76,9 +82,8 @@ const AnnouncementsInner = ({
                   <div>
                     {selected.map(value => {
                       console.log(value)
-
                       const { fullname } = value
-                      return <Chip key={value} label={fullname} />
+                      return <Chip key={value} label={fullname} className={styles.chip} />
                     })}
                   </div>
                 )}
@@ -100,7 +105,7 @@ const AnnouncementsInner = ({
                 })}
               </Select>
             </FormControl>
-          {/* </div> */}
+          </div>
         </If>
         <div className={styles.row}>
           <TextField
@@ -118,7 +123,8 @@ const AnnouncementsInner = ({
             id="standard-message"
             label="Message"
             multiline
-            rowsMax="4"
+            rowsMax="8"
+            rows="8"
             value={message}
             onChange={handleChange('message')}
             margin="normal"
