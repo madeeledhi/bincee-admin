@@ -21,7 +21,6 @@ import CreateStudent from '../CreateStudent'
 import EditStudent from '../EditStudent'
 import LoadingView from '../LoadingView'
 import styles from './AnnouncementsInner.less'
-import MapPicker from '../MapPicker'
 
 const AnnouncementsInner = ({
   error,
@@ -150,14 +149,6 @@ const AnnouncementsInner = ({
           Send
         </Button> */}
       </form>
-
-      {/* testing map picker here */}
-      <MapPicker
-        containerElement={<div style={{ height: `400px` }} />}
-        mapElement={<div style={{ height: `100%` }} />}
-        defaultPosition={{ lat: -34.397, lng: 150.644 }}
-        zoom={8}
-      />
     </When>
     <Otherwise>
       <LoadingView message={'Loading Announcements'} />
