@@ -5,7 +5,6 @@ import FormControl from '@material-ui/core/FormControl'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormLabel from '@material-ui/core/FormLabel'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
@@ -13,17 +12,17 @@ import Chip from '@material-ui/core/Chip'
 import MenuItem from '@material-ui/core/MenuItem'
 import Checkbox from '@material-ui/core/Checkbox'
 import ListItemText from '@material-ui/core/ListItemText'
-import Button from '../Button'
+import map from 'lodash/fp/map'
 
 // src
-import EnhancedTable from '../EnhancedTable'
-import CreateStudent from '../CreateStudent'
-import EditStudent from '../EditStudent'
+import Button from '../Button'
 import LoadingView from '../LoadingView'
 import styles from './AnnouncementsInner.less'
 
 const AnnouncementsInner = ({
-  error,
+  errors,
+  disabled,
+  studentError,
   handleChange,
   handleChangeAll,
   isLoading,
@@ -36,7 +35,7 @@ const AnnouncementsInner = ({
   hasAll,
 }) => (
   <Choose>
-    <When condition={!error && !isLoading}>
+    <When condition={!isLoading}>
       <form className={styles.root}>
         <div className={styles.row}>
           <FormControl component="fieldset">
@@ -59,19 +58,16 @@ const AnnouncementsInner = ({
               />
             </RadioGroup>
           </FormControl>
-          <Button
-            onClick={sendNotification}
-            label="History"
-            style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
-          />
         </div>
         <If condition={type === 'student'}>
           <div className={styles.row}>
             <FormControl className={styles.item}>
               <InputLabel htmlFor="select-multiple-chip">
-                Select Students
+                {'Select Students'}
               </InputLabel>
               <Select
+                error={studentError}
+                helperText={studentError}
                 variant="outlined"
                 multiple
                 // className={{select: styles.find}}
@@ -81,7 +77,6 @@ const AnnouncementsInner = ({
                 renderValue={selected => (
                   <div>
                     {selected.map(value => {
-                      console.log(value)
                       const { fullname } = value
                       return (
                         <Chip
@@ -98,7 +93,7 @@ const AnnouncementsInner = ({
                   <Checkbox checked={hasAll} onChange={handleChangeAll} />
                   <ListItemText primary={'All'} />
                 </MenuItem>
-                {students.map(student => {
+                {map(student => {
                   const { id: student_id, parent_id, fullname } = student
                   return (
                     <MenuItem key={student_id} value={student}>
@@ -108,7 +103,7 @@ const AnnouncementsInner = ({
                       <ListItemText primary={fullname} />
                     </MenuItem>
                   )
-                })}
+                })(students)}
               </Select>
             </FormControl>
           </div>
@@ -118,6 +113,8 @@ const AnnouncementsInner = ({
             id="standard-subject"
             label="Subject"
             value={subject}
+            error={errors.subject}
+            helperText={errors.subject}
             onChange={handleChange('subject')}
             margin="normal"
             variant="outlined"
@@ -131,6 +128,8 @@ const AnnouncementsInner = ({
             multiline
             rowsMax="8"
             rows="8"
+            error={errors.message}
+            helperText={errors.message}
             value={message}
             onChange={handleChange('message')}
             margin="normal"
@@ -142,6 +141,7 @@ const AnnouncementsInner = ({
           <Button
             onClick={sendNotification}
             label="Send"
+            disabled={disabled}
             style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
           />
         </div>

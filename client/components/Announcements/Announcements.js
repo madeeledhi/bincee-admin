@@ -3,7 +3,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
-import map from 'lodash/fp/map'
 
 // src
 import { hasPropChanged } from '../../utils'
@@ -16,7 +15,11 @@ import AnnouncementsInner from './AnnouncementsInner'
 
 class Announcements extends React.Component {
   state = {
-    error: '',
+    errors: {
+      subject: 'Required',
+      message: 'Required',
+    },
+    studentError: '',
     isLoading: true,
     type: 'school',
     selectedStudents: [],
@@ -49,30 +52,49 @@ class Announcements extends React.Component {
       }
     }
   }
+
   handleChangeAll = event => {
     const { studentsList } = this.props
     const val = event.target.checked ? studentsList : []
     const hasAll = event.target.checked
     this.setState(() => ({
       selectedStudents: val,
-      hasAll: hasAll,
+      hasAll,
     }))
   }
+
   handleChange = name => event => {
     const val = event.target.value
     const { studentsList } = this.props
+    const { errors, type, selectedStudents } = this.state
     const hasAll =
       size(val) === size(studentsList) && name === 'selectedStudents'
-        ? true
-        : false
+    const newErrors =
+      name === 'selectedStudents' || name === 'type'
+        ? errors
+        : {
+            ...errors,
+            [name]: size(val) > 0 ? undefined : 'Required',
+          }
+
+    const studentError =
+      type === 'student' || val === 'student'
+        ? (name === 'selectedStudents' && size(val) < 1) ||
+          (name === 'type' && val === 'student' && size(selectedStudents) < 1)
+          ? 'Required'
+          : undefined
+        : undefined
 
     if (val[size(val) - 1] !== 'all') {
       this.setState(() => ({
         [name]: val,
-        hasAll: hasAll,
+        hasAll,
+        errors: newErrors,
+        studentError,
       }))
     }
   }
+
   sendNotification = () => {
     const { dispatch, user } = this.props
     const { token } = user
@@ -81,6 +103,7 @@ class Announcements extends React.Component {
     createAnnouncement({})
     dispatch(
       createAnnouncement({
+        title: subject,
         last_updated,
         description: message,
         type,
@@ -97,19 +120,23 @@ class Announcements extends React.Component {
 
   render() {
     const {
-      error,
+      errors,
       isLoading,
       type,
       selectedStudents,
       subject,
       message,
       hasAll,
+      studentError,
     } = this.state
     const { studentsList } = this.props
-
+    const disabled = studentError || errors.message || errors.subject
+    console.log('Selected Students: ', selectedStudents)
     return (
       <AnnouncementsInner
-        error={error}
+        errors={errors}
+        disabled={disabled}
+        studentError={studentError}
         hasAll={hasAll}
         handleChange={this.handleChange}
         handleChangeAll={this.handleChangeAll}

@@ -45,6 +45,8 @@ class Security extends React.Component {
     const { dispatch, user, formValues, initialize } = this.props
     const { new_password, current_password } = formValues
     const { id, username, token } = user
+
+    this.setState(() => ({ isLoading: true }))
     dispatch(
       editPassword({
         id,
@@ -55,6 +57,7 @@ class Security extends React.Component {
       }),
     ).then(({ payload: editPayload }) => {
       const { status: requestStatus } = editPayload
+      this.setState(() => ({ isLoading: false }))
       if (requestStatus === 200) {
         dispatch(push('/dashboard/parents'))
         dispatch(showErrorMessage('Password Updated successfully', 'success'))
