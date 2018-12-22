@@ -21,6 +21,7 @@ import CreateStudent from '../CreateStudent'
 import EditStudent from '../EditStudent'
 import LoadingView from '../LoadingView'
 import styles from './AnnouncementsInner.less'
+import MapPicker from '../MapPicker'
 
 const AnnouncementsInner = ({
   error,
@@ -67,7 +68,7 @@ const AnnouncementsInner = ({
         </div>
         <If condition={type === 'student'}>
           <div className={styles.row}>
-            <FormControl className={ styles.item}>
+            <FormControl className={styles.item}>
               <InputLabel htmlFor="select-multiple-chip">
                 Select Students
               </InputLabel>
@@ -83,7 +84,13 @@ const AnnouncementsInner = ({
                     {selected.map(value => {
                       console.log(value)
                       const { fullname } = value
-                      return <Chip key={value} label={fullname} className={styles.chip} />
+                      return (
+                        <Chip
+                          key={value}
+                          label={fullname}
+                          className={styles.chip}
+                        />
+                      )
                     })}
                   </div>
                 )}
@@ -133,16 +140,24 @@ const AnnouncementsInner = ({
           />
         </div>
         <div className={styles.row}>
-            <Button
-              onClick={sendNotification}
-              label="Send"
-              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
-            />
+          <Button
+            onClick={sendNotification}
+            label="Send"
+            style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+          />
         </div>
         {/* <Button color="primary" onClick={sendNotification}>
           Send
         </Button> */}
       </form>
+
+      {/* testing map picker here */}
+      <MapPicker
+        containerElement={<div style={{ height: `400px` }} />}
+        mapElement={<div style={{ height: `100%` }} />}
+        defaultPosition={{ lat: -34.397, lng: 150.644 }}
+        zoom={8}
+      />
     </When>
     <Otherwise>
       <LoadingView message={'Loading Announcements'} />

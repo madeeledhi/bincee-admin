@@ -1,50 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title><%- title %></title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="description" content="Bincee Administration App" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link rel="stylesheet" href="/<%- manifest['app.css'] %>" />
 
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="x-ua-compatible" content="ie=edge" />
-  <title>
-    <%- title %>
-  </title>
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <meta name="description" content="Bincee Administration App" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  <link rel="stylesheet" href="/<%- manifest['app.css'] %>" />
+    <style media="screen">
+      html {
+        font-family: 'Roboto', sans-serif;
+        font-size: 62.5%;
+      }
 
+      body {
+        line-height: normal;
+        padding: 0;
+        margin: 0;
+      }
 
-  <style media="screen">
-    html {
-      font-family: 'Roboto', sans-serif;
-      font-size: 62.5%;
-    }
+      h1 {
+        font-weight: 300;
+      }
+    </style>
+  </head>
 
-    body {
-      line-height: normal;
-      padding: 0;
-      margin: 0;
-    }
-
-    h1 {
-      font-weight: 300;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="root">
-    <%- html %>
-  </div>
-  <script type="text/javascript">
-    window.GAW = {
-      preloadedState: <%- JSON.stringify(preloadedState) %>
-      };
-  </script>
-  <% if (manifest['vendor.js']) { %>
+  <body>
+    <div id="root"><%- html %></div>
+    <script type="text/javascript">
+      window.GAW = {
+        preloadedState: <%- JSON.stringify(preloadedState) %>
+        };
+    </script>
+    <% if (manifest['vendor.js']) { %>
     <script src="/<%- manifest['vendor.js'] %>"></script>
     <% } %>
-      <script src="/<%- manifest['app.js'] %>"></script>
-</body>
-
+    <script src="/<%- manifest['app.js'] %>"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSV1AmlA-ArhLJz9u0TXS8zQEXt5wmdAU&amp;v=3.exp&amp;libraries=geometry,drawing,places"></script>
+  </body>
 </html>
