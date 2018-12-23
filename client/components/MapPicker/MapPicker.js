@@ -57,7 +57,16 @@ class LocationPicker extends React.Component {
   handleSuggestSelect(suggest) {
     const { location } = suggest
     const position = location
-    this.setState(() => ({ position: position, shouldRecenterMap: true }))
+    const { onChange } = this.props
+    this.setState({ position, shouldRecenterMap: true })
+    this.geocodePosition(position)
+      .then(places => {
+        this.notify(position, places)
+      })
+      .catch(err => {
+        console.error(err)
+        this.notify(position, [])
+      })
   }
   notify(position, places) {
     const { onChange } = this.props
@@ -86,6 +95,7 @@ class LocationPicker extends React.Component {
   }
 
   geocodePosition(position) {
+    const google = window.google
     const geocoder = new google.maps.Geocoder()
     return new Promise((resolve, reject) => {
       geocoder.geocode({ location: position }, (results, status) => {

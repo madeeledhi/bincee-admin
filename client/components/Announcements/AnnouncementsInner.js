@@ -155,6 +155,9 @@ const AnnouncementsInner = ({
         mapElement={<div style={{ height: `100%` }} />}
         defaultPosition={{ lat: -34.397, lng: 150.644 }}
         zoom={16}
+        onChange={val => {
+          console.log(val)
+        }}
       />
     </When>
     <Otherwise>
