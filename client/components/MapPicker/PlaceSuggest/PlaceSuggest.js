@@ -62,7 +62,6 @@ class PlaceSuggest extends React.Component {
   }
 
   componentWillUnmount() {
-    onSuggestSelect
     clearTimeout(this.state.timer)
   }
 
