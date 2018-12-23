@@ -17,11 +17,12 @@ export default class SuggestList extends React.Component {
   }
 
   render() {
-    const { suggests, onSuggestMouseDown, onSuggestSelect } = this.props
+    const { suggests, onSuggestMouseDown, onSuggestSelect, width } = this.props
     return (
       <List>
         {suggests.map(suggest => (
           <SuggestItem
+            width={width}
             key={suggest.placeId}
             suggest={suggest}
             onMouseDown={onSuggestMouseDown}

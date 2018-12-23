@@ -1,6 +1,13 @@
 import React from 'react'
+import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardHeader'
+import CardMedia from '@material-ui/core/CardMedia'
+import CardContent from '@material-ui/core/CardContent'
+
 import Map from './Map'
+
 import PlaceSuggest from './PlaceSuggest/PlaceSuggest'
+
 const google = window.google
 
 const DEFAULT_RADIUS = 1000
@@ -14,12 +21,12 @@ const DEFAULT_CIRCLE_OPTIONS = {
   strokeWeight: 1.2,
 }
 const fixtures = [
-  { label: 'New York', location: { lat: 40.7033127, lng: -73.979681 } },
-  { label: 'Rio', location: { lat: -22.066452, lng: -42.9232368 } },
-  { label: 'Tokyo', location: { lat: 35.673343, lng: 139.710388 } },
+  // { label: 'New York', location: { lat: 40.7033127, lng: -73.979681 } },
+  // { label: 'Rio', location: { lat: -22.066452, lng: -42.9232368 } },
+  // { label: 'Tokyo', location: { lat: 35.673343, lng: 139.710388 } },
 ]
 
-class LocationPicker extends React.Component {
+class MapPicker extends React.Component {
   constructor(props) {
     super(props)
 
@@ -109,35 +116,36 @@ class LocationPicker extends React.Component {
   }
 
   render() {
-    const {
-      zoom,
-      radius,
-      circleOptions,
-      containerElement,
-      mapElement,
-    } = this.props
+    const { zoom, radius, circleOptions, height, width } = this.props
 
     const { position, shouldRecenterMap } = this.state
 
     return (
-      <div>
-        <PlaceSuggest
-          fixtures={fixtures}
-          onSuggestSelect={this.handleSuggestSelect}
-        />
-        <Map
-          containerElement={containerElement}
-          mapElement={mapElement}
-          handleMarkerDragEnd={this.handleMarkerDragEnd}
-          position={position}
-          circleOptions={circleOptions}
-          radius={radius}
-          defaultZoom={zoom}
-          shouldRecenterMap={shouldRecenterMap}
-        />
-      </div>
+      <Card style={{ height: `${height}px`, width: `${width}px` }}>
+        <CardContent>
+          <PlaceSuggest
+            fixtures={fixtures}
+            onSuggestSelect={this.handleSuggestSelect}
+            width={width - 40}
+          />
+          <Map
+            containerElement={
+              <div
+                style={{ height: `${height}px`, width: `${width - 40}px` }}
+              />
+            }
+            mapElement={<div style={{ height: `86%` }} />}
+            handleMarkerDragEnd={this.handleMarkerDragEnd}
+            position={position}
+            circleOptions={circleOptions}
+            radius={radius}
+            defaultZoom={zoom}
+            shouldRecenterMap={shouldRecenterMap}
+          />
+        </CardContent>
+      </Card>
     )
   }
 }
 
-export default LocationPicker
+export default MapPicker

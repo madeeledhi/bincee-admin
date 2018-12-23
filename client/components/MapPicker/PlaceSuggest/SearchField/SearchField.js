@@ -46,14 +46,16 @@ class SearchField extends React.Component {
   }
 
   render() {
-    const { value } = this.props
+    const { value, width } = this.props
     return (
       <TextField
         label={'search'}
+        style={{ width: `${width}px` }}
         className={styles.root}
         ref="input"
         type="text"
         autoComplete="off"
+        variant="outlined"
         value={value}
         onKeyDown={this.onKeyDown}
         onChange={this.handleChange}

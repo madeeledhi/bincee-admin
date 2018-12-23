@@ -151,8 +151,8 @@ const AnnouncementsInner = ({
         </Button> */}
       </form>
       <MapPicker
-        containerElement={<div style={{ height: `400px` }} />}
-        mapElement={<div style={{ height: `100%` }} />}
+        height={500}
+        width={500}
         defaultPosition={{ lat: -34.397, lng: 150.644 }}
         zoom={16}
         onChange={val => {

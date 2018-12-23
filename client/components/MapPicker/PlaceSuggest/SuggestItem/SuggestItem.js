@@ -14,13 +14,14 @@ class SuggestItem extends React.Component {
   }
 
   render() {
-    const { onMouseDown, onMouseOut, suggest } = this.props
+    const { onMouseDown, onMouseOut, suggest, width } = this.props
     return (
       <ListItem
         className={styles.root}
         onMouseDown={onMouseDown}
         onMouseOut={onMouseOut}
         onClick={this.onClick}
+        style={{ width: `${width}px` }}
       >
         <ListItemText primary={suggest.label} />
       </ListItem>

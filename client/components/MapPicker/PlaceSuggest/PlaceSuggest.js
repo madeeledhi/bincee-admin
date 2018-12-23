@@ -305,6 +305,7 @@ class PlaceSuggest extends React.Component {
     return (
       <div>
         <SearchField
+          width={this.props.width}
           value={this.state.userInput}
           onChange={this.onInputChange}
           onFocus={this.onInputFocus}
@@ -324,6 +325,7 @@ class PlaceSuggest extends React.Component {
         >
           <Paper>
             <SuggestList
+              width={this.props.width}
               suggests={this.state.suggests}
               onSuggestNoResults={this.onSuggestNoResults}
               onSuggestMouseDown={this.onSuggestMouseDown}
