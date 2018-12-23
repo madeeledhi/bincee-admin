@@ -153,7 +153,7 @@ const AnnouncementsInner = ({
       <MapPicker
         height={500}
         width={500}
-        defaultPosition={{ lat: -34.397, lng: 150.644 }}
+        defaultPosition={{ lat: '', lng: '' }}
         zoom={16}
         onChange={val => {
           console.log(val)
