@@ -1,6 +1,6 @@
 import React from 'react'
 import Map from './Map'
-
+import PlaceSuggest from './PlaceSuggest/PlaceSuggest'
 const google = window.google
 
 const DEFAULT_RADIUS = 1000
@@ -13,6 +13,11 @@ const DEFAULT_CIRCLE_OPTIONS = {
   strokeOpacity: 1,
   strokeWeight: 1.2,
 }
+const fixtures = [
+  { label: 'New York', location: { lat: 40.7033127, lng: -73.979681 } },
+  { label: 'Rio', location: { lat: -22.066452, lng: -42.9232368 } },
+  { label: 'Tokyo', location: { lat: 35.673343, lng: 139.710388 } },
+]
 
 class LocationPicker extends React.Component {
   constructor(props) {
@@ -24,6 +29,7 @@ class LocationPicker extends React.Component {
     }
 
     this.handleMarkerDragEnd = this.handleMarkerDragEnd.bind(this)
+    this.handleSuggestSelect = this.handleSuggestSelect.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,7 +54,11 @@ class LocationPicker extends React.Component {
       )
     }
   }
-
+  handleSuggestSelect(suggest) {
+    const { location } = suggest
+    const position = location
+    this.setState(() => ({ position: position, shouldRecenterMap: true }))
+  }
   notify(position, places) {
     const { onChange } = this.props
     const location = {
@@ -100,16 +110,22 @@ class LocationPicker extends React.Component {
     const { position, shouldRecenterMap } = this.state
 
     return (
-      <Map
-        containerElement={containerElement}
-        mapElement={mapElement}
-        handleMarkerDragEnd={this.handleMarkerDragEnd}
-        position={position}
-        circleOptions={circleOptions}
-        radius={radius}
-        defaultZoom={zoom}
-        shouldRecenterMap={shouldRecenterMap}
-      />
+      <div>
+        <PlaceSuggest
+          fixtures={fixtures}
+          onSuggestSelect={this.handleSuggestSelect}
+        />
+        <Map
+          containerElement={containerElement}
+          mapElement={mapElement}
+          handleMarkerDragEnd={this.handleMarkerDragEnd}
+          position={position}
+          circleOptions={circleOptions}
+          radius={radius}
+          defaultZoom={zoom}
+          shouldRecenterMap={shouldRecenterMap}
+        />
+      </div>
     )
   }
 }
