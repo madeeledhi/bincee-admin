@@ -6,7 +6,8 @@ import styles from './SearchField.less'
 class SearchField extends React.Component {
   handleChange = event => {
     const val = event.target.value
-    this.props.onChange(val)
+    const anchorEl = event.currentTarget
+    this.props.onChange(val, anchorEl)
   }
 
   onFocus = () => {

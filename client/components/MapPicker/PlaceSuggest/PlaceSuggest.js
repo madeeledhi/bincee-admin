@@ -1,6 +1,9 @@
 // lib
 import React from 'react'
 import debounce from 'lodash/debounce'
+import Popper from '@material-ui/core/Popper'
+import Paper from '@material-ui/core/Paper'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 // src
 import defaults from './defaults'
@@ -21,6 +24,8 @@ class PlaceSuggest extends React.Component {
       activeSuggest: null,
       suggests: [],
       timer: null,
+      anchorEl: null,
+      open: false,
     }
 
     this.onInputChange = this.onInputChange.bind(this)
@@ -45,28 +50,24 @@ class PlaceSuggest extends React.Component {
       return
     }
 
-    var googleMaps =
-      this.props.googleMaps ||
-      window.google & window.google.maps ||
-      this.googleMaps
+    const googleMaps = window.google.maps
+
     if (!googleMaps) {
       console.error('Google map api was not found in the page.')
       return
     }
     this.googleMaps = googleMaps
     this.autocompleteService = new googleMaps.places.AutocompleteService()
-    this.autocompleteOK = new googleMaps.places.PlacesServiceStatus.OK()
-    console.log(this.autocompleteOK, this.autocompleteService)
-
     this.geocoder = new googleMaps.Geocoder()
   }
 
   componentWillUnmount() {
+    onSuggestSelect
     clearTimeout(this.state.timer)
   }
 
-  onInputChange = userInput => {
-    this.setState({ userInput }, this.onAfterInputChange)
+  onInputChange = (userInput, anchorEl) => {
+    this.setState({ userInput, anchorEl }, this.onAfterInputChange)
   }
 
   onAfterInputChange = () => {
@@ -258,6 +259,7 @@ class PlaceSuggest extends React.Component {
     this.setState({
       isSuggestsHidden: true,
       userInput: suggest.label,
+      anchorEl: null,
     })
 
     if (suggest.location) {
@@ -293,6 +295,12 @@ class PlaceSuggest extends React.Component {
     )
   }
 
+  handleClose = () => {
+    this.setState({
+      anchorEl: null,
+    })
+  }
+
   render() {
     return (
       <div>
@@ -307,13 +315,23 @@ class PlaceSuggest extends React.Component {
           onEscape={this.hideSuggests}
         />
 
-        <SuggestList
-          suggests={this.state.suggests}
-          onSuggestNoResults={this.onSuggestNoResults}
-          onSuggestMouseDown={this.onSuggestMouseDown}
-          onSuggestMouseOut={this.onSuggestMouseOut}
-          onSuggestSelect={this.selectSuggest}
-        />
+        <Popper
+          id="simple-popper"
+          open={Boolean(this.state.anchorEl)}
+          anchorEl={this.state.anchorEl}
+          onClose={this.handleClose}
+          placement="bottom-start"
+        >
+          <Paper>
+            <SuggestList
+              suggests={this.state.suggests}
+              onSuggestNoResults={this.onSuggestNoResults}
+              onSuggestMouseDown={this.onSuggestMouseDown}
+              onSuggestMouseOut={this.onSuggestMouseOut}
+              onSuggestSelect={this.selectSuggest}
+            />
+          </Paper>
+        </Popper>
       </div>
     )
   }

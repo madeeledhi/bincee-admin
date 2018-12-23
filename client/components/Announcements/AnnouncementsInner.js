@@ -18,6 +18,7 @@ import map from 'lodash/fp/map'
 import Button from '../Button'
 import LoadingView from '../LoadingView'
 import styles from './AnnouncementsInner.less'
+import MapPicker from '../MapPicker'
 
 const AnnouncementsInner = ({
   errors,
@@ -149,6 +150,12 @@ const AnnouncementsInner = ({
           Send
         </Button> */}
       </form>
+      <MapPicker
+        containerElement={<div style={{ height: `400px` }} />}
+        mapElement={<div style={{ height: `100%` }} />}
+        defaultPosition={{ lat: -34.397, lng: 150.644 }}
+        zoom={16}
+      />
     </When>
     <Otherwise>
       <LoadingView message={'Loading Announcements'} />
