@@ -1,7 +1,6 @@
 .root {
   display: flex;
   flex-direction: column;
-  padding-top: 7em;
   background: #fff;
   height: 540px;
   border-radius: 19px;
@@ -12,12 +11,33 @@
     justify-content: space-evenly;
   }
   
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+    height: 64px;
+    border-bottom: 1px solid #afe3e947;
+    .title{
+      color: #07b9ed;
+      font-family: gotham-black;
+      font-size: 17pt;
+      padding: 23px 5px;
+    }
+    .spacer {
+      width:40%;
+    }
+  }
   .row {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     margin: 1rem;
-
+    .label{
+      font-family: gotham-book;
+      font-size: 11pt;
+      font-weight: bold;
+    }
     .chip{
       width: 12% !important;
       margin-left: 8px !important;

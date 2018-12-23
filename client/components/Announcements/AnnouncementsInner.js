@@ -38,6 +38,16 @@ const AnnouncementsInner = ({
   <Choose>
     <When condition={!isLoading}>
       <form className={styles.root}>
+        <div className={styles.head}>
+          <div className={styles.title}>SCHOOL ANNOUNCEMENTS</div>
+          <div className={styles.spacer} />
+          <Button
+            onClick={sendNotification}
+            label="Send"
+            disabled={disabled}
+            style={{ backgroundColor: '#00c6ff', borderColor: '#00c6ff' }}
+          />
+        </div>
         <div className={styles.row}>
           <FormControl component="fieldset">
             {/* <FormLabel component="legend">Gender</FormLabel> */}
@@ -62,10 +72,11 @@ const AnnouncementsInner = ({
         </div>
         <If condition={type === 'student'}>
           <div className={styles.row}>
+            <label className={styles.label}>Students : </label>
             <FormControl className={styles.item}>
-              <InputLabel htmlFor="select-multiple-chip">
+              {/* <InputLabel htmlFor="select-multiple-chip">
                 {'Select Students'}
-              </InputLabel>
+              </InputLabel> */}
               <Select
                 error={studentError}
                 helperText={studentError}
@@ -110,9 +121,10 @@ const AnnouncementsInner = ({
           </div>
         </If>
         <div className={styles.row}>
+          <label className={styles.label}>Subject : </label>
           <TextField
             id="standard-subject"
-            label="Subject"
+            // label="Subject"
             value={subject}
             error={errors.subject}
             helperText={errors.subject}
@@ -123,9 +135,10 @@ const AnnouncementsInner = ({
           />
         </div>
         <div className={styles.row}>
+          <label className={styles.label}>Message : </label>
           <TextField
             id="standard-message"
-            label="Message"
+            // label="Message"
             multiline
             rowsMax="8"
             rows="8"
@@ -136,14 +149,6 @@ const AnnouncementsInner = ({
             margin="normal"
             variant="outlined"
             className={styles.item}
-          />
-        </div>
-        <div className={styles.row}>
-          <Button
-            onClick={sendNotification}
-            label="Send"
-            disabled={disabled}
-            style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
           />
         </div>
         {/* <Button color="primary" onClick={sendNotification}>
