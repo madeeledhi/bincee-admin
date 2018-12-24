@@ -18,9 +18,8 @@ const ProfileInner = props => {
   } = props
   return (
     <form className={styles.root}>
-      <div className={styles.fieldPosition} >
+      <div className={styles.section}>
         <div className={styles.row}>
-          <div className={styles.spacing} />
           <Field
             id="name"
             name="name"
@@ -32,7 +31,6 @@ const ProfileInner = props => {
           />
         </div>
         <div className={styles.row}>
-          <div className={styles.spacing} />
           <Field
             id="phone_no"
             name="phone_no"
@@ -44,7 +42,6 @@ const ProfileInner = props => {
           />
         </div>
         <div className={styles.row}>
-          <div className={styles.spacing} />
           <Field
             id="email"
             name="email"
@@ -56,7 +53,6 @@ const ProfileInner = props => {
           />
         </div>
         <div className={styles.row}>
-          <div className={styles.spacing} />
           <Field
             id="address"
             name="address"
@@ -67,8 +63,23 @@ const ProfileInner = props => {
             className={styles.item}
           />
         </div>
+        <div className={styles.row}>
+          <div className={styles.button}>
+            <Button
+              disabled={disabled}
+              onClick={handleUpdate}
+              label="Update"
+              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+            />
+            <Button
+              onClick={handleCancel}
+              label="Cancel"
+              style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+            />
+          </div>
+        </div>
       </div>
-      <div className={styles.mapPlace}>
+      <div className={styles.section}>
         <div className={styles.row}>
           <MapPicker
             height={500}
@@ -78,23 +89,6 @@ const ProfileInner = props => {
             onChange={val => {
               handlePositionChange(val)
             }}
-          />
-        </div>
-      </div>
-
-      <div className={styles.row}>
-        <div className={styles.button}>
-          <div className={styles.spacing} />
-          <Button
-            disabled={disabled}
-            onClick={handleUpdate}
-            label="Update"
-            style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
-          />
-          <Button
-            onClick={handleCancel}
-            label="Cancel"
-            style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
           />
         </div>
       </div>

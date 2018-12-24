@@ -76,6 +76,7 @@ const AnnouncementsInner = ({
                 {'Select Students'}
               </InputLabel> */}
               <Select
+                classes={{ select: styles.select }}
                 error={studentError}
                 helperText={studentError}
                 variant="outlined"
