@@ -2,13 +2,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Dialog from '@material-ui/core/Dialog'
+import DialogContent from '@material-ui/core/DialogContent'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
+import Button from '../Button'
 
 //  src
 import MainDashboardInner from './MainDashboardInner'
 import { hasPropChanged, parseLocation } from '../../utils'
 import { loadUser, logOut, loadUserDetails } from '../../actions'
+import styles from './MainDashboard.less'
 
 class MainDashboard extends Component {
   constructor(props) {
@@ -16,6 +21,7 @@ class MainDashboard extends Component {
     const { user = {}, userDetails = {}, location = {} } = props
     const { pathname = '' } = location
     this.state = {
+      disabled: false,
       isLoading: true,
       user,
       userDetails,
@@ -35,7 +41,7 @@ class MainDashboard extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged(['userDetails', 'user'], this.props, nextProps)) {
-      const { user, authenticated, dispatch, userDetails } = nextProps
+      const { user, authenticated, dispatch, userDetails, location } = nextProps
       this.setState(() => ({ user }))
       if (!authenticated) {
         dispatch(push('/'))
@@ -54,6 +60,15 @@ class MainDashboard extends Component {
       const activePath = parseLocation(pathname)
       this.setState(() => ({ activePath }))
     }
+
+    const { location, userDetails } = nextProps
+    const { pathname } = location
+    const { lat, lng } = userDetails || {}
+    if ((!lat || !lng) && pathname !== '/dashboard/profile') {
+      this.setState(() => ({ disabled: true }))
+    } else {
+      this.setState(() => ({ disabled: false }))
+    }
   }
 
   handleSignOut = () => {
@@ -68,7 +83,7 @@ class MainDashboard extends Component {
 
   render() {
     const { match, authenticated, error } = this.props
-    const { isLoading, user, userDetails, activePath } = this.state
+    const { isLoading, user, userDetails, activePath, disabled } = this.state
     const path = getOr('/dashboard', 'path')(match)
     console.log(
       'dashboard: {authenticated} {isLoading}, {path} ',
@@ -77,17 +92,42 @@ class MainDashboard extends Component {
       activePath,
     )
     return (
-      <MainDashboardInner
-        path={path}
-        onClickSignout={this.handleSignOut}
-        user={user}
-        userDetails={userDetails}
-        error={error}
-        isLoading={isLoading}
-        authenticated={authenticated}
-        onRouteChange={this.handleRouteChange}
-        activePath={activePath}
-      />
+      <div>
+        <MainDashboardInner
+          path={path}
+          onClickSignout={this.handleSignOut}
+          user={user}
+          userDetails={userDetails}
+          error={error}
+          isLoading={isLoading}
+          authenticated={authenticated}
+          onRouteChange={this.handleRouteChange}
+          activePath={activePath}
+        />
+
+        <Dialog open={disabled} disableBackdropClick disableEscapeKeyDown>
+          <DialogTitle id="simple-dialog-title">
+            {'Set Default Location'}
+          </DialogTitle>
+          <DialogContent>
+            <div className={styles.main}>
+              <div className={styles.wrap}>
+                <div className={styles.text}>
+                  <img src={'/images/blank.png'} />
+                  <div className={styles.texter}>
+                    {'Set Default Location of School To Get Started'}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <Button
+              onClick={() => this.handleRouteChange('/dashboard/profile')}
+              label="Edit Profile"
+              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+            />
+          </DialogContent>
+        </Dialog>
+      </div>
     )
   }
 }

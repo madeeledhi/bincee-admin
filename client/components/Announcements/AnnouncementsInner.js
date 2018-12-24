@@ -99,7 +99,7 @@ const AnnouncementsInner = ({
                   </div>
                 )}
               >
-                <MenuItem key={'000'} value={'all'}>
+                <MenuItem key={'000'} value={'all'} disableTouchRipple>
                   <Checkbox checked={hasAll} onChange={handleChangeAll} />
                   <ListItemText primary={'All'} />
                 </MenuItem>
