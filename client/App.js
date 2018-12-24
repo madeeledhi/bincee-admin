@@ -42,9 +42,6 @@ class App extends React.Component {
   render() {
     const { width } = this.state
     const { Router, routerProps, store } = this.props
-    if (width < 1024) {
-      console.log('store: ', store)
-    }
     return (
       <Choose>
         <When condition={width < 1024}>
