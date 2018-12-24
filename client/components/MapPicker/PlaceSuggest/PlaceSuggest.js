@@ -9,7 +9,8 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import defaults from './defaults'
 import SearchField from './SearchField'
 import SuggestList from './SuggestList'
-var googleMaps = window.google
+
+let googleMaps = window.google
 function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&')
 }
@@ -39,26 +40,25 @@ class PlaceSuggest extends React.Component {
     }
   }
 
-  componentWillReceiveProps(props) {
-    if (this.props.initialValue !== props.initialValue) {
-      this.setState({ userInput: props.initialValue })
-    }
-  }
-
-  componentWillMount() {
+  componentDidMount() {
     if (typeof window === 'undefined') {
       return
     }
-
-    const googleMaps = window.google.maps
+    const { maps } = window.google || {}
+    googleMaps = maps
 
     if (!googleMaps) {
-      console.error('Google map api was not found in the page.')
       return
     }
     this.googleMaps = googleMaps
     this.autocompleteService = new googleMaps.places.AutocompleteService()
     this.geocoder = new googleMaps.Geocoder()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.initialValue !== nextProps.initialValue) {
+      this.setState({ userInput: props.initialValue })
+    }
   }
 
   componentWillUnmount() {

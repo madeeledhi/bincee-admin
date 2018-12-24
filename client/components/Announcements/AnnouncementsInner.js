@@ -5,7 +5,6 @@ import FormControl from '@material-ui/core/FormControl'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import Chip from '@material-ui/core/Chip'
@@ -18,7 +17,6 @@ import map from 'lodash/fp/map'
 import Button from '../Button'
 import LoadingView from '../LoadingView'
 import styles from './AnnouncementsInner.less'
-import MapPicker from '../MapPicker'
 
 const AnnouncementsInner = ({
   errors,
@@ -155,15 +153,6 @@ const AnnouncementsInner = ({
           Send
         </Button> */}
       </form>
-      <MapPicker
-        height={500}
-        width={500}
-        defaultPosition={{ lat: '', lng: '' }}
-        zoom={16}
-        onChange={val => {
-          console.log(val)
-        }}
-      />
     </When>
     <Otherwise>
       <LoadingView message={'Loading Announcements'} />

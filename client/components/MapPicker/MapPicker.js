@@ -32,6 +32,7 @@ class MapPicker extends React.Component {
 
     this.state = {
       position: props.defaultPosition,
+      address: '',
       shouldRecenterMap: false,
     }
 
@@ -61,11 +62,12 @@ class MapPicker extends React.Component {
       )
     }
   }
+
   handleSuggestSelect(suggest) {
-    const { location } = suggest
+    const { location, address } = suggest
     const position = location
     const { onChange } = this.props
-    this.setState({ position, shouldRecenterMap: true })
+    this.setState({ position, address, shouldRecenterMap: true })
     this.geocodePosition(position)
       .then(places => {
         this.notify(position, places)
@@ -75,6 +77,7 @@ class MapPicker extends React.Component {
         this.notify(position, [])
       })
   }
+
   notify(position, places) {
     const { onChange } = this.props
     const location = {
@@ -118,12 +121,13 @@ class MapPicker extends React.Component {
   render() {
     const { zoom, radius, circleOptions, height, width } = this.props
 
-    const { position, shouldRecenterMap } = this.state
+    const { position, shouldRecenterMap, address } = this.state
 
     return (
       <Card style={{ height: `${height}px`, width: `${width}px` }}>
         <CardContent>
           <PlaceSuggest
+            initialValue={address}
             fixtures={fixtures}
             onSuggestSelect={this.handleSuggestSelect}
             width={width - 40}

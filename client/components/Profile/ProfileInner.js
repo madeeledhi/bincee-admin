@@ -4,10 +4,18 @@ import { Field } from 'redux-form'
 // src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
 import Button from '../Button'
+import MapPicker from '../MapPicker'
 import styles from './Profile.less'
 
 const ProfileInner = props => {
-  const { handleUpdate, handleCancel, disabled, isLoading } = props
+  const {
+    handleUpdate,
+    handleCancel,
+    disabled,
+    isLoading,
+    defaultPosition,
+    handlePositionChange,
+  } = props
   return (
     <form className={styles.root}>
       <div className={styles.row}>
@@ -34,6 +42,17 @@ const ProfileInner = props => {
       </div>
       <div className={styles.row}>
         <Field
+          id="email"
+          name="email"
+          component={renderTextField}
+          label="Email"
+          disabled={false}
+          variant="outlined"
+          className={styles.item}
+        />
+      </div>
+      <div className={styles.row}>
+        <Field
           id="address"
           name="address"
           component={renderTextField}
@@ -44,14 +63,14 @@ const ProfileInner = props => {
         />
       </div>
       <div className={styles.row}>
-        <Field
-          id="email"
-          name="email"
-          component={renderTextField}
-          label="Email"
-          disabled={false}
-          variant="outlined"
-          className={styles.item}
+        <MapPicker
+          height={500}
+          width={500}
+          defaultPosition={defaultPosition}
+          zoom={16}
+          onChange={val => {
+            handlePositionChange(val)
+          }}
         />
       </div>
       <div className={styles.row}>

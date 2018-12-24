@@ -10,7 +10,12 @@ class Home extends React.Component {
     return (
       <div className={styles.main}>
         <div>
-          <img className={styles.image} height='320px' width = '390px' src="/images/portal_home_image.png"/>
+          <img
+            className={styles.image}
+            height="320"
+            width="500"
+            src="/images/portal_home_image.png"
+          />
           <div className={styles.text}>Welcome to Bincee Portal</div>
           <div className={styles.smallText}>
             this is a long paragraph this is a long paragraph this is a long

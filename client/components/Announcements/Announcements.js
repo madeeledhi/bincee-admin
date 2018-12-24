@@ -131,7 +131,6 @@ class Announcements extends React.Component {
     } = this.state
     const { studentsList } = this.props
     const disabled = studentError || errors.message || errors.subject
-    console.log('Selected Students: ', selectedStudents)
     return (
       <AnnouncementsInner
         errors={errors}
