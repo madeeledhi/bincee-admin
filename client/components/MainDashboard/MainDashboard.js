@@ -41,7 +41,7 @@ class MainDashboard extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged(['userDetails', 'user'], this.props, nextProps)) {
-      const { user, authenticated, dispatch, userDetails, location } = nextProps
+      const { user, authenticated, dispatch, userDetails } = nextProps
       this.setState(() => ({ user }))
       if (!authenticated) {
         dispatch(push('/'))
@@ -64,6 +64,11 @@ class MainDashboard extends Component {
     const { location, userDetails } = nextProps
     const { pathname } = location
     const { lat, lng } = userDetails || {}
+
+    if (size(userDetails) > 1) {
+      this.setState(() => ({ isLoading: false }))
+    }
+
     if ((!lat || !lng) && pathname !== '/dashboard/profile') {
       this.setState(() => ({ disabled: true }))
     } else {

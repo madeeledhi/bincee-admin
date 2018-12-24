@@ -20,25 +20,65 @@ type Props = {
   routerProps: any,
 }
 
-const App = (props: Props) => {
-  const { Router, routerProps, store } = props
-  return (
-    <MuiThemeProvider theme={theme}>
-      <Provider store={store}>
-        <Router {...routerProps}>
-          <div className={styles.root}>
-            <NotificationSystemConnector />
-            <Switch>
-              <Route exact path="/" component={Login} />
-              <Route path="/dashboard" component={MainDashboard} />
-              {/* <Route component={() => <div>404</div>} /> */}
-              <Redirect to="/dashboard" />
-            </Switch>
+class App extends React.Component {
+  state = {
+    width: window.innerWidth,
+  }
+
+  componentWillMount() {
+    window.addEventListener('resize', this.handleWindowSizeChange)
+  }
+
+  // make sure to remove the listener
+  // when the component is not mounted anymore
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowSizeChange)
+  }
+
+  handleWindowSizeChange = () => {
+    this.setState({ width: window.innerWidth })
+  }
+
+  render() {
+    const { width } = this.state
+    const { Router, routerProps, store } = this.props
+    if (width < 1024) {
+      console.log('store: ', store)
+    }
+    return (
+      <Choose>
+        <When condition={width < 1024}>
+          <div className={styles.main}>
+            <div className={styles.wrap}>
+              <div className={styles.text}>
+                <img src={'/images/blank.png'} />
+                <div className={styles.texter}>
+                  {'Application Portal is Not Supported on Small Screens'}
+                </div>
+              </div>
+            </div>
           </div>
-        </Router>
-      </Provider>
-    </MuiThemeProvider>
-  )
+        </When>
+        <Otherwise>
+          <MuiThemeProvider theme={theme}>
+            <Provider store={store}>
+              <Router {...routerProps}>
+                <div className={styles.root}>
+                  <NotificationSystemConnector />
+                  <Switch>
+                    <Route exact path="/" component={Login} />
+                    <Route path="/dashboard" component={MainDashboard} />
+                    {/* <Route component={() => <div>404</div>} /> */}
+                    <Redirect to="/dashboard" />
+                  </Switch>
+                </div>
+              </Router>
+            </Provider>
+          </MuiThemeProvider>
+        </Otherwise>
+      </Choose>
+    )
+  }
 }
 
 export default App
