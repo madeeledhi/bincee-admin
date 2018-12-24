@@ -10,6 +10,7 @@ export const LOAD_ANNOUNCEMENTS_FAILURE = 'LOAD_ANNOUNCEMENTS_FAILURE'
 
 export const createAnnouncement = ({
   last_updated,
+  title,
   description,
   type,
   studentArray = [],
@@ -26,7 +27,7 @@ export const createAnnouncement = ({
     method: 'POST',
     token,
   },
-  payload: { last_updated, description, type, studentArray },
+  payload: { title, last_updated, description, type, studentArray },
 })
 
 export const loadAnnouncements = ({ token }) => ({

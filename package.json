@@ -72,6 +72,7 @@
     "react-datepicker": "^1.5.0",
     "react-document-title": "^2.0.2",
     "react-dom": "^16.4.0",
+    "react-google-maps": "^9.4.5",
     "react-key-handler": "^1.0.0",
     "react-motion": "^0.5.2",
     "react-notification-system": "^0.2.17",

@@ -1,6 +1,81 @@
 .root {
   display: flex;
   flex-direction: column;
-  padding-top: 7em;
   background: #fff;
+  height: 540px;
+  border-radius: 19px;
+
+  .buttonGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+    height: 64px;
+    border-bottom: 1px solid #afe3e947;
+    .title {
+      color: #07b9ed;
+      font-family: gotham-black;
+      font-size: 17pt;
+      padding: 23px 5px;
+    }
+    .spacer {
+      width: 40%;
+    }
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 1rem;
+    .label {
+      font-family: gotham-book;
+      font-size: 11pt;
+      font-weight: bold;
+    }
+    .chip {
+      width: 12% !important;
+      margin-left: 8px !important;
+      color: white;
+      background-color: #06b9ed;
+      font-family: gotham-black;
+      font-size: 10pt;
+    }
+    .find {
+      width: 1em important;
+    }
+    .item {
+      width: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      div {
+        width: 100%;
+      }
+      div > fieldset {
+        border-radius: 25px;
+      }
+      div > input {
+        border: 1px solid transparent;
+        border-radius: 26px;
+      }
+    }
+    .radioButton {
+      display: flex;
+      align-items: center;
+      flex-direction: row !important;
+      margin: 0.1rem 1rem 0.1rem;
+    }
+  }
+}
+
+.select {
+  &:focus {
+    background: none !important;
+  }
 }

@@ -52,7 +52,9 @@ class GradesSections extends React.Component {
   handleDeleteGrade = (event, id) => {
     const { dispatch, user } = this.props
     const { token } = user
+    this.setState(() => ({ isLoading: true }))
     dispatch(deleteGrade({ id, token })).then(({ payload }) => {
+      this.setState(() => ({ isLoading: false }))
       dispatch(loadGrades({ token }))
     })
   }
@@ -80,24 +82,6 @@ class GradesSections extends React.Component {
     }))
   }
 
-  handleRowClick = data => {
-    const { triggerDrawer } = this.props
-    const { grade_name, section, grade_section } = data
-    triggerDrawer({
-      title: 'Grade Content',
-      content: (
-        <Drawer data={{ grade: { grade_name, section, grade_section } }} />
-      ),
-    })
-  }
-
-  handleDeleteMutipleGrades = selectedArray => {
-    const { dispatch, user } = this.props
-    const { token } = user
-    map(id => dispatch(deleteGrade({ id, token })))(selectedArray)
-    dispatch(loadGrades({ token }))
-  }
-
   render() {
     const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { grades } = this.props
@@ -109,7 +93,6 @@ class GradesSections extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
-        onRowClick={this.handleRowClick}
         onDeleteGrade={this.handleDeleteGrade}
         onCreateGrade={this.handleCreateGrade}
         onUpdateGrade={this.handleUpdateGrade}

@@ -48,7 +48,9 @@ class ShiftsAndTimings extends React.Component {
   handleDeleteShift = (event, id) => {
     const { dispatch, user } = this.props
     const { token } = user
+    this.setState(() => ({ isLoading: true }))
     dispatch(deleteShift({ id, token })).then(({ payload }) => {
+      this.setState(() => ({ isLoading: false }))
       dispatch(loadShifts({ token }))
     })
   }
@@ -64,13 +66,6 @@ class ShiftsAndTimings extends React.Component {
       editDialog: true,
       editId: id,
     }))
-  }
-
-  handleDeleteMutipleShifts = selectedArray => {
-    const { dispatch, user } = this.props
-    const { token } = user
-    map(id => dispatch(deleteShift({ id, token })))(selectedArray)
-    dispatch(loadShifts({ token }))
   }
 
   handleClose = () => {

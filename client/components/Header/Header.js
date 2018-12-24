@@ -49,7 +49,7 @@ class Header extends React.Component {
             className={styles.profile}
             disableTouchRipple
           >
-            <Avatar alt="Remy Sharp" src="/images/profile.png" />
+            <Avatar alt="Remy Sharp" src="/images/man.png" />
           </ActionItem>
           <Menu
             id="menu-appbar"

@@ -26,8 +26,15 @@ class Profile extends React.Component {
 
   componentDidMount() {
     const { userDetails, initialize } = this.props
-    const { name = '', address = '', phone_no = '', email = '' } = userDetails
-    initialize({ name, address, phone_no, email })
+    const {
+      name = '',
+      address = '',
+      phone_no = '',
+      email = '',
+      lat = '',
+      lng = '',
+    } = userDetails
+    initialize({ name, address, phone_no, email, lat, lng })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,8 +50,15 @@ class Profile extends React.Component {
     }
     if (hasPropChanged('userDetails', this.props, nextProps)) {
       const { userDetails, initialize } = nextProps
-      const { name = '', address = '', phone_no = '', email = '' } = userDetails
-      initialize({ name, address, phone_no, email })
+      const {
+        name = '',
+        address = '',
+        phone_no = '',
+        email = '',
+        lat = '',
+        lng = '',
+      } = userDetails
+      initialize({ name, address, phone_no, email, lat, lng })
     }
   }
 
@@ -53,13 +67,23 @@ class Profile extends React.Component {
     dispatch(push('/dashboard'))
   }
 
+  handlePositionChange = value => {
+    const { dispatch, initialize, formValues } = this.props
+    const { address = '', position = {} } = value
+    const { lat = '', lng = '' } = position
+    dispatch(initialize({ ...formValues, lat, lng, address }))
+  }
+
   handleUpdate() {
     const { dispatch, user, formValues } = this.props
-    const { name, address, phone_no, email } = formValues
+    const { name, address, phone_no, email, lat, lng } = formValues
     const { id, token } = user
+
+    this.setState(() => ({ isLoading: true }))
     dispatch(
-      editUserDetails({ id, name, address, phone_no, email, token }),
+      editUserDetails({ id, name, address, phone_no, email, lat, lng, token }),
     ).then(({ payload }) => {
+      this.setState(() => ({ isLoading: false }))
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
         dispatch(push('/dashboard'))
@@ -69,8 +93,10 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { userDetails } = this.props
+    const { userDetails, formValues } = this.props
     const { disabled, isLoading } = this.state
+    const { lat = '', lng = '' } = formValues || {}
+
     return (
       <Choose>
         <When condition={!isLoading}>
@@ -78,6 +104,8 @@ class Profile extends React.Component {
             data={userDetails}
             disabled={disabled}
             isLoading={isLoading}
+            defaultPosition={{ lat, lng }}
+            handlePositionChange={this.handlePositionChange}
             handleUpdate={this.handleUpdate}
             handleCancel={this.handleCancel}
           />
@@ -112,6 +140,8 @@ export default connect(mapStateToProps)(
       phone_no: '',
       address: '',
       email: '',
+      lat: '',
+      lng: '',
     },
   })(Profile),
 )

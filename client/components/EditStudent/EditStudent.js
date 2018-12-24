@@ -22,7 +22,7 @@ import {
   loadSingleStudent,
   updateSTUDENT,
   showErrorMessage,
-  uploadImage
+  uploadImage,
 } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
@@ -88,6 +88,7 @@ class EditStudent extends React.Component {
 
   handleCancel = () => {
     const { onClose } = this.props
+    this.setState(() => ({ isLoading: true }))
     onClose()
   }
 

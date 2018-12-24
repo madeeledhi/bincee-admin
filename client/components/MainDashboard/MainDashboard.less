@@ -1,12 +1,17 @@
 .root {
-  background-color: #f6f6f6;
+  // background-color: #f6f6f6;
   background-size: cover;
   height: 100vh;
+  background-image: url(/images/main-bg.png);
+  // background-size: cover;
+  // background-color: #f6f6f6;
+  // background-blend-mode: hard-light;
 
   .container {
     width: 100%;
     display: flex;
     flex-direction: row;
+    background: transparent;
     .navigation {
       width: 15%;
       background: #fff;
@@ -18,5 +23,27 @@
       background: transparent;
       overflow: auto;
     }
+  }
+}
+
+.main {
+  justify-content: center;
+  .wrap {
+    background-image: url(/images/brush.png);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-size: contain;
+  }
+  .text {
+    text-align: center;
+    padding: 9em;
+    font-size: 11pt;
+    font-family: gotham-black;
+    margin-top: 1.5em;
+  }
+  .texter {
+    width: 16em;
+    margin: auto;
+    margin-top: 10px;
   }
 }

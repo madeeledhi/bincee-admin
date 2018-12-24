@@ -63,6 +63,7 @@ class EditShift extends React.Component {
 
   handleCancel = () => {
     const { onClose } = this.props
+    this.setState(() => ({ isLoading: true }))
     onClose()
   }
 

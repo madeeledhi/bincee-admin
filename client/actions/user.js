@@ -22,24 +22,20 @@ export const login = ({ username, password }) => ({
   payload: { username, password },
 })
 
-export const verify = ({ id, token }) => ({
-  [CALL_API]: {
-    types: [GET_PASSWORD, GET_PASSWORD_SUCCESS, GET_PASSWORD_FAILURE],
-    endpoint: `https://bincee-server.herokuapp.com/api/users/${id}`,
-    method: 'GET',
-    token,
-  },
-  payload: {},
-})
-
-export const editPassword = ({ id, password, token }) => ({
+export const editPassword = ({
+  id,
+  username,
+  password,
+  new_password,
+  token,
+}) => ({
   [CALL_API]: {
     types: [EDIT_PASSWORD, EDIT_PASSWORD_SUCCESS, EDIT_PASSWORD_FAILURE],
     endpoint: `https://bincee-server.herokuapp.com/api/users/${id}`,
     method: 'POST',
     token,
   },
-  payload: { password },
+  payload: { username, password, new_password },
 })
 
 export const loadUser = () => {

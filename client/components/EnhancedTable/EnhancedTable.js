@@ -7,6 +7,7 @@ import includes from 'lodash/fp/includes'
 //src
 import EnhancedTableInner from './EnhanceTableInner'
 import { hasPropChanged } from '../../utils'
+import LoadingView from '../LoadingView'
 
 let counter = 0
 function createData(name, calories, fat, carbs, protein) {
@@ -117,10 +118,8 @@ class EnhancedTable extends React.Component {
     const {
       handleDeleteRow,
       handleEditRow,
-      handleRowClick,
+      handleRowClick = () => true,
       handleCreateRow,
-      hasButtons,
-      handleDeleteMutipleRows,
       tableName,
     } = this.props
 

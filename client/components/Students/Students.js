@@ -3,13 +3,23 @@ import React from 'react'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
-import map from 'lodash/fp/map'
 
 // src
-import transformData from './transformers/transformData'
+import transformData, {
+  transformDrawerData,
+} from './transformers/transformData'
 import { hasPropChanged } from '../../utils'
-import { loadStudents, deleteStudent } from '../../actions'
+import {
+  loadStudents,
+  deleteStudent,
+  loadSingleDriver,
+  loadSingleParent,
+  loadSingleGrade,
+  loadSingleShift,
+} from '../../actions'
 import StudentsInner from './StudentsInner'
+import InfoDrawer from '../InfoDrawer'
+import Drawer from '../Drawer'
 
 class Students extends React.Component {
   state = {
@@ -48,7 +58,9 @@ class Students extends React.Component {
   handleDeleteStudent = (event, id) => {
     const { dispatch, user } = this.props
     const { token } = user
+    this.setState(() => ({ isLoading: true }))
     dispatch(deleteStudent({ id, token })).then(({ payload }) => {
+      this.setState(() => ({ isLoading: false }))
       dispatch(loadStudents({ token }))
     })
   }
@@ -76,11 +88,75 @@ class Students extends React.Component {
     }))
   }
 
-  handleDeleteMutipleStudents = selectedArray => {
-    const { dispatch, user } = this.props
+  handleRowClick = data => {
+    const { triggerDrawer, dispatch, user, onDrawerClose } = this.props
+    const {
+      driver_id,
+      parent_id,
+      grade,
+      shift,
+      id,
+      fullname,
+      photo,
+      status,
+    } = data
     const { token } = user
-    map(id => dispatch(deleteStudent({ id, token })))(selectedArray)
-    dispatch(loadStudents({ token }))
+    onDrawerClose()
+
+    this.setState(() => ({ isLoading: true }))
+    dispatch(
+      loadSingleDriver({
+        id: driver_id,
+        token,
+      }),
+    ).then(({ payload: driverPayload }) => {
+      const { data: driverData } = driverPayload
+      if (driverPayload.status === 200) {
+        dispatch(
+          loadSingleParent({
+            id: parent_id,
+            token,
+          }),
+        ).then(({ payload: parentPayload }) => {
+          const { data: parentData } = parentPayload
+
+          if (parentPayload.status === 200) {
+            dispatch(loadSingleGrade({ id: grade, token })).then(
+              ({ payload: gradePayload }) => {
+                const { data: gradeData } = gradePayload
+                if (gradePayload.status === 200) {
+                  dispatch(loadSingleShift({ id: shift, token })).then(
+                    ({ payload: shiftPayload }) => {
+                      const { data: shiftData } = shiftPayload
+                      if (shiftPayload.status === 200) {
+                        const dataToShow = transformDrawerData({
+                          student: {
+                            id,
+                            fullname,
+                            status,
+                            photo,
+                          },
+                          driver: driverData,
+                          parent: parentData,
+                          grade: gradeData,
+                          shift: shiftData,
+                        })
+
+                        this.setState(() => ({ isLoading: false }))
+                        triggerDrawer({
+                          title: 'Student Content',
+                          content: <Drawer data={dataToShow} />,
+                        })
+                      }
+                    },
+                  )
+                }
+              },
+            )
+          }
+        })
+      }
+    })
   }
 
   render() {
@@ -97,6 +173,7 @@ class Students extends React.Component {
         onDeleteStudent={this.handleDeleteStudent}
         onCreateStudent={this.handleCreateStudent}
         onUpdateStudent={this.handleUpdateStudent}
+        onRowClick={this.handleRowClick}
         createDialog={createDialog}
         editDialog={editDialog}
         editId={editId}
@@ -114,4 +191,6 @@ const mapStateToProps = state => {
   const transformedStudents = transformData(studentsList)
   return { students: transformedStudents, user, error }
 }
-export default connect(mapStateToProps)(Students)
+
+const drawerSettings = { style: {} }
+export default InfoDrawer(drawerSettings)(connect(mapStateToProps)(Students))

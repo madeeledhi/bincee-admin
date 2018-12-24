@@ -3,6 +3,7 @@ import { CALL_API } from '../middleware/api'
 
 export * from './app'
 export * from './user'
+export * from './users'
 export * from './userDetails'
 export * from './grades'
 export * from './drivers'

@@ -3,7 +3,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
-import map from 'lodash/fp/map'
 
 // src
 import transformData, {
@@ -52,7 +51,9 @@ class Busses extends React.Component {
   handleDeleteBus = (event, id) => {
     const { dispatch, user } = this.props
     const { token } = user
+    this.setState(() => ({ isLoading: true }))
     dispatch(deleteBus({ id, token })).then(({ payload }) => {
+      this.setState(() => ({ isLoading: false }))
       dispatch(loadAllBus({ token }))
     })
   }
@@ -70,18 +71,15 @@ class Busses extends React.Component {
     }))
   }
 
-  handleDeleteMutipleBusses = selectedArray => {
-    const { dispatch, user } = this.props
-    const { token } = user
-    map(id => dispatch(deleteBus({ id, token })))(selectedArray)
-    dispatch(loadAllBus({ token }))
-  }
-
   handleRowClick = data => {
     const { triggerDrawer, dispatch, user, onDrawerClose } = this.props
     const { driver_id } = data
     const { token } = user
     onDrawerClose()
+
+    this.setState(() => ({
+      isLoading: true,
+    }))
     dispatch(loadSingleDriver({ id: driver_id, token })).then(({ payload }) => {
       const { status, data: payloadData } = payload
       if (status === 200) {
@@ -89,6 +87,9 @@ class Busses extends React.Component {
           bus: data,
           driver: payloadData,
         })
+        this.setState(() => ({
+          isLoading: false,
+        }))
         triggerDrawer({
           title: 'Bus Content',
           content: <Drawer data={dataToShow} />,

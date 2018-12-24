@@ -13,7 +13,6 @@ function getColumns(parents) {
     keys,
     filter(
       key =>
-        key !== 'parent_id' &&
         key !== 'school_id' &&
         key !== 'photo' &&
         key !== 'lat' &&
@@ -21,13 +20,15 @@ function getColumns(parents) {
     ),
     reduce((final, key) => {
       const current = first[key]
+
+      const currentKey = key === 'parent_id' ? 'id' : key
       return [
         ...final,
         {
-          id: key,
+          id: currentKey,
           numeric: false,
           disablePadding: false,
-          label: startCase(key),
+          label: startCase(currentKey),
         },
       ]
     }, []),

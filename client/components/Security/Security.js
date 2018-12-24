@@ -7,7 +7,7 @@ import { getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import size from 'lodash/fp/size'
 //src
 import SecurityInner from './SecurityInner'
-import { editPassword, verify } from '../../actions'
+import { editPassword } from '../../actions'
 import { validate } from './util'
 import { hasPropChanged } from '../../utils'
 import { showErrorMessage } from '../../actions'
@@ -44,41 +44,31 @@ class Security extends React.Component {
   handleUpdate() {
     const { dispatch, user, formValues, initialize } = this.props
     const { new_password, current_password } = formValues
-    const { id, token } = user
-    dispatch(verify({ id, token })).then(({ payload }) => {
-      const { status, data } = payload
-      if (status === 200) {
-        const { password } = data
-        if (password === current_password) {
-          dispatch(editPassword({ id, password: new_password, token })).then(
-            ({ payload: editPayload }) => {
-              const { status: requestStatus } = editPayload
-              if (requestStatus === 200) {
-                dispatch(push('/dashboard/parents'))
-                dispatch(
-                  showErrorMessage('Password Updated successfully', 'success'),
-                )
-              } else {
-                dispatch(showErrorMessage('Password Change Failed', 'error'))
+    const { id, username, token } = user
 
-                initialize({
-                  current_password: '',
-                  new_password: '',
-                  re_enter_password: '',
-                })
-              }
-            },
-          )
-        } else {
-          dispatch(
-            showErrorMessage('Current Password Provided is Incorrect', 'error'),
-          )
-          initialize({
-            current_password: '',
-            new_password: '',
-            re_enter_password: '',
-          })
-        }
+    this.setState(() => ({ isLoading: true }))
+    dispatch(
+      editPassword({
+        id,
+        username,
+        password: current_password,
+        new_password,
+        token,
+      }),
+    ).then(({ payload: editPayload }) => {
+      const { status: requestStatus } = editPayload
+      this.setState(() => ({ isLoading: false }))
+      if (requestStatus === 200) {
+        dispatch(push('/dashboard/parents'))
+        dispatch(showErrorMessage('Password Updated successfully', 'success'))
+      } else {
+        dispatch(showErrorMessage('Password Change Failed', 'error'))
+
+        initialize({
+          current_password: '',
+          new_password: '',
+          re_enter_password: '',
+        })
       }
     })
   }

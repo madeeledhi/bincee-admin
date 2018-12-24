@@ -61,6 +61,8 @@ export const editUserDetails = ({
   phone_no,
   address,
   email,
+  lat,
+  lng,
   token,
 }) => {
   return {
@@ -74,6 +76,6 @@ export const editUserDetails = ({
       method: 'POST',
       token,
     },
-    payload: { name, phone_no, address, email },
+    payload: { name, phone_no, address, email, lat, lng },
   }
 }

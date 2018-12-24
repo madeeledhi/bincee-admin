@@ -15,6 +15,7 @@ const DriversInner = ({
   onDeleteDriver,
   onCreateDriver,
   onUpdateDriver,
+  onRowClick,
   createDialog,
   editDialog,
   editId,
@@ -28,6 +29,7 @@ const DriversInner = ({
           rows={rows}
           data={data}
           error={error}
+          handleRowClick={onRowClick}
           handleDeleteRow={onDeleteDriver}
           handleCreateRow={onCreateDriver}
           handleEditRow={onUpdateDriver}
