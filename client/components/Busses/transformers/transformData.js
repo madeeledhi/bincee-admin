@@ -11,7 +11,7 @@ function getColumns(busses) {
   const [first] = busses
   return flow(
     keys,
-    filter(key => key !== 'id'),
+    filter(key => key !== 'id' && key !== 'driver_id'),
     reduce((final, key) => {
       const current = first[key]
       return [

@@ -10,7 +10,15 @@ function getColumns(students) {
   const [first] = students
   return flow(
     keys,
-    filter(key => key !== 'school_id' && key !== 'photo'),
+    filter(
+      key =>
+        key !== 'school_id' &&
+        key !== 'photo' &&
+        key !== 'driver_id' &&
+        key !== 'parent_id' &&
+        key !== 'grade' &&
+        key !== 'shift',
+    ),
     reduce((final, key) => {
       const current = first[key]
       return [

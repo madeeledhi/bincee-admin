@@ -109,29 +109,30 @@ class MainDashboard extends Component {
           onRouteChange={this.handleRouteChange}
           activePath={activePath}
         />
-
-        <Dialog open={disabled} disableBackdropClick disableEscapeKeyDown>
-          <DialogTitle id="simple-dialog-title">
-            {'Set Default Location'}
-          </DialogTitle>
-          <DialogContent>
-            <div className={styles.main}>
-              <div className={styles.wrap}>
-                <div className={styles.text}>
-                  <img src={'/images/blank.png'} />
-                  <div className={styles.texter}>
-                    {'Set Default Location of School To Get Started'}
+        {disabled && size(userDetails) > 0 && (
+          <Dialog open disableBackdropClick disableEscapeKeyDown>
+            <DialogTitle id="simple-dialog-title">
+              {'Set Default Location'}
+            </DialogTitle>
+            <DialogContent>
+              <div className={styles.main}>
+                <div className={styles.wrap}>
+                  <div className={styles.text}>
+                    <img src={'/images/blank.png'} />
+                    <div className={styles.texter}>
+                      {'Set Default Location of School To Get Started'}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <Button
-              onClick={() => this.handleRouteChange('/dashboard/profile')}
-              label="Edit Profile"
-              style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
-            />
-          </DialogContent>
-        </Dialog>
+              <Button
+                onClick={() => this.handleRouteChange('/dashboard/profile')}
+                label="Edit Profile"
+                style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+              />
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
     )
   }
