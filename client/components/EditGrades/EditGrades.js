@@ -42,7 +42,8 @@ class EditGrades extends React.Component {
   updateGrade = () => {
     const { dispatch, formValues, user, id, onClose } = this.props
     const { token } = user
-    const { grade_name, section, grade_section } = formValues
+    const { grade_name, section } = formValues
+    const grade_section = `${grade_name} ${section}`
     this.setState(() => ({ isLoading: true }))
     dispatch(editGrade({ id, grade_name, section, grade_section, token })).then(
       ({ payload }) => {
@@ -67,8 +68,8 @@ class EditGrades extends React.Component {
     dispatch(loadSingleGrade({ id, token })).then(({ payload }) => {
       this.setState(() => ({ isLoading: false }))
       const { data } = payload
-      const { grade_name, section, grade_section } = data
-      const config = { grade_name, section, grade_section }
+      const { grade_name, section } = data
+      const config = { grade_name, section }
       initialize(config)
     })
   }
@@ -118,18 +119,6 @@ class EditGrades extends React.Component {
                 </div>
 
                 <div className={styles.row}>
-                  <Field
-                    id="gradeSection"
-                    name="grade_section"
-                    component={renderTextField}
-                    label="gradeSection"
-                    disabled={false}
-                    variant="outlined"
-                    className={styles.item}
-                  />
-                </div>
-
-                <div className={styles.row}>
                   <div className={styles.item}>
                     <Button
                       disabled={disabled}
@@ -160,6 +149,7 @@ class EditGrades extends React.Component {
 }
 const mapStateToProps = state => {
   const user = getOr({}, 'user')(state)
+
   return {
     formValues: getFormValues('editgrade')(state),
     validationErrors: getFormSyncErrors('editgrade')(state),
@@ -173,7 +163,6 @@ export default connect(mapStateToProps)(
     initialValues: {
       grade_name: '',
       section: '',
-      grade_section: '',
     },
   })(EditGrades),
 )

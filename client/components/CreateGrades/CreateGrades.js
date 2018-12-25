@@ -39,7 +39,9 @@ class CreateGrades extends React.Component {
   createGrade = () => {
     const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
-    const { grade_name, section, grade_section } = formValues
+    const { grade_name, section } = formValues
+
+    const grade_section = `${grade_name} ${section}`
     this.setState(() => ({ isLoading: true }))
     dispatch(createGrade({ grade_name, section, grade_section, token })).then(
       ({ payload }) => {
@@ -110,29 +112,23 @@ class CreateGrades extends React.Component {
                 </div>
 
                 <div className={styles.row}>
-                  <Field
-                    id="gradeSection"
-                    name="grade_section"
-                    component={renderTextField}
-                    label="gradeSection"
-                    disabled={false}
-                    variant="outlined"
-                    className={styles.item}
-                  />
-                </div>
-
-                <div className={styles.row}>
                   <div className={styles.item}>
                     <Button
                       disabled={disabled}
                       onClick={this.createGrade}
                       label="Create"
-                      style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                      style={{
+                        backgroundColor: '#0adfbd',
+                        borderColor: '#0adfbd',
+                      }}
                     />
                     <Button
                       onClick={this.handleCancel}
                       label="Cancel"
-                      style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                      style={{
+                        backgroundColor: '#ff4747',
+                        borderColor: '#ff4747',
+                      }}
                     />
                   </div>
                 </div>
@@ -159,7 +155,6 @@ export default connect(mapStateToProps)(
     initialValues: {
       grade_name: '',
       section: '',
-      grade_section: '',
     },
   })(CreateGrades),
 )

@@ -7,6 +7,8 @@ import uniqueId from 'lodash/fp/uniqueId'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
 import size from 'lodash/fp/size'
+import snakeCase from 'lodash/snakeCase'
+import trim from 'lodash/trim'
 import FormData from 'form-data'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -50,8 +52,9 @@ class CreateDriver extends React.Component {
   createDriver = () => {
     const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
-    const username = uniqueId(formValues.fullname)
-    const { password, fullname, phone_no, status, photo } = formValues
+    const username = uniqueId(`${snakeCase(formValues.fullname)}d`)
+    const password = uniqueId('ChangeMe@')
+    const { fullname, phone_no, status, photo } = formValues
     this.setState(() => ({ isLoading: true }))
     dispatch(
       createDriver({
@@ -79,7 +82,6 @@ class CreateDriver extends React.Component {
   onEnter = () => {
     const { initialize } = this.props
     const config = {
-      password: '',
       fullname: '',
       phone_no: '',
       status: '',
@@ -176,18 +178,7 @@ class CreateDriver extends React.Component {
                     className={styles.item}
                   />
                 </div>
-                <div className={styles.row}>
-                  <Field
-                    id="password"
-                    name="password"
-                    component={renderTextField}
-                    label="Password"
-                    disabled={false}
-                    variant="outlined"
-                    type="password"
-                    className={styles.item}
-                  />
-                </div>
+
                 <div className={styles.row}>
                   <Field
                     id="phone_no"
@@ -205,12 +196,18 @@ class CreateDriver extends React.Component {
                       disabled={disabled}
                       onClick={this.createDriver}
                       label="Create"
-                      style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                      style={{
+                        backgroundColor: '#0adfbd',
+                        borderColor: '#0adfbd',
+                      }}
                     />
                     <Button
                       onClick={this.handleCancel}
                       label="Cancel"
-                      style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                      style={{
+                        backgroundColor: '#ff4747',
+                        borderColor: '#ff4747',
+                      }}
                     />
                   </div>
                 </div>
@@ -235,7 +232,6 @@ export default connect(mapStateToProps)(
     form: 'createDriver',
     validate,
     initialValues: {
-      password: '',
       fullname: '',
       phone_no: '',
       status: 'Active',

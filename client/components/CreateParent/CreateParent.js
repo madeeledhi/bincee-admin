@@ -11,6 +11,7 @@ import FormData from 'form-data'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
+import snakeCase from 'lodash/snakeCase'
 
 // src
 import {
@@ -49,16 +50,9 @@ class CreateParent extends React.Component {
     const { token } = user
     const lat = 33.99
     const lng = 70.89
-    const username = uniqueId(formValues.fullname)
-    const {
-      password,
-      fullname,
-      address,
-      phone_no,
-      email,
-      status,
-      photo,
-    } = formValues
+    const username = uniqueId(`${snakeCase(formValues.fullname)}p`)
+    const password = uniqueId('ChangeMe@')
+    const { fullname, address, phone_no, email, status, photo } = formValues
     this.setState(() => ({ isLoading: true }))
 
     dispatch(
@@ -176,11 +170,10 @@ class CreateParent extends React.Component {
                   </div>
                   <div className={styles.row}>
                     <Field
-                      id="password"
-                      name="password"
+                      id="address"
+                      name="address"
                       component={renderTextField}
-                      label="Password"
-                      type="password"
+                      label="Address"
                       disabled={false}
                       variant="outlined"
                       className={styles.item}
@@ -199,30 +192,7 @@ class CreateParent extends React.Component {
                       className={styles.item}
                     />
                   </div>
-                  <div className={styles.row}>
-                    <Field
-                      id="address"
-                      name="address"
-                      component={renderTextField}
-                      label="Address"
-                      disabled={false}
-                      variant="outlined"
-                      className={styles.item}
-                    />
-                  </div>
-                </div>
-                <div className={styles.sameRow}>
-                  <div className={styles.row}>
-                    <Field
-                      id="phone_no"
-                      name="phone_no"
-                      component={renderTextField}
-                      label="Phone no"
-                      disabled={false}
-                      variant="outlined"
-                      className={styles.item}
-                    />
-                  </div>
+
                   <div className={styles.row}>
                     <Field
                       className={styles.radioButton}
@@ -241,6 +211,19 @@ class CreateParent extends React.Component {
                         label="Inactive"
                       />
                     </Field>
+                  </div>
+                </div>
+                <div className={styles.sameRow}>
+                  <div className={styles.row}>
+                    <Field
+                      id="phone_no"
+                      name="phone_no"
+                      component={renderTextField}
+                      label="Phone no"
+                      disabled={false}
+                      variant="outlined"
+                      className={styles.item}
+                    />
                   </div>
                 </div>
                 {/* <div className={styles.sameRow}>
@@ -302,7 +285,6 @@ export default connect(mapStateToProps)(
     form: 'createParent',
     validate,
     initialValues: {
-      password: '',
       fullname: '',
       address: '',
       phone_no: '',
