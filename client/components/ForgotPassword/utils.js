@@ -11,7 +11,7 @@ export const validate = values => {
   const errors = {}
   const { phone_no, email, selectedOption } = values
 
-  if (!emailRegex.test(email && selectedOption === 'email')) {
+  if (!emailRegex.test(email) && selectedOption === 'email') {
     errors.email = 'Invalid Email'
   }
   if (!phoneRegex.test(phone_no) && selectedOption === 'phone') {
