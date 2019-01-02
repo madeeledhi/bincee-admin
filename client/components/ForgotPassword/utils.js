@@ -9,19 +9,23 @@ const phoneRegex = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-|
 
 export const validate = values => {
   const errors = {}
-  const { phone_no, email, selectedOption } = values
+  const { phone_no, email, selected_option, username } = values
 
-  if (!emailRegex.test(email) && selectedOption === 'email') {
+  if (!emailRegex.test(email) && selected_option === 'email') {
     errors.email = 'Invalid Email'
   }
-  if (!phoneRegex.test(phone_no) && selectedOption === 'phone') {
+  if (!phoneRegex.test(phone_no) && selected_option === 'phone') {
     errors.phone_no = 'Invalid Phone Number (i.e +XXX..., XXX...)'
   }
-  if (!trim(email) && selectedOption === 'email') {
+  if (!trim(email) && selected_option === 'email') {
     errors.email = 'Required'
   }
 
-  if (!trim(phone_no) && selectedOption === 'phone') {
+  if (!trim(username)) {
+    errors.username = 'Required'
+  }
+
+  if (!trim(phone_no) && selected_option === 'phone') {
     errors.phone_no = 'Required'
   }
 

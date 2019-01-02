@@ -10,6 +10,9 @@ export const GET_PASSWORD_FAILURE = 'GET_PASSWORD_FAILURE'
 export const EDIT_PASSWORD = 'EDIT_PASSWORD'
 export const EDIT_PASSWORD_SUCCESS = 'EDIT_PASSWORD_SUCCESS'
 export const EDIT_PASSWORD_FAILURE = 'EDIT_PASSWORD_FAILURE'
+export const RESET_PASSWORD = 'RESET_PASSWORD'
+export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS'
+export const RESET_PASSWORD_FAILURE = 'RESET_PASSWORD_FAILURE'
 export const USER_LOGOUT = 'USER_LOGOUT'
 export const LOAD_USER = 'LOAD_USER'
 
@@ -20,6 +23,21 @@ export const login = ({ username, password }) => ({
     method: 'POST',
   },
   payload: { username, password },
+})
+
+export const resetPassword = ({
+  username,
+  selected_option,
+  email,
+  phone_no,
+  type,
+}) => ({
+  [CALL_API]: {
+    types: [RESET_PASSWORD, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE],
+    endpoint: 'https://bincee-server.herokuapp.com/api/users/passwordreset',
+    method: 'POST',
+  },
+  payload: { username, selected_option, email, phone_no, type },
 })
 
 export const editPassword = ({

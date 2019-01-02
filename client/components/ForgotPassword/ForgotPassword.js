@@ -2,12 +2,11 @@
 import React from 'react'
 import { getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 
 // src
 import { hasPropChanged } from '../../utils'
-import LoadingView from '../LoadingView'
+import { resetPassword } from '../../actions'
 import { validate } from './utils'
 import ForgotPasswordInner from './ForgotPasswordInner'
 
@@ -17,7 +16,9 @@ class ForgotPassword extends React.Component {
     this.state = {
       disabled: false,
       isLoading: true,
-      selectedOption: 'email',
+      selected_option: 'email',
+      success: false,
+      message: '',
     }
   }
 
@@ -26,26 +27,52 @@ class ForgotPassword extends React.Component {
       hasPropChanged(['formValues', 'validationErrors'], this.props, nextProps)
     ) {
       const { validationErrors, formValues } = nextProps
-      const { selectedOption } = formValues
+      const { selected_option } = formValues
       if (size(validationErrors) > 0) {
-        this.setState(() => ({
-          disabled: true,
-          selectedOption: selectedOption,
-        }))
+        this.setState(() => ({ disabled: true, selected_option }))
       } else {
-        this.setState(() => ({
-          disabled: false,
-          selectedOption: selectedOption,
-        }))
+        this.setState(() => ({ disabled: false, selected_option }))
       }
     }
   }
 
-  sendLoginDetails = () => {}
+  sendLoginDetails = () => {
+    const { formValues, dispatch } = this.props
+    const { username, selected_option, email, phone_no, type } = formValues
+    this.setState(() => ({ isLoading: true }))
+    dispatch(
+      resetPassword({
+        username,
+        selected_option,
+        email,
+        phone_no,
+        type,
+      }),
+    ).then(({ payload }) => {
+      console.log('payload: ', payload)
+      const { status, data } = payload
+      const { message = 'Something Bad happened' } = data || {}
+      if (status === 200) {
+        this.setState(() => ({ isLoading: false, message, success: true }))
+      } else {
+        this.setState(() => ({
+          isLoading: false,
+          message,
+          success: false,
+        }))
+      }
+    })
+  }
 
   onEnter = () => {
     const { initialize } = this.props
-    const config = { selectedOption: 'email', email: '', phone_no: '' }
+    const config = {
+      selected_option: 'email',
+      email: '',
+      phone_no: '',
+      username: '',
+      type: 'School',
+    }
     this.setState(() => ({ isLoading: false }))
     initialize(config)
   }
@@ -55,14 +82,21 @@ class ForgotPassword extends React.Component {
       selectedOption: value,
     }))
   }
+
   handleCancel = () => {
-    this.setState(() => ({ isLoading: true }))
+    this.setState(() => ({ isLoading: true, message: '', success: false }))
     const { onClose } = this.props
     onClose()
   }
 
   render() {
-    const { disabled, isLoading, selectedOption } = this.state
+    const {
+      disabled,
+      isLoading,
+      message,
+      success,
+      selected_option,
+    } = this.state
     const { classes, onClose, ...other } = this.props
     return (
       <ForgotPasswordInner
@@ -71,7 +105,10 @@ class ForgotPassword extends React.Component {
         onEnter={this.onEnter}
         sendLoginDetails={this.sendLoginDetails}
         disabled={disabled}
-        selectedOption={selectedOption}
+        isLoading={isLoading}
+        message={message}
+        success={success}
+        selected_option={selected_option}
         onCancel={this.handleCancel}
         {...other}
       />
@@ -79,7 +116,6 @@ class ForgotPassword extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps)
   return {
     formValues: getFormValues('forgotPassword')(state),
     validationErrors: getFormSyncErrors('forgotPassword')(state),
@@ -90,9 +126,11 @@ export default connect(mapStateToProps)(
     form: 'forgotPassword',
     validate,
     initialValues: {
-      selectedOption: 'email',
+      selected_option: 'email',
+      username: '',
       email: '',
       phone_no: '',
+      type: 'School',
     },
   })(ForgotPassword),
 )
