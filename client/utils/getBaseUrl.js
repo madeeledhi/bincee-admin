@@ -1,4 +1,4 @@
 export const getBaseUrl = () => {
-  const apiBaseUrl = process.env.API_BASE_URL
+  const apiBaseUrl = 'http://access.bincee.com'
   return apiBaseUrl
 }
