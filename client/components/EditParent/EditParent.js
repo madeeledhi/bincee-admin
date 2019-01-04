@@ -168,30 +168,6 @@ class EditParent extends React.Component {
                   </div>
                   <div className={styles.row}>
                     <Field
-                      id="password"
-                      name="password"
-                      component={renderTextField}
-                      label="Password"
-                      disabled
-                      variant="outlined"
-                      className={styles.item}
-                    />
-                  </div>
-                </div>
-                <div className={styles.sameRow}>
-                  <div className={styles.row}>
-                    <Field
-                      id="email"
-                      name="email"
-                      component={renderTextField}
-                      label="Email"
-                      disabled={false}
-                      variant="outlined"
-                      className={styles.item}
-                    />
-                  </div>
-                  <div className={styles.row}>
-                    <Field
                       id="address"
                       name="address"
                       component={renderTextField}
@@ -205,10 +181,10 @@ class EditParent extends React.Component {
                 <div className={styles.sameRow}>
                   <div className={styles.row}>
                     <Field
-                      id="phone_no"
-                      name="phone_no"
+                      id="email"
+                      name="email"
                       component={renderTextField}
-                      label="Phone no"
+                      label="Email"
                       disabled={false}
                       variant="outlined"
                       className={styles.item}
@@ -232,6 +208,19 @@ class EditParent extends React.Component {
                         label="Inactive"
                       />
                     </Field>
+                  </div>
+                </div>
+                <div className={styles.sameRow}>
+                  <div className={styles.row}>
+                    <Field
+                      id="phone_no"
+                      name="phone_no"
+                      component={renderTextField}
+                      label="Phone no"
+                      disabled={false}
+                      variant="outlined"
+                      className={styles.item}
+                    />
                   </div>
                 </div>
                 {/* <div className={styles.sameRow}>

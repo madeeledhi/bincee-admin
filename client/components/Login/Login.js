@@ -14,6 +14,7 @@ import styles from './Login.less'
 import { login, loadUser, logOut } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import { isEmptyOrNil } from '../../utils/formValidation'
+import ForgotPassword from '../ForgotPassword'
 
 class Login extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class Login extends React.Component {
       user: { username: '', type: '' },
       error: false,
       disabled: false,
+      forgotPasswordDialog: false,
     }
   }
 
@@ -79,13 +81,25 @@ class Login extends React.Component {
       this.handleClick()
     }
   }
+  handleForgotPassword = () => {
+    this.setState(() => ({ forgotPasswordDialog: true }))
+  }
+  handleDialogClose = () => {
+    this.setState(() => ({
+      forgotPasswordDialog: false,
+    }))
+  }
 
   render() {
-    const { isLoading, error, disabled } = this.state
+    const { isLoading, error, disabled, forgotPasswordDialog } = this.state
 
     console.log('{error}, {disabled}:', error, disabled)
     return (
       <div>
+        <ForgotPassword
+          open={forgotPasswordDialog}
+          onClose={this.handleDialogClose}
+        />
         <div className={styles.mainLogo} />
         <div className={styles.header}>
           <div className={styles.card}>
@@ -117,7 +131,12 @@ class Login extends React.Component {
                 onKeyPress={e => this.enterPressed(e)}
               />
               <div className={styles.room}>
-                <span className={styles.forgetPass}>Forget Password?</span>
+                <span
+                  className={styles.forgetPass}
+                  onClick={this.handleForgotPassword}
+                >
+                  Forget Password?
+                </span>
               </div>
               {isLoading && (
                 <div className={styles.center}>

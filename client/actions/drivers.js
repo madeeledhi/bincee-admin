@@ -1,5 +1,6 @@
 // src
 import { CALL_API } from '../middleware/api'
+import { getBaseUrl } from '../utils'
 
 export const CREATE_DRIVER = 'CREATE_DRIVER'
 export const CREATE_DRIVER_SUCCESS = 'CREATE_DRIVER_SUCCESS'
@@ -19,6 +20,7 @@ export const LOAD_DRIVERS_FAILURE = 'LOAD_DRIVERS_FAILURE'
 export const LOAD_SINGLE_DRIVER = 'LOAD_SINGLE_DRIVER'
 export const LOAD_SINGLE_DRIVER_SUCCESS = 'LOAD_SINGLE_DRIVER_SUCCESS'
 export const LOAD_SINGLE_DRIVER_FAILURE = 'LOAD_SINGLE_DRIVER_FAILURE'
+const baseUrl = getBaseUrl()
 
 export const createDriver = ({
   username,
@@ -31,7 +33,7 @@ export const createDriver = ({
 }) => ({
   [CALL_API]: {
     types: [CREATE_DRIVER, CREATE_DRIVER_SUCCESS, CREATE_DRIVER_FAILURE],
-    endpoint: 'https://bincee-server.herokuapp.com/api/school/driver/create',
+    endpoint: `${baseUrl}/school/driver/create`,
     method: 'POST',
     token,
   },
@@ -48,7 +50,7 @@ export const updateDriver = ({
 }) => ({
   [CALL_API]: {
     types: [EDIT_DRIVER, EDIT_DRIVER_SUCCESS, EDIT_DRIVER_FAILURE],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/driver/${id}`,
+    endpoint: `${baseUrl}/school/driver/${id}`,
     method: 'POST',
     token,
   },
@@ -62,7 +64,7 @@ export const updateDriverCredentials = ({ id, username, password, token }) => ({
       EDIT_DRIVER_CREDENTIALS_SUCCESS,
       EDIT_DRIVER_CREDENTIALS_FAILURE,
     ],
-    endpoint: `https://bincee-server.herokuapp.com/api/users/${id}`,
+    endpoint: `${baseUrl}/users/${id}`,
     method: 'POST',
     token,
   },
@@ -76,7 +78,7 @@ export const loadSingleDriver = ({ id, token }) => ({
       LOAD_SINGLE_DRIVER_SUCCESS,
       LOAD_SINGLE_DRIVER_FAILURE,
     ],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/driver/${id}`,
+    endpoint: `${baseUrl}/school/driver/${id}`,
     method: 'GET',
     token,
   },
@@ -86,7 +88,7 @@ export const loadSingleDriver = ({ id, token }) => ({
 export const deleteDriver = ({ id, token }) => ({
   [CALL_API]: {
     types: [DELETE_DRIVER, DELETE_DRIVER_SUCCESS, DELETE_DRIVER_FAILURE],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/driver/${id}`,
+    endpoint: `${baseUrl}/school/driver/${id}`,
     method: 'DELETE',
     token,
   },
@@ -96,7 +98,7 @@ export const deleteDriver = ({ id, token }) => ({
 export const loadDrivers = ({ token }) => ({
   [CALL_API]: {
     types: [LOAD_DRIVERS, LOAD_DRIVERS_SUCCESS, LOAD_DRIVERS_FAILURE],
-    endpoint: 'https://bincee-server.herokuapp.com/api/school/driver/list',
+    endpoint: `${baseUrl}/school/driver/list`,
     method: 'GET',
     token,
   },

@@ -8,9 +8,6 @@ export const validate = values => {
   if (!trim(fullname)) {
     errors.fullname = 'Required'
   }
-  if (!trim(password)) {
-    errors.password = 'Required'
-  }
   if (!trim(phone_no)) {
     errors.phone_no = 'Required'
   }

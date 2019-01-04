@@ -1,5 +1,6 @@
 // src
 import { CALL_API } from '../middleware/api'
+import { getBaseUrl } from '../utils'
 
 export const CREATE_STUDENT = 'CREATE_STUDENT'
 export const CREATE_STUDENT_SUCCESS = 'CREATE_STUDENT_SUCCESS'
@@ -19,6 +20,7 @@ export const LOAD_SINGLE_STUDENT_FAILURE = 'LOAD_SINGLE_STUDENT_FAILURE'
 export const LOAD_PARENT_STUDENTS = 'LOAD_PARENT_STUDENTS'
 export const LOAD_PARENT_STUDENTS_SUCCESS = 'LOAD_PARENT_STUDENTS_SUCCESS'
 export const LOAD_PARENT_STUDENTS_FAILURE = 'LOAD_PARENT_STUDENTS_FAILURE'
+const baseUrl = getBaseUrl()
 
 export const createStudent = ({
   fullname,
@@ -32,7 +34,7 @@ export const createStudent = ({
 }) => ({
   [CALL_API]: {
     types: [CREATE_STUDENT, CREATE_STUDENT_SUCCESS, CREATE_STUDENT_FAILURE],
-    endpoint: 'https://bincee-server.herokuapp.com/api/school/student/create',
+    endpoint: `${baseUrl}/school/student/create`,
     method: 'POST',
     token,
   },
@@ -52,7 +54,7 @@ export const updateSTUDENT = ({
 }) => ({
   [CALL_API]: {
     types: [EDIT_STUDENT, EDIT_STUDENT_SUCCESS, EDIT_STUDENT_FAILURE],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/student/${id}`,
+    endpoint: `${baseUrl}/school/student/${id}`,
     method: 'POST',
     token,
   },
@@ -66,7 +68,7 @@ export const loadSingleStudent = ({ id, token }) => ({
       LOAD_SINGLE_STUDENT_SUCCESS,
       LOAD_SINGLE_STUDENT_FAILURE,
     ],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/student/${id}`,
+    endpoint: `${baseUrl}/school/student/${id}`,
     method: 'GET',
     token,
   },
@@ -76,7 +78,7 @@ export const loadSingleStudent = ({ id, token }) => ({
 export const deleteStudent = ({ id, token }) => ({
   [CALL_API]: {
     types: [DELETE_STUDENT, DELETE_STUDENT_SUCCESS, DELETE_STUDENT_FAILURE],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/student/${id}`,
+    endpoint: `${baseUrl}/school/student/${id}`,
     method: 'DELETE',
     token,
   },
@@ -86,7 +88,7 @@ export const deleteStudent = ({ id, token }) => ({
 export const loadStudents = ({ token }) => ({
   [CALL_API]: {
     types: [LOAD_STUDENTS, LOAD_STUDENTS_SUCCESS, LOAD_STUDENTS_FAILURE],
-    endpoint: 'https://bincee-server.herokuapp.com/api/school/student/list',
+    endpoint: `${baseUrl}/school/student/list`,
     method: 'GET',
     token,
   },
@@ -100,7 +102,7 @@ export const loadParentStudents = ({ id, token }) => ({
       LOAD_PARENT_STUDENTS_SUCCESS,
       LOAD_PARENT_STUDENTS_FAILURE,
     ],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/parent/student/${id}`,
+    endpoint: `${baseUrl}/school/parent/student/${id}`,
     method: 'GET',
     token,
   },

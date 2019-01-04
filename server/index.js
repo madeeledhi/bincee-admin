@@ -18,7 +18,7 @@ import {
   isProduction,
 } from './utils'
 import routes from './routes'
-require('dotenv').config();
+require('dotenv').config()
 
 const port = getPort()
 const app = express()
@@ -70,6 +70,6 @@ server.listen(port, err => {
   console.info(
     '==> 🌎 Listening on port %s. Open up http://0.0.0.0:%s/ in your browser.',
     port,
-    port
+    port,
   )
 })

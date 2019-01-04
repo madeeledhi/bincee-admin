@@ -9,9 +9,7 @@ export const validate = values => {
   if (!trim(section)) {
     errors.section = 'Required'
   }
-  if (!trim(grade_section)) {
-    errors.grade_section = 'Required'
-  }
+
   return errors
 }
 

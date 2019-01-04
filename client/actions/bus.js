@@ -1,5 +1,6 @@
 // src
 import { CALL_API } from '../middleware/api'
+import { getBaseUrl } from '../utils'
 
 export const CREATE_BUS = 'CREATE_BUS'
 export const CREATE_BUS_SUCCESS = 'CREATE_BUS_SUCCESS'
@@ -20,6 +21,7 @@ export const LOAD_DRIVER_BUS = 'LOAD_DRIVER_BUS'
 export const LOAD_DRIVER_BUS_SUCCESS = 'LOAD_DRIVER_BUS_SUCCESS'
 export const LOAD_DRIVER_BUS_FAILURE = 'LOAD_DRIVER_BUS_FAILURE'
 
+const baseUrl = getBaseUrl()
 export const createBus = ({
   registration_no,
   description,
@@ -28,7 +30,7 @@ export const createBus = ({
 }) => ({
   [CALL_API]: {
     types: [CREATE_BUS, CREATE_BUS_SUCCESS, CREATE_BUS_FAILURE],
-    endpoint: 'https://bincee-server.herokuapp.com/api/school/bus/create',
+    endpoint: `${baseUrl}/school/bus/create`,
     method: 'POST',
     token,
   },
@@ -44,7 +46,7 @@ export const editBus = ({
 }) => ({
   [CALL_API]: {
     types: [EDIT_BUS, EDIT_BUS_SUCCESS, EDIT_BUS_FAILURE],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/bus/${id}`,
+    endpoint: `${baseUrl}/school/bus/${id}`,
     method: 'POST',
     token,
   },
@@ -54,7 +56,7 @@ export const editBus = ({
 export const loadSingleBus = ({ id, token }) => ({
   [CALL_API]: {
     types: [LOAD_SINGLE_BUS, LOAD_SINGLE_BUS_SUCCESS, LOAD_SINGLE_BUS_FAILURE],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/bus/${id}`,
+    endpoint: `${baseUrl}/school/bus/${id}`,
     method: 'GET',
     token,
   },
@@ -64,7 +66,7 @@ export const loadSingleBus = ({ id, token }) => ({
 export const deleteBus = ({ id, token }) => ({
   [CALL_API]: {
     types: [DELETE_BUS, DELETE_BUS_SUCCESS, DELETE_BUS_FAILURE],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/bus/${id}`,
+    endpoint: `${baseUrl}/school/bus/${id}`,
     method: 'DELETE',
     token,
   },
@@ -74,7 +76,7 @@ export const deleteBus = ({ id, token }) => ({
 export const loadAllBus = ({ token }) => ({
   [CALL_API]: {
     types: [LOAD_BUS, LOAD_BUS_SUCCESS, LOAD_BUS_FAILURE],
-    endpoint: 'https://bincee-server.herokuapp.com/api/school/bus/list',
+    endpoint: `${baseUrl}/school/bus/list`,
     method: 'GET',
     token,
   },
@@ -84,7 +86,7 @@ export const loadAllBus = ({ token }) => ({
 export const loadAllDriverBus = ({ id, token }) => ({
   [CALL_API]: {
     types: [LOAD_DRIVER_BUS, LOAD_DRIVER_BUS_SUCCESS, LOAD_BUS_FAILURE],
-    endpoint: `https://bincee-server.herokuapp.com/school/driver/bus/${id}`,
+    endpoint: `${baseUrl}/school/driver/bus/${id}`,
     method: 'GET',
     token,
   },

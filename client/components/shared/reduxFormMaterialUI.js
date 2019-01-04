@@ -66,12 +66,15 @@ export const renderCheckbox = ({ input, label, style = {} }) => (
 
 export const renderRadioGroup = ({ input, label, ...rest }) => (
   <div style={{ margin: '10px 0', display: 'flex' }}>
-    <label style={{
-      fontSize: 12, color: 'rgba(0, 0, 0, 0.298039)', 
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center'
-    }}>
+    <label
+      style={{
+        fontSize: 12,
+        color: 'rgba(0, 0, 0, 0.298039)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+      }}
+    >
       {label}
     </label>
     <RadioButtonGroup
