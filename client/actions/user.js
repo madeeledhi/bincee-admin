@@ -1,5 +1,6 @@
 // src
 import { CALL_API } from '../middleware/api'
+import { getBaseUrl } from '../utils'
 
 export const USER_LOGIN = 'USER_LOGIN'
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
@@ -15,11 +16,12 @@ export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS'
 export const RESET_PASSWORD_FAILURE = 'RESET_PASSWORD_FAILURE'
 export const USER_LOGOUT = 'USER_LOGOUT'
 export const LOAD_USER = 'LOAD_USER'
+const baseUrl = getBaseUrl()
 
 export const login = ({ username, password }) => ({
   [CALL_API]: {
     types: [USER_LOGIN, USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE],
-    endpoint: 'https://bincee-server.herokuapp.com/api/auth/login',
+    endpoint: `${baseUrl}/auth/login`,
     method: 'POST',
   },
   payload: { username, password },
@@ -34,7 +36,7 @@ export const resetPassword = ({
 }) => ({
   [CALL_API]: {
     types: [RESET_PASSWORD, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE],
-    endpoint: 'https://bincee-server.herokuapp.com/api/users/passwordreset',
+    endpoint: `${baseUrl}/users/passwordreset`,
     method: 'POST',
   },
   payload: { username, selected_option, email, phone_no, type },
@@ -49,7 +51,7 @@ export const editPassword = ({
 }) => ({
   [CALL_API]: {
     types: [EDIT_PASSWORD, EDIT_PASSWORD_SUCCESS, EDIT_PASSWORD_FAILURE],
-    endpoint: `https://bincee-server.herokuapp.com/api/users/${id}`,
+    endpoint: `${baseUrl}/users/${id}`,
     method: 'POST',
     token,
   },

@@ -169,7 +169,7 @@ class CreateStudent extends React.Component {
             </When>
             <Otherwise>
               <form className={styles.root}>
-               <div className={styles.fullRow}>
+                <div className={styles.fullRow}>
                   <Picture
                     source={photo || '/images/profile.png'}
                     onChange={this.fileChangedHandler}
@@ -284,13 +284,19 @@ class CreateStudent extends React.Component {
                     <Button
                       disabled={disabled}
                       onClick={this.createNewStudent}
-                      label="Update"
-                      style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                      label="Create"
+                      style={{
+                        backgroundColor: '#0adfbd',
+                        borderColor: '#0adfbd',
+                      }}
                     />
                     <Button
                       onClick={this.handleCancel}
                       label="Cancel"
-                      style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                      style={{
+                        backgroundColor: '#ff4747',
+                        borderColor: '#ff4747',
+                      }}
                     />
                   </div>
                 </div>

@@ -1,5 +1,6 @@
 // src
 import { CALL_API } from '../middleware/api'
+import { getBaseUrl } from '../utils'
 
 export const CREATE_PARENT = 'CREATE_PARENT'
 export const CREATE_PARENT_SUCCESS = 'CREATE_PARENT_SUCCESS'
@@ -19,6 +20,7 @@ export const LOAD_PARENTS_FAILURE = 'LOAD_PARENTS_FAILURE'
 export const LOAD_SINGLE_PARENT = 'LOAD_SINGLE_PARENT'
 export const LOAD_SINGLE_PARENT_SUCCESS = 'LOAD_SINGLE_PARENT_SUCCESS'
 export const LOAD_SINGLE_PARENT_FAILURE = 'LOAD_SINGLE_PARENT_FAILURE'
+const baseUrl = getBaseUrl()
 
 export const createParent = ({
   username,
@@ -35,7 +37,7 @@ export const createParent = ({
 }) => ({
   [CALL_API]: {
     types: [CREATE_PARENT, CREATE_PARENT_SUCCESS, CREATE_PARENT_FAILURE],
-    endpoint: 'https://bincee-server.herokuapp.com/api/school/parent/create',
+    endpoint: `${baseUrl}/school/parent/create`,
     method: 'POST',
     token,
   },
@@ -67,7 +69,7 @@ export const updateParent = ({
 }) => ({
   [CALL_API]: {
     types: [EDIT_PARENT, EDIT_PARENT_SUCCESS, EDIT_PARENT_FAILURE],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/parent/${id}`,
+    endpoint: `${baseUrl}/school/parent/${id}`,
     method: 'POST',
     token,
   },
@@ -81,7 +83,7 @@ export const updateParentCredentials = ({ id, username, password, token }) => ({
       EDIT_PARENT_CREDENTIALS_SUCCESS,
       EDIT_PARENT_CREDENTIALS_FAILURE,
     ],
-    endpoint: `https://bincee-server.herokuapp.com/api/users/${id}`,
+    endpoint: `${baseUrl}/users/${id}`,
     method: 'POST',
     token,
   },
@@ -95,7 +97,7 @@ export const loadSingleParent = ({ id, token }) => ({
       LOAD_SINGLE_PARENT_SUCCESS,
       LOAD_SINGLE_PARENT_FAILURE,
     ],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/parent/${id}`,
+    endpoint: `${baseUrl}/school/parent/${id}`,
     method: 'GET',
     token,
   },
@@ -105,7 +107,7 @@ export const loadSingleParent = ({ id, token }) => ({
 export const deleteParent = ({ id, token }) => ({
   [CALL_API]: {
     types: [DELETE_PARENT, DELETE_PARENT_SUCCESS, DELETE_PARENT_FAILURE],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/parent/${id}`,
+    endpoint: `${baseUrl}/school/parent/${id}`,
     method: 'DELETE',
     token,
   },
@@ -115,7 +117,7 @@ export const deleteParent = ({ id, token }) => ({
 export const loadParents = ({ token }) => ({
   [CALL_API]: {
     types: [LOAD_PARENTS, LOAD_PARENTS_SUCCESS, LOAD_PARENTS_FAILURE],
-    endpoint: 'https://bincee-server.herokuapp.com/api/school/parent/list',
+    endpoint: `${baseUrl}/school/parent/list`,
     method: 'GET',
     token,
   },

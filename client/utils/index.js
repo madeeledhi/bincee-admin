@@ -1,4 +1,5 @@
 export * from './utils'
 export { default as configureRouter } from './configureRouter'
 export * from './formValidation'
+export * from './getBaseUrl'
 // export infoDrawer from './infoDrawer'

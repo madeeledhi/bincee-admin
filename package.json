@@ -48,6 +48,7 @@
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.1",
     "dotenv": "^6.0.0",
+    "dotenv-webpack": "^1.6.0",
     "ejs": "^2.4.1",
     "element-closest": "^2.0.2",
     "event-source-polyfill": "0.0.12",

@@ -1,5 +1,6 @@
 // src
 import { CALL_API } from '../middleware/api'
+import { getBaseUrl } from '../utils'
 
 export const CREATE_GRADE = 'CREATE_GRADE'
 export const CREATE_GRADE_SUCCESS = 'CREATE_GRADE_SUCCESS'
@@ -16,11 +17,12 @@ export const LOAD_GRADES_FAILURE = 'LOAD_GRADES_FAILURE'
 export const LOAD_SINGLE_GRADE = 'LOAD_SINGLE_GRADE'
 export const LOAD_SINGLE_GRADE_SUCCESS = 'LOAD_SINGLE_GRADE_SUCCESS'
 export const LOAD_SINGLE_GRADE_FAILURE = 'LOAD_SINGLE_GRADE_FAILURE'
+const baseUrl = getBaseUrl()
 
 export const createGrade = ({ grade_name, section, grade_section, token }) => ({
   [CALL_API]: {
     types: [CREATE_GRADE, CREATE_GRADE_SUCCESS, CREATE_GRADE_FAILURE],
-    endpoint: 'https://bincee-server.herokuapp.com/api/school/grade/create',
+    endpoint: `${baseUrl}/school/grade/create`,
     method: 'POST',
     token,
   },
@@ -36,7 +38,7 @@ export const editGrade = ({
 }) => ({
   [CALL_API]: {
     types: [EDIT_GRADE, EDIT_GRADE_SUCCESS, EDIT_GRADE_FAILURE],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/grade/${id}`,
+    endpoint: `${baseUrl}/school/grade/${id}`,
     method: 'POST',
     token,
   },
@@ -50,7 +52,7 @@ export const loadSingleGrade = ({ id, token }) => ({
       LOAD_SINGLE_GRADE_SUCCESS,
       LOAD_SINGLE_GRADE_FAILURE,
     ],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/grade/${id}`,
+    endpoint: `${baseUrl}/school/grade/${id}`,
     method: 'GET',
     token,
   },
@@ -60,7 +62,7 @@ export const loadSingleGrade = ({ id, token }) => ({
 export const deleteGrade = ({ id, token }) => ({
   [CALL_API]: {
     types: [DELETE_GRADE, DELETE_GRADE_SUCCESS, DELETE_GRADE_FAILURE],
-    endpoint: `https://bincee-server.herokuapp.com/api/school/grade/${id}`,
+    endpoint: `${baseUrl}/school/grade/${id}`,
     method: 'DELETE',
     token,
   },
@@ -70,7 +72,7 @@ export const deleteGrade = ({ id, token }) => ({
 export const loadGrades = ({ token }) => ({
   [CALL_API]: {
     types: [LOAD_GRADES, LOAD_GRADES_SUCCESS, LOAD_GRADES_FAILURE],
-    endpoint: 'https://bincee-server.herokuapp.com/api/school/grade/list',
+    endpoint: `${baseUrl}/school/grade/list`,
     method: 'GET',
     token,
   },
