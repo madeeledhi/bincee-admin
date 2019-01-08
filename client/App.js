@@ -20,6 +20,8 @@ type Props = {
   routerProps: any,
 }
 
+console.log('App Init')
+
 class App extends React.Component {
   state = {
     width: window.innerWidth,
