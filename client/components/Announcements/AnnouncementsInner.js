@@ -32,132 +32,163 @@ const AnnouncementsInner = ({
   message,
   sendNotification,
   hasAll,
-}) => (
-  <Choose>
-    <When condition={!isLoading}>
-      <form className={styles.root}>
-        <div className={styles.head}>
-          <div className={styles.title}>SCHOOL ANNOUNCEMENTS</div>
-          <div className={styles.spacer} />
-          <Button
-            onClick={sendNotification}
-            label="Send"
-            disabled={disabled}
-            style={{ backgroundColor: '#00c6ff', borderColor: '#00c6ff' }}
-          />
-        </div>
-        <div className={styles.row}>
-          <FormControl component="fieldset">
-            {/* <FormLabel component="legend">Gender</FormLabel> */}
-            <RadioGroup
-              aria-label="Send To"
-              value={type}
-              className={styles.radioButton}
-              onChange={handleChange('type')}
-            >
-              <FormControlLabel
-                value="school"
-                control={<Radio className={styles.radioButton} />}
-                label="School"
-              />
-              <FormControlLabel
-                value="student"
-                control={<Radio className={styles.radioButton} />}
-                label="Students"
-              />
-            </RadioGroup>
-          </FormControl>
-        </div>
-        <If condition={type === 'student'}>
+  handleChangeCriteria,
+  filterCriteria,
+}) => {
+  const { isDriver, isGrade, isShift } = filterCriteria
+  return (
+    <Choose>
+      <When condition={!isLoading}>
+        <form className={styles.root}>
+          <div className={styles.head}>
+            <div className={styles.title}>SCHOOL ANNOUNCEMENTS</div>
+            <div className={styles.spacer} />
+            <Button
+              onClick={sendNotification}
+              label="Send"
+              disabled={disabled}
+              style={{ backgroundColor: '#00c6ff', borderColor: '#00c6ff' }}
+            />
+          </div>
           <div className={styles.row}>
-            <label className={styles.label}>Students : </label>
-            <FormControl className={styles.item}>
-              {/* <InputLabel htmlFor="select-multiple-chip">
-                {'Select Students'}
-              </InputLabel> */}
-              <Select
-                classes={{ select: styles.select }}
-                error={studentError}
-                helperText={studentError}
-                variant="outlined"
-                multiple
-                // className={{select: styles.find}}
-                value={selectedStudents}
-                onChange={handleChange('selectedStudents')}
-                input={<OutlinedInput id="select-multiple-chip" />}
-                renderValue={selected => (
-                  <div>
-                    {selected.map(value => {
-                      const { fullname } = value
-                      return (
-                        <Chip
-                          key={value}
-                          label={fullname}
-                          className={styles.chip}
-                        />
-                      )
-                    })}
-                  </div>
-                )}
+            <FormControl component="fieldset">
+              {/* <FormLabel component="legend">Gender</FormLabel> */}
+              <RadioGroup
+                aria-label="Send To"
+                value={type}
+                className={styles.radioButton}
+                onChange={handleChange('type')}
               >
-                <MenuItem key={'000'} value={'all'} disableTouchRipple>
-                  <Checkbox checked={hasAll} onChange={handleChangeAll} />
-                  <ListItemText primary={'All'} />
-                </MenuItem>
-                {map(student => {
-                  const { id: student_id, parent_id, fullname } = student
-                  return (
-                    <MenuItem key={student_id} value={student}>
-                      <Checkbox
-                        checked={selectedStudents.indexOf(student) > -1}
-                      />
-                      <ListItemText primary={fullname} />
-                    </MenuItem>
-                  )
-                })(students)}
-              </Select>
+                <FormControlLabel
+                  value="school"
+                  control={<Radio className={styles.radioButton} />}
+                  label="School"
+                />
+                <FormControlLabel
+                  value="student"
+                  control={<Radio className={styles.radioButton} />}
+                  label="Students"
+                />
+              </RadioGroup>
             </FormControl>
           </div>
-        </If>
-        <div className={styles.row}>
-          <label className={styles.label}>Subject : </label>
-          <TextField
-            id="standard-subject"
-            // label="Subject"
-            value={subject}
-            error={errors.subject}
-            helperText={errors.subject}
-            onChange={handleChange('subject')}
-            margin="normal"
-            variant="outlined"
-            className={styles.item}
-          />
-        </div>
-        <div className={styles.row}>
-          <label className={styles.label}>Message : </label>
-          <TextField
-            id="standard-message"
-            // label="Message"
-            multiline
-            rowsMax="8"
-            rows="8"
-            error={errors.message}
-            helperText={errors.message}
-            value={message}
-            onChange={handleChange('message')}
-            margin="normal"
-            variant="outlined"
-            className={styles.item}
-          />
-        </div>
-        {/* <Button color="primary" onClick={sendNotification}>
-          Send
-        </Button> */}
-      </form>
-    </When>
-    <Otherwise>
-      <LoadingView message={'Loading Announcements'} />
-    </Otherwise>
-  </Choose>
-)
+          <If condition={type === 'student'}>
+            <div className={styles.row}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isDriver}
+                    onChange={handleChangeCriteria('isDriver')}
+                  />
+                }
+                label="Driver"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isGrade}
+                    onChange={handleChangeCriteria('isGrade')}
+                  />
+                }
+                label="Grade"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isShift}
+                    onChange={handleChangeCriteria('isShift')}
+                  />
+                }
+                label="Shift"
+              />
+            </div>
+            <div className={styles.row}>
+              <label className={styles.label}>Students : </label>
+              <FormControl className={styles.item}>
+                {/* <InputLabel htmlFor="select-multiple-chip">
+                {'Select Students'}
+              </InputLabel> */}
+                <Select
+                  classes={{ select: styles.select }}
+                  error={studentError}
+                  helperText={studentError}
+                  variant="outlined"
+                  multiple
+                  // className={{select: styles.find}}
+                  value={selectedStudents}
+                  onChange={handleChange('selectedStudents')}
+                  input={<OutlinedInput id="select-multiple-chip" />}
+                  renderValue={selected => (
+                    <div>
+                      {selected.map(value => {
+                        const { fullname } = value
+                        return (
+                          <Chip
+                            key={value}
+                            label={fullname}
+                            className={styles.chip}
+                          />
+                        )
+                      })}
+                    </div>
+                  )}
+                >
+                  <MenuItem key="000" value="all" disableTouchRipple>
+                    <Checkbox checked={hasAll} onChange={handleChangeAll} />
+                    <ListItemText primary="All" />
+                  </MenuItem>
+                  {map(student => {
+                    const { id: student_id, parent_id, fullname } = student
+                    return (
+                      <MenuItem key={student_id} value={student}>
+                        <Checkbox
+                          checked={selectedStudents.indexOf(student) > -1}
+                        />
+                        <ListItemText primary={fullname} />
+                      </MenuItem>
+                    )
+                  })(students)}
+                </Select>
+              </FormControl>
+            </div>
+          </If>
+          <div className={styles.row}>
+            <label className={styles.label}>Subject : </label>
+            <TextField
+              id="standard-subject"
+              // label="Subject"
+              value={subject}
+              error={errors.subject}
+              helperText={errors.subject}
+              onChange={handleChange('subject')}
+              margin="normal"
+              variant="outlined"
+              className={styles.item}
+            />
+          </div>
+          <div className={styles.row}>
+            <label className={styles.label}>Message : </label>
+            <TextField
+              id="standard-message"
+              // label="Message"
+              multiline
+              rowsMax="8"
+              rows="8"
+              error={errors.message}
+              helperText={errors.message}
+              value={message}
+              onChange={handleChange('message')}
+              margin="normal"
+              variant="outlined"
+              className={styles.item}
+            />
+          </div>
+        </form>
+      </When>
+      <Otherwise>
+        <LoadingView message={'Loading Announcements'} />
+      </Otherwise>
+    </Choose>
+  )
+}
 export default AnnouncementsInner

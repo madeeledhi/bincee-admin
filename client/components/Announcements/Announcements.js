@@ -9,6 +9,9 @@ import { hasPropChanged } from '../../utils'
 import {
   loadStudents,
   createAnnouncement,
+  loadDrivers,
+  loadShifts,
+  loadGrades,
   showErrorMessage,
 } from '../../actions'
 import AnnouncementsInner from './AnnouncementsInner'
@@ -26,6 +29,16 @@ class Announcements extends React.Component {
     subject: '',
     message: '',
     hasAll: false,
+    filterCriteria: {
+      isDriver: false,
+      isShift: false,
+      isGrade: false,
+    },
+    filterValues: {
+      driver: [],
+      shift: [],
+      grade: [],
+    },
   }
 
   componentDidMount() {
@@ -39,18 +52,41 @@ class Announcements extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (hasPropChanged(['user', 'students'], this.props, nextProps)) {
-      const { dispatch, user, students, error } = nextProps
+    if (
+      hasPropChanged(
+        ['user', 'studentsList', 'driversList', 'gradesList', 'shiftsList'],
+        this.props,
+        nextProps,
+      )
+    ) {
+      const { dispatch, user, studentsList, error } = nextProps
       const { token } = user
-      if (size(students) < 1) {
+      if (size(studentsList) < 1) {
         this.setState(() => ({ isLoading: true }))
         dispatch(loadStudents({ token })).then(() => {
-          this.setState(() => ({ isLoading: false }))
+          dispatch(loadDrivers({ token })).then(() => {
+            dispatch(loadGrades({ token })).then(() => {
+              dispatch(loadShifts({ token })).then(() => {
+                this.setState(() => ({ isLoading: false }))
+              })
+            })
+          })
         })
       } else {
         this.setState(() => ({ error, isLoading: false }))
       }
     }
+  }
+
+  handleChangeCriteria = name => event => {
+    const { filterCriteria } = this.state
+    const newFilterCriteria = {
+      ...filterCriteria,
+      [name]: event.target.checked,
+    }
+    this.setState(() => ({
+      filterCriteria: newFilterCriteria,
+    }))
   }
 
   handleChangeAll = event => {
@@ -118,6 +154,17 @@ class Announcements extends React.Component {
     })
   }
 
+  handleApplyFilters = (name, values) => {
+    const { filterValues } = this.state
+    const newFilterValues = {
+      ...filterValues,
+      [name]: values,
+    }
+    this.setState(() => ({
+      filterValues: newFilterValues,
+    }))
+  }
+
   render() {
     const {
       errors,
@@ -128,6 +175,7 @@ class Announcements extends React.Component {
       message,
       hasAll,
       studentError,
+      filterCriteria,
     } = this.state
     const { studentsList } = this.props
     const disabled = studentError || errors.message || errors.subject
@@ -146,16 +194,24 @@ class Announcements extends React.Component {
         subject={subject}
         message={message}
         sendNotification={this.sendNotification}
+        handleChangeCriteria={this.handleChangeCriteria}
+        filterCriteria={filterCriteria}
       />
     )
   }
 }
 
 const mapStateToProps = state => {
-  const students = getOr({}, 'students')(state)
   const user = getOr({}, 'user')(state)
+  const students = getOr({}, 'students')(state)
   const studentsList = getOr([], 'students')(students)
   const error = getOr('', 'message')(students)
-  return { studentsList, user, error }
+  const drivers = getOr({}, 'drivers')(state)
+  const driversList = getOr([], 'drivers')(drivers)
+  const grades = getOr({}, 'grades')(state)
+  const gradesList = getOr([], 'grades')(grades)
+  const shifts = getOr({}, 'shifts')(state)
+  const shiftsList = getOr([], 'shifts')(shifts)
+  return { studentsList, user, error, driversList, gradesList, shiftsList }
 }
 export default connect(mapStateToProps)(Announcements)
