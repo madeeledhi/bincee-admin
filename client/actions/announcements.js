@@ -8,6 +8,7 @@ export const CREATE_ANNOUNCEMENT_FAILURE = 'CREATE_ANNOUNCEMENT_FAILURE'
 export const LOAD_ANNOUNCEMENTS = 'LOAD_ANNOUNCEMENTS'
 export const LOAD_ANNOUNCEMENTS_SUCCESS = 'LOAD_ANNOUNCEMENTS_SUCCESS'
 export const LOAD_ANNOUNCEMENTS_FAILURE = 'LOAD_ANNOUNCEMENTS_FAILURE'
+export const UPDATE_ANNOUNCEMENTS_FILTERS = 'UPDATE_ANNOUNCEMENTS_FILTERS'
 const baseUrl = getBaseUrl()
 export const createAnnouncement = ({
   last_updated,
@@ -42,4 +43,9 @@ export const loadAnnouncements = ({ token }) => ({
     token,
   },
   payload: {},
+})
+
+export const updateAnnouncementFilters = filters => ({
+  type: UPDATE_ANNOUNCEMENTS_FILTERS,
+  payload: filters,
 })

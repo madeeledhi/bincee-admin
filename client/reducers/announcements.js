@@ -2,6 +2,9 @@
 import * as ActionTypes from '../actions'
 
 const initialState = {}
+const defaultFilters = {
+  config: {},
+}
 
 export default (state = initialState, action) => {
   const { type, payload } = action
@@ -18,6 +21,14 @@ export default (state = initialState, action) => {
     }
     case ActionTypes.LOAD_ANNOUNCEMENTS_FAILURE: {
       return { ...state, message: 'Cannot find Announcements' }
+    }
+    case ActionTypes.UPDATE_ANNOUNCEMENTS_FILTERS: {
+      const { filters } = payload || {}
+      const filtersPayload = { ...defaultFilters, ...filters }
+      return {
+        ...state,
+        filters: filtersPayload,
+      }
     }
     default: {
       return state

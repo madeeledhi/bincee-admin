@@ -1,6 +1,5 @@
 // libs
 import React from 'react'
-import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 import filter from 'lodash/fp/filter'
@@ -16,6 +15,14 @@ import isEqual from 'lodash/fp/isEqual'
 import { hasPropChanged } from '../../utils'
 import FilterSelectorInner from './FilterSelectorInner'
 
+function getFilterValues(data, filterName) {
+  return flow(
+    map(value => `${value[filterName]}`),
+    filter(val => !(isNil(val) || val === '' || lowerCase(val) === 'not set')),
+    array => uniq(array),
+  )(data)
+}
+
 class FilterSelector extends React.Component {
   state = {
     selectedValues: [],
@@ -26,6 +33,21 @@ class FilterSelector extends React.Component {
     selectedCount: 0,
     selectedTab: 'all',
     data: [],
+  }
+
+  componentDidMount() {
+    const { data, filterName, savedFilters } = this.props
+    const selectedValues = getOr([], `${filterName}.selectedValues`)(
+      savedFilters,
+    )
+    const filterData = getFilterValues(data, filterName)
+    this.setState(() => ({
+      filtersValues: filterData,
+      data: filterData,
+      filterName,
+      selectedValues,
+      selectedCount: size(selectedValues),
+    }))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -44,40 +66,26 @@ class FilterSelector extends React.Component {
       this.setState(() => ({
         filtersValues: filterData,
         data: filterData,
-        filterName: filterName,
-        selectedValues: selectedValues,
+        filterName,
+        selectedValues,
         selectedCount: size(selectedValues),
       }))
     }
   }
 
-  componentDidMount() {
-    const { data, filterName, savedFilters } = this.props
-    const selectedValues = getOr([], `${filterName}.selectedValues`)(
-      savedFilters,
-    )
-    const filterData = getFilterValues(data, filterName)
-    this.setState(() => ({
-      filtersValues: filterData,
-      data: filterData,
-      filterName: filterName,
-      selectedValues: selectedValues,
-      selectedCount: size(selectedValues),
-    }))
-  }
   handleChangeAll = event => {
     const { filtersValues } = this.state
     const value = event.target.checked ? filtersValues : []
     const selectAll = event.target.checked
     this.setState(() => ({
       selectedValues: value,
-      selectAll: selectAll,
+      selectAll,
       selectedCount: size(value),
     }))
   }
 
   handleSelectChange = event => {
-    const { filtersValues, selectedValues, data } = this.state
+    const { selectedValues, data } = this.state
     const isChecked = event.target.checked
     const value = `${event.target.value}`
     if (!isChecked) {
@@ -90,23 +98,24 @@ class FilterSelector extends React.Component {
     } else {
       const newSelectedValues = [value, ...selectedValues]
 
-      const selectAll = size(newSelectedValues) === size(data) ? true : false
+      const selectAll = size(newSelectedValues) === size(data)
       this.setState(() => ({
         selectedValues: newSelectedValues,
-        selectAll: selectAll,
+        selectAll,
         selectedCount: size(newSelectedValues),
       }))
     }
   }
 
   handleSearchChange = event => {
-    const { filtersValues, selectedValues, data } = this.state
-    const value = event.target.value
+    const { selectedValues, data } = this.state
+    const { target } = event
+    const { value } = target
     const searchResult = filter(val => val.indexOf(value) !== -1)(data)
-    const selectAll = size(selectedValues) === size(data) ? true : false
+    const selectAll = size(selectedValues) === size(data)
     this.setState(() => ({
       filtersValues: searchResult,
-      selectAll: selectAll,
+      selectAll,
       selectedCount: size(selectedValues),
     }))
   }
@@ -119,7 +128,7 @@ class FilterSelector extends React.Component {
 
   handleMenuOpen = event => {
     const anchorEl = event.currentTarget
-    this.setState({ anchorEl: anchorEl })
+    this.setState({ anchorEl })
   }
 
   handleMenuClose = () => {
@@ -127,7 +136,7 @@ class FilterSelector extends React.Component {
     const selectedValues = getOr([], `${filterName}.selectedValues`)(
       savedFilters,
     )
-    const selectAll = size(selectedValues) === size(data) ? true : false
+    const selectAll = size(selectedValues) === size(data)
     this.setState({
       anchorEl: null,
       selectedCount: size(selectedValues),
@@ -145,7 +154,7 @@ class FilterSelector extends React.Component {
       [filterName]: {
         id: filterName,
         operator: '=',
-        selectedValues: selectedValues,
+        selectedValues,
       },
     }
 
@@ -189,11 +198,3 @@ class FilterSelector extends React.Component {
 }
 
 export default FilterSelector
-
-function getFilterValues(data, filterName) {
-  return flow(
-    map(value => `${value[filterName]}`),
-    filter(val => !(isNil(val) || val === '' || lowerCase(val) === 'not set')),
-    array => uniq(array),
-  )(data)
-}
