@@ -13,6 +13,7 @@ import isEqual from 'lodash/fp/isEqual'
 
 // src
 import { hasPropChanged } from '../../utils'
+import { updateAnnouncementFilters } from '../../actions'
 import FilterSelectorInner from './FilterSelectorInner'
 
 function getFilterValues(data, filterName) {
@@ -159,8 +160,8 @@ class FilterSelector extends React.Component {
     }
 
     if (!isEqual(savedFilters)(config)) {
-      console.log(config)
-      onApply(config)
+      const filters = { config }
+      updateAnnouncementFilters(filters)
     }
     this.setState({ anchorEl: null })
   }
