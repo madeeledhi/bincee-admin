@@ -17,6 +17,7 @@ import map from 'lodash/fp/map'
 import Button from '../Button'
 import LoadingView from '../LoadingView'
 import styles from './AnnouncementsInner.less'
+import FilterSelector from '../FilterSelector'
 
 const AnnouncementsInner = ({
   errors,
@@ -34,6 +35,11 @@ const AnnouncementsInner = ({
   hasAll,
   handleChangeCriteria,
   filterCriteria,
+  driversList,
+  gradesList,
+  shiftsList,
+  savedFilters,
+  dispatch,
 }) => {
   const { isDriver, isGrade, isShift } = filterCriteria
   return (
@@ -83,6 +89,14 @@ const AnnouncementsInner = ({
                 }
                 label="Driver"
               />
+              <If condition={isDriver}>
+                <FilterSelector
+                  data={driversList}
+                  filterName="fullname"
+                  savedFilters={savedFilters}
+                  dispatch={dispatch}
+                />
+              </If>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -92,6 +106,14 @@ const AnnouncementsInner = ({
                 }
                 label="Grade"
               />
+              <If condition={isGrade}>
+                <FilterSelector
+                  data={gradesList}
+                  filterName="grade_section"
+                  savedFilters={savedFilters}
+                  dispatch={dispatch}
+                />
+              </If>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -101,6 +123,14 @@ const AnnouncementsInner = ({
                 }
                 label="Shift"
               />
+              <If condition={isShift}>
+                <FilterSelector
+                  data={shiftsList}
+                  filterName="shift_name"
+                  savedFilters={savedFilters}
+                  dispatch={dispatch}
+                />
+              </If>
             </div>
             <div className={styles.row}>
               <label className={styles.label}>Students : </label>

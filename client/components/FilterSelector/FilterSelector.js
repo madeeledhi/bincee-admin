@@ -148,7 +148,7 @@ class FilterSelector extends React.Component {
 
   handleApplyFilter = () => {
     const { selectedValues, filterName } = this.state
-    const { onApply, savedFilters } = this.props
+    const { savedFilters, dispatch } = this.props
 
     const config = {
       ...savedFilters,
@@ -158,10 +158,9 @@ class FilterSelector extends React.Component {
         selectedValues,
       },
     }
-
+    const filters = { filters: config }
     if (!isEqual(savedFilters)(config)) {
-      const filters = { config }
-      updateAnnouncementFilters(filters)
+      dispatch(updateAnnouncementFilters(filters))
     }
     this.setState({ anchorEl: null })
   }

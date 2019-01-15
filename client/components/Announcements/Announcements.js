@@ -46,7 +46,13 @@ class Announcements extends React.Component {
     if (user) {
       const { token } = user
       dispatch(loadStudents({ token })).then(() => {
-        this.setState(() => ({ isLoading: false }))
+        dispatch(loadDrivers({ token })).then(() => {
+          dispatch(loadGrades({ token })).then(() => {
+            dispatch(loadShifts({ token })).then(() => {
+              this.setState(() => ({ isLoading: false }))
+            })
+          })
+        })
       })
     }
   }
@@ -177,7 +183,14 @@ class Announcements extends React.Component {
       studentError,
       filterCriteria,
     } = this.state
-    const { studentsList } = this.props
+    const {
+      studentsList,
+      driversList,
+      gradesList,
+      shiftsList,
+      savedFilters,
+      dispatch,
+    } = this.props
     const disabled = studentError || errors.message || errors.subject
     return (
       <AnnouncementsInner
@@ -196,6 +209,11 @@ class Announcements extends React.Component {
         sendNotification={this.sendNotification}
         handleChangeCriteria={this.handleChangeCriteria}
         filterCriteria={filterCriteria}
+        driversList={driversList}
+        gradesList={gradesList}
+        shiftsList={shiftsList}
+        savedFilters={savedFilters}
+        dispatch={dispatch}
       />
     )
   }
@@ -204,6 +222,8 @@ class Announcements extends React.Component {
 const mapStateToProps = state => {
   const user = getOr({}, 'user')(state)
   const students = getOr({}, 'students')(state)
+  const announcements = getOr({}, 'announcements')(state)
+  const savedFilters = getOr({}, 'filters')(announcements)
   const studentsList = getOr([], 'students')(students)
   const error = getOr('', 'message')(students)
   const drivers = getOr({}, 'drivers')(state)
@@ -212,6 +232,14 @@ const mapStateToProps = state => {
   const gradesList = getOr([], 'grades')(grades)
   const shifts = getOr({}, 'shifts')(state)
   const shiftsList = getOr([], 'shifts')(shifts)
-  return { studentsList, user, error, driversList, gradesList, shiftsList }
+  return {
+    studentsList,
+    user,
+    error,
+    driversList,
+    gradesList,
+    shiftsList,
+    savedFilters,
+  }
 }
 export default connect(mapStateToProps)(Announcements)

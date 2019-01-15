@@ -1,10 +1,7 @@
 // src
 import * as ActionTypes from '../actions'
 
-const initialState = {}
-const defaultFilters = {
-  config: {},
-}
+const initialState = { filters: {} }
 
 export default (state = initialState, action) => {
   const { type, payload } = action
@@ -24,10 +21,9 @@ export default (state = initialState, action) => {
     }
     case ActionTypes.UPDATE_ANNOUNCEMENTS_FILTERS: {
       const { filters } = payload || {}
-      const filtersPayload = { ...defaultFilters, ...filters }
       return {
         ...state,
-        filters: filtersPayload,
+        filters,
       }
     }
     default: {
