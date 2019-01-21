@@ -9,6 +9,7 @@ import size from 'lodash/fp/size'
 import FormData from 'form-data'
 import MenuItem from '@material-ui/core/MenuItem'
 import map from 'lodash/fp/map'
+import filter from 'lodash/fp/filter'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -72,7 +73,8 @@ class CreateStudent extends React.Component {
       status,
       photo,
       grade,
-      shift,
+      shift_morning,
+      shift_evening,
       parent_id,
       driver_id,
     } = formValues
@@ -83,7 +85,8 @@ class CreateStudent extends React.Component {
         status,
         photo,
         grade,
-        shift,
+        shift_morning,
+        shift_evening,
         parent_id,
         driver_id,
         token,
@@ -105,10 +108,11 @@ class CreateStudent extends React.Component {
     const { initialize } = this.props
     const config = {
       fullname: '',
-      status: '',
+      status: 'Active',
       photo: '',
       grade: '',
-      shift: '',
+      shift_morning: '',
+      shift_evening: '',
       parent_id: '',
       driver_id: '',
       token: '',
@@ -149,6 +153,8 @@ class CreateStudent extends React.Component {
     // TODO: Change file upload control
     const { disabled, isLoading } = this.state
     const { driversList, parentsList, gradesList, shiftsList } = this.props
+    const morningShifts = filter(({ type }) => type === 'Morning')(shiftsList)
+    const eveningShifts = filter(({ type }) => type === 'Evening')(shiftsList)
     const { classes, onClose, formValues, ...other } = this.props
     const { photo } = formValues || {}
     return (
@@ -174,6 +180,28 @@ class CreateStudent extends React.Component {
                     source={photo || '/images/profile.png'}
                     onChange={this.fileChangedHandler}
                   />
+                </div>
+
+                <div className={styles.fullRow}>
+                  <div className={styles.row}>
+                    <Field
+                      className={styles.radioButton}
+                      name="status"
+                      label="Status"
+                      component={renderRadioGroup}
+                    >
+                      <FormControlLabel
+                        value="Active"
+                        control={<Radio color="primary" />}
+                        label="Active"
+                      />
+                      <FormControlLabel
+                        value="Inactive"
+                        control={<Radio color="primary" />}
+                        label="Inactive"
+                      />
+                    </Field>
+                  </div>
                 </div>
                 <div className={styles.sameRow}>
                   <div className={styles.row}>
@@ -209,6 +237,48 @@ class CreateStudent extends React.Component {
                   <div className={styles.row}>
                     <Field
                       className={styles.item}
+                      name="shift_morning"
+                      component={renderTextField}
+                      select
+                      label="Select Morning Shift"
+                      variant="outlined"
+                      margin="dense"
+                    >
+                      {map(({ shift_id, shift_name }) => (
+                        <MenuItem key={shift_id} value={shift_id}>
+                          {shift_name}
+                        </MenuItem>
+                      ))([
+                        { shift_id: null, shift_name: 'None' },
+                        ...morningShifts,
+                      ])}
+                    </Field>
+                  </div>
+                  <div className={styles.row}>
+                    <Field
+                      className={styles.item}
+                      name="shift_evening"
+                      component={renderTextField}
+                      select
+                      label="Select Evening Shift"
+                      variant="outlined"
+                      margin="dense"
+                    >
+                      {map(({ shift_id, shift_name }) => (
+                        <MenuItem key={shift_id} value={shift_id}>
+                          {shift_name}
+                        </MenuItem>
+                      ))([
+                        { shift_id: null, shift_name: 'None' },
+                        ...eveningShifts,
+                      ])}
+                    </Field>
+                  </div>
+                </div>
+                <div className={styles.sameRow}>
+                  <div className={styles.row}>
+                    <Field
+                      className={styles.item}
                       name="grade"
                       component={renderTextField}
                       select
@@ -226,25 +296,6 @@ class CreateStudent extends React.Component {
                   <div className={styles.row}>
                     <Field
                       className={styles.item}
-                      name="shift"
-                      component={renderTextField}
-                      select
-                      label="Select Shift"
-                      variant="outlined"
-                      margin="dense"
-                    >
-                      {map(({ shift_id, shift_name }) => (
-                        <MenuItem key={shift_id} value={shift_id}>
-                          {shift_name}
-                        </MenuItem>
-                      ))(shiftsList)}
-                    </Field>
-                  </div>
-                </div>
-                <div className={styles.sameRow}>
-                  <div className={styles.row}>
-                    <Field
-                      className={styles.item}
                       name="driver_id"
                       component={renderTextField}
                       select
@@ -257,25 +308,6 @@ class CreateStudent extends React.Component {
                           {fullname}
                         </MenuItem>
                       ))(driversList)}
-                    </Field>
-                  </div>
-                  <div className={styles.row}>
-                    <Field
-                      className={styles.radioButton}
-                      name="status"
-                      label="Status"
-                      component={renderRadioGroup}
-                    >
-                      <FormControlLabel
-                        value="Active"
-                        control={<Radio color="primary" />}
-                        label="Active"
-                      />
-                      <FormControlLabel
-                        value="Inactive"
-                        control={<Radio color="primary" />}
-                        label="Inactive"
-                      />
                     </Field>
                   </div>
                 </div>
@@ -337,7 +369,8 @@ export default connect(mapStateToProps)(
       status: 'Active',
       photo: '',
       grade: '',
-      shift: '',
+      shift_morning: '',
+      shift_evening: '',
       parent_id: '',
       driver_id: '',
     },

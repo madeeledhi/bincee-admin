@@ -19,24 +19,37 @@ export const LOAD_SINGLE_SHIFT_SUCCESS = 'LOAD_SINGLE_SHIFT_SUCCESS'
 export const LOAD_SINGLE_SHIFT_FAILURE = 'LOAD_SINGLE_SHIFT_FAILURE'
 const baseUrl = getBaseUrl()
 
-export const createShift = ({ shift_name, start_time, end_time, token }) => ({
+export const createShift = ({
+  shift_name,
+  start_time,
+  end_time,
+  type,
+  token,
+}) => ({
   [CALL_API]: {
     types: [CREATE_SHIFT, CREATE_SHIFT_SUCCESS, CREATE_SHIFT_FAILURE],
     endpoint: `${baseUrl}/school/shift/create`,
     method: 'POST',
     token,
   },
-  payload: { shift_name, start_time, end_time },
+  payload: { shift_name, start_time, end_time, type },
 })
 
-export const editShift = ({ id, shift_name, start_time, end_time, token }) => ({
+export const editShift = ({
+  id,
+  shift_name,
+  start_time,
+  end_time,
+  type,
+  token,
+}) => ({
   [CALL_API]: {
     types: [EDIT_SHIFT, EDIT_SHIFT_SUCCESS, EDIT_SHIFT_FAILURE],
     endpoint: `${baseUrl}/school/shift/${id}`,
     method: 'POST',
     token,
   },
-  payload: { shift_name, start_time, end_time },
+  payload: { shift_name, start_time, end_time, type },
 })
 
 export const loadSingleShift = ({ id, token }) => ({

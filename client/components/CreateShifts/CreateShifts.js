@@ -7,9 +7,14 @@ import size from 'lodash/fp/size'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Radio from '@material-ui/core/Radio'
 
 // src
-import { renderTextField } from '../shared/reduxFormMaterialUI'
+import {
+  renderTextField,
+  renderRadioGroup,
+} from '../shared/reduxFormMaterialUI'
 import styles from './CreateShifts.less'
 import { createShift, showErrorMessage } from '../../actions'
 import { hasPropChanged } from '../../utils'
@@ -42,13 +47,14 @@ class CreateShifts extends React.Component {
   createShift = () => {
     const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
-    const { shift_name, start_time, end_time } = formValues
+    const { shift_name, start_time, end_time, type } = formValues
     this.setState(() => ({ isLoading: true }))
     dispatch(
       createShift({
         shift_name,
         start_time,
         end_time,
+        type,
         token,
       }),
     ).then(({ payload }) => {
@@ -66,7 +72,12 @@ class CreateShifts extends React.Component {
 
   onEnter = () => {
     const { initialize } = this.props
-    const config = { shift_name: '', start_time: '', end_time: '' }
+    const config = {
+      shift_name: '',
+      start_time: '',
+      end_time: '',
+      type: 'Morning',
+    }
     this.setState(() => ({ isLoading: false }))
     initialize(config)
   }
@@ -93,6 +104,25 @@ class CreateShifts extends React.Component {
             </When>
             <Otherwise>
               <form className={styles.root}>
+                <div className={styles.row}>
+                  <Field
+                    classes={{ root: styles.radioButton }}
+                    name="type"
+                    label="Type"
+                    component={renderRadioGroup}
+                  >
+                    <FormControlLabel
+                      value="Morning"
+                      control={<Radio color="primary" />}
+                      label="Morning"
+                    />
+                    <FormControlLabel
+                      value="Evening"
+                      control={<Radio color="primary" />}
+                      label="Evening"
+                    />
+                  </Field>
+                </div>
                 <div className={styles.row}>
                   <Field
                     id="shift_name"
@@ -142,12 +172,18 @@ class CreateShifts extends React.Component {
                       disabled={disabled}
                       onClick={this.createShift}
                       label="Create"
-                      style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                      style={{
+                        backgroundColor: '#0adfbd',
+                        borderColor: '#0adfbd',
+                      }}
                     />
                     <Button
                       onClick={this.handleCancel}
                       label="Cancel"
-                      style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                      style={{
+                        backgroundColor: '#ff4747',
+                        borderColor: '#ff4747',
+                      }}
                     />
                   </div>
                 </div>
@@ -175,6 +211,7 @@ export default connect(mapStateToProps)(
       shift_name: '',
       start_time: '07:30',
       end_time: '12:30',
+      type: 'Morning',
     },
   })(CreateShifts),
 )

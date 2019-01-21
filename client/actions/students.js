@@ -27,7 +27,8 @@ export const createStudent = ({
   status,
   photo,
   grade,
-  shift,
+  shift_morning = null,
+  shift_evening = null,
   parent_id,
   driver_id,
   token,
@@ -38,7 +39,16 @@ export const createStudent = ({
     method: 'POST',
     token,
   },
-  payload: { fullname, status, photo, grade, shift, parent_id, driver_id },
+  payload: {
+    fullname,
+    status,
+    photo,
+    grade,
+    shift_morning: shift_morning || null,
+    shift_evening: shift_evening || null,
+    parent_id,
+    driver_id,
+  },
 })
 
 export const updateSTUDENT = ({
@@ -47,7 +57,8 @@ export const updateSTUDENT = ({
   status,
   photo,
   grade,
-  shift,
+  shift_morning = null,
+  shift_evening = null,
   parent_id,
   driver_id,
   token,
@@ -58,7 +69,16 @@ export const updateSTUDENT = ({
     method: 'POST',
     token,
   },
-  payload: { fullname, status, photo, grade, shift, parent_id, driver_id },
+  payload: {
+    fullname,
+    status,
+    photo,
+    grade,
+    shift_morning: shift_morning || null,
+    shift_evening: shift_evening || null,
+    parent_id,
+    driver_id,
+  },
 })
 
 export const loadSingleStudent = ({ id, token }) => ({

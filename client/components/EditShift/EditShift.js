@@ -7,9 +7,14 @@ import size from 'lodash/fp/size'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Radio from '@material-ui/core/Radio'
 
 // src
-import { renderTextField } from '../shared/reduxFormMaterialUI'
+import {
+  renderTextField,
+  renderRadioGroup,
+} from '../shared/reduxFormMaterialUI'
 import styles from './EditShift.less'
 import { loadSingleShift, editShift, showErrorMessage } from '../../actions'
 import { hasPropChanged } from '../../utils'
@@ -42,7 +47,7 @@ class EditShift extends React.Component {
   updateShift = () => {
     const { dispatch, formValues, user, match, id, onClose } = this.props
     const { token } = user
-    const { shift_name, start_time, end_time } = formValues
+    const { shift_name, start_time, end_time, type } = formValues
     this.setState(() => ({ isLoading: true }))
     dispatch(
       editShift({
@@ -50,6 +55,7 @@ class EditShift extends React.Component {
         shift_name,
         start_time,
         end_time,
+        type,
         token,
       }),
     ).then(({ payload }) => {
@@ -73,8 +79,8 @@ class EditShift extends React.Component {
     dispatch(loadSingleShift({ id, token })).then(({ payload }) => {
       this.setState(() => ({ isLoading: false }))
       const { data } = payload
-      const { shift_name, start_time, end_time } = data
-      const config = { shift_name, start_time, end_time }
+      const { shift_name, start_time, end_time, type } = data
+      const config = { shift_name, start_time, end_time, type }
       initialize(config)
     })
   }
@@ -100,6 +106,25 @@ class EditShift extends React.Component {
             </When>
             <Otherwise>
               <form className={styles.root}>
+                <div className={styles.row}>
+                  <Field
+                    classes={{ root: styles.radioButton }}
+                    name="type"
+                    label="Type"
+                    component={renderRadioGroup}
+                  >
+                    <FormControlLabel
+                      value="Morning"
+                      control={<Radio color="primary" />}
+                      label="Morning"
+                    />
+                    <FormControlLabel
+                      value="Evening"
+                      control={<Radio color="primary" />}
+                      label="Evening"
+                    />
+                  </Field>
+                </div>
                 <div className={styles.row}>
                   <Field
                     id="shift_name"
@@ -188,6 +213,7 @@ export default connect(mapStateToProps)(
       shift_name: '',
       start_time: '07:30',
       end_time: '12:30',
+      type: 'Morning',
     },
   })(EditShift),
 )
