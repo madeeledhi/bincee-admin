@@ -5,7 +5,8 @@ import Tab from '@material-ui/core/Tab'
 import styles from './ForgotPasswordInner.less'
 
 const emailRegex = /^$|^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/
-const phoneRegex = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/
+
+const phoneRegex = /^[+][0-9]{1,12}$/
 
 export const validate = values => {
   const errors = {}
@@ -15,7 +16,7 @@ export const validate = values => {
     errors.email = 'Invalid Email'
   }
   if (!phoneRegex.test(phone_no) && selected_option === 'phone') {
-    errors.phone_no = 'Invalid Phone Number (i.e +XXX..., XXX...)'
+    errors.phone_no = 'Invalid Phone Number (i.e +XXX...)'
   }
   if (!trim(email) && selected_option === 'email') {
     errors.email = 'Required'
