@@ -92,6 +92,8 @@ class CreateBus extends React.Component {
         aria-labelledby="simple-dialog-title"
         {...other}
         fullWidth
+        disableBackdropClick
+        disableEscapeKeyDown
       >
         <DialogTitle id="simple-dialog-title" className={styles.head}>
           {'Create Bus'}
@@ -148,12 +150,18 @@ class CreateBus extends React.Component {
                       disabled={disabled}
                       onClick={this.createBus}
                       label="Create"
-                      style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                      style={{
+                        backgroundColor: '#0adfbd',
+                        borderColor: '#0adfbd',
+                      }}
                     />
                     <Button
                       onClick={this.handleCancel}
                       label="Cancel"
-                      style={{ backgroundColor: '#ff4747', borderColor: '#ff4747' }}
+                      style={{
+                        backgroundColor: '#ff4747',
+                        borderColor: '#ff4747',
+                      }}
                     />
                   </div>
                 </div>

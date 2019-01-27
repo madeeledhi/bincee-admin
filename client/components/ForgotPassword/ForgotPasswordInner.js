@@ -29,6 +29,8 @@ const ForgotPasswordInner = ({
       onClose={onClose}
       onEnter={onEnter}
       aria-labelledby="simple-dialog-title"
+      disableBackdropClick
+      disableEscapeKeyDown
       {...other}
     >
       <DialogTitle id="simple-dialog-title" className={styles.head}>

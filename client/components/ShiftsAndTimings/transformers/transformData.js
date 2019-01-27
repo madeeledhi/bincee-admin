@@ -6,6 +6,7 @@ import startCase from 'lodash/fp/startCase'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
 import cloneDeep from 'lodash/cloneDeep'
+import moment from 'moment'
 
 function getColumns(shifts) {
   const [first] = shifts
@@ -29,7 +30,12 @@ function getColumns(shifts) {
 
 function getRows(shifts) {
   return map(shift => {
-    return renameKeyName(shift, 'shift_id', 'id')
+    const { start_time, end_time } = shift
+    return {
+      ...renameKeyName(shift, 'shift_id', 'id'),
+      start_time: moment(start_time, 'hh:mm:ss').format('hh:mm A'),
+      end_time: moment(end_time, 'hh:mm:ss').format('hh:mm A'),
+    }
   })(shifts)
 }
 

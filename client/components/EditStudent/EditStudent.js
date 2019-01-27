@@ -168,6 +168,8 @@ class EditStudent extends React.Component {
         aria-labelledby="simple-dialog-title"
         {...other}
         fullWidth
+        disableBackdropClick
+        disableEscapeKeyDown
       >
         <DialogTitle id="simple-dialog-title" className={styles.head}>
           {'Edit Student'}
@@ -320,7 +322,7 @@ class EditStudent extends React.Component {
                     <Button
                       disabled={disabled}
                       onClick={this.updateStudent}
-                      label="Create"
+                      label="Update"
                       style={{
                         backgroundColor: '#0adfbd',
                         borderColor: '#0adfbd',

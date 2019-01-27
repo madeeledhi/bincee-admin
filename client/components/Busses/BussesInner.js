@@ -26,6 +26,7 @@ const BussesInner = ({
       <div>
         <EnhancedTable
           tableName={'Busses'}
+          sortKey="registration_no"
           rows={rows}
           data={data}
           error={error}

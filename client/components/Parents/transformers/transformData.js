@@ -14,6 +14,7 @@ function getColumns(parents) {
     filter(
       key =>
         key !== 'school_id' &&
+        key !== 'parent_id' &&
         key !== 'photo' &&
         key !== 'lat' &&
         key !== 'lng',

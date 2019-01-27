@@ -18,6 +18,7 @@ function getColumns(students) {
         key !== 'parent_id' &&
         key !== 'grade' &&
         key !== 'shift_morning' &&
+        key !== 'id' &&
         key !== 'shift_evening',
     ),
     reduce((final, key) => {

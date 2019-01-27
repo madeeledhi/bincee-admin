@@ -84,6 +84,8 @@ class EditGrades extends React.Component {
         aria-labelledby="simple-dialog-title"
         {...other}
         fullWidth
+        disableBackdropClick
+        disableEscapeKeyDown
       >
         <DialogTitle id="simple-dialog-title" className={styles.head}>
           {'Edit Grades'}

@@ -93,6 +93,8 @@ class CreateShifts extends React.Component {
         aria-labelledby="simple-dialog-title"
         {...other}
         fullWidth
+        disableBackdropClick
+        disableEscapeKeyDown
       >
         <DialogTitle id="simple-dialog-title" className={styles.head}>
           {'Create Shifts'}
@@ -145,7 +147,7 @@ class CreateShifts extends React.Component {
                     className={styles.item}
                     InputLabelProps={{ shrink: true }}
                     inputProps={
-                      { step: 300 } // 5 min
+                      { step: 900 } // 5 min
                     }
                     type="time"
                   />
@@ -162,7 +164,7 @@ class CreateShifts extends React.Component {
                     type="time"
                     InputLabelProps={{ shrink: true }}
                     inputProps={
-                      { step: 300 } // 5 min
+                      { step: 900 } // 5 min
                     }
                   />
                 </div>

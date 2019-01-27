@@ -18,6 +18,7 @@ function getColumns(leaves) {
         key !== 'school_id' &&
         key !== 'parent_id' &&
         key !== 'driver_id' &&
+        key !== 'id' &&
         key !== 'status' &&
         key !== 'found' &&
         key !== 'photo',
