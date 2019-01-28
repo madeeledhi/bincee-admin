@@ -102,7 +102,7 @@ class CreateShifts extends React.Component {
         <DialogContent>
           <Choose>
             <When condition={isLoading}>
-              <LoadingView />
+              <LoadingView style={{ minHeight: 300 }} />
             </When>
             <Otherwise>
               <form className={styles.root}>

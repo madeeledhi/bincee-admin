@@ -44,11 +44,11 @@ class Leaves extends React.Component {
     const { error, isLoading } = this.state
     const { leaves } = this.props
     const { columns: rows, rows: data } = leaves
-    console.log(leaves, rows, data)
+    console.log(size(data) < 1)
 
     return (
       <LeavesInner
-        error={error}
+        error={error || size(data) < 1 ? 'No Record' : ''}
         isLoading={isLoading}
         rows={rows}
         data={data}
