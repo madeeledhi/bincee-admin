@@ -5,6 +5,7 @@ import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 import some from 'lodash/fp/some'
 import filter from 'lodash/fp/filter'
+import intersection from 'lodash/fp/intersection'
 import every from 'lodash/fp/every'
 
 // src
@@ -115,10 +116,14 @@ class Announcements extends React.Component {
 
       const studentList = getfilteredData(savedFilters)(studentsList)
       console.log('-------->', studentList, savedFilters, studentsList)
-
-      if (size(studentList) > 0) {
-        this.setState(() => ({ studentList }))
-      }
+      const { selectedStudents } = this.state
+      const newSelectedStudents = intersection(studentList)(selectedStudents)
+      const all = size(newSelectedStudents) === size(studentList)
+      this.setState(() => ({
+        studentList,
+        hasAll: all,
+        selectedStudents: newSelectedStudents,
+      }))
     }
   }
 
@@ -134,8 +139,8 @@ class Announcements extends React.Component {
   }
 
   handleChangeAll = event => {
-    const { studentsList } = this.props
-    const val = event.target.checked ? studentsList : []
+    const { studentList } = this.state
+    const val = event.target.checked ? studentList : []
     const hasAll = event.target.checked
     this.setState(() => ({
       selectedStudents: val,
@@ -146,8 +151,7 @@ class Announcements extends React.Component {
   handleChange = name => event => {
     const val = event.target.value
     const { studentsList } = this.props
-    const { studentList } = this.state
-    const { errors, type, selectedStudents } = this.state
+    const { errors, type, selectedStudents, studentList } = this.state
     const hasAll =
       size(val) === size(studentList) && name === 'selectedStudents'
     const newErrors =
