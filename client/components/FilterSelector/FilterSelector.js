@@ -37,8 +37,8 @@ class FilterSelector extends React.Component {
   }
 
   componentDidMount() {
-    const { data, filterName, savedFilters } = this.props
-    const selectedValues = getOr([], `${filterName}.selectedValues`)(
+    const { data, filterName, savedFilters, filterKey } = this.props
+    const selectedValues = getOr([], `${filterKey}.selectedValues`)(
       savedFilters,
     )
     const filterData = getFilterValues(data, filterName)
@@ -54,13 +54,13 @@ class FilterSelector extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (
       hasPropChanged(
-        ['savedFilters', 'data', 'filterName'],
+        ['savedFilters', 'data', 'filterName', 'filterKey'],
         this.props,
         nextProps,
       )
     ) {
-      const { data, filterName, savedFilters } = nextProps
-      const selectedValues = getOr([], `${filterName}.selectedValues`)(
+      const { data, filterName, savedFilters, filterKey } = nextProps
+      const selectedValues = getOr([], `${filterKey}.selectedValues`)(
         savedFilters,
       )
       const filterData = getFilterValues(data, filterName)
@@ -133,8 +133,8 @@ class FilterSelector extends React.Component {
   }
 
   handleMenuClose = () => {
-    const { data, filterName, savedFilters } = this.props
-    const selectedValues = getOr([], `${filterName}.selectedValues`)(
+    const { data, filterName, savedFilters, filterKey } = this.props
+    const selectedValues = getOr([], `${filterKey}.selectedValues`)(
       savedFilters,
     )
     const selectAll = size(selectedValues) === size(data)
@@ -147,13 +147,13 @@ class FilterSelector extends React.Component {
   }
 
   handleApplyFilter = () => {
-    const { selectedValues, filterName } = this.state
-    const { savedFilters, dispatch } = this.props
+    const { selectedValues } = this.state
+    const { savedFilters, dispatch, filterKey } = this.props
 
     const config = {
       ...savedFilters,
-      [filterName]: {
-        id: filterName,
+      [filterKey]: {
+        id: filterKey,
         operator: '=',
         selectedValues,
       },

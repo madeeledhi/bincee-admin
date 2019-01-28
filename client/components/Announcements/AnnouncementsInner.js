@@ -93,6 +93,7 @@ const AnnouncementsInner = ({
                 <FilterSelector
                   data={driversList}
                   filterName="fullname"
+                  filterKey="driver_name"
                   savedFilters={savedFilters}
                   dispatch={dispatch}
                 />
@@ -110,11 +111,12 @@ const AnnouncementsInner = ({
                 <FilterSelector
                   data={gradesList}
                   filterName="grade_section"
+                  filterKey="grade_name"
                   savedFilters={savedFilters}
                   dispatch={dispatch}
                 />
               </If>
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={
                   <Checkbox
                     checked={isShift}
@@ -130,7 +132,7 @@ const AnnouncementsInner = ({
                   savedFilters={savedFilters}
                   dispatch={dispatch}
                 />
-              </If>
+              </If> */}
             </div>
             <div className={styles.row}>
               <label className={styles.label}>Students : </label>

@@ -3,6 +3,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
+import some from 'lodash/fp/some'
+import filter from 'lodash/fp/filter'
+import every from 'lodash/fp/every'
 
 // src
 import { hasPropChanged } from '../../utils'
@@ -16,6 +19,15 @@ import {
 } from '../../actions'
 import AnnouncementsInner from './AnnouncementsInner'
 
+function getfilteredData(filters) {
+  return filter(dataRow =>
+    every(({ selectedValues, id }) => {
+      if (size(selectedValues) < 1) return true
+      return some(value => value === `${dataRow[id]}`)(selectedValues)
+    })(filters),
+  )
+}
+
 class Announcements extends React.Component {
   state = {
     errors: {
@@ -26,6 +38,7 @@ class Announcements extends React.Component {
     isLoading: true,
     type: 'school',
     selectedStudents: [],
+    studentList: [],
     subject: '',
     message: '',
     hasAll: false,
@@ -42,14 +55,19 @@ class Announcements extends React.Component {
   }
 
   componentDidMount() {
-    const { dispatch, user } = this.props
+    const { dispatch, user, studentsList } = this.props
     if (user) {
       const { token } = user
       dispatch(loadStudents({ token })).then(() => {
+        this.setState(() => ({
+          studentList: studentsList,
+        }))
         dispatch(loadDrivers({ token })).then(() => {
           dispatch(loadGrades({ token })).then(() => {
             dispatch(loadShifts({ token })).then(() => {
-              this.setState(() => ({ isLoading: false }))
+              this.setState(() => ({
+                isLoading: false,
+              }))
             })
           })
         })
@@ -66,20 +84,40 @@ class Announcements extends React.Component {
       )
     ) {
       const { dispatch, user, studentsList, error } = nextProps
+
       const { token } = user
       if (size(studentsList) < 1) {
         this.setState(() => ({ isLoading: true }))
         dispatch(loadStudents({ token })).then(() => {
+          this.setState(() => ({
+            studentList: studentsList,
+          }))
           dispatch(loadDrivers({ token })).then(() => {
             dispatch(loadGrades({ token })).then(() => {
               dispatch(loadShifts({ token })).then(() => {
-                this.setState(() => ({ isLoading: false }))
+                this.setState(() => ({
+                  isLoading: false,
+                }))
               })
             })
           })
         })
       } else {
-        this.setState(() => ({ error, isLoading: false }))
+        this.setState(() => ({
+          error,
+          isLoading: false,
+          studentList: studentsList,
+        }))
+      }
+    }
+    if (hasPropChanged('savedFilters', this.props, nextProps)) {
+      const { studentsList, savedFilters } = nextProps
+
+      const studentList = getfilteredData(savedFilters)(studentsList)
+      console.log('-------->', studentList, savedFilters, studentsList)
+
+      if (size(studentList) > 0) {
+        this.setState(() => ({ studentList }))
       }
     }
   }
@@ -108,9 +146,10 @@ class Announcements extends React.Component {
   handleChange = name => event => {
     const val = event.target.value
     const { studentsList } = this.props
+    const { studentList } = this.state
     const { errors, type, selectedStudents } = this.state
     const hasAll =
-      size(val) === size(studentsList) && name === 'selectedStudents'
+      size(val) === size(studentList) && name === 'selectedStudents'
     const newErrors =
       name === 'selectedStudents' || name === 'type'
         ? errors
@@ -142,7 +181,7 @@ class Announcements extends React.Component {
     const { token } = user
     const { type, selectedStudents, subject, message } = this.state
     const last_updated = new Date()
-    createAnnouncement({})
+
     dispatch(
       createAnnouncement({
         title: subject,
@@ -182,6 +221,7 @@ class Announcements extends React.Component {
       hasAll,
       studentError,
       filterCriteria,
+      studentList,
     } = this.state
     const {
       studentsList,
@@ -201,7 +241,7 @@ class Announcements extends React.Component {
         handleChange={this.handleChange}
         handleChangeAll={this.handleChangeAll}
         isLoading={isLoading}
-        students={studentsList}
+        students={studentList}
         type={type}
         selectedStudents={selectedStudents}
         subject={subject}
