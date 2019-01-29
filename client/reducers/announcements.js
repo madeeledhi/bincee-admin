@@ -1,7 +1,7 @@
 // src
 import * as ActionTypes from '../actions'
 
-const initialState = {}
+const initialState = { filters: {} }
 
 export default (state = initialState, action) => {
   const { type, payload } = action
@@ -18,6 +18,13 @@ export default (state = initialState, action) => {
     }
     case ActionTypes.LOAD_ANNOUNCEMENTS_FAILURE: {
       return { ...state, message: 'Cannot find Announcements' }
+    }
+    case ActionTypes.UPDATE_ANNOUNCEMENTS_FILTERS: {
+      const { filters } = payload || {}
+      return {
+        ...state,
+        filters,
+      }
     }
     default: {
       return state

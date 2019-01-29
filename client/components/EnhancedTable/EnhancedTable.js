@@ -18,10 +18,10 @@ function createData(name, calories, fat, carbs, protein) {
 class EnhancedTable extends React.Component {
   constructor(props) {
     super(props)
-    const { data = [], rows = [], error = '' } = props
+    const { data = [], rows = [], error = '', sortKey = '' } = props
     this.state = {
       order: 'asc',
-      orderBy: 'calories',
+      orderBy: sortKey,
       selected: [],
       data,
       page: 0,
@@ -33,15 +33,22 @@ class EnhancedTable extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged(['rows', 'data'], this.props, nextProps)) {
-      const { rows, data, error } = nextProps
+      const { rows, data, error, sortKey } = nextProps
       const { selected: prevSelected } = this.state
       const ids = map(({ id }) => id)(data)
       const selected = filter(id => includes(id)(ids))(prevSelected)
-      this.setState(() => ({ rows, data, error, selected }))
+      this.setState(() => ({
+        rows,
+        data,
+        error,
+        selected,
+        orderBy: sortKey,
+      }))
     }
   }
 
   handleRequestSort = (event, property) => {
+    console.log('property: ', property)
     const orderBy = property
     let order = 'desc'
 

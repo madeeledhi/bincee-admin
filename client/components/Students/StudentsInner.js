@@ -26,6 +26,7 @@ const StudentsInner = ({
       <div>
         <EnhancedTable
           tableName={'Students'}
+          sortKey="fullname"
           rows={rows}
           data={data}
           error={error}

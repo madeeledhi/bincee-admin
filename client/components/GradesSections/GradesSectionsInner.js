@@ -25,6 +25,7 @@ const GradesSectionsInner = ({
       <div>
         <EnhancedTable
           tableName={'Grades & Sections'}
+          sortKey="grade_name"
           rows={rows}
           data={data}
           error={error}

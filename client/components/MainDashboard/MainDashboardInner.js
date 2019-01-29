@@ -61,7 +61,10 @@ const MainDashboardInner = ({
               activePath={activePath}
             />
           </div>
-          <div className={styles.content}>
+          <div
+            className={styles.content}
+            style={{ boxShadow: activePath === 'home' ? 'none' : '' }}
+          >
             <Switch>
               <Route path={`${path}`} exact component={Home} />
               <Route

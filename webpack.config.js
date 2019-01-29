@@ -4,6 +4,7 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
+const Dotenv = require('dotenv-webpack')
 
 module.exports = {
   devtool: 'eval-source-map',
@@ -29,6 +30,7 @@ module.exports = {
     publicPath: '/',
   },
   plugins: [
+    new Dotenv(),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),

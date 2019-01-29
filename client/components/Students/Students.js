@@ -94,7 +94,8 @@ class Students extends React.Component {
       driver_id,
       parent_id,
       grade,
-      shift,
+      shift_morning,
+      shift_evening,
       id,
       fullname,
       photo,
@@ -125,31 +126,47 @@ class Students extends React.Component {
               ({ payload: gradePayload }) => {
                 const { data: gradeData } = gradePayload
                 if (gradePayload.status === 200) {
-                  dispatch(loadSingleShift({ id: shift, token })).then(
-                    ({ payload: shiftPayload }) => {
-                      const { data: shiftData } = shiftPayload
-                      if (shiftPayload.status === 200) {
-                        const dataToShow = transformDrawerData({
-                          student: {
-                            id,
-                            fullname,
-                            status,
-                            photo,
-                          },
-                          driver: driverData,
-                          parent: parentData,
-                          grade: gradeData,
-                          shift: shiftData,
-                        })
+                  dispatch(
+                    loadSingleShift({
+                      id: shift_morning,
+                      token,
+                    }),
+                  ).then(({ payload: morningShiftPayload }) => {
+                    const { data: morningShiftData } = morningShiftPayload
+                    if (morningShiftPayload.status === 200) {
+                      dispatch(
+                        loadSingleShift({
+                          id: shift_evening,
+                          token,
+                        }),
+                      ).then(({ payload: eveningShiftPayload }) => {
+                        const { data: eveningShiftData } = eveningShiftPayload
+                        if (eveningShiftPayload.status === 200) {
+                          const dataToShow = transformDrawerData({
+                            student: {
+                              id,
+                              fullname,
+                              status,
+                              photo,
+                            },
+                            driver: driverData,
+                            parent: parentData,
+                            grade: gradeData,
+                            shiftMorning: morningShiftData,
+                            shiftEvening: eveningShiftData,
+                          })
 
-                        this.setState(() => ({ isLoading: false }))
-                        triggerDrawer({
-                          title: 'Student Content',
-                          content: <Drawer data={dataToShow} />,
-                        })
-                      }
-                    },
-                  )
+                          this.setState(() => ({
+                            isLoading: false,
+                          }))
+                          triggerDrawer({
+                            title: 'Student Content',
+                            content: <Drawer data={dataToShow} />,
+                          })
+                        }
+                      })
+                    }
+                  })
                 }
               },
             )

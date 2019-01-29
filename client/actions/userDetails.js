@@ -2,6 +2,7 @@ import size from 'lodash/fp/size'
 // src
 import { CALL_API } from '../middleware/api'
 import { clearDetailsState } from './user'
+import { getBaseUrl } from '../utils'
 
 export const LOAD_USER_DETAILS = 'LOAD_USER_DETAILS'
 export const LOAD_USER_DETAILS_SUCCESS = 'LOAD_USER_DETAILS_SUCCESS'
@@ -10,6 +11,8 @@ export const EDIT_USER_DETAILS = 'EDIT_USER_DETAILS'
 export const EDIT_USER_DETAILS_SUCCESS = 'EDIT_USER_DETAILS_SUCCESS'
 export const EDIT_USER_DETAILS_FAILURE = 'EDIT_USER_DETAILS_FAILURE'
 export const LOAD_SAVED_DETAILS = 'LOAD_SAVED_DETAILS'
+
+const baseUrl = getBaseUrl()
 
 export const loadDetailsState = () => {
   try {
@@ -47,7 +50,7 @@ export const loadUserDetails = ({ id, token }) => {
         LOAD_USER_DETAILS_SUCCESS,
         LOAD_USER_DETAILS_FAILURE,
       ],
-      endpoint: `https://bincee-server.herokuapp.com/api/admin/school/${id}`,
+      endpoint: `${baseUrl}/admin/school/${id}`,
       method: 'GET',
       token,
     },
@@ -72,7 +75,7 @@ export const editUserDetails = ({
         EDIT_USER_DETAILS_SUCCESS,
         EDIT_USER_DETAILS_FAILURE,
       ],
-      endpoint: `https://bincee-server.herokuapp.com/api/admin/school/${id}`,
+      endpoint: `${baseUrl}/admin/school/${id}`,
       method: 'POST',
       token,
     },

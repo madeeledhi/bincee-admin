@@ -89,7 +89,7 @@ class Header extends React.Component {
               }}
             >
               <Icon className={styles.iconColor} fontSize={'small'}>
-                {'credit_card'}
+                {'power_settings_new'}
               </Icon>
               {'Logout'}
             </MenuItem>

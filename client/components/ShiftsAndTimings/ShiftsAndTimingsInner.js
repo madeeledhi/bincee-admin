@@ -24,6 +24,7 @@ const ShiftsAndTimingsInner = ({
       <div>
         <EnhancedTable
           tableName={'Shifts & Timings'}
+          sortKey="shift_name"
           rows={rows}
           data={data}
           error={error}

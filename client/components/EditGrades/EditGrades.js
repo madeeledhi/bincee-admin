@@ -84,6 +84,8 @@ class EditGrades extends React.Component {
         aria-labelledby="simple-dialog-title"
         {...other}
         fullWidth
+        disableBackdropClick
+        disableEscapeKeyDown
       >
         <DialogTitle id="simple-dialog-title" className={styles.head}>
           {'Edit Grades'}
@@ -91,7 +93,7 @@ class EditGrades extends React.Component {
         <DialogContent className={styles.dialog}>
           <Choose>
             <When condition={isLoading}>
-              <LoadingView />
+              <LoadingView style={{ minHeight: 300 }} />
             </When>
             <Otherwise>
               <form className={styles.root}>

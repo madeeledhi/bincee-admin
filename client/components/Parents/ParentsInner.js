@@ -26,6 +26,7 @@ const ParentsInner = ({
       <div>
         <EnhancedTable
           tableName={'Parents'}
+          sortKey="fullname"
           rows={rows}
           data={data}
           error={error}

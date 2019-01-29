@@ -17,7 +17,9 @@ function getColumns(students) {
         key !== 'driver_id' &&
         key !== 'parent_id' &&
         key !== 'grade' &&
-        key !== 'shift',
+        key !== 'shift_morning' &&
+        key !== 'id' &&
+        key !== 'shift_evening',
     ),
     reduce((final, key) => {
       const current = first[key]
@@ -57,7 +59,7 @@ export function renameKeyName(obj, oldName, newName) {
 }
 
 export function transformDrawerData(data) {
-  const { student, driver, parent, grade, shift } = data
+  const { student, driver, parent, grade, shiftMorning, shiftEvening } = data
   const {
     fullname: parentName,
     photo: parentPhoto,
@@ -73,7 +75,6 @@ export function transformDrawerData(data) {
     status: driverStatus,
   } = driver
   const { grade_name, section, grade_section } = grade
-  const { shift_name, start_time, end_time } = shift
   return {
     student,
     driver: {
@@ -91,6 +92,7 @@ export function transformDrawerData(data) {
       status: parentStatus,
     },
     grade: { grade_name, grade_section, section },
-    shift: { start_time, end_time, shift_name },
+    shiftMorning,
+    shiftEvening,
   }
 }

@@ -1,0 +1,93 @@
+.root {
+  width: 245px;
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .filterList {
+    height: 160px;
+    overflow: auto;
+    width: 95%;
+    background-color: rgba(248, 248, 248, 0.986);
+    .listItem {
+      padding-top: 0;
+      padding-bottom: 0;
+      .checkBox {
+        padding: 6px;
+      }
+      .checked {
+        color: #32829e;
+        border: 1px solid gainsboro;
+        font-size: 18px !important;
+        border-radius: 5px;
+        box-shadow: 1px 1px 3px 0.5px gainsboro;
+      }
+      .unChecked {
+        color: transparent;
+        border: 1px solid gainsboro;
+        font-size: 18px !important;
+        border-radius: 5px;
+        box-shadow: 1px 1px 3px 0.5px gainsboro;
+      }
+
+      .listItemText {
+        color: #45566d !important;
+        font-size: 1.5em;
+        line-height: normal;
+      }
+      .listItemTextRoot {
+        padding: 0 5px;
+      }
+    }
+  }
+  .textField {
+    margin: 1rem;
+    width: 85%;
+  }
+  .tabs {
+    width: 85%;
+    .tab {
+      min-width: 60px;
+
+      color: #45566d !important;
+      font-size: 1.2em;
+    }
+    .tabText {
+      color: #32829e !important;
+      font-size: 1.2em;
+    }
+  }
+  .indicator {
+    background-color: #32829e !important;
+    height: 3px !important;
+  }
+  .buttonGroup {
+    padding: 1.5rem;
+    .applyButton {
+      background-color: #00619e !important;
+      color: #fff !important;
+      min-height: 20px !important;
+      margin: 0.5rem;
+    }
+    .cancelButton {
+      background-color: #fff !important;
+      color: grey !important;
+      min-height: 20px !important;
+      margin: 0.5rem;
+    }
+  }
+}
+.filterField {
+  margin: 1rem !important;
+  min-width: 140px !important;
+  pointer-events: all !important;
+}
+.filterFieldLabel {
+  background-color: #fff !important;
+  padding: 0 2px 0 2px !important;
+}
+.input {
+  pointer-events: none !important;
+  cursor: pointer !important;
+}
