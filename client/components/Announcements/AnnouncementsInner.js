@@ -218,7 +218,7 @@ const AnnouncementsInner = ({
         </form>
       </When>
       <Otherwise>
-        <LoadingView message={'Loading Announcements'} />
+        <LoadingView />
       </Otherwise>
     </Choose>
   )

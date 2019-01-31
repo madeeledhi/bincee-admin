@@ -37,7 +37,7 @@ const ShiftsAndTimingsInner = ({
       <CreateShifts open={createDialog} onClose={handleClose} />
     </When>
     <Otherwise>
-      <LoadingView message={'Loading Shifts'} />
+      <LoadingView />
     </Otherwise>
   </Choose>
 )

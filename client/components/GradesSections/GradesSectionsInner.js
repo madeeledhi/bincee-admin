@@ -38,7 +38,7 @@ const GradesSectionsInner = ({
       </div>
     </When>
     <Otherwise>
-      <LoadingView message={'Loading Grades & Sections'} />
+      <LoadingView />
     </Otherwise>
   </Choose>
 )

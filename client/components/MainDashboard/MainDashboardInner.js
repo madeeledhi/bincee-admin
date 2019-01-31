@@ -199,7 +199,7 @@ const MainDashboardInner = ({
         <div>{error}</div>
       </When>
       <Otherwise>
-        <LoadingView message={'Loading User Details'} />
+        <LoadingView />
       </Otherwise>
     </Choose>
   </div>

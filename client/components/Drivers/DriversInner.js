@@ -40,7 +40,7 @@ const DriversInner = ({
       </div>
     </When>
     <Otherwise>
-      <LoadingView message={'Loading Drivers'} />
+      <LoadingView />
     </Otherwise>
   </Choose>
 )

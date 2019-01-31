@@ -40,7 +40,7 @@ const StudentsInner = ({
       </div>
     </When>
     <Otherwise>
-      <LoadingView message={'Loading Students'} />
+      <LoadingView />
     </Otherwise>
   </Choose>
 )

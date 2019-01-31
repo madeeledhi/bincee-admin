@@ -111,7 +111,7 @@ class Profile extends React.Component {
           />
         </When>
         <Otherwise>
-          <LoadingView message={'Loading Profile'} />
+          <LoadingView />
         </Otherwise>
       </Choose>
     )

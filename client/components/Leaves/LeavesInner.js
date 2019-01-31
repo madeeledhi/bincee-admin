@@ -77,7 +77,7 @@ const LeavesInner = ({ error, isLoading, rows, data }) => (
       </div>
     </When>
     <Otherwise>
-      <LoadingView message={'Loading Leaves'} />
+      <LoadingView />
     </Otherwise>
   </Choose>
 )

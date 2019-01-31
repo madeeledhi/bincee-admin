@@ -39,7 +39,7 @@ const ForgotPasswordInner = ({
       <DialogContent>
         <Choose>
           <When condition={isLoading}>
-            <LoadingView message="Resseting" style={{ minHeight: 300 }} />
+            <LoadingView />
           </When>
           <When condition={success && message}>
             <div>

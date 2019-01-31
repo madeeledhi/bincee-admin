@@ -21,10 +21,10 @@ export const validate = values => {
     errors.shift_evening = 'Atleast One Shift Required'
   }
   if (!trim(parent_id)) {
-    errors.shift = 'Required'
+    errors.parent_id = 'Required'
   }
   if (!trim(driver_id)) {
-    errors.shift = 'Required'
+    errors.driver_id = 'Required'
   }
   return errors
 }

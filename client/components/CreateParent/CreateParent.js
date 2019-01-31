@@ -148,7 +148,7 @@ class CreateParent extends React.Component {
         <DialogContent>
           <Choose>
             <When condition={isLoading}>
-              <LoadingView style={{ minHeight: 300 }} />
+              <LoadingView />
             </When>
             <Otherwise>
               <form className={styles.root}>

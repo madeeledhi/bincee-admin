@@ -40,7 +40,7 @@ const BussesInner = ({
       </div>
     </When>
     <Otherwise>
-      <LoadingView message={'Loading Busses'} />
+      <LoadingView />
     </Otherwise>
   </Choose>
 )

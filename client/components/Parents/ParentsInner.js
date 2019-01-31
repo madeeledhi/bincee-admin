@@ -40,7 +40,7 @@ const ParentsInner = ({
       </div>
     </When>
     <Otherwise>
-      <LoadingView message={'Loading Parents'} />
+      <LoadingView />
     </Otherwise>
   </Choose>
 )

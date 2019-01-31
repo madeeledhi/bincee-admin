@@ -92,7 +92,7 @@ class EditBus extends React.Component {
         <DialogContent className={styles.dialog}>
           <Choose>
             <When condition={isLoading}>
-              <LoadingView style={{ minHeight: 300 }} />
+              <LoadingView />
             </When>
             <Otherwise>
               <form className={styles.root}>
