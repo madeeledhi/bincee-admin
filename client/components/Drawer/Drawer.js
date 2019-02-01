@@ -17,9 +17,16 @@ const Drawer = ({ data }) => {
       {map(heading => {
         const current = data[heading]
         const hasPhoto = has('photo')(current)
+        const { isParent, isDriver } = current
         const currentKeys = flow(
           keys,
-          filter(key => key !== 'photo'),
+          filter(
+            key =>
+              key !== 'photo' &&
+              key !== 'isDriver' &&
+              key !== 'isParent' &&
+              key !== 'isStudent',
+          ),
         )(current)
         return (
           <div className={styles.divider}>
@@ -27,7 +34,12 @@ const Drawer = ({ data }) => {
             {hasPhoto && (
               <Avatar
                 alt="Remy Sharp"
-                src={current.photo || '/images/profile.png'}
+                src={
+                  current.photo ||
+                  `/images/profile${
+                    isDriver ? 'Driver' : isParent ? 'Parent' : 'Student'
+                  }.png`
+                }
                 className={styles.avatar}
               />
             )}

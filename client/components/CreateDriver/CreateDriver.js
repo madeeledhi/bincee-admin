@@ -146,7 +146,7 @@ class CreateDriver extends React.Component {
               <form className={styles.root}>
                 <div className={styles.row}>
                   <Picture
-                    source={photo || '/images/profile.png'}
+                    source={photo || '/images/profileDriver.png'}
                     onChange={this.fileChangedHandler}
                   />
                 </div>

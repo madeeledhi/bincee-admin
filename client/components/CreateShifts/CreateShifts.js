@@ -76,7 +76,7 @@ class CreateShifts extends React.Component {
       shift_name: '',
       start_time: '',
       end_time: '',
-      type: 'Morning',
+      type: 'Pickup',
     }
     this.setState(() => ({ isLoading: false }))
     initialize(config)
@@ -114,14 +114,14 @@ class CreateShifts extends React.Component {
                     component={renderRadioGroup}
                   >
                     <FormControlLabel
-                      value="Morning"
+                      value="Pickup"
                       control={<Radio color="primary" />}
-                      label="Morning"
+                      label="Pickup"
                     />
                     <FormControlLabel
-                      value="Evening"
+                      value="Dropoff"
                       control={<Radio color="primary" />}
-                      label="Evening"
+                      label="Dropoff"
                     />
                   </Field>
                 </div>
@@ -213,7 +213,7 @@ export default connect(mapStateToProps)(
       shift_name: '',
       start_time: '07:30',
       end_time: '12:30',
-      type: 'Morning',
+      type: 'Pickup',
     },
   })(CreateShifts),
 )

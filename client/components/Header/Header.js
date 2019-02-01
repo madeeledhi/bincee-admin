@@ -3,7 +3,7 @@ import React from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
+import Popover from '@material-ui/core/Popover'
 import Icon from '@material-ui/core/Icon'
 import { withStyles } from '@material-ui/core/styles'
 // src
@@ -51,12 +51,12 @@ class Header extends React.Component {
           >
             <Avatar alt="Remy Sharp" src="/images/man.png" />
           </ActionItem>
-          <Menu
+          <Popover
             id="menu-appbar"
             anchorEl={anchorEl}
             classes={{ root: styles.showOff }}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            transformOrigin={{ vertical: 30, horizontal: 'right' }}
             open={open}
             onClose={this.handleClose}
           >
@@ -93,7 +93,7 @@ class Header extends React.Component {
               </Icon>
               {'Logout'}
             </MenuItem>
-          </Menu>
+          </Popover>
         </div>
       </div>
     )

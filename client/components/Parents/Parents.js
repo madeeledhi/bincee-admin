@@ -100,7 +100,16 @@ class Parents extends React.Component {
         const { username, password } = payloadData
         const dataToShow = {
           credentials: { username, password },
-          parent: { id, fullname, status, photo, email, address, phone_no },
+          parent: {
+            id,
+            fullname,
+            status,
+            photo,
+            email,
+            address,
+            phone_no,
+            isParent: true,
+          },
         }
         this.setState(() => ({ isLoading: false }))
         triggerDrawer({

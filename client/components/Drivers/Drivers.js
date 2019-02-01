@@ -108,6 +108,7 @@ class Drivers extends React.Component {
             fullname,
             status,
             photo,
+            isDriver: true,
           },
         }
         this.setState(() => ({ isLoading: false }))

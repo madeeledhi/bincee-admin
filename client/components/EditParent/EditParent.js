@@ -152,7 +152,7 @@ class EditParent extends React.Component {
               <form className={styles.root}>
                 <div className={styles.fullRow}>
                   <Picture
-                    source={photo || '/images/profile.png'}
+                    source={photo || '/images/profileParent.png'}
                     onChange={this.fileChangedHandler}
                   />
                 </div>

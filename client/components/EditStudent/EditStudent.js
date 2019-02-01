@@ -183,7 +183,7 @@ class EditStudent extends React.Component {
               <form className={styles.root}>
                 <div className={styles.fullRow}>
                   <Picture
-                    source={photo || '/images/profile.png'}
+                    source={photo || '/images/profileStudent.png'}
                     onChange={this.fileChangedHandler}
                   />
                 </div>
@@ -246,7 +246,7 @@ class EditStudent extends React.Component {
                       name="shift_morning"
                       component={renderTextField}
                       select
-                      label="Select Morning Shift"
+                      label="Select Pickup Shift"
                       variant="outlined"
                       margin="dense"
                     >
@@ -266,7 +266,7 @@ class EditStudent extends React.Component {
                       name="shift_evening"
                       component={renderTextField}
                       select
-                      label="Select Evening Shift"
+                      label="Select Dropoff Shift"
                       variant="outlined"
                       margin="dense"
                     >

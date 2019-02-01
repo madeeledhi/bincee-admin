@@ -29,7 +29,12 @@ function getColumns(students) {
           id: key,
           numeric: false,
           disablePadding: false,
-          label: startCase(key),
+          label:
+            key === 'shift_morning_name'
+              ? 'Pickup Shift Name'
+              : key === 'shift_evening_name'
+              ? 'Dropoff Shift Name'
+              : startCase(key),
         },
       ]
     }, []),
@@ -82,6 +87,7 @@ export function transformDrawerData(data) {
       phone_no: driverPhone,
       photo: driverPhoto,
       status: driverStatus,
+      isDriver: true,
     },
     parent: {
       fullname: parentName,
@@ -90,9 +96,10 @@ export function transformDrawerData(data) {
       address: parentAddress,
       phone_no: parentPhone,
       status: parentStatus,
+      isParent: true,
     },
     grade: { grade_name, grade_section, section },
-    shiftMorning,
-    shiftEvening,
+    shiftPickup: shiftMorning,
+    shiftDropoff: shiftEvening,
   }
 }
