@@ -31,9 +31,9 @@ function getColumns(students) {
           disablePadding: false,
           label:
             key === 'shift_morning_name'
-              ? 'Pickup Shift Name'
+              ? 'Pickup Shift'
               : key === 'shift_evening_name'
-              ? 'Dropoff Shift Name'
+              ? 'Dropoff Shift'
               : startCase(key),
         },
       ]
