@@ -3,11 +3,18 @@ import React from 'react'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
+import find from 'lodash/fp/find'
 
 // src
 import transformData from './transformers/transformData'
 import { hasPropChanged } from '../../utils'
-import { loadParents, deleteParent, loadSingleUser } from '../../actions'
+import {
+  loadParents,
+  deleteParent,
+  loadSingleUser,
+  showErrorMessage,
+  sendCredentials,
+} from '../../actions'
 import ParentsInner from './ParentsInner'
 import InfoDrawer from '../InfoDrawer'
 import Drawer from '../Drawer'
@@ -79,6 +86,32 @@ class Parents extends React.Component {
     }))
   }
 
+  handleSendCredentials = () => {
+    const { loadedUser, parents, user, dispatch } = this.props
+    const { id, username, password } = loadedUser
+    const { token } = user
+    const { rows } = parents
+    const { email } = find(({ id: userId }) => id === userId)(rows)
+    dispatch(
+      sendCredentials({
+        username,
+        password,
+        email,
+        phone_no: '',
+        type: 'Parent',
+        token,
+      }),
+    ).then(({ payload }) => {
+      const { status, data } = payload
+      const { message = 'Something Bad happened' } = data
+      if (status === 200) {
+        dispatch(showErrorMessage(message, 'success'))
+      } else {
+        dispatch(showErrorMessage(message))
+      }
+    })
+  }
+
   handleRowClick = data => {
     const { triggerDrawer, dispatch, user, onDrawerClose } = this.props
     const { id, fullname, status, photo, email, address, phone_no } = data
@@ -99,7 +132,7 @@ class Parents extends React.Component {
       if (requestStatus === 200) {
         const { username, password } = payloadData
         const dataToShow = {
-          credentials: { username, password },
+          credentials: { username, password, hasCredentials: true },
           parent: {
             id,
             fullname,
@@ -114,7 +147,12 @@ class Parents extends React.Component {
         this.setState(() => ({ isLoading: false }))
         triggerDrawer({
           title: 'Parent Content',
-          content: <Drawer data={dataToShow} />,
+          content: (
+            <Drawer
+              data={dataToShow}
+              sendCredentials={this.handleSendCredentials}
+            />
+          ),
         })
       }
     })
@@ -148,9 +186,10 @@ const mapStateToProps = state => {
   const parents = getOr({}, 'parents')(state)
   const user = getOr({}, 'user')(state)
   const parentsList = getOr([], 'parents')(parents)
+  const loadedUser = getOr({}, 'users.loadedUser')(state)
   const error = getOr('', 'message')(parents)
   const transformedParents = transformData(parentsList)
-  return { parents: transformedParents, user, error }
+  return { parents: transformedParents, user, error, loadedUser }
 }
 
 const drawerSettings = { style: {} }

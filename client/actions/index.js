@@ -14,6 +14,7 @@ export * from './shifts'
 export * from './leaves'
 export * from './photo'
 export * from './announcements'
+export * from './credentials'
 
 export const SHOW_ERROR_MESSAGE = 'SHOW_ERROR_MESSAGE'
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'

@@ -2,12 +2,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
+import find from 'lodash/fp/find'
 import size from 'lodash/fp/size'
 
 // src
 import transformData from './transformers/transformData'
 import { hasPropChanged } from '../../utils'
-import { loadDrivers, deleteDriver, loadSingleUser } from '../../actions'
+import {
+  loadDrivers,
+  deleteDriver,
+  loadSingleUser,
+  sendCredentials,
+  showErrorMessage,
+} from '../../actions'
 import DriversInner from './DriversInner'
 import InfoDrawer from '../InfoDrawer'
 import Drawer from '../Drawer'
@@ -79,6 +86,32 @@ class Drivers extends React.Component {
     }))
   }
 
+  handleSendCredentials = () => {
+    const { loadedUser, drivers, user, dispatch } = this.props
+    const { id, username, password } = loadedUser
+    const { token } = user
+    const { rows } = drivers
+    const { phone_no } = find(({ id: userId }) => id === userId)(rows)
+    dispatch(
+      sendCredentials({
+        username,
+        password,
+        email: '',
+        phone_no,
+        type: 'Driver',
+        token,
+      }),
+    ).then(({ payload }) => {
+      const { status, data } = payload
+      const { message = 'Something Bad happened' } = data
+      if (status === 200) {
+        dispatch(showErrorMessage(message, 'success'))
+      } else {
+        dispatch(showErrorMessage(message))
+      }
+    })
+  }
+
   handleRowClick = data => {
     const { triggerDrawer, dispatch, user, onDrawerClose } = this.props
     const { id, fullname, status, photo } = data
@@ -102,6 +135,7 @@ class Drivers extends React.Component {
           credentials: {
             username,
             password,
+            hasCredentials: true,
           },
           driver: {
             id,
@@ -114,7 +148,12 @@ class Drivers extends React.Component {
         this.setState(() => ({ isLoading: false }))
         triggerDrawer({
           title: 'Driver Content',
-          content: <Drawer data={dataToShow} />,
+          content: (
+            <Drawer
+              data={dataToShow}
+              sendCredentials={this.handleSendCredentials}
+            />
+          ),
         })
       }
     })
@@ -147,10 +186,11 @@ class Drivers extends React.Component {
 const mapStateToProps = state => {
   const drivers = getOr({}, 'drivers')(state)
   const user = getOr({}, 'user')(state)
+  const loadedUser = getOr({}, 'users.loadedUser')(state)
   const driversList = getOr([], 'drivers')(drivers)
   const error = getOr('', 'message')(drivers)
   const transformedDrivers = transformData(driversList)
-  return { drivers: transformedDrivers, user, error }
+  return { drivers: transformedDrivers, user, error, loadedUser }
 }
 
 const drawerSettings = { style: {} }

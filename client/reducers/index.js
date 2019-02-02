@@ -18,6 +18,7 @@ import students from './students'
 import shifts from './shifts'
 import photo from './photo'
 import announcements from './announcements'
+import credentials from './credentials'
 import leaves from './leaves'
 import users from './users'
 import * as ActionTypes from '../actions'
@@ -74,6 +75,7 @@ const rootReducer = combineReducers({
   shifts,
   photo,
   announcements,
+  credentials,
   users,
   form: formReducer,
 })
