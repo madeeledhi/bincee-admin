@@ -48,6 +48,7 @@ const MainDashboardInner = ({
       <When condition={authenticated && !isLoading}>
         <Header
           onClickSignout={onClickSignout}
+          activePath={activePath}
           user={user}
           userDetails={userDetails}
           authenticated={authenticated}

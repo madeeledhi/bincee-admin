@@ -6,7 +6,10 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Popover from '@material-ui/core/Popover'
 import Icon from '@material-ui/core/Icon'
 import { withStyles } from '@material-ui/core/styles'
+import Grow from '@material-ui/core/Grow'
+import getOr from 'lodash/fp/getOr'
 // src
+import { content } from './constants'
 import styles from './Header.less'
 
 const ActionItem = withStyles({
@@ -20,6 +23,7 @@ const ActionItem = withStyles({
 class Header extends React.Component {
   state = {
     anchorEl: null,
+    checked: false,
   }
 
   handleMenu = event => {
@@ -30,9 +34,18 @@ class Header extends React.Component {
     this.setState({ anchorEl: null })
   }
 
+  handleMouseEnter() {
+    this.setState(() => ({ checked: true }))
+  }
+
+  handleMouseExit() {
+    this.setState(() => ({ checked: false }))
+  }
+
   render() {
-    const { user, onClickSignout, onRouteChange, userDetails } = this.props
-    const { anchorEl } = this.state
+    const { onClickSignout, onRouteChange, activePath } = this.props
+    const currentContent = getOr('', activePath)(content)
+    const { anchorEl, checked } = this.state
     const open = Boolean(anchorEl)
 
     return (
@@ -41,6 +54,22 @@ class Header extends React.Component {
           <img className={styles.img} alt="logo" src="/images/whiteLogo.png" />
         </div>
         <div className={styles.actionItems}>
+          {currentContent && (
+            <div className={styles.helpSection}>
+              <Grow in={checked}>
+                <div className={styles.helpContent}>
+                  <div className={styles.helpText}>{currentContent}</div>
+                </div>
+              </Grow>
+              <div className={styles.helpIcon}>
+                <div
+                  id="help"
+                  onMouseEnter={() => this.handleMouseEnter()}
+                  onMouseLeave={() => this.handleMouseExit()}
+                />
+              </div>
+            </div>
+          )}
           <ActionItem
             aria-owns={open ? 'menu-appbar' : undefined}
             aria-haspopup="true"
@@ -49,7 +78,14 @@ class Header extends React.Component {
             className={styles.profile}
             disableTouchRipple
           >
-            <Avatar alt="Remy Sharp" src="/images/man.png" />
+            <Avatar
+              alt="Remy Sharp"
+              src="/images/man.png"
+              style={{
+                width: 45,
+                height: 45,
+              }}
+            />
           </ActionItem>
           <Popover
             id="menu-appbar"

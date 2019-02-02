@@ -1,5 +1,4 @@
 import React from 'react'
-import size from 'lodash/fp/size'
 import map from 'lodash/fp/map'
 import filter from 'lodash/fp/filter'
 import includes from 'lodash/fp/includes'

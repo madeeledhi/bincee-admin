@@ -37,9 +37,49 @@
   color: #07b9ed !important;
   font-size: 13pt !important;
   padding-right: 2em !important;
+  span {
+    width: 50px;
+    height: 50px;
+  }
 }
 .iconColor {
   color: #00c6ff;
   padding: 10px;
   margin-left: -11px;
+}
+.helpSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  .helpContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .helpText {
+      background: #07b9ed;
+      color: #fff;
+      font-family: gotham-black;
+      font-size: 12px;
+      height: 40px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 1px 2px rgba(7, 185, 237, 0.5);
+      margin: 0 10px;
+      padding: 2px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+  .helpIcon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    div {
+      cursor: pointer;
+      background-image: url(/images/help.png);
+      width: 50px;
+      height: 50px;
+      background-size: 100%;
+    }
+  }
 }
