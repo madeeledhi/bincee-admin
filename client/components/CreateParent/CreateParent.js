@@ -48,8 +48,8 @@ class CreateParent extends React.Component {
   createNewParent = () => {
     const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
-    const lat = 33.99
-    const lng = 70.89
+    const lat = 0.0
+    const lng = 0.0
     const username = uniqueId(`${snakeCase(formValues.fullname)}p`)
     const password = uniqueId('ChangeMe@')
     const { fullname, address, phone_no, email, status, photo } = formValues
