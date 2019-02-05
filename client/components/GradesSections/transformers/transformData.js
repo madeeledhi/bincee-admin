@@ -5,6 +5,7 @@ import map from 'lodash/fp/map'
 import startCase from 'lodash/fp/startCase'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
+import sortBy from 'lodash/fp/sortBy'
 import cloneDeep from 'lodash/cloneDeep'
 
 function getColumns(grades) {
@@ -28,9 +29,12 @@ function getColumns(grades) {
 }
 
 function getRows(grades) {
-  return map(grade => {
-    return renameKeyName(grade, 'grade_id', 'id')
-  })(grades)
+  return flow(
+    sortBy('grade_id'),
+    map(grade => {
+      return renameKeyName(grade, 'grade_id', 'id')
+    }),
+  )(grades)
 }
 
 export default grades => {

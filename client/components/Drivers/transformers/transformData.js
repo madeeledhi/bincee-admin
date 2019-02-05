@@ -3,6 +3,7 @@ import keys from 'lodash/fp/keys'
 import reduce from 'lodash/fp/reduce'
 import map from 'lodash/fp/map'
 import startCase from 'lodash/fp/startCase'
+import sortBy from 'lodash/fp/sortBy'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
 import cloneDeep from 'lodash/cloneDeep'
@@ -31,11 +32,13 @@ function getColumns(drivers) {
 }
 
 function getRows(drivers) {
-  return map(driver => {
-    return renameKeyName(driver, 'driver_id', 'id')
-  })(drivers)
+  return flow(
+    sortBy('driver_id'),
+    map(driver => {
+      return renameKeyName(driver, 'driver_id', 'id')
+    }),
+  )(drivers)
 }
-
 export default drivers => {
   if (size(drivers) < 1) {
     return { columns: [], rows: [] }

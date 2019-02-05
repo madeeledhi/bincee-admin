@@ -5,6 +5,7 @@ import startCase from 'lodash/fp/startCase'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
 import cloneDeep from 'lodash/cloneDeep'
+import sortBy from 'lodash/fp/sortBy'
 
 function getColumns(students) {
   const [first] = students
@@ -42,7 +43,7 @@ function getColumns(students) {
 }
 
 function getRows(students) {
-  return students
+  return sortBy('id')(students)
 }
 
 export default students => {

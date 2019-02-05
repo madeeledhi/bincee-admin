@@ -5,6 +5,7 @@ import map from 'lodash/fp/map'
 import startCase from 'lodash/fp/startCase'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
+import sortBy from 'lodash/fp/sortBy'
 import omit from 'lodash/omit'
 import cloneDeep from 'lodash/cloneDeep'
 import moment from 'moment'
@@ -39,11 +40,14 @@ function getColumns(leaves) {
 }
 
 function getRows(leaves) {
-  return map(leave => {
-    const from_date = moment(leave.from_date).format('ll')
-    const to_date = moment(leave.to_date).format('ll')
-    return { ...omit(leave, 'tableData'), from_date, to_date }
-  })(leaves)
+  return flow(
+    sortBy('id'),
+    map(leave => {
+      const from_date = moment(leave.from_date).format('ll')
+      const to_date = moment(leave.to_date).format('ll')
+      return { ...omit(leave, 'tableData'), from_date, to_date }
+    }),
+  )(leaves)
 }
 
 export default leaves => {

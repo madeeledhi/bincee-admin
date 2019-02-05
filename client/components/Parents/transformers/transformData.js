@@ -5,6 +5,7 @@ import map from 'lodash/fp/map'
 import startCase from 'lodash/fp/startCase'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
+import sortBy from 'lodash/fp/sortBy'
 import cloneDeep from 'lodash/cloneDeep'
 
 function getColumns(parents) {
@@ -37,9 +38,12 @@ function getColumns(parents) {
 }
 
 function getRows(parents) {
-  return map(parent => {
-    return renameKeyName(parent, 'parent_id', 'id')
-  })(parents)
+  return flow(
+    sortBy('parent_id'),
+    map(parent => {
+      return renameKeyName(parent, 'parent_id', 'id')
+    }),
+  )(parents)
 }
 
 export default parents => {

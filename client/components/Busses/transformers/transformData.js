@@ -5,6 +5,7 @@ import map from 'lodash/fp/map'
 import startCase from 'lodash/fp/startCase'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
+import sortBy from 'lodash/fp/sortBy'
 import cloneDeep from 'lodash/cloneDeep'
 
 function getColumns(busses) {
@@ -28,9 +29,12 @@ function getColumns(busses) {
 }
 
 function getRows(busses) {
-  return map(bus => {
-    return renameKeyName(bus, 'id', 'id')
-  })(busses)
+  return flow(
+    sortBy('id'),
+    map(bus => {
+      return renameKeyName(bus, 'id', 'id')
+    }),
+  )(busses)
 }
 
 export default busses => {
