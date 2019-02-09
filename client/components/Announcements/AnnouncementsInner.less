@@ -73,6 +73,54 @@
       margin: 0.1rem 1rem 0.1rem;
     }
   }
+  .rowLeft {
+    display: flex;
+    align-items: center;
+    // justify-content: space-evenly;
+    margin: 1rem;
+    margin-left: 5%;
+    .label {
+      font-family: gotham-book;
+      font-size: 11pt;
+      font-weight: bold;
+    }
+    .chip {
+      width: 12% !important;
+      margin-left: 8px !important;
+      margin-top: 8px !important;
+      color: white;
+      background-color: #06b9ed;
+      font-family: gotham-black;
+      font-size: 7pt;
+    }
+    .find {
+      width: 1em important;
+    }
+    .item {
+      width: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+
+      div {
+        width: 100%;
+      }
+      div > fieldset {
+        border-radius: 25px;
+      }
+      div > input {
+        border: 1px solid transparent;
+        border-radius: 26px;
+      }
+    }
+    .radioButton {
+      display: flex;
+      align-items: center;
+      flex-direction: row !important;
+      margin: 0.1rem 1rem 0.1rem;
+      color: #07b9ed;
+    }
+  }
 }
 
 .select {
@@ -80,4 +128,21 @@
   &:focus {
     background: none !important;
   }
+}
+.checkBox {
+  padding: 6px;
+}
+.checked {
+  color: #07b9ed;
+  border: 1px solid gainsboro;
+  font-size: 18px !important;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px 0.5px gainsboro;
+}
+.unChecked {
+  color: transparent;
+  border: 1px solid gainsboro;
+  font-size: 18px !important;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px 0.5px gainsboro;
 }
