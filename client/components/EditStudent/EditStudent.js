@@ -157,8 +157,8 @@ class EditStudent extends React.Component {
   render() {
     const { disabled, isLoading } = this.state
     const { driversList, parentsList, gradesList, shiftsList } = this.props
-    const morningShifts = filter(({ type }) => type === 'Morning')(shiftsList)
-    const eveningShifts = filter(({ type }) => type === 'Evening')(shiftsList)
+    const morningShifts = filter(({ type }) => type === 'Pickup')(shiftsList)
+    const eveningShifts = filter(({ type }) => type === 'Dropoff')(shiftsList)
     const { classes, onClose, formValues, ...other } = this.props
     const { photo } = formValues || {}
     return (
