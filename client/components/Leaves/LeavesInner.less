@@ -10,19 +10,30 @@
     font-size: 17pt !important;
     padding: 23px 5px !important;
   }
-  .actions{
-    color: #07b9ed ;
+  .actions {
+    color: #07b9ed !important;
     border-bottom: 1px solid;
+    :hover:not(.MuiInput-disabled-158):not(.MuiInput-focused-157):not(.MuiInput-error-160):before {
+      border: none !important;
+    }
+    :before {
+      border: none !important;
+    }
+    :after {
+      border-bottom: 2px solid #07b9ed !important;
+    }
+    span {
+      color: #07b9ed !important;
+    }
   }
-  
 }
-.heading{
+.heading {
   display: contents !important;
-  thead{
+  thead {
     font-size: 8pt !important;
     font-family: gotham-book !important;
     color: #3972a1 !important;
-    th{
+    th {
       font-size: 8pt !important;
       font-family: gotham-book !important;
       color: #3972a1 !important;
@@ -32,20 +43,19 @@
 }
 .body {
   display: contents !important;
-  tbody{
+  tbody {
     color: #1d1d1d !important;
     font-size: 9pt !important;
     font-family: gotham-book !important;
     border-bottom: none;
   }
-  tr{
+  tr {
     background-color: #fff !important;
   }
-  tr:hover{
+  tr:hover {
     background-color: #daf7ff !important;
   }
-  td{
+  td {
     border-bottom: none;
   }
-  
 }

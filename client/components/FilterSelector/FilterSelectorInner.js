@@ -5,7 +5,6 @@ import startCase from 'lodash/fp/startCase'
 import TextField from '@material-ui/core/TextField'
 import Checkbox from '@material-ui/core/Checkbox'
 import ListItemText from '@material-ui/core/ListItemText'
-import Button from '@material-ui/core/Button'
 import Popover from '@material-ui/core/Popover'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -13,8 +12,11 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Icon from '@material-ui/core/Icon'
 import InputAdornment from '@material-ui/core/InputAdornment'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormControl from '@material-ui/core/FormControl'
 
 // src
+import Button from '../Button'
 import styles from './FilterSelectorInner.less'
 
 const FilterSelectorInner = ({
@@ -36,27 +38,28 @@ const FilterSelectorInner = ({
   const open = Boolean(anchorEl)
   const filterLabel = startCase(filterName)
   return (
-    <div>
-      <TextField
-        label={filterLabel}
-        onClick={onMenuOpen}
-        className={styles.filterField}
-        value={`(${selectedCount}) Selected`}
-        aria-owns={open ? 'filter-popover' : undefined}
-        aria-haspopup="true"
-        variant="outlined"
-        margin="dense"
-        disabled
-        InputProps={{
-          classes: { input: styles.input },
-          endAdornment: (
-            <InputAdornment position="end">
-              <Icon>arrow_drop_down</Icon>
-            </InputAdornment>
-          ),
-        }}
-        InputLabelProps={{ className: styles.filterFieldLabel }}
-      />
+    <div className={styles.row}>
+      <FormControl className={styles.item}>
+        <TextField
+          label={filterLabel}
+          onClick={onMenuOpen}
+          className={styles.filterField}
+          value={`(${selectedCount}) Selected`}
+          aria-owns={open ? 'filter-popover' : undefined}
+          aria-haspopup="true"
+          variant="outlined"
+          margin="dense"
+          disabled
+          InputProps={{
+            classes: { input: styles.input },
+            endAdornment: (
+              <InputAdornment position="end">
+                <Icon>arrow_drop_down</Icon>
+              </InputAdornment>
+            ),
+          }}
+          InputLabelProps={{ className: styles.filterFieldLabel }}
+        /></FormControl>
 
       <Popover
         id="filter-popover"
@@ -74,15 +77,17 @@ const FilterSelectorInner = ({
       >
         <div className={styles.root}>
           <div className={styles.row}>
-            <TextField
-              label={`Search `}
-              onChange={onSearchChange}
-              variant="outlined"
-              className={styles.textField}
-              type="search"
-              margin="dense"
-            />
+            <FormControl className={styles.item}>
+              <TextField
+                label={`Search `}
+                onChange={onSearchChange}
+                variant="outlined"
+                className={styles.textField}
+                type="search"
+                margin="dense"
+              /></FormControl>
           </div>
+
           <div className={styles.row}>
             <Tabs
               value={selectedTab}
@@ -178,23 +183,27 @@ const FilterSelectorInner = ({
               </Choose>
             </List>
           </div>
-          <div className={styles.buttonGroup}>
-            <Button
-              color="primary"
-              variant="contained"
-              className={styles.applyButton}
-              onClick={onApplyFilter}
-            >
-              Apply
-            </Button>
-            <Button
-              color="secondary"
-              variant="contained"
-              className={styles.cancelButton}
-              onClick={onMenuClose}
-            >
-              Cancel
-            </Button>
+          <div className={styles.row}>
+            <div className={styles.item}>
+              <Button
+                style={{
+                  backgroundColor: '#07b9ed',
+                  borderColor: '#07b9ed',
+                }}
+                marginStyle={{ margin: '4px 22px' }}
+                onClick={onApplyFilter}
+                label={'Apply'}
+              />
+              <Button
+                style={{
+                  backgroundColor: '#ff4747',
+                  borderColor: '#ff4747',
+                }}
+                marginStyle={{ margin: '4px 22px' }}
+                onClick={onMenuClose}
+                label={'Cancel'}
+              />
+            </div>
           </div>
         </div>
       </Popover>

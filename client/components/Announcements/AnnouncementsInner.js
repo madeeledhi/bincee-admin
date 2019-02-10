@@ -11,6 +11,7 @@ import Chip from '@material-ui/core/Chip'
 import MenuItem from '@material-ui/core/MenuItem'
 import Checkbox from '@material-ui/core/Checkbox'
 import ListItemText from '@material-ui/core/ListItemText'
+import Icon from '@material-ui/core/Icon'
 import map from 'lodash/fp/map'
 
 // src
@@ -56,7 +57,8 @@ const AnnouncementsInner = ({
               style={{ backgroundColor: '#00c6ff', borderColor: '#00c6ff' }}
             />
           </div>
-          <div className={styles.row}>
+          <div className={styles.rowLeft}>
+            <label className={styles.label}>Announcements Options : </label>
             <FormControl component="fieldset">
               {/* <FormLabel component="legend">Gender</FormLabel> */}
               <RadioGroup
@@ -80,16 +82,27 @@ const AnnouncementsInner = ({
           </div>
           <If condition={type === 'student'}>
             <div className={styles.row}>
+              <label className={styles.label}>Driver : </label>
               <FormControlLabel
                 control={
                   <Checkbox
+                    classes={{ root: styles.checkBox }}
                     checked={isDriver}
                     onChange={handleChangeCriteria('isDriver')}
+                    // value={val}
+                    icon={<Icon className={styles.unChecked}>check</Icon>}
+                    checkedIcon={
+                      <Icon className={styles.checked}>check</Icon>
+                    }
                   />
+                  // <Checkbox
+                  //   checked={isDriver}
+                  //   onChange={handleChangeCriteria('isDriver')}
+                  // />
                 }
                 label="Driver"
               />
-              <If condition={isDriver}>
+              {/* <If condition={isDriver}> */}
                 <FilterSelector
                   data={driversList}
                   filterName="fullname"
@@ -97,17 +110,28 @@ const AnnouncementsInner = ({
                   savedFilters={savedFilters}
                   dispatch={dispatch}
                 />
-              </If>
+              {/* </If> */}
+              <label className={styles.label}>Grade : </label>
               <FormControlLabel
                 control={
+                  // <Checkbox
+                  //   checked={isGrade}
+                  //   onChange={handleChangeCriteria('isGrade')}
+                  // />
                   <Checkbox
+                    classes={{ root: styles.checkBox }}
                     checked={isGrade}
                     onChange={handleChangeCriteria('isGrade')}
+                    // value={val}
+                    icon={<Icon className={styles.unChecked}>check</Icon>}
+                    checkedIcon={
+                      <Icon className={styles.checked}>check</Icon>
+                    }
                   />
                 }
                 label="Grade"
               />
-              <If condition={isGrade}>
+              {/* <If condition={isGrade}> */}
                 <FilterSelector
                   data={gradesList}
                   filterName="grade_section"
@@ -115,7 +139,7 @@ const AnnouncementsInner = ({
                   savedFilters={savedFilters}
                   dispatch={dispatch}
                 />
-              </If>
+              {/* </If> */}
               {/* <FormControlLabel
                 control={
                   <Checkbox
@@ -166,7 +190,17 @@ const AnnouncementsInner = ({
                   )}
                 >
                   <MenuItem key="000" value="all" disableTouchRipple>
-                    <Checkbox checked={hasAll} onChange={handleChangeAll} />
+                    {/* <Checkbox checked={hasAll} onChange={handleChangeAll} /> */}
+                    <Checkbox
+                      classes={{ root: styles.checkBox }}
+                      checked={hasAll}
+                      onChange={handleChangeAll}
+                      // value={val}
+                      icon={<Icon className={styles.unChecked}>check</Icon>}
+                      checkedIcon={
+                        <Icon className={styles.checked}>check</Icon>
+                      }
+                    />
                     <ListItemText primary="All" />
                   </MenuItem>
                   {map(student => {
@@ -174,8 +208,17 @@ const AnnouncementsInner = ({
                     return (
                       <MenuItem key={student_id} value={student}>
                         <Checkbox
+                          classes={{ root: styles.checkBox }}
                           checked={selectedStudents.indexOf(student) > -1}
+                          // value={val}
+                          icon={<Icon className={styles.unChecked}>check</Icon>}
+                          checkedIcon={
+                            <Icon className={styles.checked}>check</Icon>
+                          }
                         />
+                        {/* <Checkbox
+                          checked={selectedStudents.indexOf(student) > -1}
+                        /> */}
                         <ListItemText primary={fullname} />
                       </MenuItem>
                     )
