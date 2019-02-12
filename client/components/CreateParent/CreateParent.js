@@ -20,7 +20,7 @@ import {
 } from '../shared/reduxFormMaterialUI'
 import styles from './CreateParent.less'
 import { createParent, uploadImage, showErrorMessage } from '../../actions'
-import { hasPropChanged } from '../../utils'
+import { hasPropChanged, makeUID, makePID } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
@@ -50,8 +50,8 @@ class CreateParent extends React.Component {
     const { token } = user
     const lat = 0.0
     const lng = 0.0
-    const username = uniqueId(`${snakeCase(formValues.fullname)}p`)
-    const password = uniqueId('ChangeMe@')
+    const username = uniqueId(`${snakeCase(formValues.fullname)}p${makeUID()}`)
+    const password = uniqueId(makePID())
     const { fullname, address, phone_no, email, status, photo } = formValues
     this.setState(() => ({ isLoading: true }))
 

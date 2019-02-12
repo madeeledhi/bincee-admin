@@ -21,7 +21,7 @@ import {
 } from '../shared/reduxFormMaterialUI'
 import styles from './CreateDriver.less'
 import { createDriver, uploadImage, showErrorMessage } from '../../actions'
-import { hasPropChanged } from '../../utils'
+import { hasPropChanged, makeUID, makePID } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
@@ -52,8 +52,8 @@ class CreateDriver extends React.Component {
   createDriver = () => {
     const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
-    const username = uniqueId(`${snakeCase(formValues.fullname)}d`)
-    const password = uniqueId('ChangeMe@')
+    const username = uniqueId(`${snakeCase(formValues.fullname)}d${makeUID()}`)
+    const password = uniqueId(makePID())
     const { fullname, phone_no, status, photo } = formValues
     this.setState(() => ({ isLoading: true }))
     dispatch(
