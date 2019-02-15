@@ -34,6 +34,7 @@ const FilterSelectorInner = ({
   onSearchChange,
   selectedTab,
   onTabChange,
+  isDisable,
 }) => {
   const open = Boolean(anchorEl)
   const filterLabel = startCase(filterName)
@@ -42,7 +43,7 @@ const FilterSelectorInner = ({
       <FormControl className={styles.item}>
         <TextField
           label={filterLabel}
-          onClick={onMenuOpen}
+          onClick={isDisable ? () => {} : onMenuOpen}
           className={styles.filterField}
           value={`(${selectedCount}) Selected`}
           aria-owns={open ? 'filter-popover' : undefined}
@@ -59,7 +60,8 @@ const FilterSelectorInner = ({
             ),
           }}
           InputLabelProps={{ className: styles.filterFieldLabel }}
-        /></FormControl>
+        />
+      </FormControl>
 
       <Popover
         id="filter-popover"
@@ -85,7 +87,8 @@ const FilterSelectorInner = ({
                 className={styles.textField}
                 type="search"
                 margin="dense"
-              /></FormControl>
+              />
+            </FormControl>
           </div>
 
           <div className={styles.row}>

@@ -91,9 +91,7 @@ const AnnouncementsInner = ({
                     onChange={handleChangeCriteria('isDriver')}
                     // value={val}
                     icon={<Icon className={styles.unChecked}>check</Icon>}
-                    checkedIcon={
-                      <Icon className={styles.checked}>check</Icon>
-                    }
+                    checkedIcon={<Icon className={styles.checked}>check</Icon>}
                   />
                   // <Checkbox
                   //   checked={isDriver}
@@ -103,13 +101,14 @@ const AnnouncementsInner = ({
                 label="Driver"
               />
               {/* <If condition={isDriver}> */}
-                <FilterSelector
-                  data={driversList}
-                  filterName="fullname"
-                  filterKey="driver_name"
-                  savedFilters={savedFilters}
-                  dispatch={dispatch}
-                />
+              <FilterSelector
+                data={driversList}
+                filterName="fullname"
+                filterKey="driver_name"
+                savedFilters={savedFilters}
+                dispatch={dispatch}
+                isDisable={!isDriver}
+              />
               {/* </If> */}
               <label className={styles.label}>Grade : </label>
               <FormControlLabel
@@ -124,21 +123,20 @@ const AnnouncementsInner = ({
                     onChange={handleChangeCriteria('isGrade')}
                     // value={val}
                     icon={<Icon className={styles.unChecked}>check</Icon>}
-                    checkedIcon={
-                      <Icon className={styles.checked}>check</Icon>
-                    }
+                    checkedIcon={<Icon className={styles.checked}>check</Icon>}
                   />
                 }
                 label="Grade"
               />
               {/* <If condition={isGrade}> */}
-                <FilterSelector
-                  data={gradesList}
-                  filterName="grade_section"
-                  filterKey="grade_name"
-                  savedFilters={savedFilters}
-                  dispatch={dispatch}
-                />
+              <FilterSelector
+                data={gradesList}
+                filterName="grade_section"
+                filterKey="grade_name"
+                savedFilters={savedFilters}
+                dispatch={dispatch}
+                isDisable={!isGrade}
+              />
               {/* </If> */}
               {/* <FormControlLabel
                 control={

@@ -175,9 +175,10 @@ class FilterSelector extends React.Component {
       selectedCount,
       selectedTab,
     } = this.state
-
+    const { isDisable } = this.props
     return (
       <FilterSelectorInner
+        isDisable={isDisable}
         selectAll={selectAll}
         anchorEl={anchorEl}
         selectedTab={selectedTab}
