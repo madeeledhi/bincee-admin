@@ -7,6 +7,7 @@ import some from 'lodash/fp/some'
 import filter from 'lodash/fp/filter'
 import intersection from 'lodash/fp/intersection'
 import every from 'lodash/fp/every'
+import isEqual from 'lodash/fp/isEqual'
 
 // src
 import { hasPropChanged } from '../../utils'
@@ -17,6 +18,7 @@ import {
   loadShifts,
   loadGrades,
   showErrorMessage,
+  updateAnnouncementFilters,
 } from '../../actions'
 import AnnouncementsInner from './AnnouncementsInner'
 
@@ -45,12 +47,10 @@ class Announcements extends React.Component {
     hasAll: false,
     filterCriteria: {
       isDriver: false,
-      isShift: false,
       isGrade: false,
     },
     filterValues: {
       driver: [],
-      shift: [],
       grade: [],
     },
   }
@@ -115,7 +115,6 @@ class Announcements extends React.Component {
       const { studentsList, savedFilters } = nextProps
 
       const studentList = getfilteredData(savedFilters)(studentsList)
-      console.log('-------->', studentList, savedFilters, studentsList)
       const { selectedStudents } = this.state
       const newSelectedStudents = intersection(studentList)(selectedStudents)
       const all = size(newSelectedStudents) === size(studentList)
@@ -129,9 +128,24 @@ class Announcements extends React.Component {
 
   handleChangeCriteria = name => event => {
     const { filterCriteria } = this.state
+    const { savedFilters, dispatch } = this.props
     const newFilterCriteria = {
       ...filterCriteria,
       [name]: event.target.checked,
+    }
+    const { isDriver } = newFilterCriteria
+    const filterKey = !isDriver ? 'driver_name' : 'grade_name'
+    const config = {
+      ...savedFilters,
+      [filterKey]: {
+        id: filterKey,
+        operator: '=',
+        selectedValues: [],
+      },
+    }
+    const filters = { filters: config }
+    if (!isEqual(savedFilters)(config)) {
+      dispatch(updateAnnouncementFilters(filters))
     }
     this.setState(() => ({
       filterCriteria: newFilterCriteria,
