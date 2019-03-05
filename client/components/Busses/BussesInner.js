@@ -16,6 +16,7 @@ const BussesInner = ({
   onDeleteBus,
   onCreateBus,
   onUpdateBus,
+  onDataExport,
   createDialog,
   editDialog,
   editId,
@@ -30,6 +31,7 @@ const BussesInner = ({
           rows={rows}
           data={data}
           error={error}
+          onDataExport={onDataExport}
           handleRowClick={onRowClick}
           handleDeleteRow={onDeleteBus}
           handleCreateRow={onCreateBus}

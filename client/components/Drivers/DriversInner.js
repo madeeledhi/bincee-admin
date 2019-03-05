@@ -20,6 +20,7 @@ const DriversInner = ({
   editDialog,
   editId,
   handleClose,
+  onDataExport,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -30,6 +31,7 @@ const DriversInner = ({
           rows={rows}
           data={data}
           error={error}
+          onDataExport={onDataExport}
           handleRowClick={onRowClick}
           handleDeleteRow={onDeleteDriver}
           handleCreateRow={onCreateDriver}

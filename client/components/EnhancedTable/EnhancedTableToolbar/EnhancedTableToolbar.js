@@ -28,6 +28,7 @@ const EnhancedTableToolbar = props => {
     onCreateRow,
     selectedArray,
     onDeleteMutipleRows,
+    onDataExport,
   } = props
   // TODO: Bring the content to center in rows just like in the design
   return (
@@ -71,7 +72,18 @@ const EnhancedTableToolbar = props => {
           //     <Icon className={styles.createIcon} > add_circle</Icon>
           //   </IconButton>
           // </Tooltip>
-          <Button onClick={onCreateRow} label={'Create'} />
+          <div className={styles.actions}>
+            <Button
+              style={{ margin: '0 10px' }}
+              onClick={e => onDataExport()}
+              label={'Export Data'}
+            />
+            <Button
+              style={{ margin: '0 10px' }}
+              onClick={onCreateRow}
+              label={'Create'}
+            />
+          </div>
         )}
       </div>
     </Toolbar>

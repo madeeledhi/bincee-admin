@@ -127,6 +127,7 @@ class EnhancedTable extends React.Component {
       handleRowClick = () => true,
       handleCreateRow,
       tableName,
+      onDataExport = () => true,
     } = this.props
 
     return (
@@ -142,6 +143,7 @@ class EnhancedTable extends React.Component {
         onSelectAllClick={this.handleSelectAllClick}
         onRequestSort={this.handleRequestSort}
         onClick={this.handleClick}
+        onDataExport={onDataExport}
         onDeleteRow={handleDeleteRow}
         onEditRow={handleEditRow}
         onDeleteMutipleRows={this.handleDeleteMutipleRows}

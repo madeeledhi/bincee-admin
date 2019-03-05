@@ -7,7 +7,7 @@ import map from 'lodash/fp/map'
 
 // src
 import transformData from './transformers/transformData'
-import { hasPropChanged } from '../../utils'
+import { hasPropChanged, exportData } from '../../utils'
 import { loadShifts, deleteShift } from '../../actions'
 import ShiftsAndTimingsInner from './ShiftsAndTimingsInner'
 
@@ -78,6 +78,26 @@ class ShiftsAndTimings extends React.Component {
     }))
   }
 
+  exportData = () => {
+    const { rawShifts } = this.props
+    const { shifts } = rawShifts
+    if (size(shifts) > 0) {
+      exportData(shifts, 'Shifts')
+    } else {
+      exportData(
+        [
+          {
+            shift_name: '',
+            type: '',
+            start_time: '',
+            end_time: '',
+          },
+        ],
+        'Shifts',
+      )
+    }
+  }
+
   render() {
     const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { shifts } = this.props
@@ -89,6 +109,7 @@ class ShiftsAndTimings extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
+        onDataExport={this.exportData}
         onDeleteShift={this.handleDeleteShift}
         onCreateShift={this.handleCreateShift}
         onUpdateShift={this.handleUpdateShift}
@@ -107,6 +128,6 @@ const mapStateToProps = state => {
   const shiftsList = getOr([], 'shifts')(shifts)
   const error = getOr('', 'message')(shifts)
   const transformedShifts = transformData(shiftsList)
-  return { shifts: transformedShifts, user, error }
+  return { shifts: transformedShifts, user, rawShifts: shifts, error }
 }
 export default connect(mapStateToProps)(ShiftsAndTimings)

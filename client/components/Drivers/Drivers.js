@@ -7,7 +7,7 @@ import size from 'lodash/fp/size'
 
 // src
 import transformData from './transformers/transformData'
-import { hasPropChanged } from '../../utils'
+import { hasPropChanged, exportData } from '../../utils'
 import {
   loadDrivers,
   deleteDriver,
@@ -159,6 +159,19 @@ class Drivers extends React.Component {
     })
   }
 
+  exportData = () => {
+    const { rawDriver } = this.props
+    const { drivers } = rawDriver
+    if (size(drivers) > 0) {
+      exportData(drivers, 'Drivers')
+    } else {
+      exportData(
+        [{ driver_id: '', fullname: '', phone_no: '', status: '' }],
+        'Drivers',
+      )
+    }
+  }
+
   render() {
     const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { drivers } = this.props
@@ -170,6 +183,7 @@ class Drivers extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
+        onDataExport={this.exportData}
         onRowClick={this.handleRowClick}
         onDeleteDriver={this.handleDeleteDriver}
         onCreateDriver={this.handleCreateDriver}
@@ -190,7 +204,13 @@ const mapStateToProps = state => {
   const driversList = getOr([], 'drivers')(drivers)
   const error = getOr('', 'message')(drivers)
   const transformedDrivers = transformData(driversList)
-  return { drivers: transformedDrivers, user, error, loadedUser }
+  return {
+    drivers: transformedDrivers,
+    user,
+    rawDriver: drivers,
+    error,
+    loadedUser,
+  }
 }
 
 const drawerSettings = { style: {} }

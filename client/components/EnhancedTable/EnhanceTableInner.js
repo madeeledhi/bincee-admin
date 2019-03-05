@@ -51,6 +51,7 @@ const EnhancedTableInner = props => {
     hasButtons = true,
     tableName,
     onRowClick,
+    onDataExport,
   } = props
 
   return (
@@ -60,6 +61,7 @@ const EnhancedTableInner = props => {
         selectedArray={selected}
         tableName={tableName}
         onCreateRow={onCreateRow}
+        onDataExport={onDataExport}
         onDeleteMutipleRows={onDeleteMutipleRows}
       />
 
