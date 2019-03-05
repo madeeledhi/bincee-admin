@@ -156,16 +156,24 @@ class Announcements extends React.Component {
     const { studentList } = this.state
     const val = event.target.checked ? studentList : []
     const hasAll = event.target.checked
+    const studentError = size(val) > 0 ? undefined : 'Required'
     this.setState(() => ({
       selectedStudents: val,
       hasAll,
+      studentError,
     }))
   }
 
   handleChange = name => event => {
     const val = event.target.value
-    const { studentsList } = this.props
-    const { errors, type, selectedStudents, studentList } = this.state
+
+    const {
+      errors,
+      type,
+      selectedStudents,
+      studentList,
+      studentError,
+    } = this.state
     const hasAll =
       size(val) === size(studentList) && name === 'selectedStudents'
     const newErrors =
@@ -176,7 +184,7 @@ class Announcements extends React.Component {
             [name]: size(val) > 0 ? undefined : 'Required',
           }
 
-    const studentError =
+    const newStudentError =
       type === 'student' || val === 'student'
         ? (name === 'selectedStudents' && size(val) < 1) ||
           (name === 'type' && val === 'student' && size(selectedStudents) < 1)
@@ -189,7 +197,10 @@ class Announcements extends React.Component {
         [name]: val,
         hasAll,
         errors: newErrors,
-        studentError,
+        studentError:
+          name === 'message' || name === 'subject'
+            ? studentError
+            : newStudentError,
       }))
     }
   }
