@@ -7,7 +7,7 @@ import map from 'lodash/fp/map'
 
 // src
 import transformData from './transformers/transformData'
-import { hasPropChanged } from '../../utils'
+import { hasPropChanged, exportData } from '../../utils'
 import InfoDrawer from '../InfoDrawer'
 import { loadGrades, deleteGrade } from '../../actions'
 import GradesSectionsInner from './GradesSectionsInner'
@@ -82,6 +82,16 @@ class GradesSections extends React.Component {
     }))
   }
 
+  exportData = () => {
+    const { rawGrades } = this.props
+    const { grades } = rawGrades
+    if (size(grades) > 0) {
+      exportData(grades, 'Grades')
+    } else {
+      exportData([{ grade_name: '', section: '', grade_section: '' }], 'Grades')
+    }
+  }
+
   render() {
     const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { grades } = this.props
@@ -93,6 +103,7 @@ class GradesSections extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
+        onDataExport={this.exportData}
         onDeleteGrade={this.handleDeleteGrade}
         onCreateGrade={this.handleCreateGrade}
         onUpdateGrade={this.handleUpdateGrade}
@@ -111,7 +122,7 @@ const mapStateToProps = state => {
   const gradesList = getOr([], 'grades')(grades)
   const error = getOr('', 'message')(grades)
   const transformedGrades = transformData(gradesList)
-  return { grades: transformedGrades, user, error }
+  return { grades: transformedGrades, user, rawGrades: grades, error }
 }
 // TODO: send the style for drawer header
 const drawerSettings = { style: {} }

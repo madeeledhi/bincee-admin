@@ -1,7 +1,16 @@
+import XLSX from 'xlsx'
+
 export * from './utils'
 export { default as configureRouter } from './configureRouter'
 export * from './formValidation'
 export * from './getBaseUrl'
+
+export const exportData = (data, name) => {
+  const worksheet = XLSX.utils.json_to_sheet(data)
+  const newWorkbook = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(newWorkbook, worksheet, name)
+  XLSX.writeFile(newWorkbook, name.concat('.xlsx'))
+}
 
 export const makeUID = () =>
   '-xxxx'.replace(/[xy]/g, c => {

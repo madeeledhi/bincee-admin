@@ -8,7 +8,7 @@ import size from 'lodash/fp/size'
 import transformData, {
   transformDrawerData,
 } from './transformers/transformData'
-import { hasPropChanged } from '../../utils'
+import { hasPropChanged, exportData } from '../../utils'
 import {
   loadStudents,
   deleteStudent,
@@ -176,6 +176,29 @@ class Students extends React.Component {
     })
   }
 
+  exportData = () => {
+    const { rawStudents } = this.props
+    const { students } = rawStudents
+    if (size(students) > 0) {
+      exportData(students, 'Students')
+    } else {
+      exportData(
+        [
+          {
+            fullname: '',
+            grade: '',
+            shift_morning: '',
+            shift_evening: '',
+            parent_id: '',
+            driver_id: '',
+            status: '',
+          },
+        ],
+        'Students',
+      )
+    }
+  }
+
   render() {
     const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { students } = this.props
@@ -187,6 +210,7 @@ class Students extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
+        onDataExport={this.exportData}
         onDeleteStudent={this.handleDeleteStudent}
         onCreateStudent={this.handleCreateStudent}
         onUpdateStudent={this.handleUpdateStudent}
@@ -206,7 +230,7 @@ const mapStateToProps = state => {
   const studentsList = getOr([], 'students')(students)
   const error = getOr('', 'message')(students)
   const transformedStudents = transformData(studentsList)
-  return { students: transformedStudents, user, error }
+  return { students: transformedStudents, user, rawStudents: students, error }
 }
 
 const drawerSettings = { style: {} }

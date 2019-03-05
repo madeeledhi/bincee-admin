@@ -8,7 +8,7 @@ import size from 'lodash/fp/size'
 import transformData, {
   transformDrawerData,
 } from './transformers/transformData'
-import { hasPropChanged } from '../../utils'
+import { hasPropChanged, exportData } from '../../utils'
 import InfoDrawer from '../InfoDrawer'
 import { loadAllBus, deleteBus, loadSingleDriver } from '../../actions'
 import BussesInner from './BussesInner'
@@ -45,6 +45,19 @@ class Busses extends React.Component {
       } else {
         this.setState(() => ({ error, isLoading: false }))
       }
+    }
+  }
+
+  exportData = () => {
+    const { rawBuses } = this.props
+    const { bus } = rawBuses
+    if (size(bus) > 0) {
+      exportData(bus, 'Busses')
+    } else {
+      exportData(
+        [{ id: '', registration_no: '', description: '', driver_id: '' }],
+        'Busses',
+      )
     }
   }
 
@@ -119,6 +132,7 @@ class Busses extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
+        onDataExport={this.exportData}
         onRowClick={this.handleRowClick}
         onDeleteBus={this.handleDeleteBus}
         onCreateBus={this.handleCreateBus}
@@ -138,7 +152,7 @@ const mapStateToProps = state => {
   const bussesList = getOr([], 'bus')(busses)
   const error = getOr('', 'message')(busses)
   const transformedBusses = transformData(bussesList)
-  return { busses: transformedBusses, user, error }
+  return { busses: transformedBusses, rawBuses: busses, user, error }
 }
 const drawerSettings = { style: {} }
 export default InfoDrawer(drawerSettings)(connect(mapStateToProps)(Busses))

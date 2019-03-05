@@ -20,6 +20,7 @@ const StudentsInner = ({
   editDialog,
   editId,
   handleClose,
+  onDataExport,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -30,6 +31,7 @@ const StudentsInner = ({
           rows={rows}
           data={data}
           error={error}
+          onDataExport={onDataExport}
           handleDeleteRow={onDeleteStudent}
           handleCreateRow={onCreateStudent}
           handleEditRow={onUpdateStudent}

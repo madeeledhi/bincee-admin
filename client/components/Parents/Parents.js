@@ -7,7 +7,7 @@ import find from 'lodash/fp/find'
 
 // src
 import transformData from './transformers/transformData'
-import { hasPropChanged } from '../../utils'
+import { hasPropChanged, exportData } from '../../utils'
 import {
   loadParents,
   deleteParent,
@@ -158,6 +158,19 @@ class Parents extends React.Component {
     })
   }
 
+  exportData = () => {
+    const { rawParent } = this.props
+    const { parents } = rawParent
+    if (size(parents) > 0) {
+      exportData(parents, 'Parents')
+    } else {
+      exportData(
+        [{ fullname: '', phone_no: '', address: '', email: '', status: '' }],
+        'Parents',
+      )
+    }
+  }
+
   render() {
     const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { parents } = this.props
@@ -169,6 +182,7 @@ class Parents extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
+        onDataExport={this.exportData}
         onRowClick={this.handleRowClick}
         onDeleteParent={this.handleDeleteParent}
         onCreateParent={this.handleCreateParent}
@@ -189,7 +203,13 @@ const mapStateToProps = state => {
   const loadedUser = getOr({}, 'users.loadedUser')(state)
   const error = getOr('', 'message')(parents)
   const transformedParents = transformData(parentsList)
-  return { parents: transformedParents, user, error, loadedUser }
+  return {
+    parents: transformedParents,
+    user,
+    error,
+    rawParent: parents,
+    loadedUser,
+  }
 }
 
 const drawerSettings = { style: {} }

@@ -19,6 +19,7 @@ const GradesSectionsInner = ({
   editDialog,
   editId,
   handleClose,
+  onDataExport,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -29,6 +30,7 @@ const GradesSectionsInner = ({
           rows={rows}
           data={data}
           error={error}
+          onDataExport={onDataExport}
           handleDeleteRow={onDeleteGrade}
           handleCreateRow={onCreateGrade}
           handleEditRow={onUpdateGrade}
