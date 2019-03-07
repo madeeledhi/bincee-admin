@@ -29,6 +29,7 @@ const EnhancedTableToolbar = props => {
     selectedArray,
     onDeleteMutipleRows,
     onDataExport,
+    onDataImport,
   } = props
   // TODO: Bring the content to center in rows just like in the design
   return (
@@ -77,6 +78,12 @@ const EnhancedTableToolbar = props => {
               style={{ margin: '0 10px' }}
               onClick={e => onDataExport()}
               label={'Export Data'}
+            />
+            <Button
+              style={{ margin: '0 10px' }}
+              onClick={e => onDataImport(e)}
+              label={'Import Data'}
+              type="file"
             />
             <Button
               style={{ margin: '0 10px' }}

@@ -3,12 +3,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
-import map from 'lodash/fp/map'
+import XLSX from 'xlsx'
 
 // src
 import transformData from './transformers/transformData'
 import { hasPropChanged, exportData } from '../../utils'
-import { loadShifts, deleteShift } from '../../actions'
+import { loadShifts, deleteShift, showErrorMessage } from '../../actions'
 import ShiftsAndTimingsInner from './ShiftsAndTimingsInner'
 
 class ShiftsAndTimings extends React.Component {
@@ -98,6 +98,24 @@ class ShiftsAndTimings extends React.Component {
     }
   }
 
+  importData = event => {
+    const { dispatch } = this.props
+    const [selectedFile] = event.target.files
+    if (selectedFile) {
+      const reader = new FileReader()
+      reader.onload = e => {
+        const xlsrow = e.target.result
+        const workbook = XLSX.read(xlsrow, { type: 'buffer' })
+        const jsonResult = XLSX.utils.sheet_to_json(workbook.Sheets['Busses'])
+        if (size(jsonResult) < 1) {
+          dispatch(showErrorMessage('No Data Found in Sheet', 'error'))
+        }
+        console.log('wprl: ', jsonResult, workbook)
+      }
+      reader.readAsArrayBuffer(selectedFile)
+    }
+  }
+
   render() {
     const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { shifts } = this.props
@@ -109,6 +127,7 @@ class ShiftsAndTimings extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
+        importData={this.importData}
         onDataExport={this.exportData}
         onDeleteShift={this.handleDeleteShift}
         onCreateShift={this.handleCreateShift}

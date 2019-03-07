@@ -12,7 +12,37 @@
   margin: 9px 38px;
   text-align: center;
 }
-.disable{
+.disable {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+.inputText {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.inputText + label {
+  font-size: 12px;
+  background-color: #00c6ff;
+  border: 1px solid #00c6ff;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: 600;
+  font-family: gotham-book;
+  padding: 9px 38px;
+  text-align: center;
+}
+
+.inputText:focus + label,
+.inputText + label:hover {
+  background-color: #00c6ff;
+}
+
+.inputText + label {
+  cursor: pointer; /* "hand" cursor */
 }

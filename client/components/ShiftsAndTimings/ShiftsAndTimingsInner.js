@@ -19,6 +19,7 @@ const ShiftsAndTimingsInner = ({
   editId,
   handleClose,
   onDataExport,
+  importData,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -30,6 +31,7 @@ const ShiftsAndTimingsInner = ({
           data={data}
           error={error}
           onDataExport={onDataExport}
+          onDataImport={importData}
           handleDeleteRow={onDeleteShift}
           handleCreateRow={onCreateShift}
           handleEditRow={onUpdateShift}
