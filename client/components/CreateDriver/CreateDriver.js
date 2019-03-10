@@ -52,9 +52,9 @@ class CreateDriver extends React.Component {
   createDriver = () => {
     const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
-    const username = uniqueId(`${snakeCase(formValues.fullname)}d${makeUID()}`)
-    const password = uniqueId(makePID())
     const { fullname, phone_no, status, photo } = formValues
+    const username = phone_no
+    const password = uniqueId(makePID())
     this.setState(() => ({ isLoading: true }))
     dispatch(
       createDriver({

@@ -21,6 +21,7 @@ const ParentsInner = ({
   editId,
   handleClose,
   onDataExport,
+  importData,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -31,6 +32,7 @@ const ParentsInner = ({
           rows={rows}
           data={data}
           error={error}
+          onDataImport={importData}
           onDataExport={onDataExport}
           handleRowClick={onRowClick}
           handleDeleteRow={onDeleteParent}

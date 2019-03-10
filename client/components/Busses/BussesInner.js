@@ -21,6 +21,7 @@ const BussesInner = ({
   editDialog,
   editId,
   handleClose,
+  importData,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -31,6 +32,7 @@ const BussesInner = ({
           rows={rows}
           data={data}
           error={error}
+          onDataImport={importData}
           onDataExport={onDataExport}
           handleRowClick={onRowClick}
           handleDeleteRow={onDeleteBus}

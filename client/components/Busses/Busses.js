@@ -3,14 +3,24 @@ import React from 'react'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
+import map from 'lodash/fp/map'
+import filter from 'lodash/fp/filter'
+import XLSX from 'xlsx'
 
 // src
 import transformData, {
   transformDrawerData,
 } from './transformers/transformData'
 import { hasPropChanged, exportData } from '../../utils'
+import { verify, filterSheet } from './utils'
 import InfoDrawer from '../InfoDrawer'
-import { loadAllBus, deleteBus, loadSingleDriver } from '../../actions'
+import {
+  createBus,
+  loadAllBus,
+  deleteBus,
+  loadSingleDriver,
+  showErrorMessage,
+} from '../../actions'
 import BussesInner from './BussesInner'
 import Drawer from '../Drawer'
 
@@ -121,6 +131,67 @@ class Busses extends React.Component {
     }))
   }
 
+  importData = event => {
+    const { dispatch, user } = this.props
+    const { token } = user
+    const [selectedFile] = event.target.files
+    if (selectedFile) {
+      const reader = new FileReader()
+      reader.onload = e => {
+        const xlsrow = e.target.result
+        const workbook = XLSX.read(xlsrow, { type: 'buffer' })
+        const jsonResult = XLSX.utils.sheet_to_json(workbook.Sheets['Busses'])
+        if (size(jsonResult) < 1) {
+          dispatch(showErrorMessage('No Data Found in Sheet', 'error'))
+        } else {
+          if (verify(jsonResult)) {
+            const filteredSheet = filterSheet(jsonResult)
+            this.setState(() => ({ isLoading: true }))
+            const createdPromise = map(row => {
+              const { registration_no, description, driver_id } = row
+              return dispatch(
+                createBus({
+                  registration_no,
+                  description,
+                  driver_id,
+                  token,
+                }),
+              )
+                .then(({ payload }) => {
+                  const { status } = payload
+                  return status === 200
+                })
+                .catch(err => false)
+            })(filteredSheet)
+            Promise.all(createdPromise).then(response => {
+              const createdBusses = filter(item => item === true)(response)
+              const total = size(jsonResult)
+              const created = size(createdBusses)
+              if (created > 0) {
+                dispatch(
+                  showErrorMessage(`${created} Records Created`, 'success'),
+                )
+              }
+              if (total - created > 0) {
+                dispatch(
+                  showErrorMessage(
+                    `${total - created} Records Rejected`,
+                    'error',
+                  ),
+                )
+              }
+              this.setState(() => ({ isLoading: false }))
+              dispatch(loadAllBus({ token }))
+            })
+          } else {
+            dispatch(showErrorMessage('Invalid Data in Sheet', 'error'))
+          }
+        }
+      }
+      reader.readAsArrayBuffer(selectedFile)
+    }
+  }
+
   render() {
     const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { busses } = this.props
@@ -132,6 +203,7 @@ class Busses extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
+        importData={this.importData}
         onDataExport={this.exportData}
         onRowClick={this.handleRowClick}
         onDeleteBus={this.handleDeleteBus}

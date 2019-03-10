@@ -4,11 +4,17 @@ import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 import find from 'lodash/fp/find'
+import map from 'lodash/fp/map'
+import filter from 'lodash/fp/filter'
+import uniqueId from 'lodash/fp/uniqueId'
+import XLSX from 'xlsx'
 
 // src
 import transformData from './transformers/transformData'
-import { hasPropChanged, exportData } from '../../utils'
+import { hasPropChanged, exportData, makePID } from '../../utils'
+import { verify, filterSheet } from './utils'
 import {
+  createParent,
   loadParents,
   deleteParent,
   loadSingleUser,
@@ -171,6 +177,86 @@ class Parents extends React.Component {
     }
   }
 
+  importData = event => {
+    const { dispatch, user } = this.props
+    const { token } = user
+    const [selectedFile] = event.target.files
+    if (selectedFile) {
+      const reader = new FileReader()
+      reader.onload = e => {
+        const xlsrow = e.target.result
+        const workbook = XLSX.read(xlsrow, { type: 'buffer' })
+        const jsonResult = XLSX.utils.sheet_to_json(workbook.Sheets['Parents'])
+        if (size(jsonResult) < 1) {
+          dispatch(showErrorMessage('No Data Found in Sheet', 'error'))
+        } else {
+          if (verify(jsonResult)) {
+            const filteredSheet = filterSheet(jsonResult)
+            this.setState(() => ({ isLoading: true }))
+            const createdPromise = map(row => {
+              const {
+                fullname,
+                address,
+                phone_no,
+                email,
+                status,
+                photo = '',
+                lat = 0.0,
+                lng = 0.0,
+              } = row
+
+              const username = email
+              const password = uniqueId(makePID())
+              return dispatch(
+                createParent({
+                  username,
+                  password,
+                  fullname,
+                  address,
+                  phone_no,
+                  email,
+                  status,
+                  photo,
+                  lat,
+                  lng,
+                  token,
+                }),
+              )
+                .then(({ payload }) => {
+                  const { status } = payload
+                  return status === 200
+                })
+                .catch(err => false)
+            })(filteredSheet)
+            Promise.all(createdPromise).then(response => {
+              const createdParents = filter(item => item === true)(response)
+              const total = size(jsonResult)
+              const created = size(createdParents)
+              if (created > 0) {
+                dispatch(
+                  showErrorMessage(`${created} Records Created`, 'success'),
+                )
+              }
+              if (total - created > 0) {
+                dispatch(
+                  showErrorMessage(
+                    `${total - created} Records Rejected`,
+                    'error',
+                  ),
+                )
+              }
+              this.setState(() => ({ isLoading: false }))
+              dispatch(loadParents({ token }))
+            })
+          } else {
+            dispatch(showErrorMessage('Invalid Data in Sheet', 'error'))
+          }
+        }
+      }
+      reader.readAsArrayBuffer(selectedFile)
+    }
+  }
+
   render() {
     const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { parents } = this.props
@@ -182,6 +268,7 @@ class Parents extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
+        importData={this.importData}
         onDataExport={this.exportData}
         onRowClick={this.handleRowClick}
         onDeleteParent={this.handleDeleteParent}

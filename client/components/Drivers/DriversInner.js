@@ -21,6 +21,7 @@ const DriversInner = ({
   editId,
   handleClose,
   onDataExport,
+  importData,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -31,6 +32,7 @@ const DriversInner = ({
           rows={rows}
           data={data}
           error={error}
+          onDataImport={importData}
           onDataExport={onDataExport}
           handleRowClick={onRowClick}
           handleDeleteRow={onDeleteDriver}

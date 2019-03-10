@@ -50,9 +50,9 @@ class CreateParent extends React.Component {
     const { token } = user
     const lat = 0.0
     const lng = 0.0
-    const username = uniqueId(`${snakeCase(formValues.fullname)}p${makeUID()}`)
-    const password = uniqueId(makePID())
     const { fullname, address, phone_no, email, status, photo } = formValues
+    const username = email
+    const password = uniqueId(makePID())
     this.setState(() => ({ isLoading: true }))
 
     dispatch(

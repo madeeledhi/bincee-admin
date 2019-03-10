@@ -3,13 +3,19 @@ import React from 'react'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
+import map from 'lodash/fp/map'
+import filter from 'lodash/fp/filter'
+import XLSX from 'xlsx'
 
 // src
 import transformData, {
   transformDrawerData,
 } from './transformers/transformData'
 import { hasPropChanged, exportData } from '../../utils'
+import { verify, filterSheet } from './utils'
 import {
+  createStudent,
+  showErrorMessage,
   loadStudents,
   deleteStudent,
   loadSingleDriver,
@@ -199,6 +205,81 @@ class Students extends React.Component {
     }
   }
 
+  importData = event => {
+    const { dispatch, user } = this.props
+    const { token } = user
+    const [selectedFile] = event.target.files
+    if (selectedFile) {
+      const reader = new FileReader()
+      reader.onload = e => {
+        const xlsrow = e.target.result
+        const workbook = XLSX.read(xlsrow, { type: 'buffer' })
+        const jsonResult = XLSX.utils.sheet_to_json(workbook.Sheets['Students'])
+        if (size(jsonResult) < 1) {
+          dispatch(showErrorMessage('No Data Found in Sheet', 'error'))
+        } else {
+          if (verify(jsonResult)) {
+            const filteredSheet = filterSheet(jsonResult)
+            this.setState(() => ({ isLoading: true }))
+            const createdPromise = map(row => {
+              const {
+                fullname,
+                status,
+                photo,
+                grade,
+                shift_morning = null,
+                shift_evening = null,
+                parent_id,
+                driver_id,
+              } = row
+              return dispatch(
+                createStudent({
+                  fullname,
+                  status,
+                  photo,
+                  grade,
+                  shift_morning,
+                  shift_evening,
+                  parent_id,
+                  driver_id,
+                  token,
+                }),
+              )
+                .then(({ payload }) => {
+                  const { status } = payload
+                  return status === 200
+                })
+                .catch(err => false)
+            })(filteredSheet)
+            Promise.all(createdPromise).then(response => {
+              const createdStudents = filter(item => item === true)(response)
+              const total = size(jsonResult)
+              const created = size(createdStudents)
+              if (created > 0) {
+                dispatch(
+                  showErrorMessage(`${created} Records Created`, 'success'),
+                )
+              }
+              if (total - created > 0) {
+                dispatch(
+                  showErrorMessage(
+                    `${total - created} Records Rejected`,
+                    'error',
+                  ),
+                )
+              }
+              this.setState(() => ({ isLoading: false }))
+              dispatch(loadStudents({ token }))
+            })
+          } else {
+            dispatch(showErrorMessage('Invalid Data in Sheet', 'error'))
+          }
+        }
+      }
+      reader.readAsArrayBuffer(selectedFile)
+    }
+  }
+
   render() {
     const { error, isLoading, createDialog, editDialog, editId } = this.state
     const { students } = this.props
@@ -210,6 +291,7 @@ class Students extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
+        importData={this.importData}
         onDataExport={this.exportData}
         onDeleteStudent={this.handleDeleteStudent}
         onCreateStudent={this.handleCreateStudent}
