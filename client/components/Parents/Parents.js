@@ -32,6 +32,8 @@ class Parents extends React.Component {
     createDialog: false,
     editDialog: false,
     editId: '',
+    drawerData: {},
+    dataIsAvailable: false,
   }
 
   componentDidMount() {
@@ -125,7 +127,7 @@ class Parents extends React.Component {
     onDrawerClose()
 
     this.setState(() => ({
-      isLoading: true,
+      dataIsAvailable: false,
     }))
 
     dispatch(
@@ -150,7 +152,7 @@ class Parents extends React.Component {
             isParent: true,
           },
         }
-        this.setState(() => ({ isLoading: false }))
+        this.setState(() => ({ drawerData: dataToShow, dataIsAvailable: true }))
         triggerDrawer({
           title: 'Parent Content',
           content: (
@@ -258,7 +260,15 @@ class Parents extends React.Component {
   }
 
   render() {
-    const { error, isLoading, createDialog, editDialog, editId } = this.state
+    const {
+      error,
+      isLoading,
+      createDialog,
+      editDialog,
+      editId,
+      drawerData,
+      dataIsAvailable,
+    } = this.state
     const { parents } = this.props
     const { columns: rows, rows: data } = parents
 
@@ -278,6 +288,9 @@ class Parents extends React.Component {
         editDialog={editDialog}
         editId={editId}
         handleClose={this.handleClose}
+        sendCredentials={this.handleSendCredentials}
+        drawerData={drawerData}
+        dataIsAvailable={dataIsAvailable}
       />
     )
   }

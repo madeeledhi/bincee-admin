@@ -27,6 +27,7 @@ class EnhancedTable extends React.Component {
       rows,
       rowsPerPage: 5,
       error,
+      openDrawer: false,
     }
   }
 
@@ -109,6 +110,16 @@ class EnhancedTable extends React.Component {
     )
   }
 
+  handleSingleRowClick = data => {
+    const { handleRowClick = () => true, enableDrawer } = this.props
+    this.setState({ openDrawer: enableDrawer })
+    handleRowClick(data)
+  }
+
+  handleDrawerClose = () => {
+    this.setState({ openDrawer: false })
+  }
+
   isSelected = id => this.state.selected.indexOf(id) !== -1
 
   render() {
@@ -120,19 +131,25 @@ class EnhancedTable extends React.Component {
       rowsPerPage,
       page,
       rows,
+      openDrawer,
     } = this.state
     const {
       handleDeleteRow,
       handleEditRow,
-      handleRowClick = () => true,
       handleCreateRow,
       tableName,
       onDataExport = () => true,
       onDataImport = e => true,
+      sendCredentials = () => true,
+      dataIsAvailable = false,
+      enableDrawer = false,
+      drawerTitle = '',
+      drawerData = {},
     } = this.props
 
     return (
       <EnhancedTableInner
+        openDrawer={openDrawer}
         tableName={tableName}
         rows={rows}
         data={data}
@@ -153,7 +170,13 @@ class EnhancedTable extends React.Component {
         onChangePage={this.handleChangePage}
         isRowSelected={this.isSelected}
         onCreateRow={handleCreateRow}
-        onRowClick={handleRowClick}
+        onRowClick={this.handleSingleRowClick}
+        drawerData={drawerData}
+        sendCredentials={sendCredentials}
+        dataIsAvailable={dataIsAvailable}
+        enableDrawer={enableDrawer}
+        drawerTitle={drawerTitle}
+        handleDrawerClose={this.handleDrawerClose}
       />
     )
   }

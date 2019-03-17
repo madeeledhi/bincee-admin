@@ -22,12 +22,15 @@ const ParentsInner = ({
   handleClose,
   onDataExport,
   importData,
+  sendCredentials,
+  drawerData,
+  dataIsAvailable,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
       <div>
         <EnhancedTable
-          tableName={'Parents'}
+          tableName="Parents"
           sortKey="fullname"
           rows={rows}
           data={data}
@@ -38,6 +41,11 @@ const ParentsInner = ({
           handleDeleteRow={onDeleteParent}
           handleCreateRow={onCreateParent}
           handleEditRow={onUpdateParent}
+          drawerData={drawerData}
+          sendCredentials={sendCredentials}
+          dataIsAvailable={dataIsAvailable}
+          enableDrawer
+          drawerTitle="Parent Content"
         />
         <EditParent id={editId} open={editDialog} onClose={handleClose} />
         <CreateParent open={createDialog} onClose={handleClose} />
