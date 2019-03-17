@@ -24,8 +24,6 @@ import {
   loadSingleShift,
 } from '../../actions'
 import StudentsInner from './StudentsInner'
-import InfoDrawer from '../InfoDrawer'
-import Drawer from '../Drawer'
 
 class Students extends React.Component {
   state = {
@@ -34,6 +32,8 @@ class Students extends React.Component {
     createDialog: false,
     editDialog: false,
     editId: '',
+    drawerData: {},
+    dataIsAvailable: false,
   }
 
   componentDidMount() {
@@ -95,7 +95,7 @@ class Students extends React.Component {
   }
 
   handleRowClick = data => {
-    const { triggerDrawer, dispatch, user, onDrawerClose } = this.props
+    const { dispatch, user } = this.props
     const {
       driver_id,
       parent_id,
@@ -108,9 +108,8 @@ class Students extends React.Component {
       status,
     } = data
     const { token } = user
-    onDrawerClose()
 
-    this.setState(() => ({ isLoading: true }))
+    this.setState(() => ({ dataIsAvailable: false }))
     dispatch(
       loadSingleDriver({
         id: driver_id,
@@ -161,14 +160,10 @@ class Students extends React.Component {
                             shiftMorning: morningShiftData,
                             shiftEvening: eveningShiftData,
                           })
-
                           this.setState(() => ({
-                            isLoading: false,
+                            drawerData: dataToShow,
+                            dataIsAvailable: true,
                           }))
-                          triggerDrawer({
-                            title: 'Student Content',
-                            content: <Drawer data={dataToShow} />,
-                          })
                         }
                       })
                     }
@@ -281,7 +276,15 @@ class Students extends React.Component {
   }
 
   render() {
-    const { error, isLoading, createDialog, editDialog, editId } = this.state
+    const {
+      error,
+      isLoading,
+      createDialog,
+      editDialog,
+      editId,
+      drawerData,
+      dataIsAvailable,
+    } = this.state
     const { students } = this.props
     const { columns: rows, rows: data } = students
 
@@ -301,6 +304,9 @@ class Students extends React.Component {
         editDialog={editDialog}
         editId={editId}
         handleClose={this.handleClose}
+        sendCredentials={this.handleSendCredentials}
+        drawerData={drawerData}
+        dataIsAvailable={dataIsAvailable}
       />
     )
   }
@@ -315,5 +321,4 @@ const mapStateToProps = state => {
   return { students: transformedStudents, user, rawStudents: students, error }
 }
 
-const drawerSettings = { style: {} }
-export default InfoDrawer(drawerSettings)(connect(mapStateToProps)(Students))
+export default connect(mapStateToProps)(Students)

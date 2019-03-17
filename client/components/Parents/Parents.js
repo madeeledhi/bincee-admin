@@ -22,8 +22,6 @@ import {
   sendCredentials,
 } from '../../actions'
 import ParentsInner from './ParentsInner'
-import InfoDrawer from '../InfoDrawer'
-import Drawer from '../Drawer'
 
 class Parents extends React.Component {
   state = {
@@ -121,10 +119,9 @@ class Parents extends React.Component {
   }
 
   handleRowClick = data => {
-    const { triggerDrawer, dispatch, user, onDrawerClose } = this.props
+    const { dispatch, user } = this.props
     const { id, fullname, status, photo, email, address, phone_no } = data
     const { token } = user
-    onDrawerClose()
 
     this.setState(() => ({
       dataIsAvailable: false,
@@ -153,15 +150,6 @@ class Parents extends React.Component {
           },
         }
         this.setState(() => ({ drawerData: dataToShow, dataIsAvailable: true }))
-        triggerDrawer({
-          title: 'Parent Content',
-          content: (
-            <Drawer
-              data={dataToShow}
-              sendCredentials={this.handleSendCredentials}
-            />
-          ),
-        })
       }
     })
   }
@@ -312,5 +300,4 @@ const mapStateToProps = state => {
   }
 }
 
-const drawerSettings = { style: {} }
-export default InfoDrawer(drawerSettings)(connect(mapStateToProps)(Parents))
+export default connect(mapStateToProps)(Parents)

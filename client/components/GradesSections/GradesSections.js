@@ -11,7 +11,7 @@ import XLSX from 'xlsx'
 import transformData from './transformers/transformData'
 import { hasPropChanged, exportData } from '../../utils'
 import { verify, filterSheet } from './utils'
-import InfoDrawer from '../InfoDrawer'
+
 import {
   createGrade,
   loadGrades,
@@ -19,7 +19,6 @@ import {
   showErrorMessage,
 } from '../../actions'
 import GradesSectionsInner from './GradesSectionsInner'
-import Drawer from '../Drawer'
 
 class GradesSections extends React.Component {
   state = {
@@ -195,8 +194,5 @@ const mapStateToProps = state => {
   const transformedGrades = transformData(gradesList)
   return { grades: transformedGrades, user, rawGrades: grades, error }
 }
-// TODO: send the style for drawer header
-const drawerSettings = { style: {} }
-export default InfoDrawer(drawerSettings)(
-  connect(mapStateToProps)(GradesSections),
-)
+
+export default connect(mapStateToProps)(GradesSections)

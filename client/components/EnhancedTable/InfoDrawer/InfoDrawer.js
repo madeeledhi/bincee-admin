@@ -11,48 +11,53 @@ import styles from './shared.less'
 import DrawerContent from '../DrawerContent'
 import LoadingView from '../../LoadingView'
 
-const InfoDrawer = ({
-  dataIsAvailable,
-  enableDrawer,
-  drawerTitle,
-  handleDrawerClose,
-  openDrawer,
-}) => (
-  <If condition={enableDrawer}>
-    <ClickAwayListener onClickAway={handleDrawerClose}>
-      <React.Fragment>
-        <Drawer
-          anchor="right"
-          open={openDrawer}
-          onClose={this.handleRequestClose}
-          classes={{ paper: styles.drawer }}
-          variant="persistent"
-        >
-          <div className={styles.drawerHeader}>
-            <div className={styles.headerAction}>
-              <IconButton onClick={handleDrawerClose}>
-                <Icon className={styles.arrowIcon}>{'arrow_forward'}</Icon>
-              </IconButton>
-            </div>
-            <div className={styles.label}>
-              <label>{drawerTitle}</label>
-            </div>
-          </div>
-          <Divider />
-          <div style={{ width: 250 }}>
-            <Choose>
-              <When condition={dataIsAvailable}>
-                <DrawerContent {...this.props} />
-              </When>
-              <Otherwise>
-                <LoadingView />
-              </Otherwise>
-            </Choose>
-          </div>
-        </Drawer>
-      </React.Fragment>
-    </ClickAwayListener>
-  </If>
-)
+class InfoDrawer extends React.Component {
+  render() {
+    const {
+      dataIsAvailable,
+      enableDrawer,
+      drawerTitle,
+      handleDrawerClose,
+      openDrawer,
+    } = this.props
+    return (
+      <If condition={enableDrawer}>
+        <ClickAwayListener onClickAway={handleDrawerClose}>
+          <React.Fragment>
+            <Drawer
+              anchor="right"
+              open={openDrawer}
+              onClose={handleDrawerClose}
+              classes={{ paper: styles.drawer }}
+              variant="persistent"
+            >
+              <div className={styles.drawerHeader}>
+                <div className={styles.headerAction}>
+                  <IconButton onClick={handleDrawerClose}>
+                    <Icon className={styles.arrowIcon}>{'arrow_forward'}</Icon>
+                  </IconButton>
+                </div>
+                <div className={styles.label}>
+                  <label>{drawerTitle}</label>
+                </div>
+              </div>
+              <Divider />
+              <div style={{ width: 250 }}>
+                <Choose>
+                  <When condition={dataIsAvailable}>
+                    <DrawerContent {...this.props} />
+                  </When>
+                  <Otherwise>
+                    <LoadingView />
+                  </Otherwise>
+                </Choose>
+              </div>
+            </Drawer>
+          </React.Fragment>
+        </ClickAwayListener>
+      </If>
+    )
+  }
+}
 
 export default InfoDrawer

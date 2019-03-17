@@ -22,8 +22,6 @@ import {
   showErrorMessage,
 } from '../../actions'
 import DriversInner from './DriversInner'
-import InfoDrawer from '../InfoDrawer'
-import Drawer from '../Drawer'
 
 class Drivers extends React.Component {
   state = {
@@ -32,6 +30,8 @@ class Drivers extends React.Component {
     createDialog: false,
     editDialog: false,
     editId: '',
+    drawerData: {},
+    dataIsAvailable: false,
   }
 
   componentDidMount() {
@@ -119,13 +119,12 @@ class Drivers extends React.Component {
   }
 
   handleRowClick = data => {
-    const { triggerDrawer, dispatch, user, onDrawerClose } = this.props
+    const { dispatch, user } = this.props
     const { id, fullname, status, photo } = data
     const { token } = user
-    onDrawerClose()
 
     this.setState(() => ({
-      isLoading: true,
+      dataIsAvailable: false,
     }))
 
     dispatch(
@@ -151,16 +150,7 @@ class Drivers extends React.Component {
             isDriver: true,
           },
         }
-        this.setState(() => ({ isLoading: false }))
-        triggerDrawer({
-          title: 'Driver Content',
-          content: (
-            <Drawer
-              data={dataToShow}
-              sendCredentials={this.handleSendCredentials}
-            />
-          ),
-        })
+        this.setState(() => ({ drawerData: dataToShow, dataIsAvailable: true }))
       }
     })
   }
@@ -246,7 +236,15 @@ class Drivers extends React.Component {
   }
 
   render() {
-    const { error, isLoading, createDialog, editDialog, editId } = this.state
+    const {
+      error,
+      isLoading,
+      createDialog,
+      editDialog,
+      editId,
+      drawerData,
+      dataIsAvailable,
+    } = this.state
     const { drivers } = this.props
     const { columns: rows, rows: data } = drivers
 
@@ -266,6 +264,9 @@ class Drivers extends React.Component {
         editDialog={editDialog}
         editId={editId}
         handleClose={this.handleClose}
+        sendCredentials={this.handleSendCredentials}
+        drawerData={drawerData}
+        dataIsAvailable={dataIsAvailable}
       />
     )
   }
@@ -287,5 +288,4 @@ const mapStateToProps = state => {
   }
 }
 
-const drawerSettings = { style: {} }
-export default InfoDrawer(drawerSettings)(connect(mapStateToProps)(Drivers))
+export default connect(mapStateToProps)(Drivers)

@@ -22,6 +22,9 @@ const StudentsInner = ({
   handleClose,
   onDataExport,
   importData,
+  sendCredentials,
+  drawerData,
+  dataIsAvailable,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -38,6 +41,11 @@ const StudentsInner = ({
           handleCreateRow={onCreateStudent}
           handleEditRow={onUpdateStudent}
           handleRowClick={onRowClick}
+          drawerData={drawerData}
+          sendCredentials={sendCredentials}
+          dataIsAvailable={dataIsAvailable}
+          enableDrawer
+          drawerTitle="Student Content"
         />
         <EditStudent id={editId} open={editDialog} onClose={handleClose} />
         <CreateStudent open={createDialog} onClose={handleClose} />
