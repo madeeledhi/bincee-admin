@@ -18,10 +18,14 @@ const Button = ({
             type="file"
             name="file"
             id="file"
+            disabled={disabled}
             className={styles.inputText}
             onChange={disabled ? () => {} : onClick}
           />
-          <label for="file" className={styles.inputLabel}>
+          <label
+            for="file"
+            className={`${styles.inputLabel} ${disabled ? styles.disable : ''}`}
+          >
             {label}
           </label>
         </div>

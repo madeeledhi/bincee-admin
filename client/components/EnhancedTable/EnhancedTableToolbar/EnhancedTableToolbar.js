@@ -21,6 +21,7 @@ import { lighten } from '@material-ui/core/styles/colorManipulator'
 //src
 import styles from './EnhancedTableToolbar.less'
 import Button from '../../Button'
+
 const EnhancedTableToolbar = props => {
   const {
     numSelected,
@@ -30,8 +31,19 @@ const EnhancedTableToolbar = props => {
     onDeleteMutipleRows,
     onDataExport,
     onDataImport,
+    extras,
   } = props
   // TODO: Bring the content to center in rows just like in the design
+  const {
+    hideImport,
+    hideCreate,
+    hideExport,
+    disableCreate,
+    disableImport,
+    disableExport,
+    hint,
+    hintType,
+  } = extras
   return (
     <Toolbar
       className={`${styles.root} ${
@@ -74,22 +86,38 @@ const EnhancedTableToolbar = props => {
           //   </IconButton>
           // </Tooltip>
           <div className={styles.actions}>
-            <Button
-              style={{ margin: '0 10px' }}
-              onClick={e => onDataExport()}
-              label={'Export Data'}
-            />
-            <Button
-              style={{ margin: '0 10px' }}
-              onClick={e => onDataImport(e)}
-              label={'Import Data'}
-              type="file"
-            />
-            <Button
-              style={{ margin: '0 10px' }}
-              onClick={onCreateRow}
-              label={'Create'}
-            />
+            <div
+              className={`${styles.hintText} ${
+                hintType === 'info' ? styles.info : styles.danger
+              }`}
+            >
+              {hint}
+            </div>
+            {!hideExport && (
+              <Button
+                style={{ margin: '0 10px' }}
+                onClick={e => onDataExport()}
+                disabled={disableExport}
+                label={'Export Data'}
+              />
+            )}
+            {!hideImport && (
+              <Button
+                style={{ margin: '0 10px' }}
+                disabled={disableImport}
+                onClick={e => onDataImport(e)}
+                label={'Import Data'}
+                type="file"
+              />
+            )}
+            {!hideCreate && (
+              <Button
+                style={{ margin: '0 10px' }}
+                disabled={disableCreate}
+                onClick={onCreateRow}
+                label={'Create'}
+              />
+            )}
           </div>
         )}
       </div>

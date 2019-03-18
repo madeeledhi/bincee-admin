@@ -1,6 +1,7 @@
 // lib
 import React from 'react'
 import { Field } from 'redux-form'
+import size from 'lodash/fp/size'
 // src
 import { renderTextField } from '../shared/reduxFormMaterialUI'
 import Button from '../Button'
@@ -15,10 +16,17 @@ const ProfileInner = props => {
     isLoading,
     defaultPosition,
     handlePositionChange,
+    data,
   } = props
+  const { licenses } = data
   return (
     <form className={styles.root}>
       <div className={styles.section}>
+        <div className={styles.row}>
+          <div className={styles.Text}>
+            Available Licenses : {size(licenses)}
+          </div>
+        </div>
         <div className={styles.row}>
           <Field
             id="name"

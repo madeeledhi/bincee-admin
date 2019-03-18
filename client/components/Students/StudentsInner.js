@@ -22,6 +22,7 @@ const StudentsInner = ({
   handleClose,
   onDataExport,
   importData,
+  extras,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -32,6 +33,7 @@ const StudentsInner = ({
           rows={rows}
           data={data}
           error={error}
+          extras={extras}
           onDataImport={importData}
           onDataExport={onDataExport}
           handleDeleteRow={onDeleteStudent}

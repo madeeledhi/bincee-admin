@@ -282,8 +282,16 @@ class Students extends React.Component {
 
   render() {
     const { error, isLoading, createDialog, editDialog, editId } = this.state
-    const { students } = this.props
+    const { students, userDetails } = this.props
     const { columns: rows, rows: data } = students
+
+    const { licenses } = userDetails
+    const disableCreate = size(licenses) - size(students) < 1
+    const extras = {
+      hint: disableCreate ? 'All Licenses in Use' : '',
+      hintType: 'danger',
+      disableCreate,
+    }
 
     return (
       <StudentsInner
@@ -291,6 +299,7 @@ class Students extends React.Component {
         isLoading={isLoading}
         rows={rows}
         data={data}
+        extras={extras}
         importData={this.importData}
         onDataExport={this.exportData}
         onDeleteStudent={this.handleDeleteStudent}
@@ -309,10 +318,17 @@ class Students extends React.Component {
 const mapStateToProps = state => {
   const students = getOr({}, 'students')(state)
   const user = getOr({}, 'user')(state)
+  const userDetails = getOr({}, 'userDetails')(state)
   const studentsList = getOr([], 'students')(students)
   const error = getOr('', 'message')(students)
   const transformedStudents = transformData(studentsList)
-  return { students: transformedStudents, user, rawStudents: students, error }
+  return {
+    userDetails,
+    students: transformedStudents,
+    user,
+    rawStudents: students,
+    error,
+  }
 }
 
 const drawerSettings = { style: {} }

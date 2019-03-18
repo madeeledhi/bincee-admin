@@ -53,6 +53,7 @@ const EnhancedTableInner = props => {
     onRowClick,
     onDataExport,
     onDataImport,
+    extras,
   } = props
 
   return (
@@ -61,6 +62,7 @@ const EnhancedTableInner = props => {
         numSelected={selected.length}
         selectedArray={selected}
         tableName={tableName}
+        extras={extras}
         onCreateRow={onCreateRow}
         onDataExport={onDataExport}
         onDataImport={onDataImport}

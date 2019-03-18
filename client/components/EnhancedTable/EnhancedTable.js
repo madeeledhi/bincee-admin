@@ -129,6 +129,7 @@ class EnhancedTable extends React.Component {
       tableName,
       onDataExport = () => true,
       onDataImport = e => true,
+      extras = {},
     } = this.props
 
     return (
@@ -141,6 +142,7 @@ class EnhancedTable extends React.Component {
         selected={selected}
         rowsPerPage={rowsPerPage}
         page={page}
+        extras={extras}
         onSelectAllClick={this.handleSelectAllClick}
         onRequestSort={this.handleRequestSort}
         onClick={this.handleClick}

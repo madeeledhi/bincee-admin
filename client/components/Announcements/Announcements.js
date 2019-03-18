@@ -207,7 +207,7 @@ class Announcements extends React.Component {
 
   sendNotification = () => {
     const { dispatch, user } = this.props
-    const { token } = user
+    const { token, id } = user
     const { type, selectedStudents, subject, message } = this.state
     const last_updated = new Date()
 
@@ -218,6 +218,7 @@ class Announcements extends React.Component {
         description: message,
         type,
         studentArray: selectedStudents,
+        school_id: id,
         token,
       }),
     ).then(({ payload }) => {
