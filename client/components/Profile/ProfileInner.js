@@ -23,9 +23,7 @@ const ProfileInner = props => {
     <form className={styles.root}>
       <div className={styles.section}>
         <div className={styles.row}>
-          <div className={styles.Text}>
-            Available Licenses : {size(licenses)}
-          </div>
+          <div className={styles.Text}>Available Licenses : {licenses}</div>
         </div>
         <div className={styles.row}>
           <Field

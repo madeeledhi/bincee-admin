@@ -282,11 +282,13 @@ class Students extends React.Component {
 
   render() {
     const { error, isLoading, createDialog, editDialog, editId } = this.state
-    const { students, userDetails } = this.props
+    const { students, userDetails, rawStudents } = this.props
     const { columns: rows, rows: data } = students
+    const { students: raw } = rawStudents || {}
 
     const { licenses } = userDetails
-    const disableCreate = size(licenses) - size(students) < 1
+    const disableCreate = licenses - size(raw) < 1
+    console.log('Dta ', licenses, raw, size(raw), disableCreate)
     const extras = {
       hint: disableCreate ? 'All Licenses in Use' : '',
       hintType: 'danger',
