@@ -22,8 +22,6 @@ import {
   sendCredentials,
 } from '../../actions'
 import ParentsInner from './ParentsInner'
-import InfoDrawer from '../InfoDrawer'
-import Drawer from '../Drawer'
 
 class Parents extends React.Component {
   state = {
@@ -32,6 +30,8 @@ class Parents extends React.Component {
     createDialog: false,
     editDialog: false,
     editId: '',
+    drawerData: {},
+    dataIsAvailable: false,
   }
 
   componentDidMount() {
@@ -119,13 +119,12 @@ class Parents extends React.Component {
   }
 
   handleRowClick = data => {
-    const { triggerDrawer, dispatch, user, onDrawerClose } = this.props
+    const { dispatch, user } = this.props
     const { id, fullname, status, photo, email, address, phone_no } = data
     const { token } = user
-    onDrawerClose()
 
     this.setState(() => ({
-      isLoading: true,
+      dataIsAvailable: false,
     }))
 
     dispatch(
@@ -150,16 +149,7 @@ class Parents extends React.Component {
             isParent: true,
           },
         }
-        this.setState(() => ({ isLoading: false }))
-        triggerDrawer({
-          title: 'Parent Content',
-          content: (
-            <Drawer
-              data={dataToShow}
-              sendCredentials={this.handleSendCredentials}
-            />
-          ),
-        })
+        this.setState(() => ({ drawerData: dataToShow, dataIsAvailable: true }))
       }
     })
   }
@@ -258,7 +248,15 @@ class Parents extends React.Component {
   }
 
   render() {
-    const { error, isLoading, createDialog, editDialog, editId } = this.state
+    const {
+      error,
+      isLoading,
+      createDialog,
+      editDialog,
+      editId,
+      drawerData,
+      dataIsAvailable,
+    } = this.state
     const { parents } = this.props
     const { columns: rows, rows: data } = parents
 
@@ -278,6 +276,9 @@ class Parents extends React.Component {
         editDialog={editDialog}
         editId={editId}
         handleClose={this.handleClose}
+        sendCredentials={this.handleSendCredentials}
+        drawerData={drawerData}
+        dataIsAvailable={dataIsAvailable}
       />
     )
   }
@@ -299,5 +300,4 @@ const mapStateToProps = state => {
   }
 }
 
-const drawerSettings = { style: {} }
-export default InfoDrawer(drawerSettings)(connect(mapStateToProps)(Parents))
+export default connect(mapStateToProps)(Parents)

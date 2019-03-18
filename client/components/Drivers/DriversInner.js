@@ -22,12 +22,15 @@ const DriversInner = ({
   handleClose,
   onDataExport,
   importData,
+  sendCredentials,
+  drawerData,
+  dataIsAvailable,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
       <div>
         <EnhancedTable
-          tableName={'Drivers'}
+          tableName="Drivers"
           sortKey="fullname"
           rows={rows}
           data={data}
@@ -38,6 +41,11 @@ const DriversInner = ({
           handleDeleteRow={onDeleteDriver}
           handleCreateRow={onCreateDriver}
           handleEditRow={onUpdateDriver}
+          drawerData={drawerData}
+          sendCredentials={sendCredentials}
+          dataIsAvailable={dataIsAvailable}
+          enableDrawer
+          drawerTitle="Driver Content"
         />
         <EditDriver id={editId} open={editDialog} onClose={handleClose} />
         <CreateDriver open={createDialog} onClose={handleClose} />

@@ -13,7 +13,6 @@ import transformData, {
 } from './transformers/transformData'
 import { hasPropChanged, exportData } from '../../utils'
 import { verify, filterSheet } from './utils'
-import InfoDrawer from '../InfoDrawer'
 import {
   createBus,
   loadAllBus,
@@ -22,7 +21,6 @@ import {
   showErrorMessage,
 } from '../../actions'
 import BussesInner from './BussesInner'
-import Drawer from '../Drawer'
 
 class Busses extends React.Component {
   state = {
@@ -31,6 +29,8 @@ class Busses extends React.Component {
     createDialog: false,
     editDialog: false,
     editId: '',
+    drawerData: {},
+    dataIsAvailable: false,
   }
 
   componentDidMount() {
@@ -95,13 +95,12 @@ class Busses extends React.Component {
   }
 
   handleRowClick = data => {
-    const { triggerDrawer, dispatch, user, onDrawerClose } = this.props
+    const { dispatch, user } = this.props
     const { driver_id } = data
     const { token } = user
-    onDrawerClose()
 
     this.setState(() => ({
-      isLoading: true,
+      dataIsAvailable: false,
     }))
     dispatch(loadSingleDriver({ id: driver_id, token })).then(({ payload }) => {
       const { status, data: payloadData } = payload
@@ -110,13 +109,7 @@ class Busses extends React.Component {
           bus: data,
           driver: payloadData,
         })
-        this.setState(() => ({
-          isLoading: false,
-        }))
-        triggerDrawer({
-          title: 'Bus Content',
-          content: <Drawer data={dataToShow} />,
-        })
+        this.setState(() => ({ drawerData: dataToShow, dataIsAvailable: true }))
       }
     })
   }
@@ -193,7 +186,15 @@ class Busses extends React.Component {
   }
 
   render() {
-    const { error, isLoading, createDialog, editDialog, editId } = this.state
+    const {
+      error,
+      isLoading,
+      createDialog,
+      editDialog,
+      editId,
+      drawerData,
+      dataIsAvailable,
+    } = this.state
     const { busses } = this.props
     const { columns: rows, rows: data } = busses
 
@@ -213,6 +214,9 @@ class Busses extends React.Component {
         editDialog={editDialog}
         editId={editId}
         handleClose={this.handleClose}
+        sendCredentials={this.handleSendCredentials}
+        drawerData={drawerData}
+        dataIsAvailable={dataIsAvailable}
       />
     )
   }
@@ -226,5 +230,5 @@ const mapStateToProps = state => {
   const transformedBusses = transformData(bussesList)
   return { busses: transformedBusses, rawBuses: busses, user, error }
 }
-const drawerSettings = { style: {} }
-export default InfoDrawer(drawerSettings)(connect(mapStateToProps)(Busses))
+
+export default connect(mapStateToProps)(Busses)

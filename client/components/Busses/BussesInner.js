@@ -22,6 +22,9 @@ const BussesInner = ({
   editId,
   handleClose,
   importData,
+  sendCredentials,
+  drawerData,
+  dataIsAvailable,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -38,6 +41,11 @@ const BussesInner = ({
           handleDeleteRow={onDeleteBus}
           handleCreateRow={onCreateBus}
           handleEditRow={onUpdateBus}
+          drawerData={drawerData}
+          sendCredentials={sendCredentials}
+          dataIsAvailable={dataIsAvailable}
+          enableDrawer
+          drawerTitle="Bus Content"
         />
         <EditBus id={editId} open={editDialog} onClose={handleClose} />
         <CreateBus open={createDialog} onClose={handleClose} />

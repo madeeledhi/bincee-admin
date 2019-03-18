@@ -11,11 +11,11 @@ import startCase from 'lodash/fp/startCase'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 // src
-import Button from '../Button'
-import { hasPropChanged } from '../../utils'
-import styles from './Drawer.less'
+import Button from '../../Button'
+import { hasPropChanged } from '../../../utils'
+import styles from './DrawerContent.less'
 
-class Drawer extends React.Component {
+class DrawerContent extends React.Component {
   state = {
     isSending: false,
   }
@@ -105,4 +105,4 @@ const mapStateToProps = state => {
   return { sending }
 }
 
-export default connect(mapStateToProps)(Drawer)
+export default connect(mapStateToProps)(DrawerContent)
