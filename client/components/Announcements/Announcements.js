@@ -45,6 +45,7 @@ class Announcements extends React.Component {
     subject: '',
     message: '',
     hasAll: false,
+    isSending: false,
     filterCriteria: {
       isDriver: false,
       isGrade: false,
@@ -210,6 +211,7 @@ class Announcements extends React.Component {
     const { token, id } = user
     const { type, selectedStudents, subject, message } = this.state
     const last_updated = new Date()
+    this.setState(() => ({ isSending: true }))
 
     dispatch(
       createAnnouncement({
@@ -224,7 +226,16 @@ class Announcements extends React.Component {
     ).then(({ payload }) => {
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
+        this.setState(() => ({
+          selectedStudents: [],
+          subject: '',
+          message: '',
+          hasAll: false,
+          isSending: false,
+        }))
         dispatch(showErrorMessage('Created successfully', 'success'))
+      } else {
+        this.setState(() => ({ isSending: false }))
       }
     })
   }
@@ -252,6 +263,7 @@ class Announcements extends React.Component {
       studentError,
       filterCriteria,
       studentList,
+      isSending,
     } = this.state
     const {
       studentsList,
@@ -284,6 +296,7 @@ class Announcements extends React.Component {
         shiftsList={shiftsList}
         savedFilters={savedFilters}
         dispatch={dispatch}
+        isSending={isSending}
       />
     )
   }
