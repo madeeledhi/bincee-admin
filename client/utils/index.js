@@ -20,7 +20,7 @@ export const makeUID = () =>
   })
 
 export const makePID = () =>
-  'xxxxxxxx-xxxx-4xxx-yxxx'.replace(/[xy]/g, c => {
+  'xxxxxxxx'.replace(/[xy]/g, c => {
     const r = (Math.random() * 16) | 0
     const v = c === 'x' ? r : (r & 0x3) | 0x8
     return v.toString(16)
