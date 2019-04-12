@@ -1,5 +1,6 @@
 import React from 'react'
-import MapGL, { GeolocateControl } from 'react-map-gl'
+import MapGL, { GeolocateControl, Marker } from 'react-map-gl'
+import BusPin from './BusPin/BusPin'
 
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiZmluZHhhaW4iLCJhIjoiY2pxOTY1bjY3MTMwYjQzbDEwN3h2aTdsbCJ9.fKLD1_UzlMIWhXfUZ3aRYQ' // Set your mapbox token here
@@ -36,12 +37,17 @@ export default class FleetTracker extends React.Component {
         onViewportChange={this.onViewportChange}
         mapboxApiAccessToken={MAPBOX_TOKEN}
       >
-        <GeolocateControl
+        {/* <GeolocateControl
           style={geolocateStyle}
           onViewportChange={this.onViewportChange}
           positionOptions={{ enableHighAccuracy: true }}
           trackUserLocation
-        />
+        /> */}
+        {
+          <Marker key={`marker-232323`} longitude={73.0479} latitude={33.6844}>
+            <BusPin size={20} />
+          </Marker>
+        }
       </MapGL>
     )
   }
