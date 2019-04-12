@@ -31,6 +31,7 @@ import EditShift from '../EditShift'
 import Profile from '../Profile'
 import Security from '../Security'
 import Leaves from '../Leaves'
+import FleetTracker from '../FleetTracker'
 
 const MainDashboardInner = ({
   onClickSignout,
@@ -91,6 +92,12 @@ const MainDashboardInner = ({
                 path={`${path}/parents`}
                 exact
                 component={Parents}
+                user={user}
+              />
+              <Route
+                path={`${path}/fleetTracking`}
+                exact
+                component={FleetTracker}
                 user={user}
               />
               <Route
