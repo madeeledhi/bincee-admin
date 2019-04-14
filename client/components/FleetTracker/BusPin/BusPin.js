@@ -8,16 +8,17 @@ const BusIcon = `M4 16c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v
 1.5S8.33 17 7.5 17zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6H6V6h12v5z`
 
 const pinStyle = {
+  cursor: 'pointer',
   fill: '#FF0',
   stroke: '#000',
 }
 
 export default class BusPin extends PureComponent {
   render() {
-    const { size = 20 } = this.props
+    const { size = 20, onClick } = this.props
 
     return (
-      <svg height={size} viewBox="0 0 24 24" style={pinStyle}>
+      <svg height={size} viewBox="0 0 24 24" style={pinStyle} onClick={onClick}>
         <path d={BusIcon} />
       </svg>
     )
