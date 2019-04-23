@@ -68,6 +68,7 @@ class CreateDriver extends React.Component {
       }),
     ).then(({ payload }) => {
       const { status: requestStatus } = payload
+      this.setState(() => ({ isLoading: false }))
       if (requestStatus === 200) {
         dispatch(showErrorMessage('Created successfully', 'success'))(onClose())
       }

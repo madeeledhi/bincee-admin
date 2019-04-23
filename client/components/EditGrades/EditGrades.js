@@ -48,6 +48,7 @@ class EditGrades extends React.Component {
     dispatch(editGrade({ id, grade_name, section, grade_section, token })).then(
       ({ payload }) => {
         const { status: requestStatus } = payload
+        this.setState(() => ({ isLoading: false }))
         if (requestStatus === 200) {
           onClose()
           dispatch(showErrorMessage('Updated successfully', 'success'))

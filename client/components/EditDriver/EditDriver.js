@@ -59,6 +59,7 @@ class EditDriver extends React.Component {
       updateDriver({ id, fullname, phone_no, status, photo, token }),
     ).then(({ payload }) => {
       const { status: requestStatus } = payload
+      this.setState(() => ({ isLoading: false }))
       if (requestStatus === 200) {
         onClose()
         dispatch(showErrorMessage('Updated successfully', 'success'))

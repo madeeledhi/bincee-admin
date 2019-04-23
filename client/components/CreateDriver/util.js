@@ -4,9 +4,12 @@ const phoneRegex = /^[+][0-9]{1,12}$/
 
 export const validate = values => {
   const errors = {}
-  const { fullname, password, phone_no } = values
+  const { fullname, password, phone_no, status } = values
   if (!trim(fullname)) {
     errors.fullname = 'Required'
+  }
+  if (!trim(status)) {
+    errors.status = 'Required'
   }
   if (!trim(phone_no)) {
     errors.phone_no = 'Required'

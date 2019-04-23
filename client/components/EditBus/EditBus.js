@@ -47,6 +47,7 @@ class EditBus extends React.Component {
       editBus({ id, registration_no, description, driver_id, token }),
     ).then(({ payload }) => {
       const { status: requestStatus } = payload
+      this.setState(() => ({ isLoading: false }))
       if (requestStatus === 200) {
         onClose()
         dispatch(showErrorMessage('Updated successfully', 'success'))

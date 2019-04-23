@@ -9,6 +9,7 @@ export const validate = values => {
     shift_evening,
     parent_id,
     driver_id,
+    status,
   } = values
   if (!trim(fullname)) {
     errors.fullname = 'Required'
@@ -25,6 +26,9 @@ export const validate = values => {
   }
   if (!trim(driver_id)) {
     errors.driver_id = 'Required'
+  }
+  if (!trim(status)) {
+    errors.status = 'Required'
   }
   return errors
 }
