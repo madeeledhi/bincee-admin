@@ -92,7 +92,7 @@ class CreateParent extends React.Component {
       address: '',
       phone_no: '',
       email: '',
-      status: '',
+      status: 'Active',
       photo: '',
     }
     this.setState(() => ({ isLoading: false }))

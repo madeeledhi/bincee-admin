@@ -85,7 +85,7 @@ class CreateDriver extends React.Component {
     const config = {
       fullname: '',
       phone_no: '',
-      status: '',
+      status: 'Active',
       photo: '',
     }
     this.setState(() => ({ isLoading: false }))
