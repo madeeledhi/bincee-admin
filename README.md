@@ -1,1 +1,1 @@
-# Bincee Admin App
+# Bincee Admin
