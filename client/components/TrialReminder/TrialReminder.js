@@ -50,7 +50,7 @@ class TrialReminder extends React.Component {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => onClickSignout} color="primary">
+          <Button onClick={onClickSignout} color="primary">
             SignOut
           </Button>
           <Button
