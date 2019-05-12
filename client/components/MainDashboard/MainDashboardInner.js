@@ -46,13 +46,17 @@ const MainDashboardInner = ({
   activePath,
   trial,
 }) => {
-  const { hasTrial } = trial
+  const { isTrialUser } = trial
+
   return (
     <div className={styles.root}>
       <Choose>
         <When condition={authenticated && !isLoading}>
-          <If condition={hasTrial}>
-            <TrialReminder trialDetails={trial} />
+          <If condition={isTrialUser}>
+            <TrialReminder
+              trialDetails={trial}
+              onClickSignout={onClickSignout}
+            />
           </If>
           <Header
             onClickSignout={onClickSignout}

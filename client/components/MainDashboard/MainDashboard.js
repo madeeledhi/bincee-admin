@@ -19,15 +19,16 @@ import styles from './MainDashboard.less'
 const possibleFormat = ['DD-MMM-YYYY', 'YYYY-MM-DD', 'DD-MM-YYYY']
 const requiredFormat = 'DD-MMM-YYYY'
 
-function getTrialCheck(date, limit = 0) {
+function getTrialCheck(date, limit = 0, isTrialUser = true) {
   const expireDate = moment(date, possibleFormat).add(limit, 'days')
   const CurrentDate = moment(new Date(), possibleFormat)
   const RemainingDays = expireDate.diff(CurrentDate, 'days')
-  const hasTrial = RemainingDays > 0 && limit > 0
+  const isTrialExpired = RemainingDays < 0 && limit > 0
   return {
     expirationDate: expireDate.format(requiredFormat),
     RemainingDays,
-    hasTrial,
+    isTrialExpired,
+    isTrialUser,
   }
 }
 
