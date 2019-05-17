@@ -7,13 +7,30 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
-import Button from '../Button'
+import moment from 'moment'
 
 //  src
 import MainDashboardInner from './MainDashboardInner'
+import Button from '../Button'
 import { hasPropChanged, parseLocation } from '../../utils'
 import { loadUser, logOut, loadUserDetails } from '../../actions'
 import styles from './MainDashboard.less'
+
+const possibleFormat = ['DD-MMM-YYYY', 'YYYY-MM-DD', 'DD-MM-YYYY']
+const requiredFormat = 'DD-MMM-YYYY'
+
+function getTrialCheck(date, limit = 0, isTrialUser = true) {
+  const expireDate = moment(date, possibleFormat).add(limit, 'days')
+  const CurrentDate = moment(new Date(), possibleFormat)
+  const RemainingDays = expireDate.diff(CurrentDate, 'days')
+  const isTrialExpired = RemainingDays < 0 && limit > 0
+  return {
+    expirationDate: expireDate.format(requiredFormat),
+    RemainingDays,
+    isTrialExpired,
+    isTrialUser,
+  }
+}
 
 class MainDashboard extends Component {
   constructor(props) {
@@ -96,6 +113,8 @@ class MainDashboard extends Component {
       isLoading,
       activePath,
     )
+    const trial = getTrialCheck('20-APR-2019', 10)
+
     return (
       <div>
         <MainDashboardInner
@@ -108,6 +127,7 @@ class MainDashboard extends Component {
           authenticated={authenticated}
           onRouteChange={this.handleRouteChange}
           activePath={activePath}
+          trial={trial}
         />
         {disabled && size(userDetails) > 0 && (
           <Dialog open disableBackdropClick disableEscapeKeyDown>
