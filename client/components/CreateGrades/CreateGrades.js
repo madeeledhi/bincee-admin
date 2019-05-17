@@ -45,6 +45,7 @@ class CreateGrades extends React.Component {
     this.setState(() => ({ isLoading: true }))
     dispatch(createGrade({ grade_name, section, grade_section, token })).then(
       ({ payload }) => {
+        this.setState(() => ({ isLoading: false }))
         const { status: requestStatus } = payload
         if (requestStatus === 200) {
           dispatch(showErrorMessage('Created successfully', 'success'))(

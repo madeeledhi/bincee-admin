@@ -9,12 +9,16 @@ export const validate = values => {
     shift_evening,
     parent_id,
     driver_id,
+    status,
   } = values
   if (!trim(fullname)) {
     errors.fullname = 'Required'
   }
   if (!trim(grade)) {
     errors.grade = 'Required'
+  }
+  if (!trim(status)) {
+    errors.status = 'Required'
   }
   if (!trim(shift_morning) && !trim(shift_evening)) {
     errors.shift_morning = 'Atleast One Shift Required'

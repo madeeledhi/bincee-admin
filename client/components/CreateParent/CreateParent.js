@@ -70,6 +70,7 @@ class CreateParent extends React.Component {
         token,
       }),
     ).then(({ payload }) => {
+      this.setState(() => ({ isLoading: false }))
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
         dispatch(showErrorMessage('Created successfully', 'success'))
@@ -91,7 +92,7 @@ class CreateParent extends React.Component {
       address: '',
       phone_no: '',
       email: '',
-      status: '',
+      status: 'Active',
       photo: '',
     }
     this.setState(() => ({ isLoading: false }))
