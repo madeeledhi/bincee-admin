@@ -27,6 +27,7 @@ export const createDriver = ({
   password,
   fullname,
   phone_no,
+  enableFleet = false,
   status,
   photo,
   token,
@@ -37,7 +38,15 @@ export const createDriver = ({
     method: 'POST',
     token,
   },
-  payload: { username, password, fullname, phone_no, status, photo },
+  payload: {
+    username,
+    password,
+    fullname,
+    phone_no,
+    status,
+    photo,
+    enableFleet,
+  },
 })
 
 export const updateDriver = ({
@@ -46,6 +55,7 @@ export const updateDriver = ({
   phone_no,
   status,
   photo,
+  enableFleet = false,
   token,
 }) => ({
   [CALL_API]: {
@@ -54,7 +64,7 @@ export const updateDriver = ({
     method: 'POST',
     token,
   },
-  payload: { fullname, phone_no, status, photo },
+  payload: { fullname, phone_no, status, photo, enableFleet },
 })
 
 export const updateDriverCredentials = ({ id, username, password, token }) => ({
