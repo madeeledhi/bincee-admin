@@ -66,7 +66,7 @@ class MainDashboard extends Component {
       if (!authenticated) {
         dispatch(push('/'))
       }
-      if (size(userDetails) < 1) {
+      if (size(userDetails) < 1 && authenticated) {
         const { id, token } = user
         this.setState(() => ({ user, isLoading: true }))
         dispatch(loadUserDetails({ id, token }))

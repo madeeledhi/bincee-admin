@@ -29,8 +29,8 @@ export default (state = {}, action) => {
       return { ...state, message: 'Password Updated UnSuccessfull' }
     }
     case ActionTypes.USER_LOGOUT: {
-      ActionTypes.clearState()
       ActionTypes.clearDetailsState()
+      ActionTypes.clearState()
       return initialState
     }
     case ActionTypes.LOAD_USER: {
