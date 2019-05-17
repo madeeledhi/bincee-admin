@@ -130,7 +130,7 @@ const NavigationBar = props => {
             primary={'School Announcements'}
           />
         </ListItem>
-        <ListItem
+        {/* <ListItem
           className={`${styles.navItem} ${
             activePath === 'fleetTracking' ? styles.active : ''
           }`}
@@ -142,7 +142,7 @@ const NavigationBar = props => {
             classes={{ primary: styles.activeText }}
             primary={'Fleet Tracker'}
           />
-        </ListItem>
+        </ListItem> */}
       </List>
     </div>
   )

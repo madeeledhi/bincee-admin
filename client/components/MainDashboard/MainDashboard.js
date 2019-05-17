@@ -19,7 +19,7 @@ import styles from './MainDashboard.less'
 const possibleFormat = ['DD-MMM-YYYY', 'YYYY-MM-DD', 'DD-MM-YYYY']
 const requiredFormat = 'DD-MMM-YYYY'
 
-function getTrialCheck(date, limit = 0, isTrialUser = true) {
+function getTrialCheck(date, limit = 0, isTrialUser = false) {
   const expireDate = moment(date, possibleFormat).add(limit, 'days')
   const CurrentDate = moment(new Date(), possibleFormat)
   const RemainingDays = expireDate.diff(CurrentDate, 'days')
@@ -107,13 +107,14 @@ class MainDashboard extends Component {
     const { match, authenticated, error } = this.props
     const { isLoading, user, userDetails, activePath, disabled } = this.state
     const path = getOr('/dashboard', 'path')(match)
+    const { trial = false, trialDays, trialDate } = userDetails
     console.log(
       'dashboard: {authenticated} {isLoading}, {path} ',
       authenticated,
       isLoading,
       activePath,
     )
-    const trial = getTrialCheck('20-APR-2019', 10)
+    const trialDetails = getTrialCheck(trialDate, trialDays, trial)
 
     return (
       <div>
@@ -127,7 +128,7 @@ class MainDashboard extends Component {
           authenticated={authenticated}
           onRouteChange={this.handleRouteChange}
           activePath={activePath}
-          trial={trial}
+          trial={trialDetails}
         />
         {disabled && size(userDetails) > 0 && (
           <Dialog open disableBackdropClick disableEscapeKeyDown>
@@ -148,7 +149,10 @@ class MainDashboard extends Component {
               <Button
                 onClick={() => this.handleRouteChange('/dashboard/profile')}
                 label="Edit Profile"
-                style={{ backgroundColor: '#0adfbd', borderColor: '#0adfbd' }}
+                style={{
+                  backgroundColor: '#0adfbd',
+                  borderColor: '#0adfbd',
+                }}
               />
             </DialogContent>
           </Dialog>
