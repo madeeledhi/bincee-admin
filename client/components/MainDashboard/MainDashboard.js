@@ -47,7 +47,10 @@ class MainDashboard extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, user } = this.props
+    const { dispatch, user, authenticated } = this.props
+    if (!authenticated) {
+      dispatch(push('/'))
+    }
     if (!user.username) {
       dispatch(loadUser())
     } else {
