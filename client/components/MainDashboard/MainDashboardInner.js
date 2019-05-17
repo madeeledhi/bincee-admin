@@ -105,12 +105,12 @@ const MainDashboardInner = ({
                   component={Parents}
                   user={user}
                 />
-                <Route
+                {/* <Route
                   path={`${path}/fleetTracking`}
                   exact
                   component={FleetTracker}
                   user={user}
-                />
+                /> */}
                 <Route
                   path={`${path}/parents/create`}
                   exact
