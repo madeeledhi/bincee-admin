@@ -23,6 +23,13 @@ import {
 } from '../../actions'
 import DriversInner from './DriversInner'
 
+function getFleetLicensesStatus(drivers, user) {
+  const { fleetLicenses = 0 } = user
+  const filteredDrivers = filter(({ enableFleet }) => enableFleet)(drivers)
+  const activeLicenses = size(filteredDrivers)
+  return fleetLicenses >= activeLicenses
+}
+
 class Drivers extends React.Component {
   state = {
     error: '',
@@ -32,6 +39,7 @@ class Drivers extends React.Component {
     editId: '',
     drawerData: {},
     dataIsAvailable: false,
+    activeLicencesAvailable: false,
   }
 
   componentDidMount() {
@@ -46,15 +54,30 @@ class Drivers extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged(['user', 'drivers'], this.props, nextProps)) {
-      const { dispatch, user, drivers, error } = nextProps
+      const {
+        dispatch,
+        user,
+        drivers,
+        error,
+        userDetails,
+        driversList,
+      } = nextProps
+      const activeLicencesAvailable = getFleetLicensesStatus(
+        driversList,
+        userDetails,
+      )
       const { token } = user
       if (size(drivers) < 1) {
         this.setState(() => ({ isLoading: true }))
         dispatch(loadDrivers({ token })).then(() => {
-          this.setState(() => ({ isLoading: false }))
+          this.setState(() => ({ isLoading: false, activeLicencesAvailable }))
         })
       } else {
-        this.setState(() => ({ error, isLoading: false }))
+        this.setState(() => ({
+          error,
+          isLoading: false,
+          activeLicencesAvailable,
+        }))
       }
     }
   }
@@ -244,6 +267,7 @@ class Drivers extends React.Component {
       editId,
       drawerData,
       dataIsAvailable,
+      activeLicencesAvailable,
     } = this.state
     const { drivers } = this.props
     const { columns: rows, rows: data } = drivers
@@ -267,6 +291,7 @@ class Drivers extends React.Component {
         sendCredentials={this.handleSendCredentials}
         drawerData={drawerData}
         dataIsAvailable={dataIsAvailable}
+        activeLicencesAvailable
       />
     )
   }
@@ -275,6 +300,7 @@ class Drivers extends React.Component {
 const mapStateToProps = state => {
   const drivers = getOr({}, 'drivers')(state)
   const user = getOr({}, 'user')(state)
+  const userDetails = getOr({}, 'userDetails')(state)
   const loadedUser = getOr({}, 'users.loadedUser')(state)
   const driversList = getOr([], 'drivers')(drivers)
   const error = getOr('', 'message')(drivers)
@@ -285,6 +311,8 @@ const mapStateToProps = state => {
     rawDriver: drivers,
     error,
     loadedUser,
+    userDetails,
+    driversList,
   }
 }
 

@@ -25,6 +25,7 @@ const DriversInner = ({
   sendCredentials,
   drawerData,
   dataIsAvailable,
+  activeLicencesAvailable,
 }) => (
   <Choose>
     <When condition={!error && !isLoading}>
@@ -47,8 +48,17 @@ const DriversInner = ({
           enableDrawer
           drawerTitle="Driver Content"
         />
-        <EditDriver id={editId} open={editDialog} onClose={handleClose} />
-        <CreateDriver open={createDialog} onClose={handleClose} />
+        <EditDriver
+          id={editId}
+          open={editDialog}
+          onClose={handleClose}
+          isLicencesAvailable={activeLicencesAvailable}
+        />
+        <CreateDriver
+          open={createDialog}
+          onClose={handleClose}
+          isLicencesAvailable={activeLicencesAvailable}
+        />
       </div>
     </When>
     <Otherwise>

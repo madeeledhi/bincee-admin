@@ -21,7 +21,12 @@ import {
   renderSwitch,
 } from '../shared/reduxFormMaterialUI'
 import styles from './CreateDriver.less'
-import { createDriver, uploadImage, showErrorMessage } from '../../actions'
+import {
+  createDriver,
+  uploadImage,
+  showErrorMessage,
+  loadDrivers,
+} from '../../actions'
 import { hasPropChanged, makeUID, makePID } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
