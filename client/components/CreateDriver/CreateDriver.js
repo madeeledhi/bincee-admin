@@ -18,6 +18,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import {
   renderTextField,
   renderRadioGroup,
+  renderSwitch,
 } from '../shared/reduxFormMaterialUI'
 import styles from './CreateDriver.less'
 import { createDriver, uploadImage, showErrorMessage } from '../../actions'
@@ -52,7 +53,7 @@ class CreateDriver extends React.Component {
   createDriver = () => {
     const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
-    const { fullname, phone_no, status, photo } = formValues
+    const { fullname, phone_no, status, photo, enableFleet } = formValues
     const username = phone_no
     const password = uniqueId(makePID())
     this.setState(() => ({ isLoading: true }))
@@ -62,6 +63,7 @@ class CreateDriver extends React.Component {
         password,
         fullname,
         phone_no,
+        enableFleet,
         status,
         photo,
         token,
@@ -70,7 +72,8 @@ class CreateDriver extends React.Component {
       const { status: requestStatus } = payload
       this.setState(() => ({ isLoading: false }))
       if (requestStatus === 200) {
-        dispatch(showErrorMessage('Created successfully', 'success'))(onClose())
+        dispatch(showErrorMessage('Created successfully', 'success'))
+        onClose()
       }
     })
   }
@@ -169,6 +172,12 @@ class CreateDriver extends React.Component {
                       label="Inactive"
                     />
                   </Field>
+                  <Field
+                    className={styles.radioButton}
+                    name="enableFleet"
+                    label="Enable Fleet"
+                    component={renderSwitch}
+                  />
                 </div>
                 <div className={styles.row}>
                   <Field
@@ -239,6 +248,7 @@ export default connect(mapStateToProps)(
       phone_no: '',
       status: 'Active',
       photo: '',
+      enableFleet: false,
     },
   })(CreateDriver),
 )

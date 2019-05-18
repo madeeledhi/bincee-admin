@@ -14,6 +14,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import {
   renderTextField,
   renderRadioGroup,
+  renderSwitch,
 } from '../shared/reduxFormMaterialUI'
 import styles from './EditDriver.less'
 import {
@@ -53,10 +54,18 @@ class EditDriver extends React.Component {
   updateDriver = () => {
     const { dispatch, formValues, user, id, onClose } = this.props
     const { token } = user
-    const { fullname, phone_no, status, photo } = formValues
+    const { fullname, phone_no, status, photo, enableFleet } = formValues
     this.setState(() => ({ isLoading: true }))
     dispatch(
-      updateDriver({ id, fullname, phone_no, status, photo, token }),
+      updateDriver({
+        id,
+        fullname,
+        phone_no,
+        status,
+        photo,
+        enableFleet,
+        token,
+      }),
     ).then(({ payload }) => {
       const { status: requestStatus } = payload
       this.setState(() => ({ isLoading: false }))
@@ -79,8 +88,8 @@ class EditDriver extends React.Component {
     dispatch(loadSingleDriver({ id, token })).then(({ payload }) => {
       this.setState(() => ({ isLoading: false }))
       const { data } = payload
-      const { fullname, phone_no, status, photo } = data
-      const config = { fullname, phone_no, status, photo }
+      const { fullname, phone_no, status, photo, enableFleet } = data
+      const config = { fullname, phone_no, status, photo, enableFleet }
       initialize(config)
     })
   }
@@ -162,6 +171,12 @@ class EditDriver extends React.Component {
                       label="Inactive"
                     />
                   </Field>
+                  <Field
+                    className={styles.radioButton}
+                    name="enableFleet"
+                    label="Enable Fleet"
+                    component={renderSwitch}
+                  />
                 </div>
                 <div className={styles.row}>
                   <Field
@@ -231,6 +246,7 @@ export default connect(mapStateToProps)(
       phone_no: '',
       status: '',
       photo: '',
+      enableFleet: false,
     },
   })(EditDriver),
 )
