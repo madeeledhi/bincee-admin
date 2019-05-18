@@ -33,6 +33,7 @@ import Security from '../Security'
 import Leaves from '../Leaves'
 import FleetTracker from '../FleetTracker'
 import TrialReminder from '../TrialReminder'
+import BlankSlate from '../BlankSlate'
 
 const MainDashboardInner = ({
   onClickSignout,
@@ -46,7 +47,7 @@ const MainDashboardInner = ({
   activePath,
   trial,
 }) => {
-  const { isTrialUser } = trial
+  const { isTrialUser, isTrialExpired = false } = trial
 
   return (
     <div className={styles.root}>
@@ -58,161 +59,168 @@ const MainDashboardInner = ({
               onClickSignout={onClickSignout}
             />
           </If>
-          <Header
-            onClickSignout={onClickSignout}
-            activePath={activePath}
-            user={user}
-            userDetails={userDetails}
-            authenticated={authenticated}
-            onRouteChange={onRouteChange}
-          />
-
-          <div className={styles.container}>
-            <div className={styles.navigation}>
-              <NavigationBar
-                onRouteChange={onRouteChange}
+          <Choose>
+            <When condition={!isTrialExpired}>
+              <Header
+                onClickSignout={onClickSignout}
                 activePath={activePath}
+                user={user}
+                userDetails={userDetails}
+                authenticated={authenticated}
+                onRouteChange={onRouteChange}
               />
-            </div>
-            <div
-              className={styles.content}
-              style={{ boxShadow: activePath === 'home' ? 'none' : '' }}
-            >
-              <Switch>
-                <Route path={`${path}`} exact component={Home} />
-                <Route
-                  path={`${path}/students`}
-                  exact
-                  component={Students}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/students/create`}
-                  exact
-                  component={CreateStudent}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/students/edit/:id`}
-                  exact
-                  component={EditStudent}
-                  user={user}
-                />
 
-                <Route
-                  path={`${path}/parents`}
-                  exact
-                  component={Parents}
-                  user={user}
-                />
-                {/* <Route
+              <div className={styles.container}>
+                <div className={styles.navigation}>
+                  <NavigationBar
+                    onRouteChange={onRouteChange}
+                    activePath={activePath}
+                  />
+                </div>
+                <div
+                  className={styles.content}
+                  style={{ boxShadow: activePath === 'home' ? 'none' : '' }}
+                >
+                  <Switch>
+                    <Route path={`${path}`} exact component={Home} />
+                    <Route
+                      path={`${path}/students`}
+                      exact
+                      component={Students}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/students/create`}
+                      exact
+                      component={CreateStudent}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/students/edit/:id`}
+                      exact
+                      component={EditStudent}
+                      user={user}
+                    />
+
+                    <Route
+                      path={`${path}/parents`}
+                      exact
+                      component={Parents}
+                      user={user}
+                    />
+                    {/* <Route
                   path={`${path}/fleetTracking`}
                   exact
                   component={FleetTracker}
                   user={user}
                 /> */}
-                <Route
-                  path={`${path}/parents/create`}
-                  exact
-                  component={CreateParent}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/parents/edit/:id`}
-                  exact
-                  component={EditParent}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/grades`}
-                  exact
-                  component={GradesSections}
-                  user={user}
-                />
+                    <Route
+                      path={`${path}/parents/create`}
+                      exact
+                      component={CreateParent}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/parents/edit/:id`}
+                      exact
+                      component={EditParent}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/grades`}
+                      exact
+                      component={GradesSections}
+                      user={user}
+                    />
 
-                <Route
-                  path={`${path}/drivers`}
-                  exact
-                  component={Drivers}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/drivers/create`}
-                  exact
-                  component={CreateDriver}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/busses/create`}
-                  exact
-                  component={CreateBus}
-                  user={user}
-                />
+                    <Route
+                      path={`${path}/drivers`}
+                      exact
+                      component={Drivers}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/drivers/create`}
+                      exact
+                      component={CreateDriver}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/busses/create`}
+                      exact
+                      component={CreateBus}
+                      user={user}
+                    />
 
-                <Route
-                  path={`${path}/drivers/edit/:id`}
-                  exact
-                  component={EditDriver}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/busses/edit/:id`}
-                  exact
-                  component={EditBus}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/busses`}
-                  exact
-                  component={Busses}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/shifts`}
-                  exact
-                  component={ShiftsAndTimings}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/shifts/create`}
-                  exact
-                  component={CreateShifts}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/shifts/edit/:id`}
-                  exact
-                  component={EditShift}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/announcements`}
-                  exact
-                  component={Announcements}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/leaves`}
-                  exact
-                  component={Leaves}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/profile`}
-                  exact
-                  component={Profile}
-                  user={user}
-                />
-                <Route
-                  path={`${path}/security`}
-                  exact
-                  component={Security}
-                  user={user}
-                />
-                <Redirect to="/dashboard" />
-              </Switch>
-            </div>
-          </div>
+                    <Route
+                      path={`${path}/drivers/edit/:id`}
+                      exact
+                      component={EditDriver}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/busses/edit/:id`}
+                      exact
+                      component={EditBus}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/busses`}
+                      exact
+                      component={Busses}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/shifts`}
+                      exact
+                      component={ShiftsAndTimings}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/shifts/create`}
+                      exact
+                      component={CreateShifts}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/shifts/edit/:id`}
+                      exact
+                      component={EditShift}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/announcements`}
+                      exact
+                      component={Announcements}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/leaves`}
+                      exact
+                      component={Leaves}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/profile`}
+                      exact
+                      component={Profile}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/security`}
+                      exact
+                      component={Security}
+                      user={user}
+                    />
+                    <Redirect to="/dashboard" />
+                  </Switch>
+                </div>
+              </div>
+            </When>
+            <Otherwise>
+              <BlankSlate message="Your Trial Period is Expired,Please Renew it!." />
+            </Otherwise>
+          </Choose>
         </When>
         <When condition={error}>
           <div>{error}</div>
