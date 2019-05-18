@@ -89,6 +89,7 @@ class EditDriver extends React.Component {
       this.setState(() => ({ isLoading: false }))
       const { data } = payload
       const { fullname, phone_no, status, photo, enableFleet } = data
+      this.setState(() => ({ enableFleet }))
       const config = { fullname, phone_no, status, photo, enableFleet }
       initialize(config)
     })
@@ -124,8 +125,14 @@ class EditDriver extends React.Component {
   }
 
   render() {
-    const { disabled, isLoading } = this.state
-    const { classes, onClose, formValues, ...other } = this.props
+    const { disabled, isLoading, enableFleet } = this.state
+    const {
+      classes,
+      onClose,
+      isLicencesAvailable,
+      formValues,
+      ...other
+    } = this.props
     const { photo } = formValues || {}
     return (
       <Dialog
@@ -172,6 +179,7 @@ class EditDriver extends React.Component {
                     />
                   </Field>
                   <Field
+                    disabled={!isLicencesAvailable && !enableFleet}
                     className={styles.radioButton}
                     name="enableFleet"
                     label="Enable Fleet"

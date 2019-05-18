@@ -131,7 +131,13 @@ class CreateDriver extends React.Component {
   render() {
     // TODO: Change file upload control
     const { disabled, isLoading } = this.state
-    const { classes, onClose, formValues, ...other } = this.props
+    const {
+      classes,
+      onClose,
+      isLicencesAvailable,
+      formValues,
+      ...other
+    } = this.props
     const { photo } = formValues || {}
     return (
       <Dialog
@@ -178,6 +184,7 @@ class CreateDriver extends React.Component {
                     />
                   </Field>
                   <Field
+                    disabled={!isLicencesAvailable}
                     className={styles.radioButton}
                     name="enableFleet"
                     label="Enable Fleet"

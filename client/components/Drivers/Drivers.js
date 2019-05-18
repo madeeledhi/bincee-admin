@@ -27,7 +27,8 @@ function getFleetLicensesStatus(drivers, user) {
   const { fleetLicenses = 0 } = user
   const filteredDrivers = filter(({ enableFleet }) => enableFleet)(drivers)
   const activeLicenses = size(filteredDrivers)
-  return fleetLicenses >= activeLicenses
+  console.log(fleetLicenses, activeLicenses)
+  return fleetLicenses > activeLicenses
 }
 
 class Drivers extends React.Component {
@@ -291,7 +292,7 @@ class Drivers extends React.Component {
         sendCredentials={this.handleSendCredentials}
         drawerData={drawerData}
         dataIsAvailable={dataIsAvailable}
-        activeLicencesAvailable
+        activeLicencesAvailable={activeLicencesAvailable}
       />
     )
   }
