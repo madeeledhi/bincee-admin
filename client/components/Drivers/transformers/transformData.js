@@ -35,7 +35,12 @@ function getRows(drivers) {
   return flow(
     sortBy('driver_id'),
     map(driver => {
-      return renameKeyName(driver, 'driver_id', 'id')
+      const { enableFleet = false } = driver
+      const newDriver = {
+        ...driver,
+        enableFleet: enableFleet ? 'Enabled' : 'Disabled',
+      }
+      return renameKeyName(newDriver, 'driver_id', 'id')
     }),
   )(drivers)
 }
