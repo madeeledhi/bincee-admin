@@ -2,7 +2,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
-import size from 'lodash/fp/size'
 
 // src
 
