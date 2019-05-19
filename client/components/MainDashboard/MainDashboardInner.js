@@ -34,6 +34,7 @@ import Leaves from '../Leaves'
 import FleetTracker from '../FleetTracker'
 import TrialReminder from '../TrialReminder'
 import BlankSlate from '../BlankSlate'
+import Licences from '../Licences'
 
 const MainDashboardInner = ({
   onClickSignout,
@@ -93,6 +94,12 @@ const MainDashboardInner = ({
                       path={`${path}/students/create`}
                       exact
                       component={CreateStudent}
+                      user={user}
+                    />
+                    <Route
+                      path={`${path}/licences`}
+                      exact
+                      component={Licences}
                       user={user}
                     />
                     <Route
