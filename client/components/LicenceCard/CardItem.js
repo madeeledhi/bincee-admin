@@ -8,15 +8,13 @@ import styles from './LicenceCard.less'
 
 const CardItem = ({ label, value, unit }) => {
   return (
-    <Card className={styles.cardItem}>
-      <CardContent>
-        <div className={styles.container}>
-          <div className={styles.label}>{label}</div>
-          <div className={styles.value}>{value}</div>
-          <div className={styles.unit}>{unit}</div>
-        </div>
-      </CardContent>
-    </Card>
+    <div className={styles.cardItem}>
+      <div>
+        <div className={styles.label}>{label}</div>
+        <div className={styles.value}>{value}</div>
+        <div className={styles.unit}>{unit}</div>
+      </div>
+    </div>
   )
 }
 export default CardItem

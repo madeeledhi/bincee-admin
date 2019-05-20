@@ -34,7 +34,6 @@ export default (state = {}, action) => {
       return initialState
     }
     case ActionTypes.LOAD_USER: {
-      console.log(ActionTypes.loadState())
       return ActionTypes.loadState()
     }
     default: {
