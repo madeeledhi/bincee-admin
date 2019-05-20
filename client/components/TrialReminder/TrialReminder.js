@@ -39,8 +39,12 @@ class TrialReminder extends React.Component {
       >
         <DialogTitle id="alert-dialog-slide-title">
           {isTrialExpired
-            ? `Trail Expired ${Math.abs(RemainingDays)} days ago.`
-            : `Trial Period Remaining : ${RemainingDays}`}
+            ? `Trail Expired ${Math.abs(RemainingDays)} day${
+                Math.abs(RemainingDays) < 2 ? '' : 's'
+              } ago.`
+            : `Trial Period Remaining : ${RemainingDays} day${
+                RemainingDays < 2 ? '' : 's'
+              }`}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
