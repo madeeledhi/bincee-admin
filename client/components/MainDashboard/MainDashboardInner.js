@@ -44,7 +44,7 @@ const MainDashboardInner = ({
   onRouteChange,
   isLoading,
   activePath,
-  trial,
+  trial = {},
 }) => {
   const { isTrialUser } = trial
 

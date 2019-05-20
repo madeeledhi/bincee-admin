@@ -1,7 +1,7 @@
 // src
 import * as ActionTypes from '../actions'
 
-const initialState = {}
+const initialState = []
 
 export default (state = initialState, action) => {
   const { type, payload } = action

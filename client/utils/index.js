@@ -1,9 +1,11 @@
 import XLSX from 'xlsx'
+import syncFireStore from './syncFireStore'
 
 export * from './utils'
 export { default as configureRouter } from './configureRouter'
 export * from './formValidation'
 export * from './getBaseUrl'
+export { syncFireStore }
 
 export const exportData = (data, name) => {
   const worksheet = XLSX.utils.json_to_sheet(data)

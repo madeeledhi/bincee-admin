@@ -11,6 +11,7 @@ import getOr from 'lodash/fp/getOr'
 // src
 import { content } from './constants'
 import styles from './Header.less'
+import { syncFireStore } from '../../utils'
 
 const ActionItem = withStyles({
   root: {
@@ -135,4 +136,4 @@ class Header extends React.Component {
     )
   }
 }
-export default Header
+export default syncFireStore()(Header)
