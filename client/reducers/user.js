@@ -29,11 +29,12 @@ export default (state = {}, action) => {
       return { ...state, message: 'Password Updated UnSuccessfull' }
     }
     case ActionTypes.USER_LOGOUT: {
-      ActionTypes.clearDetailsState()
       ActionTypes.clearState()
+      ActionTypes.clearDetailsState()
       return initialState
     }
     case ActionTypes.LOAD_USER: {
+      console.log(ActionTypes.loadState())
       return ActionTypes.loadState()
     }
     default: {

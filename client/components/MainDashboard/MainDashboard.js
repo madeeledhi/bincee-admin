@@ -49,7 +49,14 @@ class MainDashboard extends Component {
   componentDidMount() {
     const { dispatch, user, authenticated } = this.props
     if (!authenticated) {
-      dispatch(push('/'))
+      try {
+        const serializedUser = localStorage.getItem('user')
+        if (serializedUser === null) {
+          dispatch(push('/'))
+        }
+      } catch (err) {
+        dispatch(push('/'))
+      }
     }
     if (!user.username) {
       dispatch(loadUser())
@@ -60,9 +67,16 @@ class MainDashboard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (hasPropChanged(['userDetails', 'user'], this.props, nextProps)) {
+    if (
+      hasPropChanged(
+        ['userDetails', 'user', 'authenticated'],
+        this.props,
+        nextProps,
+      )
+    ) {
       const { user, authenticated, dispatch, userDetails } = nextProps
       this.setState(() => ({ user }))
+      console.log(user, authenticated)
       if (!authenticated) {
         dispatch(push('/'))
       }
@@ -166,7 +180,7 @@ class MainDashboard extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const user = getOr({}, 'user')(state)
+  const user = getOr(null, 'user')(state)
   const userDetails = getOr({}, 'userDetails')(state)
   const error = getOr('', 'message')(userDetails)
   const authenticated = size(user.username) > 0
