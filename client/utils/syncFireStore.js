@@ -8,6 +8,7 @@ import flow from 'lodash/fp/flow'
 import map from 'lodash/fp/map'
 import isEqual from 'lodash/fp/isEqual'
 import includes from 'lodash/fp/includes'
+import toInteger from 'lodash/fp/toInteger'
 import firebase from 'firebase'
 
 // src
@@ -80,13 +81,11 @@ export default () => WrappedComponent => {
     driverStream(querySnapshot) {
       let drivers = []
       querySnapshot.forEach(doc => {
-        drivers = [...drivers, { driver_id: doc.id, ...doc.data() }]
+        drivers = [...drivers, { driver_id: toInteger(doc.id), ...doc.data() }]
       })
       const { remoteDrivers } = this.state
       const { dispatch, drivers: propDrivers } = this.props
-      const driverIds = map(({ driver_id: driverId }) => `${driverId}`)(
-        propDrivers,
-      )
+      const driverIds = map(({ driver_id: driverId }) => driverId)(propDrivers)
       const filteredDrivers = filter(({ driver_id: driverId }) =>
         includes(driverId)(driverIds),
       )(drivers)
