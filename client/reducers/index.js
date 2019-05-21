@@ -21,6 +21,7 @@ import announcements from './announcements'
 import credentials from './credentials'
 import leaves from './leaves'
 import users from './users'
+import firestore from './firestore'
 import * as ActionTypes from '../actions'
 import { checkError } from '../utils'
 
@@ -78,6 +79,7 @@ const rootReducer = combineReducers({
   credentials,
   users,
   form: formReducer,
+  firestore,
 })
 
 export default rootReducer
