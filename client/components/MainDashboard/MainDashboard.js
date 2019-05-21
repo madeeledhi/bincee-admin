@@ -76,7 +76,6 @@ class MainDashboard extends Component {
     ) {
       const { user, authenticated, dispatch, userDetails } = nextProps
       this.setState(() => ({ user }))
-      console.log(user, authenticated)
       if (!authenticated) {
         dispatch(push('/'))
       }

@@ -9,7 +9,8 @@ import CardItem from './CardItem'
 // src
 import styles from './LicenceCard.less'
 
-const LicenceCard = ({ data }) => {
+const LicenceCard = ({ details }) => {
+  const { Total, Active, Inactive, Title } = details
   return (
     <Card className={styles.card}>
       <CardHeader
@@ -18,16 +19,16 @@ const LicenceCard = ({ data }) => {
         //     L
         //   </Avatar>
         // }
-        title="APP Licences"
+        title={Title}
         className={styles.cardHeader}
       />
 
       <CardContent className={styles.cardContent}>
         <div className={styles.divider} />
         <div className={styles.cardContentdiv}>
-          <CardItem label={'Total'} value={100} unit={'Licences'} />
-          <CardItem label={'Active'} value={60} unit={'Licences'} />
-          <CardItem label={'Inactive'} value={40} unit={'Licences'} />
+          <CardItem label={'Total'} value={Total} unit={'Licences'} />
+          <CardItem label={'Active'} value={Active} unit={'Licences'} />
+          <CardItem label={'Inactive'} value={Inactive} unit={'Licences'} />
         </div>
       </CardContent>
     </Card>

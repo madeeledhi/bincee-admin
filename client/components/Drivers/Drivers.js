@@ -27,7 +27,6 @@ function getFleetLicensesStatus(drivers, user) {
   const { fleetLicenses = 0 } = user
   const filteredDrivers = filter(({ enableFleet }) => enableFleet)(drivers)
   const activeLicenses = size(filteredDrivers)
-  console.log(fleetLicenses, activeLicenses)
   return fleetLicenses > activeLicenses
 }
 
@@ -40,44 +39,36 @@ class Drivers extends React.Component {
     editId: '',
     drawerData: {},
     dataIsAvailable: false,
-    activeLicencesAvailable: false,
   }
 
   componentDidMount() {
-    const { dispatch, user } = this.props
+    const { dispatch, user, driversList } = this.props
     if (user) {
       const { token } = user
-      dispatch(loadDrivers({ token })).then(() => {
+      if (size(driversList) < 1) {
+        dispatch(loadDrivers({ token })).then(() => {
+          this.setState(() => ({ isLoading: false }))
+        })
+      } else {
         this.setState(() => ({ isLoading: false }))
-      })
+      }
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged(['user', 'drivers'], this.props, nextProps)) {
-      const {
-        dispatch,
-        user,
-        drivers,
-        error,
-        userDetails,
-        driversList,
-      } = nextProps
-      const activeLicencesAvailable = getFleetLicensesStatus(
-        driversList,
-        userDetails,
-      )
+      const { dispatch, user, drivers, error } = nextProps
+
       const { token } = user
       if (size(drivers) < 1) {
         this.setState(() => ({ isLoading: true }))
         dispatch(loadDrivers({ token })).then(() => {
-          this.setState(() => ({ isLoading: false, activeLicencesAvailable }))
+          this.setState(() => ({ isLoading: false }))
         })
       } else {
         this.setState(() => ({
           error,
           isLoading: false,
-          activeLicencesAvailable,
         }))
       }
     }
@@ -268,9 +259,8 @@ class Drivers extends React.Component {
       editId,
       drawerData,
       dataIsAvailable,
-      activeLicencesAvailable,
     } = this.state
-    const { drivers } = this.props
+    const { drivers, activeLicencesAvailable } = this.props
     const { columns: rows, rows: data } = drivers
 
     return (
@@ -306,6 +296,10 @@ const mapStateToProps = state => {
   const driversList = getOr([], 'drivers')(drivers)
   const error = getOr('', 'message')(drivers)
   const transformedDrivers = transformData(driversList)
+  const activeLicencesAvailable = getFleetLicensesStatus(
+    driversList,
+    userDetails,
+  )
   return {
     drivers: transformedDrivers,
     user,
@@ -314,6 +308,7 @@ const mapStateToProps = state => {
     loadedUser,
     userDetails,
     driversList,
+    activeLicencesAvailable,
   }
 }
 

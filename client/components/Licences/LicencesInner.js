@@ -1,15 +1,16 @@
 // lib
 import React from 'react'
+import map from 'lodash/fp/map'
 
 // src
 import LicenceCard from '../LicenceCard'
 import styles from './LicencesInner.less'
 
 const LicencesInner = ({ data }) => {
+  console.log(data)
   return (
     <div className={styles.root}>
-      <LicenceCard />
-      <LicenceCard />
+      {map(obj => <LicenceCard details={obj} />)(data)}
     </div>
   )
 }
