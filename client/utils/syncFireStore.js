@@ -14,7 +14,7 @@ import firebase from 'firebase'
 // src
 
 import { loadDrivers, syncRides, syncDrivers } from '../actions'
-import { hasPropChanged } from '../utils'
+import { hasPropChanged } from './index'
 
 const config = {
   apiKey: process.env.API_KEY,
