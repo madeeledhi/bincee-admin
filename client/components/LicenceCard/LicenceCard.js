@@ -14,11 +14,12 @@ const LicenceCard = ({ details }) => {
   return (
     <Card className={styles.card}>
       <CardHeader
-        // avatar={
-        //   <Avatar aria-label="Recipe" className={styles.avatar}>
-        //     L
-        //   </Avatar>
-        // }
+        classes={{ title: styles.cardHeaderText }}
+        avatar={
+          <img
+            src={`/images/${Title === 'App Licences' ? 'copy' : 'bus'}.png`}
+          />
+        }
         title={Title}
         className={styles.cardHeader}
       />
@@ -26,9 +27,27 @@ const LicenceCard = ({ details }) => {
       <CardContent className={styles.cardContent}>
         <div className={styles.divider} />
         <div className={styles.cardContentdiv}>
-          <CardItem label={'Total'} value={Total} unit={'Licences'} />
-          <CardItem label={'Active'} value={Active} unit={'Licences'} />
-          <CardItem label={'Inactive'} value={Inactive} unit={'Licences'} />
+          <CardItem
+            label="Total"
+            value={Total}
+            unit="Licences"
+            backgroudColor="#eafaff"
+            color="#06b9ed"
+          />
+          <CardItem
+            label="Active"
+            value={Active}
+            unit="Licences"
+            backgroudColor="#b8ffe4"
+            color="#0fde8e"
+          />
+          <CardItem
+            label="Inactive"
+            value={Inactive}
+            unit="Licences"
+            backgroudColor="#ffe1e5"
+            color="#ff4560"
+          />
         </div>
       </CardContent>
     </Card>

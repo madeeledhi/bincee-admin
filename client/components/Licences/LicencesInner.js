@@ -7,7 +7,6 @@ import LicenceCard from '../LicenceCard'
 import styles from './LicencesInner.less'
 
 const LicencesInner = ({ data }) => {
-  console.log(data)
   return (
     <div className={styles.root}>
       {map(obj => <LicenceCard details={obj} />)(data)}
