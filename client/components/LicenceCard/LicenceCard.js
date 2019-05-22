@@ -3,24 +3,23 @@ import React from 'react'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
-import Avatar from '@material-ui/core/Avatar'
 import CardItem from './CardItem'
 
 // src
 import styles from './LicenceCard.less'
 
 const LicenceCard = ({ details }) => {
-  const { Total, Active, Inactive, Title } = details
+  const { total, active, inactive, title } = details
   return (
     <Card className={styles.card}>
       <CardHeader
         classes={{ title: styles.cardHeaderText }}
         avatar={
           <img
-            src={`/images/${Title === 'App Licences' ? 'copy' : 'bus'}.png`}
+            src={`/images/${title === 'App Licences' ? 'copy' : 'bus'}.png`}
           />
         }
-        title={Title}
+        title={title}
         className={styles.cardHeader}
       />
 
@@ -29,21 +28,21 @@ const LicenceCard = ({ details }) => {
         <div className={styles.cardContentdiv}>
           <CardItem
             label="Total"
-            value={Total}
+            value={total}
             unit="Licences"
             backgroudColor="#eafaff"
             color="#06b9ed"
           />
           <CardItem
             label="Active"
-            value={Active}
+            value={active}
             unit="Licences"
             backgroudColor="#b8ffe4"
             color="#0fde8e"
           />
           <CardItem
             label="Inactive"
-            value={Inactive}
+            value={inactive}
             unit="Licences"
             backgroudColor="#ffe1e5"
             color="#ff4560"

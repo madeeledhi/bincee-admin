@@ -46,6 +46,7 @@ const mapStateToProps = state => {
   const drivers = getOr([], 'drivers.drivers')(state)
   const students = getOr([], 'students.students')(state)
   const data = transformData(user, userDetails, students, drivers)
+  console.log(data, userDetails)
   return { drivers, students, user, userDetails, data }
 }
 export default connect(mapStateToProps)(Licences)
