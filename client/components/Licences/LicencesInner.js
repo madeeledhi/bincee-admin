@@ -4,6 +4,8 @@ import map from 'lodash/fp/map'
 
 // src
 import LicenceCard from '../LicenceCard'
+import EmailCard from '../EmailCard'
+import TimeCard from '../TimeCard'
 import styles from './LicencesInner.less'
 const emailobj= {'title': 'Email'},
   time = {'title': 'Time'}
@@ -17,8 +19,8 @@ const LicencesInner = ({ data }) => {
         {map(obj => <LicenceCard details={obj} />)(licenceInfo)}
       </div>
       <div className={styles.root}>
-        <LicenceCard details={emailobj} />
-        <LicenceCard details={time} />
+        <EmailCard details={emailobj} />
+        <TimeCard details={time} />
       </div>
     </div>
     // TODO: add Trial Card Here
