@@ -7,6 +7,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
+import round from 'lodash/fp/round'
 import moment from 'moment'
 
 //  src
@@ -22,7 +23,7 @@ const requiredFormat = 'DD-MMM-YYYY'
 function getTrialCheck(date, limit = 0, isTrialUser = false) {
   const expireDate = moment(date, possibleFormat).add(limit, 'days')
   const CurrentDate = moment(new Date(), possibleFormat)
-  const RemainingDays = expireDate.diff(CurrentDate, 'days')
+  const RemainingDays = round(expireDate.diff(CurrentDate, 'hours') / 24)
   const isTrialExpired = RemainingDays < 0 && limit > 0
   return {
     expirationDate: expireDate.format(requiredFormat),
