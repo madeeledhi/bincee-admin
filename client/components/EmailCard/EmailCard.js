@@ -16,7 +16,7 @@ const EmailCard = ({ details, trialInfo }) => {
         classes={{ title: styles.cardHeaderText }}
         avatar={
           <img
-            src={`/images/bus.png`}
+            src={`/images/mail.png`}
           />
         }
         title={title}

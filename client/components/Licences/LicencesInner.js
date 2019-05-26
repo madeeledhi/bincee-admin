@@ -7,8 +7,8 @@ import LicenceCard from '../LicenceCard'
 import EmailCard from '../EmailCard'
 import TimeCard from '../TimeCard'
 import styles from './LicencesInner.less'
-const emailobj= {'title': 'Email'},
-  time = {'title': 'Time'}
+const emailobj= {'title': 'Email Credential Status'},
+  time = {'title': 'Trial Version Notification'}
 const LicencesInner = ({ data }) => {
   const { licenceInfo, trialInfo } = data
   console.log('trialInfo', trialInfo)

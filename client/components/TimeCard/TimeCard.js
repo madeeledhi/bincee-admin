@@ -15,12 +15,12 @@ import styles from './TimeCard.less'
 
 const TimeCard = ({ details, trialInfo }) => {
   const { total, active, inactive, title } = details,
-  {isTrialUser, remainingDays, remainingHour} = trialInfo,
-  daysLetters = toArray(toString(remainingDays)),
-  hoursLetters= toArray(toString(remainingHour)),
-  newhoursLetters = hoursLetters.length === 1 ? concat('0' , hoursLetters): hoursLetters,
-  newdaysLetters = daysLetters.length === 1 ? concat('0' , daysLetters): daysLetters
-  console.log('daysLetters',newhoursLetters, newdaysLetters, hoursLetters.length)
+    { isTrialUser, remainingDays, remainingHour } = trialInfo,
+    daysLetters = toArray(toString(remainingDays)),
+    hoursLetters = toArray(toString(remainingHour)),
+    newhoursLetters = hoursLetters.length === 1 ? concat('0', hoursLetters) : hoursLetters,
+    newdaysLetters = daysLetters.length === 1 ? concat('0', daysLetters) : daysLetters
+  console.log('daysLetters', newhoursLetters, newdaysLetters, hoursLetters.length)
   return (
 
 
@@ -29,7 +29,7 @@ const TimeCard = ({ details, trialInfo }) => {
         classes={{ title: styles.cardHeaderText }}
         avatar={
           <img
-            src={`/images/copy.png`}
+            src={`/images/trial.png`}
           />
         }
         title={title}
@@ -39,13 +39,24 @@ const TimeCard = ({ details, trialInfo }) => {
         <div className={styles.divider} />
         <div className={styles.cardContentdiv}>
           {/* <div>Your trial version ends in</div> */}
-          <div className={styles.spacing}/>
-          {map(obj => <div className={styles.clockItem}>{obj}</div>)(newdaysLetters)}
-          <div className={styles.collon}>
-            :
+          <div className={styles.trialText}>Your trial version will end in</div>
+          <div className={styles.timer}>
+            <div className={styles.spacing} />
+              {map(obj => <div className={styles.clockItem}>{obj}</div>)(newdaysLetters)}
+              {/* <div>Weeks</div> */}
+            <div className={styles.collon}>
+              :
+            </div>
+              {map(obj => <div className={styles.clockItem}>{obj}</div>)(newhoursLetters)}
+            <div className={styles.spacing} />
           </div>
-          {map(obj => <div className={styles.clockItem}>{obj}</div>)(newhoursLetters)}
-          <div className={styles.spacing}/>
+          <div className={styles.timeInfo}>
+            <div className={styles.spacing}/>
+            <p className={styles.weekDays}>DAYS</p>
+            <div className={styles.daysSpacing}/>
+            <p className={styles.weekDays}>HOURS</p>
+            <div className={styles.spacing}/>
+          </div>
         </div>
       </CardContent>
     </Card>
