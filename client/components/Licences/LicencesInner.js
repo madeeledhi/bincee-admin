@@ -11,7 +11,7 @@ const emailobj= {'title': 'Email'},
   time = {'title': 'Time'}
 const LicencesInner = ({ data }) => {
   const { licenceInfo, trialInfo } = data
-  console.log(licenceInfo)
+  console.log('trialInfo', trialInfo)
   return (
     <div>
       
@@ -19,8 +19,8 @@ const LicencesInner = ({ data }) => {
         {map(obj => <LicenceCard details={obj} />)(licenceInfo)}
       </div>
       <div className={styles.root}>
-        <EmailCard details={emailobj} />
-        <TimeCard details={time} />
+        <EmailCard details={emailobj} trialInfo={trialInfo}/>
+        <TimeCard details={time} trialInfo={trialInfo}/>
       </div>
     </div>
     // TODO: add Trial Card Here

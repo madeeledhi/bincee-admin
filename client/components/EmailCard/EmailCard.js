@@ -8,7 +8,7 @@ import CardItem from './CardItem'
 // src
 import styles from './EmailCard.less'
 
-const EmailCard = ({ details }) => {
+const EmailCard = ({ details, trialInfo }) => {
   const { total, active, inactive, title } = details
   return (
     <Card className={styles.emailCard}>
