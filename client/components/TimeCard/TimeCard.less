@@ -18,28 +18,59 @@
       margin-top: 10px;
       display: flex;
       justify-content: space-around;
-      .clockItem{
-        background-color: yellow;
-        width: 40px;
+      flex-direction: column;
+      .trialText {
+        width: 100%;
+        text-align: center;
+        padding: 15px 0;
+        font-size: 12px;
+        font-family: gotham-book;
+        font-weight: 700;
+      }
+      .timer {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+      }
+      .clockItem {
+        background-color: #fff0c2;
+        width: 50px;
         text-align: center;
         font-size: 33px;
         font-family: gotham-book;
         border: 1px transparent;
-        border-radius: 20px;
-        padding: 37px 0;
+        border-radius: 30px;
+        height: 66px;
+        padding-top: 25px;
       }
-      .spacing{
-        width : 20%
+      .spacing {
+        width: 20%;
       }
-      .collon{
+      .daysSpacing {
+        width: 6%;
+      }
+      .timeInfo {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+      }
+      .weekDays {
+        font-family: gotham-book;
+        font-size: 11px;
+        color: #575353;
+      }
+      .collon {
         text-align: center;
         font-size: 36px;
         font-family: gotham-book;
         border: 1px transparent;
         border-radius: 20px;
-        padding: 37px 0;
+        height: 66px;
+        padding-top: 25px;
+        font-weight: bold;
       }
     }
-    
   }
 }

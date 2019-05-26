@@ -19,12 +19,9 @@ function getTrialInfo(date, limit = 0, isTrialUser = false) {
     isTrialUser,
   }
 }
-export default function transformData(user, userDetails, students, drivers) {
+export default function transformData(userDetails, students, drivers) {
   const isValid =
-    size(user) > 0 &&
-    size(userDetails) > 0 &&
-    size(students) > 0 &&
-    size(drivers) > 0
+    size(userDetails) > 0 && size(students) > 0 && size(drivers) > 0
   if (isValid) {
     const { licenses, fleetLicenses, trial, trialDate, trialDays } = userDetails
     const trialInfo = getTrialInfo(trialDate, trialDays, trial)
@@ -55,7 +52,7 @@ export default function transformData(user, userDetails, students, drivers) {
     }
   }
   return {
-    trialInfo: {},
+    trialInfo: { remainingDays: 0, remainingHour: 0 },
     licenceInfo: [
       { total: 0, active: 0, inactive: 0, title: 'App Licences' },
       { total: 0, active: 0, inactive: 0, title: 'Fleet Licences' },
