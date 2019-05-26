@@ -139,7 +139,7 @@ const EnhancedTableInner = props => {
                                   </span>
                                 </When>
                                 <Otherwise>
-                                  <span>{n[`${rows[i]['id']}`]}</span>
+                                  <span>{`${n[`${rows[i]['id']}`]}`}</span>
                                 </Otherwise>
                               </Choose>
                             </TableCell>

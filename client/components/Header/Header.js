@@ -121,6 +121,17 @@ class Header extends React.Component {
             </MenuItem>
             <MenuItem
               onClick={() => {
+                onRouteChange('/dashboard/licences')
+                this.handleClose()
+              }}
+            >
+              <Icon className={styles.iconColor} fontSize={'small'}>
+                {'description'}
+              </Icon>
+              {'Licences'}
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
                 onClickSignout()
                 this.handleClose()
               }}

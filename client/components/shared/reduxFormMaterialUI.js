@@ -10,6 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import RadioButtonGroup from '@material-ui/core/RadioGroup'
 import SelectField from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
+import Switch from '@material-ui/core/Switch'
+import ReactTooltip from 'react-tooltip'
 
 export const renderTextField = props => {
   const {
@@ -135,3 +137,34 @@ export const renderSelectField = props => {
     </FormControl>
   )
 }
+
+export const renderSwitch = ({
+  input,
+  label,
+  toolTip,
+  labelPlacement,
+  style = {},
+  ...custom
+}) => (
+  <FormControlLabel
+    label={label}
+    labelPlacement={labelPlacement}
+    control={
+      // eslint-disable-next-line react/jsx-wrap-multilines
+      <div>
+        <ReactTooltip />
+        <Switch
+          color="primary"
+          data-tip={toolTip}
+          checked={input.value}
+          style={style}
+          onChange={event => {
+            input.onChange(event.target.checked)
+          }}
+          disableTouchRipple
+          {...custom}
+        />
+      </div>
+    }
+  />
+)
