@@ -5,9 +5,9 @@ import getOr from 'lodash/fp/getOr'
 import size from 'lodash/fp/size'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
-import map from 'lodash/fp/map'
+import reduce from 'lodash/fp/reduce'
 import isEqual from 'lodash/fp/isEqual'
-import includes from 'lodash/fp/includes'
+import find from 'lodash/fp/find'
 import toInteger from 'lodash/fp/toInteger'
 import firebase from 'firebase'
 
@@ -85,10 +85,35 @@ export default () => WrappedComponent => {
       })
       const { remoteDrivers } = this.state
       const { dispatch, drivers: propDrivers } = this.props
-      const driverIds = map(({ driver_id: driverId }) => driverId)(propDrivers)
-      const filteredDrivers = filter(({ driver_id: driverId }) =>
-        includes(driverId)(driverIds),
-      )(drivers)
+
+      const filteredDrivers = reduce((final, driver) => {
+        const {
+          driver_id,
+          latLng = {},
+          rideId,
+          shift,
+          driverDirection,
+        } = driver
+        const { _lat: latitude, _long: longitude } = latLng
+        const driverDetails = find(
+          ({ driver_id: driverID }) => driverID === driver_id,
+        )(propDrivers)
+        if (driverDetails) {
+          return [
+            ...final,
+            {
+              driver_id,
+              rideId,
+              shift,
+              driverDirection,
+              latitude,
+              longitude,
+              ...driverDetails,
+            },
+          ]
+        }
+        return final
+      }, [])(drivers)
       if (!isEqual(remoteDrivers)(filteredDrivers)) {
         this.setState(() => ({ remoteDrivers: filteredDrivers }))
         dispatch(syncDrivers(filteredDrivers))
