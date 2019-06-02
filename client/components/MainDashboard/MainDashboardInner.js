@@ -103,6 +103,12 @@ const MainDashboardInner = ({
                       user={user}
                     />
                     <Route
+                      path={`${path}/fleet`}
+                      exact
+                      component={FleetTracker}
+                      user={user}
+                    />
+                    <Route
                       path={`${path}/students/edit/:id`}
                       exact
                       component={EditStudent}

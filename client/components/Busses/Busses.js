@@ -228,6 +228,7 @@ const mapStateToProps = state => {
   const bussesList = getOr([], 'bus')(busses)
   const error = getOr('', 'message')(busses)
   const transformedBusses = transformData(bussesList)
+  console.log(transformedBusses)
   return { busses: transformedBusses, rawBuses: busses, user, error }
 }
 

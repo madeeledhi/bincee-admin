@@ -130,19 +130,19 @@ const NavigationBar = props => {
             primary={'School Announcements'}
           />
         </ListItem>
-        {/* <ListItem
+        <ListItem
           className={`${styles.navItem} ${
-            activePath === 'fleetTracking' ? styles.active : ''
+            activePath === 'fleet' ? styles.active : ''
           }`}
           button
-          selected={activePath === 'fleetTracking'}
-          onClick={() => onRouteChange('/dashboard/fleetTracking')}
+          selected={activePath === 'fleet'}
+          onClick={() => onRouteChange('/dashboard/fleet')}
         >
           <ListItemText
             classes={{ primary: styles.activeText }}
-            primary={'Fleet Tracker'}
+            primary={'Fleet Tracking'}
           />
-        </ListItem> */}
+        </ListItem>
       </List>
     </div>
   )

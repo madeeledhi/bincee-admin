@@ -9,7 +9,7 @@ const BusIcon = `M4 16c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v
 
 const pinStyle = {
   cursor: 'pointer',
-  fill: '#FF0',
+  fill: '#06b9ed',
   stroke: '#000',
 }
 
