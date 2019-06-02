@@ -10,21 +10,32 @@ import { hasPropChanged } from '../../../utils'
 import FleetTableInner from './FleetTableInner'
 
 class FleetTable extends React.Component {
-  state = { isLoading: true }
+  state = { transformedData: {} }
 
-  componentDidMount() {}
+  componentDidMount() {
+    const { drivers } = this.props
+    if (size(drivers) > 0) {
+      const transformedData = transformData(drivers)
+      this.setState(() => ({ transformedData }))
+    }
+  }
 
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged(['drivers'], this.props, nextProps)) {
+      const { drivers: preDrivers } = this.props
+      if (size(preDrivers) < 1) {
+        const { drivers } = nextProps
+        const transformedData = transformData(drivers)
+        this.setState(() => ({ transformedData }))
+      }
     }
   }
 
   render() {
-    const { isLoading } = this.state
+    const { transformedData } = this.state
     const { drivers } = this.props
-    const transformD = transformData(drivers)
-    const { columns: rows, rows: data } = transformD
-    console.log('=====>', transformD)
+    const { columns: rows, rows: data } = transformedData
+    console.log('=====>', transformedData)
 
     return (
       <FleetTableInner

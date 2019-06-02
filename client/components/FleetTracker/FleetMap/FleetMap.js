@@ -17,8 +17,6 @@ function getWidth() {
 class FleetMap extends React.Component {
   constructor(props) {
     super(props)
-    this.textInput = React.createRef()
-    console.log(this.textInput, window.innerWidth)
     this.state = {
       popupInfo: null,
     }
@@ -90,7 +88,7 @@ class FleetMap extends React.Component {
       <MapGL
         {...viewport}
         width={getWidth()}
-        height={500}
+        height={450}
         mapStyle="mapbox://styles/mapbox/basic-v9"
         onViewportChange={this.onViewportChange}
         mapboxApiAccessToken={MAPBOX_TOKEN}

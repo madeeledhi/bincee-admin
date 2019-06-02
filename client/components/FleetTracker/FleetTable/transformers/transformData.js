@@ -40,7 +40,12 @@ function getColumns(fleets) {
 }
 
 function getRows(fleets) {
-  return flow(sortBy('driver_id'))(fleets)
+  return flow(
+    sortBy('driver_id'),
+    map(fleet => {
+      return { ...omit(fleet, 'tableData') }
+    }),
+  )(fleets)
 }
 
 export default fleets => {
@@ -48,6 +53,7 @@ export default fleets => {
     return { columns: [], rows: [] }
   }
   const columns = getColumns(fleets)
+  console.log(columns)
   const rows = getRows(fleets)
   return { columns, rows }
 }
