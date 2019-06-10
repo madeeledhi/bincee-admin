@@ -61,7 +61,7 @@
     "less-loader": "^2.2.1",
     "lodash": "^4.17.10",
     "marked": "^0.3.17",
-    "material-table": "^1.7.0",
+    "material-table": "1.36.0",
     "moment": "^2.18.1",
     "nodemon": "^1.17.1",
     "normalizr": "^2.2.1",

@@ -33,9 +33,8 @@ class FleetTable extends React.Component {
 
   render() {
     const { transformedData } = this.state
-    const { drivers } = this.props
+    const { drivers, onRowClick, selectedRow } = this.props
     const { columns: rows, rows: data } = transformedData
-    console.log('=====>', transformedData)
 
     return (
       <FleetTableInner
@@ -43,6 +42,8 @@ class FleetTable extends React.Component {
         isLoading={size(drivers) < 1}
         rows={rows}
         data={data}
+        onRowClick={onRowClick}
+        selectedRow={selectedRow}
       />
     )
   }
