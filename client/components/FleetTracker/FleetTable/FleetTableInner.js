@@ -44,12 +44,11 @@ const FleetTableInner = ({ error, isLoading, rows, data, onRowClick }) => {
           onSelectionChange={onRowClick}
           options={{
             selection: true,
-            // rowStyle: rowData => ({
-            //   backgroundColor:
-            //     selectedRow && selectedRow.tableData.id === rowData.tableData.id
-            //       ? '#EEE'
-            //       : '#FFF',
-            // }),
+            selectionProps: () => ({
+              color: 'Primary',
+              disabled: true,
+            }),
+            pageSizeOptions: [5],
           }}
         />
       </When>
