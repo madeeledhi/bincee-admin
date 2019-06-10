@@ -1,27 +1,25 @@
 // lib
 import React from 'react'
-import filter from 'lodash/fp/filter'
+import size from 'lodash/fp/size'
 
 // src
 import styles from './FleetTrackerInner.less'
 import FleetMap from './FleetMap/FleetMap'
 import FleetTable from './FleetTable/FleetTable'
 
-const FleetTrackerInner = ({ drivers, onRowClick, selectedRow }) => {
-  const filteredDrivers = selectedRow
-    ? filter(({ driver_id }) => driver_id === selectedRow.driver_id)(drivers)
-    : drivers
-  console.log('filteredDrivers', filteredDrivers, drivers, selectedRow)
+const FleetTrackerInner = ({ drivers, onRowClick, selectedRows }) => {
+  const filteredDrivers = size(selectedRows) > 0 ? selectedRows : drivers
+
   return (
     <div className={styles.root}>
       <div className={styles.mapContainer}>
-        <FleetMap drivers={filteredDrivers} selectedRow={selectedRow} />
+        <FleetMap drivers={filteredDrivers} selectedRows={selectedRows} />
       </div>
       <div className={styles.tableContainer}>
         <FleetTable
           drivers={drivers}
           onRowClick={onRowClick}
-          selectedRow={selectedRow}
+          selectedRows={selectedRows}
         />
       </div>
     </div>

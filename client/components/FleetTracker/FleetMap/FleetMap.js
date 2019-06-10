@@ -34,12 +34,19 @@ class FleetMap extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged(['drivers'], this.props, nextProps)) {
       const { drivers: preDrivers } = this.props
+      console.log('====>', preDrivers, nextProps.drivers)
       if (size(preDrivers) < 1) {
         const { drivers } = nextProps
         const value = formatLatLngArray(drivers)
         const viewport = getViewPort(value)
         this.setState(() => ({ viewport }))
       }
+    }
+    if (hasPropChanged(['selectedRows'], this.props, nextProps)) {
+      const { drivers } = nextProps
+      const value = formatLatLngArray(drivers)
+      const viewport = getViewPort(value)
+      this.setState(() => ({ viewport }))
     }
   }
 

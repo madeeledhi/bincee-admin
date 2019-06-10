@@ -33,7 +33,7 @@ class FleetTable extends React.Component {
 
   render() {
     const { transformedData } = this.state
-    const { drivers, onRowClick, selectedRow } = this.props
+    const { drivers, onRowClick, selectedRows } = this.props
     const { columns: rows, rows: data } = transformedData
 
     return (
@@ -43,7 +43,7 @@ class FleetTable extends React.Component {
         rows={rows}
         data={data}
         onRowClick={onRowClick}
-        selectedRow={selectedRow}
+        selectedRows={selectedRows}
       />
     )
   }

@@ -10,15 +10,7 @@ import BlankState from '../../EnhancedTable/BlankState'
 import LoadingView from '../../LoadingView'
 import styles from './FleetTableInner.less'
 
-const FleetTableInner = ({
-  error,
-  isLoading,
-  rows,
-  data,
-  onRowClick,
-  selectedRow,
-}) => {
-  console.log(error, isLoading, rows, data)
+const FleetTableInner = ({ error, isLoading, rows, data, onRowClick }) => {
   return (
     <Choose>
       <When condition={!error && !isLoading}>
@@ -48,14 +40,16 @@ const FleetTableInner = ({
           title="Fleets"
           columns={rows}
           data={data}
-          onRowClick={onRowClick}
+          //   onRowClick={onRowClick}
+          onSelectionChange={onRowClick}
           options={{
-            rowStyle: rowData => ({
-              backgroundColor:
-                selectedRow && selectedRow.tableData.id === rowData.tableData.id
-                  ? '#EEE'
-                  : '#FFF',
-            }),
+            selection: true,
+            // rowStyle: rowData => ({
+            //   backgroundColor:
+            //     selectedRow && selectedRow.tableData.id === rowData.tableData.id
+            //       ? '#EEE'
+            //       : '#FFF',
+            // }),
           }}
         />
       </When>

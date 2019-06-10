@@ -1,19 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
-import size from 'lodash/fp/size'
-import MapGL, { Marker, Popup } from 'react-map-gl'
-import WebMercatorViewport from 'viewport-mercator-project'
 
 // src
 import FleetTrackerInner from './FleetTrackerInner'
 
-import { formatLatLngArray, getViewPort } from './Utils'
-import { hasPropChanged } from '../../utils'
-
 class FleetTracker extends React.Component {
   state = {
-    selectedRow: null,
+    selectedRows: [],
   }
   // componentWillReceiveProps(nextProps) {
   //   if (hasPropChanged(['drivers'], this.props, nextProps)) {
@@ -24,21 +18,17 @@ class FleetTracker extends React.Component {
   //   }
   // }
 
-  handleRowClick = (event, data) => {
-    const { selectedRow } = this.state
-
-    const currentRow = data === selectedRow ? null : data
-    this.setState(() => ({ selectedRow: currentRow }))
+  handleRowClick = rows => {
+    this.setState(() => ({ selectedRows: rows }))
   }
 
   render() {
     const { drivers } = this.props
-    const { selectedRow } = this.state
-    console.log(drivers)
+    const { selectedRows } = this.state
     return (
       <FleetTrackerInner
         drivers={drivers}
-        selectedRow={selectedRow}
+        selectedRows={selectedRows}
         onRowClick={this.handleRowClick}
       />
     )

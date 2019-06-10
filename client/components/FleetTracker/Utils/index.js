@@ -20,7 +20,7 @@ export function getViewPort(points) {
     : {
         latitude: points[0][1],
         longitude: points[0][0],
-        zoom: 18,
+        zoom: 15,
         bearing: 0,
         pitch: 0,
       }
