@@ -17,10 +17,10 @@ import { loadDrivers, syncRides, syncDrivers } from '../actions'
 import { hasPropChanged } from './index'
 
 const config = {
-  apiKey: 'AIzaSyCGTdN0NQbA-p3P7bUDD-BJr8PFqk-oMD8',
+  apiKey: process.env.API_KEY,
   authDomain: 'bincee-67ec6.firebaseapp.com',
   databaseURL: 'https://bincee-67ec6.firebaseio.com',
-  projectId: 'bincee-67ec6',
+  projectId: process.env.PROJECT_ID,
 }
 
 export default () => WrappedComponent => {
