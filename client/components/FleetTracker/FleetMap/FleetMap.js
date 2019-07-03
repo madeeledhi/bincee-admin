@@ -8,8 +8,7 @@ import MarkerInfo from '../MarkerInfo/MarkerInfo'
 import { formatLatLngArray, getViewPort } from '../Utils'
 import { hasPropChanged } from '../../../utils'
 
-const MAPBOX_TOKEN =
-  'pk.eyJ1IjoiZmluZHhhaW4iLCJhIjoiY2pxOTY1bjY3MTMwYjQzbDEwN3h2aTdsbCJ9.fKLD1_UzlMIWhXfUZ3aRYQ' // Set your mapbox token here
+const MAPBOX_TOKEN = 'pk.eyJ1IjoiZmluZHhhaW4iLCJhIjoiY2pxOTY1bjY3MTMwYjQzbDEwN3h2aTdsbCJ9.fKLD1_UzlMIWhXfUZ3aRYQ' // Set your mapbox token here
 
 function getWidth() {
   return (window.innerWidth - (window.innerWidth * 18) / 100) / 2
@@ -34,7 +33,6 @@ class FleetMap extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged(['drivers'], this.props, nextProps)) {
       const { drivers: preDrivers } = this.props
-      console.log('====>', preDrivers, nextProps.drivers)
       if (size(preDrivers) < 1) {
         const { drivers } = nextProps
         const value = formatLatLngArray(drivers)
@@ -52,20 +50,18 @@ class FleetMap extends React.Component {
 
   onViewportChange = viewport => this.setState({ viewport })
 
-  renderCityMarker = (bus, index) => {
-    return (
-      <Marker
-        key={`marker-${index}`}
-        longitude={bus.longitude}
-        latitude={bus.latitude}
-      >
-        <BusPin
-          size={20}
-          onClick={() => this.setState(() => ({ popupInfo: bus }))}
-        />
-      </Marker>
-    )
-  }
+  renderCityMarker = (bus, index) => (
+    <Marker
+      key={`marker-${index}`}
+      longitude={bus.longitude}
+      latitude={bus.latitude}
+    >
+      <BusPin
+        size={20}
+        onClick={() => this.setState(() => ({ popupInfo: bus }))}
+      />
+    </Marker>
+  )
 
   renderPopup() {
     const { popupInfo } = this.state
@@ -90,7 +86,6 @@ class FleetMap extends React.Component {
   render() {
     const { viewport } = this.state
     const { drivers } = this.props
-
     return (
       <MapGL
         {...viewport}

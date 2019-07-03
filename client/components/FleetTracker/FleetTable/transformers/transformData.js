@@ -15,14 +15,13 @@ function getColumns(fleets) {
   return flow(
     keys,
     filter(
-      key =>
-        key !== 'driverDirection' &&
-        key !== 'enableFleet' &&
-        key !== 'latitude' &&
-        key !== 'longitude' &&
-        key !== 'rideId' &&
-        key !== 'school_id' &&
-        key !== 'photo',
+      key => key !== 'driverDirection'
+        && key !== 'enableFleet'
+        && key !== 'latitude'
+        && key !== 'longitude'
+        && key !== 'rideId'
+        && key !== 'school_id'
+        && key !== 'photo',
     ),
     reduce((final, key) => {
       const current = first[key]
@@ -42,9 +41,7 @@ function getColumns(fleets) {
 function getRows(fleets) {
   return flow(
     sortBy('driver_id'),
-    map(fleet => {
-      return { ...omit(fleet, 'tableData') }
-    }),
+    map(fleet => ({ ...omit(fleet, 'tableData') })),
   )(fleets)
 }
 
@@ -53,7 +50,6 @@ export default fleets => {
     return { columns: [], rows: [] }
   }
   const columns = getColumns(fleets)
-  console.log(columns)
   const rows = getRows(fleets)
   return { columns, rows }
 }

@@ -22,12 +22,9 @@ class FleetTable extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (hasPropChanged(['drivers'], this.props, nextProps)) {
-      const { drivers: preDrivers } = this.props
-      if (size(preDrivers) < 1) {
-        const { drivers } = nextProps
-        const transformedData = transformData(drivers)
-        this.setState(() => ({ transformedData }))
-      }
+      const { drivers } = nextProps
+      const transformedData = transformData(drivers)
+      this.setState(() => ({ transformedData }))
     }
   }
 

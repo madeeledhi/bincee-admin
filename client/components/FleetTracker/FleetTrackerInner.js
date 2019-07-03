@@ -9,7 +9,6 @@ import FleetTable from './FleetTable/FleetTable'
 
 const FleetTrackerInner = ({ drivers, onRowClick, selectedRows }) => {
   const filteredDrivers = size(selectedRows) > 0 ? selectedRows : drivers
-
   return (
     <div className={styles.root}>
       <div className={styles.mapContainer}>
