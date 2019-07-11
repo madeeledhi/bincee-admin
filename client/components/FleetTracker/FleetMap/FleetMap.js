@@ -48,7 +48,9 @@ class FleetMap extends React.Component {
     }
   }
 
-  onViewportChange = viewport => this.setState({ viewport })
+  onViewportChange = viewport => {
+    this.setState({ viewport })
+  }
 
   renderCityMarker = (bus, index) => (
     <Marker
@@ -58,6 +60,7 @@ class FleetMap extends React.Component {
     >
       <BusPin
         size={20}
+        bus={bus}
         onClick={() => this.setState(() => ({ popupInfo: bus }))}
       />
     </Marker>
@@ -84,8 +87,9 @@ class FleetMap extends React.Component {
   }
 
   render() {
-    const { viewport } = this.state
+    const { viewport = {} } = this.state
     const { drivers } = this.props
+    const { bearing = 0 } = viewport
     return (
       <MapGL
         {...viewport}
@@ -95,7 +99,13 @@ class FleetMap extends React.Component {
         onViewportChange={this.onViewportChange}
         mapboxApiAccessToken={MAPBOX_TOKEN}
       >
-        {drivers.map(this.renderCityMarker)}
+        {drivers.map((bus, index) => {
+          const { driverDirection } = bus
+          return this.renderCityMarker(
+            { ...bus, direction: bearing + driverDirection },
+            index,
+          )
+        })}
         {this.renderPopup()}
       </MapGL>
     )
