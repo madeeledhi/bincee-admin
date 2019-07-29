@@ -14,8 +14,8 @@ export function getViewPort(points) {
         width: 800,
         height: 600,
       }).fitBounds(points, {
-        padding: 10,
-        offset: [0, -100],
+        padding: 0,
+        offset: [170, 130],
       })
     : {
         latitude: points[0][1],

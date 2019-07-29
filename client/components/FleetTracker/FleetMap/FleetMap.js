@@ -8,7 +8,8 @@ import MarkerInfo from '../MarkerInfo/MarkerInfo'
 import { formatLatLngArray, getViewPort } from '../Utils'
 import { hasPropChanged } from '../../../utils'
 
-const MAPBOX_TOKEN = 'pk.eyJ1IjoiZmluZHhhaW4iLCJhIjoiY2pxOTY1bjY3MTMwYjQzbDEwN3h2aTdsbCJ9.fKLD1_UzlMIWhXfUZ3aRYQ' // Set your mapbox token here
+const MAPBOX_TOKEN =
+  'pk.eyJ1IjoiZmluZHhhaW4iLCJhIjoiY2pxOTY1bjY3MTMwYjQzbDEwN3h2aTdsbCJ9.fKLD1_UzlMIWhXfUZ3aRYQ' // Set your mapbox token here
 
 function getWidth() {
   return (window.innerWidth - (window.innerWidth * 18) / 100) / 2
@@ -59,7 +60,7 @@ class FleetMap extends React.Component {
       latitude={bus.latitude}
     >
       <BusPin
-        size={20}
+        size={50}
         bus={bus}
         onClick={() => this.setState(() => ({ popupInfo: bus }))}
       />
