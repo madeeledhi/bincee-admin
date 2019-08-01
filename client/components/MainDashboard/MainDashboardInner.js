@@ -80,7 +80,7 @@ const MainDashboardInner = ({
                 </div>
                 <div
                   className={styles.content}
-                  style={{ boxShadow: activePath === 'home' ? 'none' : '' }}
+                  style={{ boxShadow: activePath === 'home' || activePath==='fleet' ? 'none' : '' }}
                 >
                   <Switch>
                     <Route path={`${path}`} exact component={Home} />

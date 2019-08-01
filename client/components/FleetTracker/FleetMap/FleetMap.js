@@ -95,7 +95,7 @@ class FleetMap extends React.Component {
       <MapGL
         {...viewport}
         width={getWidth()}
-        height={450}
+        height={591}
         maxPitch={0}
         mapStyle="mapbox://styles/mapbox/basic-v9"
         onViewportChange={this.onViewportChange}
