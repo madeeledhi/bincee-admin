@@ -6,7 +6,7 @@ export const isProduction = () => process.env.NODE_ENV === 'production'
 
 export const isTest = () => process.env.NODE_ENV === 'test'
 
-export const makeLogContextString = req => {
+export const makeLogContextString = (req) => {
   let strUser
   const {
     user,
@@ -30,4 +30,4 @@ export const makeLogContextString = req => {
 export const stringEndsWith = (str, suffix) =>
   str.indexOf(suffix, str.length - suffix.length) !== -1
 
-export const getPort = () => (isProduction() ? 4000 : 4000)
+export const getPort = () => (isProduction() ? 3000 : 3000)
