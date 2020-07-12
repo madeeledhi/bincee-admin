@@ -49,7 +49,6 @@ const MainDashboardInner = ({
   trial = {},
 }) => {
   const { isTrialUser, isTrialExpired = false } = trial
-
   return (
     <div className={styles.root}>
       <Choose>
@@ -80,7 +79,12 @@ const MainDashboardInner = ({
                 </div>
                 <div
                   className={styles.content}
-                  style={{ boxShadow: activePath === 'home' || activePath==='fleet' ? 'none' : '' }}
+                  style={{
+                    boxShadow:
+                      activePath === 'home' || activePath === 'fleet'
+                        ? 'none'
+                        : '',
+                  }}
                 >
                   <Switch>
                     <Route path={`${path}`} exact component={Home} />

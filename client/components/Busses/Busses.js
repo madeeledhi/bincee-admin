@@ -66,7 +66,7 @@ class Busses extends React.Component {
     } else {
       exportData(
         [{ id: '', registration_no: '', description: '', driver_id: '' }],
-        'Busses',
+        'Busses'
       )
     }
   }
@@ -94,7 +94,7 @@ class Busses extends React.Component {
     }))
   }
 
-  handleRowClick = data => {
+  handleRowClick = (data) => {
     const { dispatch, user } = this.props
     const { driver_id } = data
     const { token } = user
@@ -124,13 +124,13 @@ class Busses extends React.Component {
     }))
   }
 
-  importData = event => {
+  importData = (event) => {
     const { dispatch, user } = this.props
     const { token } = user
     const [selectedFile] = event.target.files
     if (selectedFile) {
       const reader = new FileReader()
-      reader.onload = e => {
+      reader.onload = (e) => {
         const xlsrow = e.target.result
         const workbook = XLSX.read(xlsrow, { type: 'buffer' })
         const jsonResult = XLSX.utils.sheet_to_json(workbook.Sheets['Busses'])
@@ -140,7 +140,7 @@ class Busses extends React.Component {
           if (verify(jsonResult)) {
             const filteredSheet = filterSheet(jsonResult)
             this.setState(() => ({ isLoading: true }))
-            const createdPromise = map(row => {
+            const createdPromise = map((row) => {
               const { registration_no, description, driver_id } = row
               return dispatch(
                 createBus({
@@ -148,29 +148,29 @@ class Busses extends React.Component {
                   description,
                   driver_id,
                   token,
-                }),
+                })
               )
                 .then(({ payload }) => {
                   const { status } = payload
                   return status === 200
                 })
-                .catch(err => false)
+                .catch((err) => false)
             })(filteredSheet)
-            Promise.all(createdPromise).then(response => {
-              const createdBusses = filter(item => item === true)(response)
+            Promise.all(createdPromise).then((response) => {
+              const createdBusses = filter((item) => item === true)(response)
               const total = size(jsonResult)
               const created = size(createdBusses)
               if (created > 0) {
                 dispatch(
-                  showErrorMessage(`${created} Records Created`, 'success'),
+                  showErrorMessage(`${created} Records Created`, 'success')
                 )
               }
               if (total - created > 0) {
                 dispatch(
                   showErrorMessage(
                     `${total - created} Records Rejected`,
-                    'error',
-                  ),
+                    'error'
+                  )
                 )
               }
               this.setState(() => ({ isLoading: false }))
@@ -222,13 +222,12 @@ class Busses extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const busses = getOr({}, 'bus')(state)
   const user = getOr({}, 'user')(state)
   const bussesList = getOr([], 'bus')(busses)
   const error = getOr('', 'message')(busses)
   const transformedBusses = transformData(bussesList)
-  console.log(transformedBusses)
   return { busses: transformedBusses, rawBuses: busses, user, error }
 }
 

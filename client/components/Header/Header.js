@@ -27,7 +27,7 @@ class Header extends React.Component {
     checked: false,
   }
 
-  handleMenu = event => {
+  handleMenu = (event) => {
     this.setState({ anchorEl: event.currentTarget })
   }
 
@@ -48,7 +48,6 @@ class Header extends React.Component {
     const currentContent = getOr('', activePath)(content)
     const { anchorEl, checked } = this.state
     const open = Boolean(anchorEl)
-
     return (
       <div className={styles.root}>
         <div className={styles.navLogo}>

@@ -44,7 +44,6 @@ class Leaves extends React.Component {
     const { error, isLoading } = this.state
     const { leaves } = this.props
     const { columns: rows, rows: data } = leaves
-    console.log(size(data) < 1)
 
     return (
       <LeavesInner
@@ -57,7 +56,7 @@ class Leaves extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const leaves = getOr({}, 'leaves')(state)
   const user = getOr({}, 'user')(state)
   const leavesList = getOr([], 'leaves')(leaves)

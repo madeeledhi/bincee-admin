@@ -72,7 +72,7 @@ class MainDashboard extends Component {
       hasPropChanged(
         ['userDetails', 'user', 'authenticated'],
         this.props,
-        nextProps,
+        nextProps
       )
     ) {
       const { user, authenticated, dispatch, userDetails } = nextProps
@@ -115,7 +115,7 @@ class MainDashboard extends Component {
     dispatch(logOut())
   }
 
-  handleRouteChange = route => {
+  handleRouteChange = (route) => {
     const { dispatch } = this.props
     dispatch(push(route))
   }
@@ -125,14 +125,7 @@ class MainDashboard extends Component {
     const { isLoading, user, userDetails, activePath, disabled } = this.state
     const path = getOr('/dashboard', 'path')(match)
     const { trial = false, trialDays, trialDate } = userDetails
-    console.log(
-      'dashboard: {authenticated} {isLoading}, {path} ',
-      authenticated,
-      isLoading,
-      activePath,
-    )
     const trialDetails = getTrialCheck(trialDate, trialDays, trial)
-
     return (
       <div>
         <MainDashboardInner

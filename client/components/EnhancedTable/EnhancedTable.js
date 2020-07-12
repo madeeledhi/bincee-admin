@@ -36,7 +36,7 @@ class EnhancedTable extends React.Component {
       const { rows, data, error, sortKey } = nextProps
       const { selected: prevSelected } = this.state
       const ids = map(({ id }) => id)(data)
-      const selected = filter(id => includes(id)(ids))(prevSelected)
+      const selected = filter((id) => includes(id)(ids))(prevSelected)
       this.setState(() => ({
         rows,
         data,
@@ -48,7 +48,6 @@ class EnhancedTable extends React.Component {
   }
 
   handleRequestSort = (event, property) => {
-    console.log('property: ', property)
     const orderBy = property
     let order = 'desc'
 
@@ -59,9 +58,9 @@ class EnhancedTable extends React.Component {
     this.setState({ order, orderBy })
   }
 
-  handleSelectAllClick = event => {
+  handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      this.setState(state => ({ selected: state.data.map(n => n.id) }))
+      this.setState((state) => ({ selected: state.data.map((n) => n.id) }))
       return
     }
     this.setState({ selected: [] })
@@ -84,7 +83,7 @@ class EnhancedTable extends React.Component {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       )
     }
 
@@ -96,21 +95,20 @@ class EnhancedTable extends React.Component {
     this.setState({ page })
   }
 
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = (event) => {
     this.setState({ rowsPerPage: event.target.value })
   }
 
   handleDeleteMutipleRows = (event, selectedArray) => {
     const { handleDeleteRow } = this.props
-    Promise.all(map(id => handleDeleteRow(event, id))(selectedArray)).then(
+    Promise.all(map((id) => handleDeleteRow(event, id))(selectedArray)).then(
       () => {
         // TODO: Use this for isLoading on/off
-        console.log('resolved')
-      },
+      }
     )
   }
 
-  handleSingleRowClick = data => {
+  handleSingleRowClick = (data) => {
     const { handleRowClick = () => true, enableDrawer } = this.props
     this.setState({ openDrawer: enableDrawer })
     handleRowClick(data)
@@ -120,7 +118,7 @@ class EnhancedTable extends React.Component {
     this.setState({ openDrawer: false })
   }
 
-  isSelected = id => this.state.selected.indexOf(id) !== -1
+  isSelected = (id) => this.state.selected.indexOf(id) !== -1
 
   render() {
     const {
@@ -139,7 +137,7 @@ class EnhancedTable extends React.Component {
       handleCreateRow,
       tableName,
       onDataExport = () => true,
-      onDataImport = e => true,
+      onDataImport = (e) => true,
       extras = {},
       sendCredentials = () => true,
       dataIsAvailable = false,

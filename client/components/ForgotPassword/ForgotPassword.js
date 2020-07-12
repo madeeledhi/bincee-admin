@@ -47,9 +47,8 @@ class ForgotPassword extends React.Component {
         email,
         phone_no,
         type,
-      }),
+      })
     ).then(({ payload }) => {
-      console.log('payload: ', payload)
       const { status, data } = payload
       const { message = 'Something Bad happened' } = data || {}
       if (status === 200) {
@@ -132,5 +131,5 @@ export default connect(mapStateToProps)(
       phone_no: '',
       type: 'School',
     },
-  })(ForgotPassword),
+  })(ForgotPassword)
 )

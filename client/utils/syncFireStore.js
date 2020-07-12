@@ -23,11 +23,11 @@ const config = {
   projectId: 'bincee-67ec6',
 }
 
-export default () => WrappedComponent => {
-  const mapStateToProps = state => {
+export default () => (WrappedComponent) => {
+  const mapStateToProps = (state) => {
     const drivers = flow(
       getOr([], 'drivers.drivers'),
-      filter(({ enableFleet }) => enableFleet),
+      filter(({ enableFleet }) => enableFleet)
     )(state)
 
     const token = getOr([], 'user.token')(state)
@@ -52,8 +52,10 @@ export default () => WrappedComponent => {
     }
 
     componentDidMount() {
-      this.store.collection('ride').onSnapshot(this.rideStream)
-      this.store.collection('real_time').onSnapshot(this.driverStream)
+      if (this.store.collection) {
+        this.store.collection('ride').onSnapshot(this.rideStream)
+        this.store.collection('real_time').onSnapshot(this.driverStream)
+      }
 
       const { drivers, token, dispatch } = this.props
       if (size(drivers) < 1) {
@@ -80,7 +82,7 @@ export default () => WrappedComponent => {
 
     driverStream(querySnapshot) {
       let drivers = []
-      querySnapshot.forEach(doc => {
+      querySnapshot.forEach((doc) => {
         drivers = [...drivers, { driver_id: toInteger(doc.id), ...doc.data() }]
       })
       const { remoteDrivers } = this.state
@@ -96,7 +98,7 @@ export default () => WrappedComponent => {
         } = driver
         const { _lat: latitude, _long: longitude } = latLng
         const driverDetails = find(
-          ({ driver_id: driverID }) => driverID === driver_id,
+          ({ driver_id: driverID }) => driverID === driver_id
         )(propDrivers)
         if (driverDetails) {
           return [
@@ -122,7 +124,7 @@ export default () => WrappedComponent => {
 
     rideStream(querySnapshot) {
       let rides = []
-      querySnapshot.forEach(doc => {
+      querySnapshot.forEach((doc) => {
         rides = [...rides, { ride_id: doc.id, ...doc.data() }]
       })
       const { remoteRides } = this.state
@@ -134,7 +136,7 @@ export default () => WrappedComponent => {
     }
 
     render() {
-      return <WrappedComponent />
+      return <WrappedComponent {...this.props} />
     }
   }
 

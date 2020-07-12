@@ -11,9 +11,6 @@ const productionPluginDefine = isProduction
     ]
   : []
 
-console.log('[webpack.server.config.js] __dirname: ', __dirname)
-console.log('[webpack.server.config.js] process.cwd(): ', process.cwd())
-
 module.exports = {
   devtool: 'sourcemap',
   entry: './server/index.js',

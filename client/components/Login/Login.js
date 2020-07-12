@@ -73,7 +73,7 @@ class Login extends React.Component {
     })
   }
 
-  enterPressed = event => {
+  enterPressed = (event) => {
     const code = event.keyCode || event.which
     const { isLoading, disabled } = this.state
     const disableEnter = isLoading || disabled
@@ -93,7 +93,6 @@ class Login extends React.Component {
   render() {
     const { isLoading, error, disabled, forgotPasswordDialog } = this.state
 
-    console.log('{error}, {disabled}:', error, disabled)
     return (
       <div>
         <ForgotPassword
@@ -116,7 +115,7 @@ class Login extends React.Component {
                 variant="outlined"
                 margin="dense"
                 className={styles.fieldBorder}
-                onKeyPress={e => this.enterPressed(e)}
+                onKeyPress={(e) => this.enterPressed(e)}
               />
               <Field
                 id="password"
@@ -128,7 +127,7 @@ class Login extends React.Component {
                 variant="outlined"
                 margin="dense"
                 className={styles.fieldBorder}
-                onKeyPress={e => this.enterPressed(e)}
+                onKeyPress={(e) => this.enterPressed(e)}
               />
               <div className={styles.room}>
                 <span
@@ -171,7 +170,7 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const user = getOr({}, 'user')(state)
   return {
     formValues: getFormValues('login')(state),
@@ -188,5 +187,5 @@ export default connect(mapStateToProps)(
       username: '',
       password: '',
     },
-  })(Login),
+  })(Login)
 )
