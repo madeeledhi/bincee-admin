@@ -60,7 +60,7 @@
     "less": "^2.5.3",
     "less-loader": "^2.2.1",
     "lodash": "^4.17.10",
-    "marked": "^0.3.17",
+    "marked": "^4.0.10",
     "material-table": "1.36.0",
     "moment": "^2.18.1",
     "nodemon": "^1.17.1",
